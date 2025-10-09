@@ -669,15 +669,17 @@
             const buttons = cell.querySelectorAll('button');
             const isDeleteCell = cell === clone.querySelector('td:last-child');
 
-            if (select) {
-              select.selectedIndex = 0;
-              if (select.classList.contains('fit-width')) {
-                // adjustSelectWidth(select);
-                select.addEventListener('change', () => adjustSelectWidth(select));
-              } 
-            } else if (input) {
+            if (selects.length > 0) {
+              selects.forEach(select => {
+                select.selectedIndex = 0;
+                if (select.classList.contains('fit-width')) {
+                  select.addEventListener('change', () => adjustSelectWidth(select));
+                }
+              });
+            }
+            if (input) {
               input.value = '';
-            } else if (buttons.length === 0) {
+            } else if (selects.length === 0 && buttons.length === 0 && !isDeleteCell) {
               cell.textContent = '';
             }
           });
