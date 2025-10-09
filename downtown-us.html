@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Downtown - 미군 비행대 생성기</title>
+  <style>
+    body {
+      font-family: 'Noto Sans KR', Arial, sans-serif;
+      background-color: #fafafa;
+      margin: 0;
+      padding: 2rem;
+    }
+    .top-buttons {
+      display: flex;
+      gap: 1rem;
+      margin-bottom: 1.5rem;
+      max-width: 420px;
+    }
+    .top-buttons button {
+      flex: 1;
+      padding: 0.75rem 0;
+      border: none;
+      color: white;
+      font-weight: bold;
+      font-size: 1.2rem;
+      border-radius: 6px;
+      cursor: pointer;
+    }
+    .us { background-color: #2b6cb0; }
+    .drv { background-color: #e53e3e; }
+
+    h2 {
+      margin-top: 0.5rem;
+      margin-bottom: 1rem;
+      font-size: 1.3rem;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-bottom: 2rem;
+      font-size: 0.9rem;
+      table-layout: fixed;
+    }
+
+    th, td {
+      border: 1px solid #bdbdbd;
+      padding: 0.45rem;
+      text-align: center;
+      overflow: hidden;
+      white-space: nowrap;
+      text-overflow: ellipsis;
+    }
+
+    th {
+      background-color: #e6e6e6;
+      font-weight: 600;
+    }
+
+    .lead { background-color: #e9f7fe; }
+    .main { background-color: #fff0e6; }
+    .trail { background-color: #e9f6ec; }
+
+    .add-row {
+      cursor: pointer;
+      font-size: 1.2rem;
+      color: #333;
+      border: none;
+      background: none;
+      padding: 0.6rem 0;
+    }
+
+    .view-btn {
+      background-color: #f3f3f3;
+      border: 1px solid #bdbdbd;
+      border-radius: 4px;
+      padding: 0.2rem 0.5rem;
+      cursor: pointer;
+    }
+
+    .input-box {
+      display: grid;
+      grid-template-columns: 80px 1fr;
+      gap: 0.3rem;
+      width: 360px;
+      margin-bottom: 1.2rem;
+    }
+
+    .input-box label {
+      background-color: #d9eaf7;
+      padding: 0.3rem;
+      text-align: center;
+      border: 1px solid #bbb;
+    }
+
+    .input-box input {
+      border: 1px solid #bbb;
+      padding: 0.3rem;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="top-buttons">
+    <button class="us">US</button>
+    <button class="drv">DRV</button>
+  </div>
+
+  <h2>미군 비행대 생성기</h2>
+
+  <div class="input-box">
+    <label>날짜</label><input type="text" placeholder="YYYY-MM-DD" />
+    <label>표적</label><input type="text" placeholder="목표 지점" />
+  </div>
+
+  <!-- 선발 공격대 -->
+  <table class="lead" id="lead-table">
+    <thead>
+      <tr><th colspan="19">선발 공격대</th></tr>
+      <tr>
+        <th style="width:6%">임무</th>
+        <th style="width:6%">태스크</th>
+        <th style="width:6%">콜싸인</th>
+        <th style="width:8%">항공기 유형</th>
+        <th style="width:6%">조종사 수준</th>
+        <th style="width:5%">공격성</th>
+        <th style="width:5%">#1</th>
+        <th style="width:5%">#2</th>
+        <th style="width:5%">#3</th>
+        <th style="width:5%">#4</th>
+        <th style="width:6%">기총</th>
+        <th style="width:4%">IRM</th>
+        <th style="width:4%">RHM</th>
+        <th style="width:6%">폭탄</th>
+        <th style="width:5%">Ord.1</th>
+        <th style="width:5%">Ord.2</th>
+        <th style="width:6%">연료</th>
+        <th style="width:6%">비고</th>
+        <th style="width:6%">ADC</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>재밍</td>
+        <td>재밍</td>
+        <td>Alpha</td>
+        <td>EA-6B</td>
+        <td>숙련</td>
+        <td>중</td>
+        <td></td><td></td><td></td><td></td>
+        <td></td><td></td><td></td><td></td>
+        <td></td><td></td><td></td><td></td>
+        <td><button class="view-btn">보기</button></td>
+      </tr>
+      <tr><td colspan="19"><button class="add-row" data-target="lead-table">+</button></td></tr>
+    </tbody>
+  </table>
+
+  <!-- 주 공격대 -->
+  <table class="main" id="main-table">
+    <thead>
+      <tr><th colspan="19">주 공격대</th></tr>
+      <tr>
+        <th>임무</th><th>태스크</th><th>콜싸인</th><th>항공기 유형</th><th>조종사 수준</th><th>공격성</th>
+        <th>#1</th><th>#2</th><th>#3</th><th>#4</th>
+        <th>기총</th><th>IRM</th><th>RHM</th><th>폭탄</th><th>Ord.1</th><th>Ord.2</th><th>연료</th><th>비고</th><th>ADC</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>SEAD</td><td>...</td><td>Bravo</td><td>F-4</td><td>숙련</td><td>높음</td>
+        <td></td><td></td><td></td><td></td>
+        <td></td><td></td><td></td><td></td>
+        <td></td><td></td><td></td><td></td>
+        <td><button class="view-btn">보기</button></td>
+      </tr>
+      <tr>
+        <td>CAP</td><td>...</td><td>Charlie</td><td>F-8</td><td>보통</td><td>중</td>
+        <td></td><td></td><td></td><td></td>
+        <td></td><td></td><td></td><td></td>
+        <td></td><td></td><td></td><td></td>
+        <td><button class="view-btn">보기</button></td>
+      </tr>
+      <tr><td colspan="19"><button class="add-row" data-target="main-table">+</button></td></tr>
+    </tbody>
+  </table>
+
+  <!-- 후발 공격대 -->
+  <table class="trail" id="trail-table">
+    <thead>
+      <tr><th colspan="19">후발 공격대</th></tr>
+      <tr>
+        <th>임무</th><th>태스크</th><th>콜싸인</th><th>항공기 유형</th><th>조종사 수준</th><th>공격성</th>
+        <th>#1</th><th>#2</th><th>#3</th><th>#4</th>
+        <th>기총</th><th>IRM</th><th>RHM</th><th>폭탄</th><th>Ord.1</th><th>Ord.2</th><th>연료</th><th>비고</th><th>ADC</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>Recon</td><td>...</td><td>Delta</td><td>RF-4</td><td>보통</td><td>낮음</td>
+        <td></td><td></td><td></td><td></td>
+        <td></td><td></td><td></td><td></td>
+        <td></td><td></td><td></td><td></td>
+        <td><button class="view-btn">보기</button></td>
+      </tr>
+      <tr><td colspan="19"><button class="add-row" data-target="trail-table">+</button></td></tr>
+    </tbody>
+  </table>
+
+  <script>
+    document.querySelectorAll('.add-row').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const targetId = btn.getAttribute('data-target');
+        const table = document.getElementById(targetId);
+        const tbody = table.querySelector('tbody');
+        const firstDataRow = tbody.querySelector('tr:not(:last-child)');
+        if (!firstDataRow) return;
+        const clone = firstDataRow.cloneNode(true);
+        clone.querySelectorAll('td').forEach(td => {
+          if (td.querySelector('button')) return;
+          td.textContent = '';
+        });
+        tbody.insertBefore(clone, tbody.lastElementChild);
+      });
+    });
+  </script>
+
+</body>
+</html>
