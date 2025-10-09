@@ -160,21 +160,44 @@
       cursor: pointer;
     }
 
-    /* 특정 열의 텍스트 박스 크기 조절 */
-    #us-lead-table td:nth-child(n+11):nth-child(-n+14) input,
-    #us-main-table td:nth-child(n+11):nth-child(-n+14) input,
-    #us-trail-table td:nth-child(n+11):nth-child(-n+14) input,
-    #drv-table td:nth-child(n+9):nth-child(-n+12) input {
-      width: 40px;
-      min-width: 40px;
+    /* 2x2 상태 그리드 스타일 */
+    .status-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 2px;
+      align-items: center;
+      padding: 0;
+    }
+    .status-grid label {
+      font-size: 0.8em;
+      margin-bottom: -2px;
+    }
+    .status-grid select {
+      width: 100%;
     }
 
-    /* 연료 칸 크기 조절 */
-    #us-lead-table td:nth-child(15) input,
-    #us-main-table td:nth-child(15) input,
-    #us-trail-table td:nth-child(15) input,
-    #drv-table td:nth-child(13) input {
+    /* 특정 열의 텍스트 박스 크기 조절 */
+    #us-lead-table td:nth-child(n+8):nth-child(-n+11) input, /* 기총, IRM, RHM, 폭탄 */
+    #us-main-table td:nth-child(n+8):nth-child(-n+11) input,
+    #us-trail-table td:nth-child(n+8):nth-child(-n+11) input,
+    #drv-table td:nth-child(n+6):nth-child(-n+9) input,
+    #us-lead-table td:nth-child(12) input, /* 연료 */
+    #us-main-table td:nth-child(12) input,
+    #us-trail-table td:nth-child(12) input,
+    #drv-table td:nth-child(10) input {
       width: 40px;
+    }
+
+    /* 콜싸인, 비고 텍스트 박스 크기 조절 */
+    #us-lead-table td:nth-child(3) input,
+    #us-main-table td:nth-child(3) input,
+    #us-trail-table td:nth-child(3) input,
+    #drv-table td:nth-child(1) input,
+    #us-lead-table td:nth-child(13) input,
+    #us-main-table td:nth-child(13) input,
+    #us-trail-table td:nth-child(13) input,
+    #drv-table td:nth-child(11) input {
+      width: 80px;
     }
 
   </style>
@@ -197,9 +220,9 @@
     <!-- 선발 공격대 -->
     <table class="lead" id="us-lead-table">
       <thead>
-        <tr><th colspan="18">선발 공격대</th></tr>
+        <tr><th colspan="15">선발 공격대</th></tr>
         <tr>
-          <th>임무</th><th>태스크</th><th>콜싸인</th><th>항공기 유형</th><th>수준</th><th>공격성</th><th>#1</th><th>#2</th><th>#3</th><th>#4</th><th>기총</th><th>IRM</th><th>RHM</th><th>폭탄</th><th>연료</th><th>비고</th><th>ADC</th><th>삭제</th>
+          <th>임무</th><th>태스크</th><th>콜싸인</th><th>항공기 유형</th><th>수준</th><th>공격성</th><th>상태</th><th>기총</th><th>IRM</th><th>RHM</th><th>폭탄</th><th>연료</th><th>비고</th><th>ADC</th><th>삭제</th>
         </tr>
       </thead>
       <tbody>
@@ -222,10 +245,16 @@
             <select><option>신병</option><option>훈련됨</option><option>정규군</option><option selected>베테랑</option><option>탑건</option></select>
           </td>
           <td>0</td>
-          <td><select><option selected></option><option>D</option><option>C</option><option>K</option></select></td>
-          <td><select><option selected></option><option>D</option><option>C</option><option>K</option></select></td>
-          <td><select><option selected></option><option>D</option><option>C</option><option>K</option></select></td>
-          <td><select><option selected></option><option>D</option><option>C</option><option>K</option></select></td>
+          <td>
+            <div class="status-grid">
+              <label>#1</label><label>#2</label>
+              <select><option selected></option><option>D</option><option>C</option><option>K</option></select>
+              <select><option selected></option><option>D</option><option>C</option><option>K</option></select>
+              <label>#3</label><label>#4</label>
+              <select><option selected></option><option>D</option><option>C</option><option>K</option></select>
+              <select><option selected></option><option>D</option><option>C</option><option>K</option></select>
+            </div>
+          </td>
           <td><input type="text" value=""></td>
           <td><input type="text" value=""></td>
           <td><input type="text" value=""></td>
@@ -236,16 +265,16 @@
             <button class="view-btn">보기</button>
           </td><td></td>
         </tr>
-        <tr><td colspan="18"><button class="add-row" data-target="us-lead-table">+</button></td></tr>
+        <tr><td colspan="15"><button class="add-row" data-target="us-lead-table">+</button></td></tr>
       </tbody>
     </table>
 
     <!-- 주 공격대 -->
     <table class="main" id="us-main-table">
       <thead>
-        <tr><th colspan="18">주 공격대</th></tr>
+        <tr><th colspan="15">주 공격대</th></tr>
         <tr>
-          <th>임무</th><th>태스크</th><th>콜싸인</th><th>항공기 유형</th><th>수준</th><th>공격성</th><th>#1</th><th>#2</th><th>#3</th><th>#4</th><th>기총</th><th>IRM</th><th>RHM</th><th>폭탄</th><th>연료</th><th>비고</th><th>ADC</th><th>삭제</th>
+          <th>임무</th><th>태스크</th><th>콜싸인</th><th>항공기 유형</th><th>수준</th><th>공격성</th><th>상태</th><th>기총</th><th>IRM</th><th>RHM</th><th>폭탄</th><th>연료</th><th>비고</th><th>ADC</th><th>삭제</th>
         </tr>
       </thead>
       <tbody>
@@ -268,10 +297,16 @@
             <select><option>신병</option><option>훈련됨</option><option>정규군</option><option selected>베테랑</option><option>탑건</option></select>
           </td>
           <td>0</td>
-          <td><select><option selected></option><option>D</option><option>C</option><option>K</option></select></td>
-          <td><select><option selected></option><option>D</option><option>C</option><option>K</option></select></td>
-          <td><select><option selected></option><option>D</option><option>C</option><option>K</option></select></td>
-          <td><select><option selected></option><option>D</option><option>C</option><option>K</option></select></td>
+          <td>
+            <div class="status-grid">
+              <label>#1</label><label>#2</label>
+              <select><option selected></option><option>D</option><option>C</option><option>K</option></select>
+              <select><option selected></option><option>D</option><option>C</option><option>K</option></select>
+              <label>#3</label><label>#4</label>
+              <select><option selected></option><option>D</option><option>C</option><option>K</option></select>
+              <select><option selected></option><option>D</option><option>C</option><option>K</option></select>
+            </div>
+          </td>
           <td><input type="text" value=""></td>
           <td><input type="text" value=""></td>
           <td><input type="text" value=""></td>
@@ -279,16 +314,16 @@
           <td><input type="text" value=""></td>
           <td><input type="text" value=""></td><td><button class="view-btn">보기</button></td><td></td>
         </tr>
-        <tr><td colspan="18"><button class="add-row" data-target="us-main-table">+</button></td></tr>
+        <tr><td colspan="15"><button class="add-row" data-target="us-main-table">+</button></td></tr>
       </tbody>
     </table>
 
     <!-- 후발 공격대 -->
     <table class="trail" id="us-trail-table">
       <thead>
-        <tr><th colspan="18">후발 공격대</th></tr>
+        <tr><th colspan="15">후발 공격대</th></tr>
         <tr>
-          <th>임무</th><th>태스크</th><th>콜싸인</th><th>항공기 유형</th><th>수준</th><th>공격성</th><th>#1</th><th>#2</th><th>#3</th><th>#4</th><th>기총</th><th>IRM</th><th>RHM</th><th>폭탄</th><th>연료</th><th>비고</th><th>ADC</th><th>삭제</th>
+          <th>임무</th><th>태스크</th><th>콜싸인</th><th>항공기 유형</th><th>수준</th><th>공격성</th><th>상태</th><th>기총</th><th>IRM</th><th>RHM</th><th>폭탄</th><th>연료</th><th>비고</th><th>ADC</th><th>삭제</th>
         </tr>
       </thead>
       <tbody>
@@ -311,10 +346,16 @@
             <select><option>신병</option><option>훈련됨</option><option selected>정규군</option><option>베테랑</option><option>탑건</option></select>
           </td>
           <td>0</td>
-          <td><select><option selected></option><option>D</option><option>C</option><option>K</option></select></td>
-          <td><select><option selected></option><option>D</option><option>C</option><option>K</option></select></td>
-          <td><select><option selected></option><option>D</option><option>C</option><option>K</option></select></td>
-          <td><select><option selected></option><option>D</option><option>C</option><option>K</option></select></td>
+          <td>
+            <div class="status-grid">
+              <label>#1</label><label>#2</label>
+              <select><option selected></option><option>D</option><option>C</option><option>K</option></select>
+              <select><option selected></option><option>D</option><option>C</option><option>K</option></select>
+              <label>#3</label><label>#4</label>
+              <select><option selected></option><option>D</option><option>C</option><option>K</option></select>
+              <select><option selected></option><option>D</option><option>C</option><option>K</option></select>
+            </div>
+          </td>
           <td><input type="text" value=""></td>
           <td><input type="text" value=""></td>
           <td><input type="text" value=""></td>
@@ -322,7 +363,7 @@
           <td><input type="text" value=""></td>
           <td><input type="text" value=""></td><td><button class="view-btn">보기</button></td><td></td>
         </tr>
-        <tr><td colspan="18"><button class="add-row" data-target="us-trail-table">+</button></td></tr>
+        <tr><td colspan="15"><button class="add-row" data-target="us-trail-table">+</button></td></tr>
       </tbody>
     </table>
   </div>
@@ -333,9 +374,9 @@
     <!-- DRV 요격기 -->
     <table class="lead" id="drv-table">
       <thead>
-        <tr><th colspan="16">DRV 요격기</th></tr>
+        <tr><th colspan="13">DRV 요격기</th></tr>
         <tr>
-          <th>콜싸인</th><th>항공기 유형</th><th>수준</th><th>공격성</th><th>#1</th><th>#2</th><th>#3</th><th>#4</th><th>기총</th><th>IRM</th><th>RHM</th><th>폭탄</th><th>연료</th><th>비고</th><th>ADC</th><th>삭제</th>
+          <th>콜싸인</th><th>항공기 유형</th><th>수준</th><th>공격성</th><th>상태</th><th>기총</th><th>IRM</th><th>RHM</th><th>폭탄</th><th>연료</th><th>비고</th><th>ADC</th><th>삭제</th>
         </tr>
       </thead>
       <tbody>
@@ -348,10 +389,16 @@
             <select><option>신병</option><option>훈련됨</option><option>정규군</option><option selected>베테랑</option><option>탑건</option></select>
           </td>
           <td>0</td>
-          <td><select><option selected></option><option>D</option><option>C</option><option>K</option></select></td>
-          <td><select><option selected></option><option>D</option><option>C</option><option>K</option></select></td>
-          <td><select><option selected></option><option>D</option><option>C</option><option>K</option></select></td>
-          <td><select><option selected></option><option>D</option><option>C</option><option>K</option></select></td>
+          <td>
+            <div class="status-grid">
+              <label>#1</label><label>#2</label>
+              <select><option selected></option><option>D</option><option>C</option><option>K</option></select>
+              <select><option selected></option><option>D</option><option>C</option><option>K</option></select>
+              <label>#3</label><label>#4</label>
+              <select><option selected></option><option>D</option><option>C</option><option>K</option></select>
+              <select><option selected></option><option>D</option><option>C</option><option>K</option></select>
+            </div>
+          </td>
           <td><input type="text" value=""></td>
           <td><input type="text" value=""></td>
           <td><input type="text" value=""></td>
@@ -360,7 +407,7 @@
           <td><input type="text" value=""></td>
           <td><button class="view-btn">보기</button></td><td></td>
         </tr>
-        <tr><td colspan="16"><button class="add-row" data-target="drv-table">+</button></td></tr>
+        <tr><td colspan="13"><button class="add-row" data-target="drv-table">+</button></td></tr>
       </tbody>
     </table>
   </div>
