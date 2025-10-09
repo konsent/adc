@@ -160,6 +160,20 @@
       cursor: pointer;
     }
 
+    /* 상태 헤더의 증감 버튼 */
+    .status-header-controls {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 8px;
+    }
+    .status-control-btn {
+      cursor: pointer;
+      font-size: 1.1em;
+      color: #333;
+      user-select: none; /* 텍스트 선택 방지 */
+    }
+
     /* 2x2 상태 그리드 스타일 */
     .status-grid {
       display: grid;
@@ -167,12 +181,10 @@
       gap: 2px;
       align-items: center;
       padding: 0;
+      text-align: left;
     }
-    .status-grid label {
+    .status-item label {
       font-size: 0.8em;
-      margin-bottom: -2px;
-    }
-    .status-grid select {
       width: 100%;
     }
 
@@ -222,7 +234,13 @@
       <thead>
         <tr><th colspan="15">선발 공격대</th></tr>
         <tr>
-          <th>임무</th><th>태스크</th><th>콜싸인</th><th>항공기 유형</th><th>수준</th><th>공격성</th><th>상태</th><th>기총</th><th>IRM</th><th>RHM</th><th>폭탄</th><th>연료</th><th>비고</th><th>ADC</th><th>삭제</th>
+          <th>임무</th><th>태스크</th><th>콜싸인</th><th>항공기 유형</th><th>수준</th><th>공격성</th>
+          <th>
+            <div class="status-header-controls">
+              <span>상태</span> <span class="status-control-btn dec">▼</span> <span class="status-control-btn inc">▲</span>
+            </div>
+          </th>
+          <th>기총</th><th>IRM</th><th>RHM</th><th>폭탄</th><th>연료</th><th>비고</th><th>ADC</th><th>삭제</th>
         </tr>
       </thead>
       <tbody>
@@ -247,12 +265,10 @@
           <td>0</td>
           <td>
             <div class="status-grid">
-              <label>#1</label><label>#2</label>
-              <select><option selected></option><option>D</option><option>C</option><option>K</option></select>
-              <select><option selected></option><option>D</option><option>C</option><option>K</option></select>
-              <label>#3</label><label>#4</label>
-              <select><option selected></option><option>D</option><option>C</option><option>K</option></select>
-              <select><option selected></option><option>D</option><option>C</option><option>K</option></select>
+              <div class="status-item"><label>#1</label><select><option selected></option><option>D</option><option>C</option><option>K</option></select></div>
+              <div class="status-item"><label>#2</label><select><option selected></option><option>D</option><option>C</option><option>K</option></select></div>
+              <div class="status-item"><label>#3</label><select><option selected></option><option>D</option><option>C</option><option>K</option></select></div>
+              <div class="status-item"><label>#4</label><select><option selected></option><option>D</option><option>C</option><option>K</option></select></div>
             </div>
           </td>
           <td><input type="text" value=""></td>
@@ -274,7 +290,13 @@
       <thead>
         <tr><th colspan="15">주 공격대</th></tr>
         <tr>
-          <th>임무</th><th>태스크</th><th>콜싸인</th><th>항공기 유형</th><th>수준</th><th>공격성</th><th>상태</th><th>기총</th><th>IRM</th><th>RHM</th><th>폭탄</th><th>연료</th><th>비고</th><th>ADC</th><th>삭제</th>
+          <th>임무</th><th>태스크</th><th>콜싸인</th><th>항공기 유형</th><th>수준</th><th>공격성</th>
+          <th>
+            <div class="status-header-controls">
+              <span>상태</span> <span class="status-control-btn dec">▼</span> <span class="status-control-btn inc">▲</span>
+            </div>
+          </th>
+          <th>기총</th><th>IRM</th><th>RHM</th><th>폭탄</th><th>연료</th><th>비고</th><th>ADC</th><th>삭제</th>
         </tr>
       </thead>
       <tbody>
@@ -299,12 +321,10 @@
           <td>0</td>
           <td>
             <div class="status-grid">
-              <label>#1</label><label>#2</label>
-              <select><option selected></option><option>D</option><option>C</option><option>K</option></select>
-              <select><option selected></option><option>D</option><option>C</option><option>K</option></select>
-              <label>#3</label><label>#4</label>
-              <select><option selected></option><option>D</option><option>C</option><option>K</option></select>
-              <select><option selected></option><option>D</option><option>C</option><option>K</option></select>
+              <div class="status-item"><label>#1</label><select><option selected></option><option>D</option><option>C</option><option>K</option></select></div>
+              <div class="status-item"><label>#2</label><select><option selected></option><option>D</option><option>C</option><option>K</option></select></div>
+              <div class="status-item"><label>#3</label><select><option selected></option><option>D</option><option>C</option><option>K</option></select></div>
+              <div class="status-item"><label>#4</label><select><option selected></option><option>D</option><option>C</option><option>K</option></select></div>
             </div>
           </td>
           <td><input type="text" value=""></td>
@@ -323,7 +343,13 @@
       <thead>
         <tr><th colspan="15">후발 공격대</th></tr>
         <tr>
-          <th>임무</th><th>태스크</th><th>콜싸인</th><th>항공기 유형</th><th>수준</th><th>공격성</th><th>상태</th><th>기총</th><th>IRM</th><th>RHM</th><th>폭탄</th><th>연료</th><th>비고</th><th>ADC</th><th>삭제</th>
+          <th>임무</th><th>태스크</th><th>콜싸인</th><th>항공기 유형</th><th>수준</th><th>공격성</th>
+          <th>
+            <div class="status-header-controls">
+              <span>상태</span> <span class="status-control-btn dec">▼</span> <span class="status-control-btn inc">▲</span>
+            </div>
+          </th>
+          <th>기총</th><th>IRM</th><th>RHM</th><th>폭탄</th><th>연료</th><th>비고</th><th>ADC</th><th>삭제</th>
         </tr>
       </thead>
       <tbody>
@@ -348,12 +374,10 @@
           <td>0</td>
           <td>
             <div class="status-grid">
-              <label>#1</label><label>#2</label>
-              <select><option selected></option><option>D</option><option>C</option><option>K</option></select>
-              <select><option selected></option><option>D</option><option>C</option><option>K</option></select>
-              <label>#3</label><label>#4</label>
-              <select><option selected></option><option>D</option><option>C</option><option>K</option></select>
-              <select><option selected></option><option>D</option><option>C</option><option>K</option></select>
+              <div class="status-item"><label>#1</label><select><option selected></option><option>D</option><option>C</option><option>K</option></select></div>
+              <div class="status-item"><label>#2</label><select><option selected></option><option>D</option><option>C</option><option>K</option></select></div>
+              <div class="status-item"><label>#3</label><select><option selected></option><option>D</option><option>C</option><option>K</option></select></div>
+              <div class="status-item"><label>#4</label><select><option selected></option><option>D</option><option>C</option><option>K</option></select></div>
             </div>
           </td>
           <td><input type="text" value=""></td>
@@ -376,7 +400,13 @@
       <thead>
         <tr><th colspan="13">DRV 요격기</th></tr>
         <tr>
-          <th>콜싸인</th><th>항공기 유형</th><th>수준</th><th>공격성</th><th>상태</th><th>기총</th><th>IRM</th><th>RHM</th><th>폭탄</th><th>연료</th><th>비고</th><th>ADC</th><th>삭제</th>
+          <th>콜싸인</th><th>항공기 유형</th><th>수준</th><th>공격성</th>
+          <th>
+            <div class="status-header-controls">
+              <span>상태</span> <span class="status-control-btn dec">▼</span> <span class="status-control-btn inc">▲</span>
+            </div>
+          </th>
+          <th>기총</th><th>IRM</th><th>RHM</th><th>폭탄</th><th>연료</th><th>비고</th><th>ADC</th><th>삭제</th>
         </tr>
       </thead>
       <tbody>
@@ -391,12 +421,10 @@
           <td>0</td>
           <td>
             <div class="status-grid">
-              <label>#1</label><label>#2</label>
-              <select><option selected></option><option>D</option><option>C</option><option>K</option></select>
-              <select><option selected></option><option>D</option><option>C</option><option>K</option></select>
-              <label>#3</label><label>#4</label>
-              <select><option selected></option><option>D</option><option>C</option><option>K</option></select>
-              <select><option selected></option><option>D</option><option>C</option><option>K</option></select>
+              <div class="status-item"><label>#1</label><select><option selected></option><option>D</option><option>C</option><option>K</option></select></div>
+              <div class="status-item"><label>#2</label><select><option selected></option><option>D</option><option>C</option><option>K</option></select></div>
+              <div class="status-item"><label>#3</label><select><option selected></option><option>D</option><option>C</option><option>K</option></select></div>
+              <div class="status-item"><label>#4</label><select><option selected></option><option>D</option><option>C</option><option>K</option></select></div>
             </div>
           </td>
           <td><input type="text" value=""></td>
@@ -552,6 +580,20 @@
             const input = cell.querySelector('input[type="text"]');
             const buttons = cell.querySelectorAll('button');
             const isDeleteCell = cell === clone.querySelector('td:last-child');
+            const statusGrid = cell.querySelector('.status-grid');
+
+            if (statusGrid) {
+              // 새로 추가된 행의 상태 가시성을 현재 테이블 상태와 동기화
+              const firstRow = table.querySelector('tbody tr');
+              if (firstRow) {
+                const firstRowStatusItems = firstRow.querySelectorAll('.status-item');
+                const cloneStatusItems = clone.querySelectorAll('.status-item');
+                cloneStatusItems.forEach((item, index) => {
+                  item.style.visibility = firstRowStatusItems[index].style.visibility;
+                });
+              }
+              return; // 상태 그리드는 아래 로직을 타지 않도록 함
+            }
 
             if (select) {
               select.selectedIndex = 0;
@@ -674,6 +716,38 @@
         showContent('us');
       }
     });
+
+    // 상태 증감 버튼 기능
+    document.querySelectorAll('.status-control-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const table = btn.closest('table');
+        const rows = table.querySelectorAll('tbody tr:not(:last-child)');
+        const isDecrement = btn.classList.contains('dec');
+
+        rows.forEach(row => {
+          const statusItems = Array.from(row.querySelectorAll('.status-item'));
+
+          if (isDecrement) {
+            // 뒤에서부터 첫 번째로 보이는 아이템을 찾아서 숨김
+            for (let i = statusItems.length - 1; i >= 0; i--) {
+              if (statusItems[i].style.visibility !== 'hidden') {
+                statusItems[i].style.visibility = 'hidden';
+                break;
+              }
+            }
+          } else { // Increment
+            // 앞에서부터 첫 번째로 숨겨진 아이템을 찾아서 보이게 함
+            for (let i = 0; i < statusItems.length; i++) {
+              if (statusItems[i].style.visibility === 'hidden') {
+                statusItems[i].style.visibility = 'visible';
+                break;
+              }
+            }
+          }
+        });
+      });
+    });
+
   </script>
 
 </body>
