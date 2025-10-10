@@ -20,7 +20,7 @@ def get_filenames_from_dir(directory_path):
 def main():
     print("Hello from adc-list!")
 
-    us_aircraft_path = 'assets/dt/drv'
+    us_aircraft_path = 'assets/dt/us'
     us_aircraft_list = get_filenames_from_dir(us_aircraft_path)
 
     if us_aircraft_list:
