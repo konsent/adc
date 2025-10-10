@@ -18,7 +18,7 @@ def get_filenames_from_dir(directory_path):
         return []
 
 def main():
-    us_aircraft_path = 'assets/rs_base/wp/flight'
+    us_aircraft_path = 'assets/rs_baltic/nato/flight'
     us_aircraft_list = get_filenames_from_dir(us_aircraft_path)
 
     if us_aircraft_list:

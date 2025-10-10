@@ -34,6 +34,59 @@
     .us { background-color: #2b6cb0; }
     .drv { background-color: #e53e3e; }
 
+    .toggle-container {
+      position: absolute;
+      top: 2rem;
+      right: 2rem;
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+    }
+    .toggle-container span {
+      font-weight: bold;
+      font-size: 1rem;
+      color: #333;
+    }
+    .switch {
+      position: relative;
+      display: inline-block;
+      width: 60px;
+      height: 34px;
+    }
+    .switch input { 
+      opacity: 0;
+      width: 0;
+      height: 0;
+    }
+    .slider {
+      position: absolute;
+      cursor: pointer;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background-color: #ccc;
+      transition: .4s;
+      border-radius: 34px;
+    }
+    .slider:before {
+      position: absolute;
+      content: "";
+      height: 26px;
+      width: 26px;
+      left: 4px;
+      bottom: 4px;
+      background-color: white;
+      transition: .4s;
+      border-radius: 50%;
+    }
+    input:checked + .slider {
+      background-color: #2196F3;
+    }
+    input:checked + .slider:before {
+      transform: translateX(26px);
+    }
+
     h2 {
       margin-top: 0.5rem;
       margin-bottom: 1rem;
@@ -282,6 +335,14 @@
 </head>
 <body>
 
+  <div class="toggle-container">
+    <span>Baltic</span>
+    <label class="switch">
+      <input type="checkbox" id="baltic-toggle">
+      <span class="slider"></span>
+    </label>
+  </div>
+
   <div class="top-buttons">
     <button class="us" id="us-btn">NATO</button>
     <button class="drv" id="drv-btn">WP</button>
@@ -341,10 +402,17 @@
       const scenarioContainer = document.getElementById('scenario-container');
       const scenarioDisplay = document.getElementById('scenario-name-display');
       const scenarioInput = document.getElementById('scenario-name-input');
+      const balticToggle = document.getElementById('baltic-toggle');
 
       const rowTemplateHTML = {
-        'us-lead-table': `<td><select class="fit-width"><option>타격</option><option>아이언 핸드</option><option>채프</option><option>재밍</option><option>CSAR</option><option>정찰</option><option>MiGCAP</option></select></td><td><select class="fit-width"><option>폭격</option><option>SEAD</option><option>CAP</option><option>무장 호위</option><option>구조 지원</option><option>정찰</option><option>재밍</option><option>채프 살포</option><option>타격</option></select></td><td><input type="text" value=""></td><td><select><option>A-10A Thunderbolt 2 [US]</option><option>A-7D Corsair 2 [US]</option><option>Alpha Jet A [GER]</option><option>B-52G Stratofortress [US]</option><option>Buccaneer S.2B [GBR]</option><option>C-141B Starlifter [US]</option><option>CF-18A Hornet [CAN]</option><option>CF-5A Freedom fighter [CAN]</option><option>EC-130H Compass Call [US]</option><option>EF-111A Raven [US]</option><option>F-104G Starfighter [GER]</option><option>F-111D_E Aardvark [US]</option><option>F-111F Aardvark [US]</option><option>F-117A Nighthawk [US]</option><option>F-15A Eagle [US]</option><option>F-15C Eagle [US]</option><option>F-16A Falcon [BEL]</option><option>F-16A Falcon [NET]</option><option>F-16A Falcon [US]</option><option>F-16C Falcon [US]</option><option>F-4D Phantom 2 [US]</option><option>F-4E Phantom 2 [US]</option><option>F-4F Phantom 2 [GER]</option><option>F-4G Wild Weasel 5 [US]</option><option>Falcon 20F [GBR]</option><option>HFB 320 Hansa Jet [GER]</option><option>Harrier GR.3 [GBR]</option><option>Jaguar GR.1A [GBR]</option><option>Mirage 5BA [BEL]</option><option>Mirage 5BR [BEL]</option><option>NF-5A Freedom Fighter [NET]</option><option>Phantom FGR.2 [GBR]</option><option>RF-4C Phantom 2 [US]</option><option>RF-4E Phantom 2 [GER]</option><option>Tornado F.2A [GBR]</option><option>Tornado GR.1 [GBR]</option><option>Tornado GR.1A [GBR]</option><option>Tornado IDS [GER]</option></select></td><td><select><option>신병</option><option>훈련됨</option><option>정규군</option><option>베테랑</option><option>탑건</option></select></td><td>0</td><td><div class="status-grid"><div class="status-item" data-status="1"><div class="status-header"><label>#1</label></div><select><option selected></option><option>D</option><option>C</option><option>K</option></select></div><div class="status-item" data-status="2"><div class="status-header"><label>#2</label><button class="status-control-btn remove-status">X</button><button class="status-control-btn add-status" style="display: none;">+</button></div><select><option selected></option><option>D</option><option>C</option><option>K</option></select></div><div class="status-item" data-status="3"><div class="status-header"><label>#3</label><button class="status-control-btn remove-status">X</button><button class="status-control-btn add-status" style="display: none;">+</button></div><select><option selected></option><option>D</option><option>C</option><option>K</option></select></div><div class="status-item" data-status="4"><div class="status-header"><label>#4</label><button class="status-control-btn remove-status">X</button><button class="status-control-btn add-status" style="display: none;">+</button></div><select><option selected></option><option>D</option><option>C</option><option>K</option></select></div></div></td><td><input type="text" value=""></td><td><input type="text" value=""></td><td><input type="text" value=""></td><td><input type="text" value=""></td><td><input type="text" value=""></td><td><input type="text" value=""></td><td><button class="view-btn">보기</button></td><td></td>`,
-        'drv-table': `<td><select class="fit-width"><option>타격</option><option>아이언 핸드</option><option>채프</option><option>재밍</option><option>CSAR</option><option>정찰</option><option>MiGCAP</option></select></td><td><select class="fit-width"><option>폭격</option><option>SEAD</option><option>CAP</option><option>무장 호위</option><option>구조 지원</option><option>정찰</option><option>재밍</option><option>채프 살포</option><option>타격</option></select></td><td><input type="text" value=""></td><td><select><option>AN-12PP Cub C [WP]</option><option>IL-76MD Candid [WP]</option><option>MiG-21BIS Fishbed L [EGE]</option><option>MiG-21BIS Fishbed N [WP]</option><option>MiG-21M Fishbed J [EGE]</option><option>MiG-21MF Fishbed J [EGE]</option><option>MiG-21R Fishbed H [WP]</option><option>MiG-21SPS Fishbed F [EGE]</option><option>MiG-23BN Flogger H [EGE]</option><option>MiG-23M Flogger B [WP]</option><option>MiG-23MF Flogger B [EGE]</option><option>MiG-23ML Flogger G [EGE]</option><option>MiG-23MLA Flogger G [WP]</option><option>MiG-23MLD Flogger K [WP]</option><option>MiG-25BM Foxbat F [WP]</option><option>MiG-25PD Foxbat E [WP]</option><option>MiG-25RB Foxbat B [WP]</option><option>MiG-27K Flogger J2 [WP]</option><option>MiG-27M Flogger J [WP]</option><option>MiG-29 Fulcrum A [WP]</option><option>Su-17M3R Fitter H [WP]</option><option>Su-17M4 Fitter K [WP]</option><option>Su-22M4 Fitter K [EGE]</option><option>Su-24 Fencer C [WP]</option><option>Su-24M Fencer D [WP]</option><option>Su-24MP Fencer F [WP]</option><option>Su-24MR Fencer E [WP]</option><option>Su-25 Frogfoot A [WP]</option><option>Su-27S Flanker B [WP]</option><option>Tu-16K Badger G [WP]</option><option>Tu-16P Badger J [WP]</option><option>Tu-22KPD Blinder B [WP]</option><option>Tu-22PD Blinder E [WP]</option><option>YAK-28PP Brewer E [WP]</option></select></td><td><select><option>신병</option><option>훈련됨</option><option>정규군</option><option>베테랑</option><option>탑건</option></select></td><td>0</td><td><div class="status-grid"><div class="status-item" data-status="1"><div class="status-header"><label>#1</label></div><select><option selected></option><option>D</option><option>C</option><option>K</option></select></div><div class="status-item" data-status="2"><div class="status-header"><label>#2</label><button class="status-control-btn remove-status">X</button><button class="status-control-btn add-status" style="display: none;">+</button></div><select><option selected></option><option>D</option><option>C</option><option>K</option></select></div><div class="status-item" data-status="3"><div class="status-header"><label>#3</label><button class="status-control-btn remove-status">X</button><button class="status-control-btn add-status" style="display: none;">+</button></div><select><option selected></option><option>D</option><option>C</option><option>K</option></select></div><div class="status-item" data-status="4"><div class="status-header"><label>#4</label><button class="status-control-btn remove-status">X</button><button class="status-control-btn add-status" style="display: none;">+</button></div><select><option selected></option><option>D</option><option>C</option><option>K</option></select></div></div></td><td><input type="text" value=""></td><td><input type="text" value=""></td><td><input type="text" value=""></td><td><input type="text" value=""></td><td><input type="text" value=""></td><td><input type="text" value=""></td><td><button class="view-btn">보기</button></td><td></td>`,
+        'us-lead-table': {
+          'base': `<td><select class="fit-width"><option>타격</option><option>아이언 핸드</option><option>채프</option><option>재밍</option><option>CSAR</option><option>정찰</option><option>MiGCAP</option></select></td><td><select class="fit-width"><option>폭격</option><option>SEAD</option><option>CAP</option><option>무장 호위</option><option>구조 지원</option><option>정찰</option><option>재밍</option><option>채프 살포</option><option>타격</option></select></td><td><input type="text" value=""></td><td><select><option>A-10A Thunderbolt 2 [US]</option><option>A-7D Corsair 2 [US]</option><option>Alpha Jet A [GER]</option><option>B-52G Stratofortress [US]</option><option>Buccaneer S.2B [GBR]</option><option>C-141B Starlifter [US]</option><option>CF-18A Hornet [CAN]</option><option>CF-5A Freedom fighter [CAN]</option><option>EC-130H Compass Call [US]</option><option>EF-111A Raven [US]</option><option>F-104G Starfighter [GER]</option><option>F-111D_E Aardvark [US]</option><option>F-111F Aardvark [US]</option><option>F-117A Nighthawk [US]</option><option>F-15A Eagle [US]</option><option>F-15C Eagle [US]</option><option>F-16A Falcon [BEL]</option><option>F-16A Falcon [NET]</option><option>F-16A Falcon [US]</option><option>F-16C Falcon [US]</option><option>F-4D Phantom 2 [US]</option><option>F-4E Phantom 2 [US]</option><option>F-4F Phantom 2 [GER]</option><option>F-4G Wild Weasel 5 [US]</option><option>Falcon 20F [GBR]</option><option>HFB 320 Hansa Jet [GER]</option><option>Harrier GR.3 [GBR]</option><option>Jaguar GR.1A [GBR]</option><option>Mirage 5BA [BEL]</option><option>Mirage 5BR [BEL]</option><option>NF-5A Freedom Fighter [NET]</option><option>Phantom FGR.2 [GBR]</option><option>RF-4C Phantom 2 [US]</option><option>RF-4E Phantom 2 [GER]</option><option>Tornado F.2A [GBR]</option><option>Tornado GR.1 [GBR]</option><option>Tornado GR.1A [GBR]</option><option>Tornado IDS [GER]</option></select></td><td><select><option>신병</option><option>훈련됨</option><option>정규군</option><option>베테랑</option><option>탑건</option></select></td><td>0</td><td><div class="status-grid"><div class="status-item" data-status="1"><div class="status-header"><label>#1</label></div><select><option selected></option><option>D</option><option>C</option><option>K</option></select></div><div class="status-item" data-status="2"><div class="status-header"><label>#2</label><button class="status-control-btn remove-status">X</button><button class="status-control-btn add-status" style="display: none;">+</button></div><select><option selected></option><option>D</option><option>C</option><option>K</option></select></div><div class="status-item" data-status="3"><div class="status-header"><label>#3</label><button class="status-control-btn remove-status">X</button><button class="status-control-btn add-status" style="display: none;">+</button></div><select><option selected></option><option>D</option><option>C</option><option>K</option></select></div><div class="status-item" data-status="4"><div class="status-header"><label>#4</label><button class="status-control-btn remove-status">X</button><button class="status-control-btn add-status" style="display: none;">+</button></div><select><option selected></option><option>D</option><option>C</option><option>K</option></select></div></div></td><td><input type="text" value=""></td><td><input type="text" value=""></td><td><input type="text" value=""></td><td><input type="text" value=""></td><td><input type="text" value=""></td><td><input type="text" value=""></td><td><button class="view-btn">보기</button></td><td></td>`,
+          'baltic': `<td><select class="fit-width"><option>타격</option><option>아이언 핸드</option><option>채프</option><option>재밍</option><option>CSAR</option><option>정찰</option><option>MiGCAP</option></select></td><td><select class="fit-width"><option>폭격</option><option>SEAD</option><option>CAP</option><option>무장 호위</option><option>구조 지원</option><option>정찰</option><option>재밍</option><option>채프 살포</option><option>타격</option></select></td><td><input type="text" value=""></td><td><select><option>A-10A Thunderbolt 2 [US]</option><option>A-6E Intruder [US]</option><option>A-7D Corsair 2 [US]</option><option>A-7E Corsair 2 [US]</option><option>AJ-37 Viggen [SWE]</option><option>AV-8B Harrier 2 [US]</option><option>Alpha Jet A [GER]</option><option>B-52G Stratofortress [US]</option><option>BR. 1150 Atlantic 2 [GER]</option><option>Buccaneer S.2B [GBR]</option><option>C-141B Starlifter [US]</option><option>CF-18A Hornet [CAN]</option><option>CF-5A Freedom fighter [CAN]</option><option>EA-6B Prowler [US]</option><option>EC-130H Compass Call [US]</option><option>EF-111A Raven [US]</option><option>F-104G Starfighter [GER]</option><option>F-111D_E Aardvark [US]</option><option>F-111F Aardvark [US]</option><option>F-117A Nighthawk [US]</option><option>F-14A Tomcat [US]</option><option>F-15A Eagle [US]</option><option>F-15C Eagle [US]</option><option>F-16A Falcon [BEL]</option><option>F-16A Falcon [DEN]</option><option>F-16A Falcon [NET]</option><option>F-16A Falcon [US]</option><option>F-16C Falcon [US]</option><option>F-35XD Draken [DEN]</option><option>F-4D Phantom 2 [US]</option><option>F-4E Phantom 2 [US]</option><option>F-4F Phantom 2 [GER]</option><option>F-4G Wild Weasel 5 [US]</option><option>FA-18A Hornet [US]</option><option>Falcon 20F [GBR]</option><option>HFB 320 Hansa Jet [GER]</option><option>Harrier GR.3 [GBR]</option><option>J-32E Lansen [SWE]</option><option>J-35F2 Draken [SWE]</option><option>JA-37 Viggen [SWE]</option><option>Jaguar GR.1A [GBR]</option><option>Mirage 5BA [BEL]</option><option>Mirage 5BR [BEL]</option><option>NF-5A Freedom Fighter [NET]</option><option>Nimrod MR.2 [GRB]</option><option>P-3C Orion [NET]</option><option>P-3C Orion [US]</option><option>Phantom FGR.2 [GBR]</option><option>RF-35XD Draken [DEN]</option><option>RF-4B Phantom 2 [US]</option><option>RF-4C Phantom 2 [US]</option><option>RF-4E Phantom 2 [GER]</option><option>S-3A Viking [US]</option><option>SH-37 Viggen [SWE]</option><option>Sea Harrier FRS.1 [GBR]</option><option>Tornado F.2A [GBR]</option><option>Tornado GR.1 [GBR]</option><option>Tornado GR.1A [GBR]</option><option>Tornado IDS Navy [GER]</option><option>Tornado IDS [GER]</option></select></td><td><select><option>신병</option><option>훈련됨</option><option>정규군</option><option>베테랑</option><option>탑건</option></select></td><td>0</td><td><div class="status-grid"><div class="status-item" data-status="1"><div class="status-header"><label>#1</label></div><select><option selected></option><option>D</option><option>C</option><option>K</option></select></div><div class="status-item" data-status="2"><div class="status-header"><label>#2</label><button class="status-control-btn remove-status">X</button><button class="status-control-btn add-status" style="display: none;">+</button></div><select><option selected></option><option>D</option><option>C</option><option>K</option></select></div><div class="status-item" data-status="3"><div class="status-header"><label>#3</label><button class="status-control-btn remove-status">X</button><button class="status-control-btn add-status" style="display: none;">+</button></div><select><option selected></option><option>D</option><option>C</option><option>K</option></select></div><div class="status-item" data-status="4"><div class="status-header"><label>#4</label><button class="status-control-btn remove-status">X</button><button class="status-control-btn add-status" style="display: none;">+</button></div><select><option selected></option><option>D</option><option>C</option><option>K</option></select></div></div></td><td><input type="text" value=""></td><td><input type="text" value=""></td><td><input type="text" value=""></td><td><input type="text" value=""></td><td><input type="text" value=""></td><td><input type="text" value=""></td><td><button class="view-btn">보기</button></td><td></td>`
+        },
+        'drv-table': {
+          'base': `<td><select class="fit-width"><option>타격</option><option>아이언 핸드</option><option>채프</option><option>재밍</option><option>CSAR</option><option>정찰</option><option>MiGCAP</option></select></td><td><select class="fit-width"><option>폭격</option><option>SEAD</option><option>CAP</option><option>무장 호위</option><option>구조 지원</option><option>정찰</option><option>재밍</option><option>채프 살포</option><option>타격</option></select></td><td><input type="text" value=""></td><td><select><option>AN-12PP Cub C [WP]</option><option>IL-76MD Candid [WP]</option><option>MiG-21BIS Fishbed L [EGE]</option><option>MiG-21BIS Fishbed N [WP]</option><option>MiG-21M Fishbed J [EGE]</option><option>MiG-21MF Fishbed J [EGE]</option><option>MiG-21R Fishbed H [WP]</option><option>MiG-21SPS Fishbed F [EGE]</option><option>MiG-23BN Flogger H [EGE]</option><option>MiG-23M Flogger B [WP]</option><option>MiG-23MF Flogger B [EGE]</option><option>MiG-23ML Flogger G [EGE]</option><option>MiG-23MLA Flogger G [WP]</option><option>MiG-23MLD Flogger K [WP]</option><option>MiG-25BM Foxbat F [WP]</option><option>MiG-25PD Foxbat E [WP]</option><option>MiG-25RB Foxbat B [WP]</option><option>MiG-27K Flogger J2 [WP]</option><option>MiG-27M Flogger J [WP]</option><option>MiG-29 Fulcrum A [WP]</option><option>Su-17M3R Fitter H [WP]</option><option>Su-17M4 Fitter K [WP]</option><option>Su-22M4 Fitter K [EGE]</option><option>Su-24 Fencer C [WP]</option><option>Su-24M Fencer D [WP]</option><option>Su-24MP Fencer F [WP]</option><option>Su-24MR Fencer E [WP]</option><option>Su-25 Frogfoot A [WP]</option><option>Su-27S Flanker B [WP]</option><option>Tu-16K Badger G [WP]</option><option>Tu-16P Badger J [WP]</option><option>Tu-22KPD Blinder B [WP]</option><option>Tu-22PD Blinder E [WP]</option><option>YAK-28PP Brewer E [WP]</option></select></td><td><select><option>신병</option><option>훈련됨</option><option>정규군</option><option>베테랑</option><option>탑건</option></select></td><td>0</td><td><div class="status-grid"><div class="status-item" data-status="1"><div class="status-header"><label>#1</label></div><select><option selected></option><option>D</option><option>C</option><option>K</option></select></div><div class="status-item" data-status="2"><div class="status-header"><label>#2</label><button class="status-control-btn remove-status">X</button><button class="status-control-btn add-status" style="display: none;">+</button></div><select><option selected></option><option>D</option><option>C</option><option>K</option></select></div><div class="status-item" data-status="3"><div class="status-header"><label>#3</label><button class="status-control-btn remove-status">X</button><button class="status-control-btn add-status" style="display: none;">+</button></div><select><option selected></option><option>D</option><option>C</option><option>K</option></select></div><div class="status-item" data-status="4"><div class="status-header"><label>#4</label><button class="status-control-btn remove-status">X</button><button class="status-control-btn add-status" style="display: none;">+</button></div><select><option selected></option><option>D</option><option>C</option><option>K</option></select></div></div></td><td><input type="text" value=""></td><td><input type="text" value=""></td><td><input type="text" value=""></td><td><input type="text" value=""></td><td><input type="text" value=""></td><td><input type="text" value=""></td><td><button class="view-btn">보기</button></td><td></td>`,
+          'baltic': `<td><select class="fit-width"><option>타격</option><option>아이언 핸드</option><option>채프</option><option>재밍</option><option>CSAR</option><option>정찰</option><option>MiGCAP</option></select></td><td><select class="fit-width"><option>폭격</option><option>SEAD</option><option>CAP</option><option>무장 호위</option><option>구조 지원</option><option>정찰</option><option>재밍</option><option>채프 살포</option><option>타격</option></select></td><td><input type="text" value=""></td><td><select><option>AN-12B Cub A [WP]</option><option>AN-12PP Cub C [WP]</option><option>IL-38 May [WP]</option><option>IL-76MD Candid [WP]</option><option>MiG-21BIS Fishbed L [EGE]</option><option>MiG-21BIS Fishbed L [POL]</option><option>MiG-21BIS Fishbed N [WP]</option><option>MiG-21M Fishbed J [EGE]</option><option>MiG-21MF Fishbed J [EGE]</option><option>MiG-21MF Fishbed J [POL]</option><option>MiG-21PFM FishBed F [POL]</option><option>MiG-21R Fishbed H [WP]</option><option>MiG-21RF Fishbed H [POL]</option><option>MiG-21SPS Fishbed F [EGE]</option><option>MiG-23BN Flogger H [EGE]</option><option>MiG-23M Flogger B [WP]</option><option>MiG-23MF Flogger B [EGE]</option><option>MiG-23MF Flogger B [POL]</option><option>MiG-23ML Flogger G [EGE]</option><option>MiG-23MLA Flogger G [WP]</option><option>MiG-23MLD Flogger K [WP]</option><option>MiG-25BM Foxbat F [WP]</option><option>MiG-25PD Foxbat E [WP]</option><option>MiG-25RB Foxbat B [WP]</option><option>MiG-27K Flogger J2 [WP]</option><option>MiG-27M Flogger J [WP]</option><option>MiG-29 Fulcrum A [WP]</option><option>Su-17M3 Fitter H [WP]</option><option>Su-17M3R Fitter H [WP]</option><option>Su-17M4 Fitter K [WP]</option><option>Su-20MK Fitter C [POL]</option><option>Su-22M4 Fitter K [EGE]</option><option>Su-22M4 Fitter K [POL]</option><option>Su-24 Fencer C [WP]</option><option>Su-24M Fencer D [WP]</option><option>Su-24MP Fencer F [WP]</option><option>Su-24MR Fencer E [WP]</option><option>Su-25 Frogfoot A [WP]</option><option>Su-27S Flanker B [WP]</option><option>Tu-16K Badger G  [WP]</option><option>Tu-16K Badger G [WP]</option><option>Tu-16P Badger J [WP]</option><option>Tu-22KPD Blinder B [WP]</option><option>Tu-22M2 Backfire B [WP]</option><option>Tu-22PD Blinder E [WP]</option><option>Tu-22RD Blinder C [WP]</option><option>Tu-95RT Bear D [WP]</option><option>YAK-28PP Brewer E [WP]</option></select></td><td><select><option>신병</option><option>훈련됨</option><option>정규군</option><option>베테랑</option><option>탑건</option></select></td><td>0</td><td><div class="status-grid"><div class="status-item" data-status="1"><div class="status-header"><label>#1</label></div><select><option selected></option><option>D</option><option>C</option><option>K</option></select></div><div class="status-item" data-status="2"><div class="status-header"><label>#2</label><button class="status-control-btn remove-status">X</button><button class="status-control-btn add-status" style="display: none;">+</button></div><select><option selected></option><option>D</option><option>C</option><option>K</option></select></div><div class="status-item" data-status="3"><div class="status-header"><label>#3</label><button class="status-control-btn remove-status">X</button><button class="status-control-btn add-status" style="display: none;">+</button></div><select><option selected></option><option>D</option><option>C</option><option>K</option></select></div><div class="status-item" data-status="4"><div class="status-header"><label>#4</label><button class="status-control-btn remove-status">X</button><button class="status-control-btn add-status" style="display: none;">+</button></div><select><option selected></option><option>D</option><option>C</option><option>K</option></select></div></div></td><td><input type="text" value=""></td><td><input type="text" value=""></td><td><input type="text" value=""></td><td><input type="text" value=""></td><td><input type="text" value=""></td><td><input type="text" value=""></td><td><button class="view-btn">보기</button></td><td></td>`
+        }
        };
 
       const modal = document.getElementById('image-modal');
@@ -490,7 +558,8 @@
           const targetId = btn.getAttribute('data-target');
           const table = document.getElementById(targetId);
           const tbody = table.querySelector('tbody');
-          const templateRow = rowTemplates[targetId];
+          const scenario = balticToggle.checked ? 'baltic' : 'base';
+          const templateRow = rowTemplates[targetId][scenario];
           if (!templateRow) return;
           const clone = templateRow.cloneNode(true);
           clone.querySelectorAll('td:not(:last-child)').forEach(cell => {
@@ -550,9 +619,10 @@
           const aircraftTypeSelect = row.querySelector('td:nth-child(4) select');
           if (aircraftTypeSelect) {
             const aircraftName = aircraftTypeSelect.value;
+            const scenarioPath = balticToggle.checked ? 'rs_baltic' : 'rs_base';
             const imagePath = isDrv 
-              ? `assets/rs_base/wp/flight/${aircraftName}.jpg`
-              : `assets/rs_base/nato/flight/${aircraftName}.jpg`;
+              ? `assets/${scenarioPath}/wp/flight/${aircraftName}.jpg`
+              : `assets/${scenarioPath}/nato/flight/${aircraftName}.jpg`;
             modalImage.onload = () => {
               modal.style.display = 'block';
               const rect = button.getBoundingClientRect();
@@ -609,10 +679,13 @@
       });
 
       function initializeTemplates() {
-        Object.keys(rowTemplateHTML).forEach(tableId => {
-          const tempRow = document.createElement('tr');
-          tempRow.innerHTML = rowTemplateHTML[tableId];
-          rowTemplates[tableId] = tempRow;
+        ['us-lead-table', 'drv-table'].forEach(tableId => {
+          rowTemplates[tableId] = {};
+          ['base', 'baltic'].forEach(scenario => {
+            const tempRow = document.createElement('tr');
+            tempRow.innerHTML = rowTemplateHTML[tableId][scenario];
+            rowTemplates[tableId][scenario] = tempRow;
+          });
         });
       }
 
@@ -627,11 +700,12 @@
           drv: {
             wp: getTableData('drv-table')
           },
-          activeTab: usContent.style.display === 'block' ? 'us' : 'drv'
+          activeTab: usContent.style.display === 'block' ? 'us' : 'drv',
+          isBaltic: balticToggle.checked
         };
         try {
           localStorage.setItem('redstormGeneratorData', JSON.stringify(data));
-          console.log('Data saved to localStorage:', data);
+          // console.log('Data saved to localStorage:', data);
         } catch (e) {
           console.error('Error saving to localStorage in redstorm:', e);
         }
@@ -708,6 +782,11 @@
           if (data.activeTab) {
             showContent(data.activeTab);
           }
+
+          if (data.isBaltic) {
+            balticToggle.checked = true;
+          }
+          initializeTemplates(); // Re-init after loading isBaltic
         } catch (e) {
           console.error('Error loading from localStorage:', e);
         }
@@ -720,7 +799,8 @@
         tbody.querySelectorAll('tr:not(:last-child)').forEach(row => row.remove());
         const addRowBtnRow = tbody.lastElementChild;
         tableData.forEach(rowData => {
-          const templateRow = rowTemplates[tableId];
+          const scenario = balticToggle.checked ? 'baltic' : 'base';
+          const templateRow = rowTemplates[tableId][scenario];
           if (!templateRow) return;
           const clone = templateRow.cloneNode(true);
           let cellIndex = 0;
@@ -773,6 +853,8 @@
 
       // 템플릿 초기화
       initializeTemplates();
+
+      balticToggle.addEventListener('change', saveToLocalStorage);
 
       // 초기 행에 리스너 추가
       document.querySelectorAll('table tbody tr:not(:last-child)').forEach(addRowListeners);
