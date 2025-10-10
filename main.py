@@ -21,6 +21,8 @@ def main():
     us_aircraft_path = 'assets/rs_baltic/nato/flight'
     us_aircraft_list = get_filenames_from_dir(us_aircraft_path)
 
+    # print(us_aircraft_list)
+
     if us_aircraft_list:
         options = "".join([f"<option>{name}</option>" for name in us_aircraft_list])
         html_select = f"<td><select>{options}</select></td>"
