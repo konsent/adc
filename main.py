@@ -18,14 +18,13 @@ def get_filenames_from_dir(directory_path):
         return []
 
 def main():
-    print("Hello from adc-list!")
-
-    us_aircraft_path = 'assets/dt/us'
+    us_aircraft_path = 'assets/rs_base/wp/flight'
     us_aircraft_list = get_filenames_from_dir(us_aircraft_path)
 
     if us_aircraft_list:
-        print(f"\n--- US 항공기 목록 ({us_aircraft_path}) ---")
-        print(us_aircraft_list)
+        options = "".join([f"<option>{name}</option>" for name in us_aircraft_list])
+        html_select = f"<td><select>{options}</select></td>"
+        print(html_select)
 
 if __name__ == "__main__":
     main()

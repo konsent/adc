@@ -103,21 +103,26 @@
 
   <h1>ADC Generator</h1>
   <div class="container">
-    <div class="game" onclick="location.href='redstorm.html'">
+    <div class="game" id="redstorm-link">
       <img src="assets/thumbnail/redstorm.webp" alt="Red Storm" />
     </div>
     <div class="game" id="downtown-link">
       <img src="assets/thumbnail/downtown.webp" alt="Downtown" />
     </div>
   </div>
-
+  
   <script>
     const langToggle = document.getElementById('lang-toggle');
+    const redstormLink = document.getElementById('redstorm-link');
     const downtownLink = document.getElementById('downtown-link');
-
-    const updateLink = () => downtownLink.onclick = () => location.href = langToggle.checked ? 'downtown(eng).html#us' : 'downtown.html#us';
-    langToggle.addEventListener('change', updateLink);
-    updateLink(); // Set initial link on page load
+  
+    const updateLinks = () => {
+      redstormLink.onclick = () => location.href = langToggle.checked ? 'redstorm(eng).html#us' : 'redstorm.html#us';
+      downtownLink.onclick = () => location.href = langToggle.checked ? 'downtown(eng).html#us' : 'downtown.html#us';
+    };
+  
+    langToggle.addEventListener('change', updateLinks);
+    updateLinks(); // Set initial links on page load
   </script>
 </body>
 </html>
