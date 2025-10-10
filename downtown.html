@@ -42,28 +42,49 @@
 
     table {
       width: 100%;
-      border-collapse: collapse;
+      border-collapse: separate;
+      border-spacing: 0;
       margin-bottom: 2rem;
       font-size: 0.9rem;
       table-layout: auto;
+      border-radius: 8px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+      background-color: #fff;
+      overflow: hidden;
     }
 
     th, td {
-      border: 1px solid #bdbdbd;
-      padding: 0.45rem;
+      padding: 0.75rem 0.5rem;
       text-align: center;
       overflow: hidden;
       white-space: normal;
+      border-bottom: 1px solid #e9e9e9;
     }
 
     th {
-      background-color: #e6e6e6;
       font-weight: 600;
+      color: #fff;
+      border-bottom-width: 2px;
     }
 
-    .lead { background-color: #e9f7fe; }
-    .main { background-color: #fff0e6; }
-    .trail { background-color: #e9f6ec; }
+    #us-lead-table thead th { background-color: #467cf1; }
+    #us-main-table thead th { background-color: #5891ee; }
+    #us-trail-table thead th { background-color: #76a7e2; }
+    #drv-table thead th { background-color: #ef4444; }
+
+    tbody tr:hover {
+      background-color: #f9fafb;
+    }
+
+    tbody tr:last-child {
+      border-bottom: none;
+    }
+    tbody tr:last-child:hover {
+      background-color: transparent;
+    }
+    tbody tr:last-child td {
+      border-bottom: none;
+    }
 
     .add-row {
       cursor: pointer;
@@ -71,7 +92,7 @@
       color: #333;
       border: none;
       background: none;
-      padding: 0.6rem 0;
+      padding: 0.5rem 0;
     }
 
     .view-btn {
@@ -112,9 +133,42 @@
       padding: 0.3rem;
     }
 
+    #scenario-container {
+      margin-bottom: 1rem;
+      max-width: 360px;
+    }
+
+    #scenario-name-display {
+      font-size: 1.5rem;
+      font-weight: bold;
+      color: #333;
+      cursor: pointer;
+      padding: 5px;
+      border-radius: 4px;
+      transition: background-color 0.2s;
+    }
+
+    #scenario-name-display:hover {
+      background-color: #f0f0f0;
+    }
+
+    #scenario-name-display.placeholder {
+      color: #888;
+    }
+
+    #scenario-name-input {
+      font-size: 1.5rem;
+      font-weight: bold;
+      border: 1px solid #a0a0a0;
+      padding: 5px;
+      width: 100%;
+      box-sizing: border-box;
+      border-radius: 4px;
+    }
+
     td select, td input[type="text"] {
       width: 100%;
-      border: 1px solid #ccc;
+      border: 1px solid #d1d5db;
       background-color: white;
       padding: 0.2rem;
       border-radius: 3px;
@@ -125,6 +179,10 @@
     td select.fit-width {
         width: auto;
         min-width: 80px;
+    }
+
+    .hidden {
+      display: none;
     }
 
     .modal {
@@ -232,6 +290,11 @@
   <div id="us-content" style="display: none;">
     <h2>미군 비행대 생성기</h2>
 
+    <div id="scenario-container">
+      <h3 id="scenario-name-display" data-placeholder="시나리오 명을 입력하세요"></h3>
+      <input type="text" id="scenario-name-input" class="hidden" />
+    </div>
+
     <div class="input-box">
       <label>날짜</label><input type="text" id="us-date" placeholder="YYYY-MM-DD" />
       <label>표적</label><input type="text" id="us-target" placeholder="목표 지점" />
@@ -304,6 +367,10 @@
       const usContent = document.getElementById('us-content');
       const drvContent = document.getElementById('drv-content');
       const rowTemplates = {};
+      const scenarioContainer = document.getElementById('scenario-container');
+      const scenarioDisplay = document.getElementById('scenario-name-display');
+      const scenarioInput = document.getElementById('scenario-name-input');
+
       const rowTemplateHTML = {
         'us-lead-table': `<td><select class="fit-width"><option>타격</option><option>아이언 핸드</option><option>채프</option><option>재밍</option><option>CSAR</option><option>정찰</option><option>MiGCAP</option></select></td><td><select class="fit-width"><option>폭격</option><option>SEAD</option><option>CAP</option><option>무장 호위</option><option>구조 지원</option><option>정찰</option><option>재밍</option><option>채프 살포</option><option>타격</option></select></td><td><input type="text" value=""></td><td><select><option>A-1H Skyraider [US]</option><option>A-4C Skyhawk [US]</option><option>A-4E_F Skyhawk [US]</option><option>A-6A Intruder [US]</option><option>A-6B Intruder [US]</option><option>A-6C Intruder [US]</option><option>A-7A_B Corsair 2 [US]</option><option>A-7C_E Corsair 2 [US]</option><option>A-7D Corsair 2 [US]</option><option>B-52D Stratofortress [US]</option><option>B-52G Stratofortress [US]</option><option>Canberra MK.20 [AUS]</option><option>EA-1F Electric SPAD [US]</option><option>EA-6A Intruder [US]</option><option>EA-6B Prowler [US]</option><option>EB-66B [US]</option><option>EB-66E [US]</option><option>EF-10B Skynight [US]</option><option>EKA-3B Skywarrior [US]</option><option>F-100D Super Sabre [US]</option><option>F-100F Wild Weasel 1 [US]</option><option>F-104C Starfighter [US]</option><option>F-105F ThunderChief(2) [US]</option><option>F-105F Thunderchief [US]</option><option>F-105F Wild Weasel 3 [US]</option><option>F-105G Wild Weasel [US]</option><option>F-105G Wild Weasel(2) [US]</option><option>F-111A Aardvark [US]</option><option>F-14A Tomcat [US]</option><option>F-4B Phantom 2 [US]</option><option>F-4C Wild Weasel 4 [US]</option><option>F-4D Phantom 2 [US]</option><option>F-4E Phantom 2 [US]</option><option>F-4J Phantom 2 [US]</option><option>F-4N Phantom 2 [US]</option><option>F-8C_D Crusader [US]</option><option>F-8E_H_J Crusader [US]</option><option>Mirage IIIO(F) [AUS]</option><option>RA-5C Vigilante [US]</option><option>RF-4B Phantom 2 [US]</option><option>RF-8A_G Crusader [US]</option><option>RF1-1C Voodoo [US]</option></select></td><td><select><option>신병</option><option>훈련됨</option><option>정규군</option><option>베테랑</option><option>탑건</option></select></td><td>0</td><td><div class="status-grid"><div class="status-item" data-status="1"><div class="status-header"><label>#1</label></div><select><option selected></option><option>D</option><option>C</option><option>K</option></select></div><div class="status-item" data-status="2"><div class="status-header"><label>#2</label><button class="status-control-btn remove-status">X</button><button class="status-control-btn add-status" style="display: none;">+</button></div><select><option selected></option><option>D</option><option>C</option><option>K</option></select></div><div class="status-item" data-status="3"><div class="status-header"><label>#3</label><button class="status-control-btn remove-status">X</button><button class="status-control-btn add-status" style="display: none;">+</button></div><select><option selected></option><option>D</option><option>C</option><option>K</option></select></div><div class="status-item" data-status="4"><div class="status-header"><label>#4</label><button class="status-control-btn remove-status">X</button><button class="status-control-btn add-status" style="display: none;">+</button></div><select><option selected></option><option>D</option><option>C</option><option>K</option></select></div></div></td><td><input type="text" value=""></td><td><input type="text" value=""></td><td><input type="text" value=""></td><td><input type="text" value=""></td><td><input type="text" value=""></td><td><input type="text" value=""></td><td><button class="view-btn">보기</button></td><td></td>`,
         'us-main-table': `<td><select class="fit-width"><option>타격</option><option>아이언 핸드</option><option>채프</option><option>재밍</option><option>CSAR</option><option>정찰</option><option>MiGCAP</option></select></td><td><select class="fit-width"><option>폭격</option><option>SEAD</option><option>CAP</option><option>무장 호위</option><option>구조 지원</option><option>정찰</option><option>재밍</option><option>채프 살포</option><option>타격</option></select></td><td><input type="text" value=""></td><td><select><option>A-1H Skyraider [US]</option><option>A-4C Skyhawk [US]</option><option>A-4E_F Skyhawk [US]</option><option>A-6A Intruder [US]</option><option>A-6B Intruder [US]</option><option>A-6C Intruder [US]</option><option>A-7A_B Corsair 2 [US]</option><option>A-7C_E Corsair 2 [US]</option><option>A-7D Corsair 2 [US]</option><option>B-52D Stratofortress [US]</option><option>B-52G Stratofortress [US]</option><option>Canberra MK.20 [AUS]</option><option>EA-1F Electric SPAD [US]</option><option>EA-6A Intruder [US]</option><option>EA-6B Prowler [US]</option><option>EB-66B [US]</option><option>EB-66E [US]</option><option>EF-10B Skynight [US]</option><option>EKA-3B Skywarrior [US]</option><option>F-100D Super Sabre [US]</option><option>F-100F Wild Weasel 1 [US]</option><option>F-104C Starfighter [US]</option><option>F-105F ThunderChief(2) [US]</option><option>F-105F Thunderchief [US]</option><option>F-105F Wild Weasel 3 [US]</option><option>F-105G Wild Weasel [US]</option><option>F-105G Wild Weasel(2) [US]</option><option>F-111A Aardvark [US]</option><option>F-14A Tomcat [US]</option><option>F-4B Phantom 2 [US]</option><option>F-4C Wild Weasel 4 [US]</option><option>F-4D Phantom 2 [US]</option><option>F-4E Phantom 2 [US]</option><option>F-4J Phantom 2 [US]</option><option>F-4N Phantom 2 [US]</option><option>F-8C_D Crusader [US]</option><option>F-8E_H_J Crusader [US]</option><option>Mirage IIIO(F) [AUS]</option><option>RA-5C Vigilante [US]</option><option>RF-4B Phantom 2 [US]</option><option>RF-8A_G Crusader [US]</option><option>RF1-1C Voodoo [US]</option></select></td><td><select><option>신병</option><option>훈련됨</option><option>정규군</option><option>베테랑</option><option>탑건</option></select></td><td>0</td><td><div class="status-grid"><div class="status-item" data-status="1"><div class="status-header"><label>#1</label></div><select><option selected></option><option>D</option><option>C</option><option>K</option></select></div><div class="status-item" data-status="2"><div class="status-header"><label>#2</label><button class="status-control-btn remove-status">X</button><button class="status-control-btn add-status" style="display: none;">+</button></div><select><option selected></option><option>D</option><option>C</option><option>K</option></select></div><div class="status-item" data-status="3"><div class="status-header"><label>#3</label><button class="status-control-btn remove-status">X</button><button class="status-control-btn add-status" style="display: none;">+</button></div><select><option selected></option><option>D</option><option>C</option><option>K</option></select></div><div class="status-item" data-status="4"><div class="status-header"><label>#4</label><button class="status-control-btn remove-status">X</button><button class="status-control-btn add-status" style="display: none;">+</button></div><select><option selected></option><option>D</option><option>C</option><option>K</option></select></div></div></td><td><input type="text" value=""></td><td><input type="text" value=""></td><td><input type="text" value=""></td><td><input type="text" value=""></td><td><input type="text" value=""></td><td><input type="text" value=""></td><td><button class="view-btn">보기</button></td><td></td>`,
@@ -542,6 +609,38 @@
         activeModalButton = null;
       };
 
+      // 시나리오 이름 편집/저장 로직
+      function updateScenarioDisplay(text) {
+        const placeholder = scenarioDisplay.getAttribute('data-placeholder');
+        if (text) {
+          scenarioDisplay.textContent = text;
+          scenarioDisplay.classList.remove('placeholder');
+        } else {
+          scenarioDisplay.textContent = placeholder;
+          scenarioDisplay.classList.add('placeholder');
+        }
+      }
+
+      scenarioDisplay.addEventListener('click', () => {
+        scenarioDisplay.classList.add('hidden');
+        scenarioInput.classList.remove('hidden');
+        scenarioInput.value = scenarioDisplay.classList.contains('placeholder') ? '' : scenarioDisplay.textContent;
+        scenarioInput.focus();
+      });
+
+      scenarioInput.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter') {
+          scenarioInput.blur();
+        }
+      });
+
+      scenarioInput.addEventListener('blur', () => {
+        scenarioDisplay.classList.remove('hidden');
+        scenarioInput.classList.add('hidden');
+        updateScenarioDisplay(scenarioInput.value);
+        saveToLocalStorage();
+      });
+
       function initializeTemplates() {
         Object.keys(rowTemplateHTML).forEach(tableId => {
           const tempRow = document.createElement('tr');
@@ -553,6 +652,7 @@
       function saveToLocalStorage() {
         const data = {
           us: {
+            scenario: scenarioInput.value || '',
             date: document.getElementById('us-date')?.value || '',
             target: document.getElementById('us-target')?.value || '',
             lead: getTableData('us-lead-table'),
@@ -622,6 +722,7 @@
           console.log('Loaded data from localStorage:', data);
 
           if (data.us) {
+            updateScenarioDisplay(data.us.scenario || '');
             const usDateInput = document.getElementById('us-date');
             const usTargetInput = document.getElementById('us-target');
             if (usDateInput) usDateInput.value = data.us.date || '';
@@ -707,6 +808,7 @@
 
       // 초기 행에 리스너 추가
       document.querySelectorAll('table tbody tr:not(:last-child)').forEach(addRowListeners);
+
 
       // US 입력 박스 이벤트
       const usDateInput = document.getElementById('us-date');
