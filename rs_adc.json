@@ -1,0 +1,3006 @@
+{
+    "US": {
+        "aircraft": [
+            {
+                "name": "A-7D Corsair II",
+                "crew": 1,
+                "fuel": 8,
+                "bomb": 3,
+                "sight": "+3",
+                "rwr": "A",
+                "jam": "2n",
+                "performance": {
+                    "combat": {
+                        "clean": {
+                            "low": "2",
+                            "med": "3",
+                            "high": "3"
+                        },
+                        "laden": {
+                            "low": "2",
+                            "med": "2",
+                            "high": "2"
+                        }
+                    },
+                    "dash": {
+                        "clean": {
+                            "low": "3",
+                            "med": "4",
+                            "high": "4"
+                        },
+                        "laden": {
+                            "low": "3",
+                            "med": "3",
+                            "high": "3"
+                        }
+                    },
+                    "maneuver": {
+                        "clean": {
+                            "low": "5",
+                            "med": "4",
+                            "high": "3"
+                        },
+                        "laden": {
+                            "low": "2",
+                            "med": "2",
+                            "high": "2"
+                        }
+                    }
+                },
+                "ordnance": {
+                    "EOGM": 2,
+                    "LGB": 1
+                },
+                "capabilities": [
+                    "Night","Defensive Wheel","No Zoom","AT CBU","AP CBU"
+                ],
+                "air_to_air_depletion_number": {
+                    "AIM-9J": 6,
+                    "20mm Gun": 2
+                },
+                "notes": [
+                ]
+            },
+            {
+                "name": "A-10A Thunderbolt II",
+                "crew": 1,
+                "fuel": 11,
+                "bomb": 3,
+                "sight": "+1",
+                "rwr": "B",
+                "jam": "3d",
+                "performance": {
+                    "combat": {
+                        "clean": { "low": "2", "med": "2", "high": "2" },
+                        "laden": { "low": "2", "med": "2", "high": "2" }
+                    },
+                    "dash": {
+                        "clean": { "low": "3", "med": "3", "high": "3" },
+                        "laden": { "low": "2", "med": "2", "high": "2" }
+                    },
+                    "maneuver": {
+                        "clean": { "low": "5", "med": "5", "high": "4" },
+                        "laden": { "low": "3", "med": "3", "high": "2" }
+                    }
+                },
+                "ordnance": {
+                    "EOGM": 2,
+                    "LGB": 1
+                },
+                "capabilities": [
+                    "Defensive Wheel","No Zoom","AT CBU","AP CBU"
+                ],
+                "air_to_air_depletion_number": {
+                    "AIM-9L": 6,
+                    "30mm Gun": 2
+                },
+                "notes": [
+                    "AIM-9L:BVR"
+                ]
+            },
+            {
+                "name": "B-52G Stratofortress",
+                "crew": 6,
+                "fuel": "Unlimited",
+                "bomb": 20,
+                "sight": "+3",
+                "rwr": "B",
+                "jam": "5d",
+                "performance": {
+                    "combat": {
+                        "clean": { "low": "2", "med": "3", "high": "3" },
+                        "laden": { "low": "2", "med": "3", "high": "3" }
+                    },
+                    "dash": {
+                        "clean": { "low": "3", "med": "3", "high": "3" },
+                        "laden": { "low": "3", "med": "3", "high": "3" }
+                    },
+                    "maneuver": {
+                        "clean": { "low": "1", "med": "1", "high": "1" },
+                        "laden": { "low": "1", "med": "1", "high": "1" }
+                    }
+                },
+                "ordnance": {
+                    "SRAM": 4,
+                    "LGB": 1
+                },
+                "capabilities": [
+                    "Night", "TFR","Large","Poor SAM Defense","No Zoom"
+                ],
+                "air_to_air_depletion_number": {
+                    "Rear gun": 0
+                },
+                "notes": [
+                ]
+            },
+            {
+                "name": "C-141B Starlifter",
+                "crew": 4,
+                "fuel": "Unlimited",
+                "bomb": 0,
+                "sight": "",
+                "rwr": "",
+                "jam": "",
+                "performance": {
+                    "combat": {
+                        "clean": { "low": "2", "med": "3", "high": "3" },
+                        "laden": { "low": "-", "med": "-", "high": "-" }
+                    },
+                    "dash": {
+                        "clean": { "low": "-", "med": "-", "high": "-" },
+                        "laden": { "low": "-", "med": "-", "high": "-" }
+                    },
+                    "maneuver": {
+                        "clean": { "low": "1", "med": "1", "high": "1" },
+                        "laden": { "low": "-", "med": "-", "high": "-" }
+                    }
+                },
+                "ordnance": {
+                },
+                "capabilities": [
+                    "Night","Large","Poor SAM Defense","No Zoom"
+                ],
+                "air_to_air_depletion_number": {
+                },
+                "notes": [
+                ]
+            },
+            {
+                "name": "EC-130H Hercules",
+                "crew": 13,
+                "fuel": "Unlimited",
+                "bomb": 0,
+                "sight": "",
+                "rwr": "",
+                "jam": "",
+                "performance": {
+                    "combat": {
+                        "clean": { "low": "2", "med": "2", "high": "-" },
+                        "laden": { "low": "-", "med": "-", "high": "-" }
+                    },
+                    "dash": {
+                        "clean": { "low": "-", "med": "-", "high": "-" },
+                        "laden": { "low": "-", "med": "-", "high": "-" }
+                    },
+                    "maneuver": {
+                        "clean": { "low": "1", "med": "1", "high": "-" },
+                        "laden": { "low": "-", "med": "-", "high": "-" }
+                    }
+                },
+                "ordnance": {
+                },
+                "capabilities": [
+                    "Night","Large","Poor SAM Defense","No Zoom"
+                ],
+                "air_to_air_depletion_number": {
+                },
+                "notes": [
+                ]
+            },
+            {
+                "name": "EF-111A Raven",
+                "crew": 2,
+                "fuel": 15,
+                "bomb": 0,
+                "sight": "",
+                "rwr": "D",
+                "jam": "4d",
+                "performance": {
+                    "combat": {
+                        "clean": { "low": "3", "med": "4", "high": "5" },
+                        "laden": { "low": "-", "med": "-", "high": "-" }
+                    },
+                    "dash": {
+                        "clean": { "low": "5", "med": "6", "high": "7" },
+                        "laden": { "low": "-", "med": "-", "high": "-" }
+                    },
+                    "maneuver": {
+                        "clean": { "low": "4", "med": "5", "high": "5" },
+                        "laden": { "low": "-", "med": "-", "high": "-" }
+                    }
+                },
+                "ordnance": {
+                },
+                "capabilities": [
+                    "Night","TFR"
+                ],
+                "air_to_air_depletion_number": {
+                },
+                "notes": [
+                ]
+            },
+            {
+                "name": "F-4D Phantom II",
+                "crew": 2,
+                "fuel": 10,
+                "bomb": [
+                    3,
+                    2
+                ],
+                "sight": "+1",
+                "rwr": "A",
+                "jam": "2n",
+                "performance": {
+                    "combat": {
+                        "clean": { "low": "3", "med": "4", "high": "4" },
+                        "laden": { "low": "2", "med": "3", "high": "3" }
+                    },
+                    "dash": {
+                        "clean": { "low": "5", "med": "5", "high": "6" },
+                        "laden": { "low": "3", "med": "4", "high": "5" }
+                    },
+                    "maneuver": {
+                        "clean": { "low": "5", "med": "6", "high": "6" },
+                        "laden": { "low": "2", "med": "3", "high": "3" }
+                    }
+                },
+                "ordnance": {
+                    "EOGM": 1,
+                    "LGB": 1,
+                    "IR EOGB": 1
+                },
+                "capabilities": [
+                    "Night","Multirole"
+                ],
+                "air_to_air_depletion_number": {
+                    "AIM-9J": 3,
+                    "20mm Gun": 4,
+                    "AIM-7E-2": 3
+                },
+                "notes": [
+                    "IRM depletion number is 6 for Bombing/SEAD",
+                    "RHM depletion number is 6 for Bombing/SEAD",
+                    "Gun is only on D10=1~5",
+                    "Deep Strike: Bomb is 2",
+                    "AIM-7E-2: BVR"
+                ]
+            },
+            {
+                "name": "F-4E Phantom II",
+                "crew": 2,
+                "fuel": 10,
+                "bomb": [
+                    3,
+                    2
+                ],
+                "sight": "+1",
+                "rwr": "A",
+                "jam": "3d",
+                "performance": {
+                    "combat": {
+                        "clean": { "low": "4", "med": "4", "high": "5" },
+                        "laden": { "low": "3", "med": "3", "high": "3" }
+                    },
+                    "dash": {
+                        "clean": { "low": "5", "med": "6", "high": "7" },
+                        "laden": { "low": "4", "med": "4", "high": "5" }
+                    },
+                    "maneuver": {
+                        "clean": { "low": "6", "med": "6", "high": "6" },
+                        "laden": { "low": "2", "med": "3", "high": "3" }
+                    }
+                },
+                "ordnance": {
+                    "EOGM": 1,
+                    "LGB": 1,
+                    "IR EOGB": 1
+                },
+                "capabilities": [
+                    "Night","Multirole","AN/ASX-1"
+                ],
+                "air_to_air_depletion_number": {
+                    "AIM-9L": 3,
+                    "20mm Gun": 4,
+                    "AIM-7F": 3
+                },
+                "notes": [
+                    "IRM depletion number is 6 for Bombing/SEAD",
+                    "RHM depletion number is 6 for Bombing/SEAD",
+                    "Deep Strike: Bomb is 2",
+                    "AIM-7F:BVR",
+                    "AIM-9L:BVR"
+                ]
+            },
+            {
+                "name": "F-4G Wild Weasel 5",
+                "crew": 2,
+                "fuel": 10,
+                "bomb": 2,
+                "sight": "+1",
+                "rwr": "D",
+                "jam": "3d",
+                "performance": {
+                    "combat": {
+                        "clean": { "low": "4", "med": "4", "high": "5" },
+                        "laden": { "low": "3", "med": "3", "high": "3" }
+                    },
+                    "dash": {
+                        "clean": { "low": "5", "med": "6", "high": "7" },
+                        "laden": { "low": "4", "med": "4", "high": "5" }
+                    },
+                    "maneuver": {
+                        "clean": { "low": "6", "med": "6", "high": "6" },
+                        "laden": { "low": "2", "med": "3", "high": "3" }
+                    }
+                },
+                "ordnance": {
+                    "Shrike": 1,
+                    "HARM": 2,
+                    "IR EOGM": 1
+                },
+                "capabilities": [
+                    "Night","AP CBU","AT CBU"
+                ],
+                "air_to_air_depletion_number": {
+                    "AIM-7F": 3
+                },
+                "notes": [
+                    "HARM or Shrike",
+                    "If Shrike, can carry 1 bomb",
+                    "AIM-7F:BVR"
+                ]
+            },
+            {
+                "name": "F-15A Eagle",
+                "crew": 1,
+                "fuel": 10,
+                "bomb": "",
+                "sight": "",
+                "rwr": "B",
+                "jam": "3d",
+                "performance": {
+                    "combat": {
+                        "clean": { "low": "4", "med": "4", "high": "5" },
+                        "laden": { "low": "-", "med": "-", "high": "-" }
+                    },
+                    "dash": {
+                        "clean": { "low": "5", "med": "6", "high": "8" },
+                        "laden": { "low": "-", "med": "-", "high": "-" }
+                    },
+                    "maneuver": {
+                        "clean": { "low": "8", "med": "9", "high": "9" },
+                        "laden": { "low": "-", "med": "-", "high": "-" }
+                    }
+                },
+                "ordnance": {
+                },
+                "capabilities": [
+                    "Night","Auto BVR/2targets"
+                ],
+                "air_to_air_depletion_number": {
+                    "AIM-9M": 3,
+                    "AIM-9L": 3,
+                    "AIM-7F": 3,
+                    "AIM-7M": 3,
+                    "20mm Gun": 2
+                },
+                "notes": [
+                    "AIM-9M or AIM-9L",
+                    "D10 = 1~4: AIM-9L",
+                    "AIM-7F or AIM-7M",
+                    "D10 = 1~6: AIM-7F",
+                    "AIM-9L:BVR",
+                    "AIM-9M:BVR",
+                    "AIM-7F:BVR",
+                    "AIM-7M:BVR",
+                    "20mm gun attack value: 3"
+                ]
+            },
+            {
+                "name": "F-15C Eagle",
+                "crew": 1,
+                "fuel": 12,
+                "bomb": "",
+                "sight": "",
+                "rwr": "C",
+                "jam": "3d",
+                "performance": {
+                    "combat": {
+                        "clean": { "low": "4", "med": "4", "high": "4" },
+                        "laden": { "low": "-", "med": "-", "high": "-" }
+                    },
+                    "dash": {
+                        "clean": { "low": "5", "med": "6", "high": "7" },
+                        "laden": { "low": "-", "med": "-", "high": "-" }
+                    },
+                    "maneuver": {
+                        "clean": { "low": "6", "med": "7", "high": "7" },
+                        "laden": { "low": "-", "med": "-", "high": "-" }
+                    }
+                },
+                "ordnance": {
+                },
+                "capabilities": [
+                    "Night","Auto BVR/2targets","NCTR"
+                ],
+                "air_to_air_depletion_number": {
+                    "AIM-9M": 3,
+                    "AIM-7M": 3,
+                    "20mm Gun": 2
+                },
+                "notes": [
+                    "AIM-7M:BVR",
+                    "AIM-7M:BVR",
+                    "20mm gun attack value: 3"
+                ]
+            },
+            {
+                "name": "F-16A Falcon",
+                "crew": 1,
+                "fuel": 6,
+                "bomb": [
+                    3,
+                    2
+                ],
+                "sight": "+3",
+                "rwr": "B",
+                "jam": "3d",
+                "performance": {
+                    "combat": {
+                        "clean": { "low": "4", "med": "4", "high": "5" },
+                        "laden": { "low": "3", "med": "3", "high": "4" }
+                    },
+                    "dash": {
+                        "clean": { "low": "5", "med": "6", "high": "8" },
+                        "laden": { "low": "4", "med": "5", "high": "5" }
+                    },
+                    "maneuver": {
+                        "clean": { "low": "9", "med": "9", "high": "9" },
+                        "laden": { "low": "4", "med": "5", "high": "5" }
+                    }
+                },
+                "ordnance": {
+                    "IR EOGM": 1
+                },
+                "capabilities": [
+                    "Night Ltd","Multirole"
+                ],
+                "air_to_air_depletion_number": {
+                    "AIM-9L": 3,
+                    "20mm Gun": 3
+                },
+                "notes": [
+                    "Deep Strike: Bomb is 2",
+                    "20mm gun attack value: 3",
+                    "AIM-9L:BVR",
+                    "IRM depletion number is 6 for Bombing/SEAD"
+                ]
+            },
+            {
+                "name": "F-16C Falcon",
+                "crew": 1,
+                "fuel": 6,
+                "bomb": [
+                    3,
+                    2
+                ],
+                "sight": "+3",
+                "rwr": "C",
+                "jam": "3d",
+                "performance": {
+                    "combat": {
+                        "clean": { "low": "4", "med": "4", "high": "5" },
+                        "laden": { "low": "3", "med": "3", "high": "4" }
+                    },
+                    "dash": {
+                        "clean": { "low": "5", "med": "6", "high": "8" },
+                        "laden": { "low": "4", "med": "5", "high": "5" }
+                    },
+                    "maneuver": {
+                        "clean": { "low": "9", "med": "9", "high": "9" },
+                        "laden": { "low": "4", "med": "5", "high": "5" }
+                    }
+                },
+                "ordnance": {
+                    "IR EOGM": 1,
+                    "HARM": 1,
+                    "Shrike": 1
+                },
+                "capabilities": [
+                    "Night Ltd","Multirole","TFR","AP CBU","AT CBU"
+                ],
+                "air_to_air_depletion_number": {
+                    "AIM-9M": 3,
+                    "20mm Gun": 3
+                },
+                "notes": [
+                    "Deep Strike: Bomb is 2",
+                    "IRM depletion number is 6 for Bombing/SEAD",
+                    "HARM or Shrike",
+                    "AIM-9M:BVR",
+                    "If Shrike, can carry 1 bomb",
+                    "20mm gun attack value: 3"
+                ]
+            },
+            {
+                "name": "F-111D/E Aardvark",
+                "crew": 2,
+                "fuel": 15,
+                "bomb": [
+                    6,
+                    4
+                ],
+                "sight": "+3",
+                "rwr": "C",
+                "jam": "3d",
+                "performance": {
+                    "combat": {
+                        "clean": { "low": "3", "med": "4", "high": "5" },
+                        "laden": { "low": "3", "med": "3", "high": "3" }
+                    },
+                    "dash": {
+                        "clean": { "low": "5", "med": "6", "high": "7" },
+                        "laden": { "low": "4", "med": "4", "high": "5" }
+                    },
+                    "maneuver": {
+                        "clean": { "low": "4", "med": "5", "high": "5" },
+                        "laden": { "low": "2", "med": "3", "high": "3" }
+                    }
+                },
+                "ordnance": {
+                },
+                "capabilities": [
+                    "Night Ltd","Anti-runway","TFR","AP CBU","AT CBU"
+                ],
+                "air_to_air_depletion_number": {
+                    "AIM-9P": 8
+                },
+                "notes": [
+                    "Deep Strike: Bomb is 4"
+                ]
+            },
+            {
+                "name": "F-111F Aardvark",
+                "crew": 2,
+                "fuel": 15,
+                "bomb": [
+                    6,
+                    4
+                ],
+                "sight": "+4",
+                "rwr": "C",
+                "jam": "3d",
+                "performance": {
+                    "combat": {
+                        "clean": { "low": "4", "med": "4", "high": "5" },
+                        "laden": { "low": "3", "med": "3", "high": "3" }
+                    },
+                    "dash": {
+                        "clean": { "low": "5", "med": "6", "high": "8" },
+                        "laden": { "low": "4", "med": "5", "high": "5" }
+                    },
+                    "maneuver": {
+                        "clean": { "low": "4", "med": "5", "high": "5" },
+                        "laden": { "low": "2", "med": "3", "high": "3" }
+                    }
+                },
+                "ordnance": {
+                    "IR EOGB": 1,
+                    "LGB": 2
+                },
+                "capabilities": [
+                    "Night Ltd","FLIR","TFR","AP CBU","AT CBU"
+                ],
+                "air_to_air_depletion_number": {
+                    "AIM-9P": 8
+                },
+                "notes": [
+                    "Deep Strike: Bomb is 4"
+                ]
+            },
+            {
+                "name": "F-117A Nighthawk",
+                "crew": 1,
+                "fuel": 12,
+                "bomb": "",
+                "sight": "+4",
+                "rwr": "B",
+                "jam": "8d",
+                "performance": {
+                    "combat": {
+                        "clean": { "low": "3", "med": "3", "high": "3" },
+                        "laden": { "low": "-", "med": "-", "high": "-" }
+                    },
+                    "dash": {
+                        "clean": { "low": "4", "med": "4", "high": "4" },
+                        "laden": { "low": "-", "med": "-", "high": "-" }
+                    },
+                    "maneuver": {
+                        "clean": { "low": "3", "med": "3", "high": "3" },
+                        "laden": { "low": "-", "med": "-", "high": "-" }
+                    }
+                },
+                "ordnance": {
+                    "LGB": 2
+                },
+                "capabilities": [
+                    "Night Ltd","FLIR","No Zoom"
+                ],
+                "air_to_air_depletion_number": {
+                },
+                "notes": [
+                ]
+            },
+            {
+                "name": "RF-4C Phantom II",
+                "crew": 2,
+                "fuel": 12,
+                "bomb": "",
+                "sight": "",
+                "rwr": "B",
+                "jam": "3d",
+                "performance": {
+                    "combat": {
+                        "clean": { "low": "3", "med": "4", "high": "4" },
+                        "laden": { "low": "-", "med": "-", "high": "-" }
+                    },
+                    "dash": {
+                        "clean": { "low": "5", "med": "5", "high": "6" },
+                        "laden": { "low": "-", "med": "-", "high": "-" }
+                    },
+                    "maneuver": {
+                        "clean": { "low": "5", "med": "6", "high": "6" },
+                        "laden": { "low": "-", "med": "-", "high": "-" }
+                    }
+                },
+                "ordnance": {
+                },
+                "capabilities": [
+                    "Night","TFR","Recon SAR"
+                ],
+                "air_to_air_depletion_number": {
+                },
+                "notes": [
+                ]
+            }
+        ],
+        "air_to_air_weapons_attack_value": [
+            {
+                "name": "AIM-9J",
+                "class": "IRM",
+                "rating": 2
+            },
+            {
+                "name": "AIM-9L",
+                "class": "IRM",
+                "rating": 3,
+                "bvr": 0
+            },
+            {
+                "name": "AIM-7E-2",
+                "class": "RHM",
+                "rating": 2,
+                "bvr": 0
+            },
+            {
+                "name": "AIM-7F",
+                "class": "RHM",
+                "rating": 3,
+                "bvr": 1
+            },
+            {
+                "name": "AIM-7M",
+                "class": "RHM",
+                "rating": 3,
+                "bvr": 2
+            },
+            {
+                "name": "AIM-9M",
+                "class": "IRM",
+                "rating": 3,
+                "bvr": 1
+            },
+            {
+                "name": "AIM-9P",
+                "class": "IRM",
+                "rating": 2
+            },
+            {
+                "name": "20mm Gun",
+                "class": "Gun",
+                "rating": "2"
+            },
+            {
+                "name": "Rear Gun",
+                "class": "Gun",
+                "rating": "0"
+            },
+            {
+                "name": "30mm Gun",
+                "class": "Gun",
+                "rating": "3"
+            }
+        ]
+    },
+    "GER": {
+        "aircraft": [
+            {
+                "name": "Alpha Jet A",
+                "crew": 2,
+                "fuel": 4,
+                "bomb": 1,
+                "sight": "+1",
+                "rwr": "",
+                "jam": "",
+                "performance": {
+                    "combat": {
+                        "clean": { "low": "2", "med": "2", "high": "2" },
+                        "laden": { "low": "2", "med": "2", "high": "2" }
+                    },
+                    "dash": {
+                        "clean": { "low": "3", "med": "3", "high": "3" },
+                        "laden": { "low": "3", "med": "3", "high": "3" }
+                    },
+                    "maneuver": {
+                        "clean": { "low": "5", "med": "4", "high": "4" },
+                        "laden": { "low": "2", "med": "2", "high": "2" }
+                    }
+                },
+                "ordnance": {},
+                "capabilities": [
+                    "Defensive Wheel","No Zoom","AT CBU","Rocket Pod"
+                ],
+                "air_to_air_depletion_number": {
+                    "27mm Gun": 3
+                },
+                "notes": [
+                ]
+            },
+            {
+                "name": "F-4F Phantom II",
+                "crew": 2,
+                "fuel": 8,
+                "bomb": [
+                    3,
+                    2
+                ],
+                "sight": "+1",
+                "rwr": "B",
+                "jam": "3d",
+                "performance": {
+                    "combat": {
+                        "clean": { "low": "4", "med": "4", "high": "5" },
+                        "laden": { "low": "3", "med": "3", "high": "3" }
+                    },
+                    "dash": {
+                        "clean": { "low": "5", "med": "6", "high": "7" },
+                        "laden": { "low": "4", "med": "4", "high": "5" }
+                    },
+                    "maneuver": {
+                        "clean": { "low": "6", "med": "6", "high": "6" },
+                        "laden": { "low": "2", "med": "3", "high": "3" }
+                    }
+                },
+                "ordnance": {
+                    "EOGM": 1
+                },
+                "capabilities": [
+                    "Night","Multirole","AT CBU"
+                ],
+                "air_to_air_depletion_number": {
+                    "AIM-9L": 3,
+                    "20mm Gun": 3
+                },
+                "notes": [
+                    "IRM depletion number is 6 for Bombing/SEAD/Support",
+                    "Deep Strike: Bomb is 2",
+                    "AIM-9L:BVR"
+                ]
+            },
+            {
+                "name": "F-104G Starfighter",
+                "crew": 1,
+                "fuel": 5,
+                "bomb": 1,
+                "sight": "+1",
+                "rwr": "A",
+                "jam": "",
+                "performance": {
+                    "combat": {
+                        "clean": { "low": "4", "med": "4", "high": "5" },
+                        "laden": { "low": "3", "med": "4", "high": "4" }
+                    },
+                    "dash": {
+                        "clean": { "low": "5", "med": "6", "high": "8" },
+                        "laden": { "low": "4", "med": "5", "high": "5" }
+                    },
+                    "maneuver": {
+                        "clean": { "low": "4", "med": "5", "high": "6" },
+                        "laden": { "low": "2", "med": "3", "high": "3" }
+                    }
+                },
+                "ordnance": {
+                },
+                "capabilities": [
+                    "Night Ltd","Multirole","AT CBU", "Rocket Pod"
+                ],
+                "air_to_air_depletion_number": {
+                    "AIM-9F": 6,
+                    "20mm Gun": 3
+                },
+                "notes": [
+                    "No IRM on Bombing/SEAD/Support",
+                    "Deep Strike: Bomb is 2"
+                ]
+            },
+            {
+                "name": "HFB 320 Hansa Jet",
+                "crew": 5,
+                "fuel": "Unlimited",
+                "bomb": "",
+                "sight": "",
+                "rwr": "B",
+                "jam": "",
+                "performance": {
+                    "combat": {
+                        "clean": { "low": "2", "med": "2", "high": "3" },
+                        "laden": { "low": "-", "med": "-", "high": "-" }
+                    },
+                    "dash": {
+                        "clean": { "low": "-", "med": "-", "high": "-" },
+                        "laden": { "low": "-", "med": "-", "high": "-" }
+                    },
+                    "maneuver": {
+                        "clean": { "low": "1", "med": "1", "high": "2" },
+                        "laden": { "low": "-", "med": "-", "high": "-" }
+                    }
+                },
+                "ordnance": {},
+                "capabilities": [
+                    "Night","No Zoom"
+                ],
+                "air_to_air_depletion_number": {
+                },
+                "notes": [
+                ]
+            },
+            {
+                "name": "RF-4C Phantom II",
+                "crew": 2,
+                "fuel": 10,
+                "bomb": "",
+                "sight": "",
+                "rwr": "B",
+                "jam": "3d",
+                "performance": {
+                    "combat": {
+                        "clean": { "low": "4", "med": "4", "high": "5" },
+                        "laden": { "low": "-", "med": "-", "high": "-" }
+                    },
+                    "dash": {
+                        "clean": { "low": "5", "med": "6", "high": "7" },
+                        "laden": { "low": "-", "med": "-", "high": "-" }
+                    },
+                    "maneuver": {
+                        "clean": { "low": "6", "med": "6", "high": "6" },
+                        "laden": { "low": "-", "med": "-", "high": "-" }
+                    }
+                },
+                "ordnance": {
+                },
+                "capabilities": [
+                    "Night","Recon SAR"
+                ],
+                "air_to_air_depletion_number": {
+                },
+                "notes": [
+                ]
+            },
+            {
+                "name": "Tornado IDS",
+                "crew": 2,
+                "fuel": 9,
+                "bomb": [
+                    4,
+                    2
+                ],
+                "sight": "+4",
+                "rwr": "B",
+                "jam": "3d",
+                "performance": {
+                    "combat": {
+                        "clean": { "low": "4", "med": "4", "high": "5" },
+                        "laden": { "low": "3", "med": "3", "high": "3" }
+                    },
+                    "dash": {
+                        "clean": { "low": "5", "med": "6", "high": "7" },
+                        "laden": { "low": "4", "med": "4", "high": "5" }
+                    },
+                    "maneuver": {
+                        "clean": { "low": "4", "med": "5", "high": "6" },
+                        "laden": { "low": "3", "med": "3", "high": "3" }
+                    }
+                },
+                "ordnance": {
+                },
+                "capabilities": [
+                    "AT CBU","MW-1A","MW-1B"
+                ],
+                "air_to_air_depletion_number": {
+                    "AIM-9L": 3,
+                    "27mm Gun": 3
+                },
+                "notes": [
+                    "AIM-9L:BVR",
+                    "Deep Strike: Bomb is 2"
+                ]
+            }
+        ],
+        "air_to_air_weapons_attack_value": [
+            {
+                "name": "AIM-9L",
+                "class": "IRM",
+                "rating": 3,
+                "bvr": 0
+            },
+            {
+                "name": "AIM-9F",
+                "class": "IRM",
+                "rating": 1,
+                "bvr": 1
+            },
+            {
+                "name": "20mm Gun",
+                "class": "Gun",
+                "rating": 2
+            },
+            {
+                "name": "27mm Gun",
+                "class": "Gun",
+                "rating": 3
+            }
+        ]
+    },
+    "GBR": {
+        "aircraft": [
+            {
+                "name": "Buccaneer S.2B",
+                "crew": 2,
+                "fuel": 12,
+                "bomb": 2,
+                "sight": "+1",
+                "rwr": "B",
+                "jam": "2n",
+                "performance": {
+                    "combat": {
+                        "clean": { "low": "3", "med": "3", "high": "2" },
+                        "laden": { "low": "2", "med": "2", "high": "2" }
+                    },
+                    "dash": {
+                        "clean": { "low": "4", "med": "4", "high": "3" },
+                        "laden": { "low": "3", "med": "3", "high": "3" }
+                    },
+                    "maneuver": {
+                        "clean": { "low": "4", "med": "3", "high": "2" },
+                        "laden": { "low": "2", "med": "2", "high": "2" }
+                    }
+                },
+                "ordnance": {
+                    "EOGB": 1,
+                    "LGB": 1,
+                    "AS.37": 1
+                },
+                "capabilities": [
+                    "Night","No Zoom", "TFR","Laser designator","AT CBU"
+                ],
+                "air_to_air_depletion_number": {
+                    "AIM-9L": 3
+                },
+                "notes": [
+                    "Use Clean rating when regular bombs",
+                    "AIM-9L:BVR"
+                ]
+            },
+            {
+                "name": "Falcon 20F",
+                "crew": 5,
+                "fuel": "Unlimited",
+                "bomb": "",
+                "sight": "",
+                "rwr": "C",
+                "jam": "",
+                "performance": {
+                    "combat": {
+                        "clean": { "low": "2", "med": "2", "high": "3" },
+                        "laden": { "low": "-", "med": "-", "high": "-" }
+                    },
+                    "dash": {
+                        "clean": { "low": "-", "med": "-", "high": "-" },
+                        "laden": { "low": "-", "med": "-", "high": "-" }
+                    },
+                    "maneuver": {
+                        "clean": { "low": "1", "med": "1", "high": "1" },
+                        "laden": { "low": "-", "med": "-", "high": "-" }
+                    }
+                },
+                "ordnance": {
+                },
+                "capabilities": [
+                    "Night","No Zoom"
+                ],
+                "air_to_air_depletion_number": {
+                },
+                "notes": [
+                ]
+            },
+            {
+                "name": "Harrier GR.3",
+                "crew": 1,
+                "fuel": 5,
+                "bomb": 1.5,
+                "sight": "+1",
+                "rwr": "A",
+                "jam": "",
+                "performance": {
+                    "combat": {
+                        "clean": { "low": "3", "med": "3", "high": "2" },
+                        "laden": { "low": "2", "med": "2", "high": "2" }
+                    },
+                    "dash": {
+                        "clean": { "low": "4", "med": "4", "high": "3" },
+                        "laden": { "low": "3", "med": "3", "high": "3" }
+                    },
+                    "maneuver": {
+                        "clean": { "low": "6", "med": "5", "high": "4" },
+                        "laden": { "low": "3", "med": "3", "high": "2" }
+                    }
+                },
+                "ordnance": {
+                    "LGB": 1
+                },
+                "capabilities": [
+                    "Max Turn = Free turns","Defensive Wheel","AT CBU", "Rocket Pod"
+                ],
+                "air_to_air_depletion_number": {
+                    "AIM-9G": 6,
+                    "30mm Gun": 4
+                },
+                "notes": [
+                    "No IRM on Bombing/SEAD/Support",
+                    "LGB: Need Laser designator flight"
+                ]
+            },
+            {
+                "name": "Jaguar GR.1A",
+                "crew": 1,
+                "fuel": 7,
+                "bomb": 2,
+                "sight": "+2+",
+                "rwr": "A",
+                "jam": "2n",
+                "performance": {
+                    "combat": {
+                        "clean": { "low": "3", "med": "4", "high": "4" },
+                        "laden": { "low": "2", "med": "3", "high": "3" }
+                    },
+                    "dash": {
+                        "clean": { "low": "5", "med": "5", "high": "6" },
+                        "laden": { "low": "3", "med": "4", "high": "4" }
+                    },
+                    "maneuver": {
+                        "clean": { "low": "6", "med": "5", "high": "4" },
+                        "laden": { "low": "3", "med": "3", "high": "2" }
+                    }
+                },
+                "ordnance": {
+                    "LGB": 1
+                },
+                "capabilities": [
+                    "Night Ltd","Recon","AT CBU","Rocket Pod"
+                ],
+                "air_to_air_depletion_number": {
+                        "AIM-9G": 8,
+                        "30mm Gun": 4
+                },
+                "notes": [
+                    "May toss bomb without radar",
+                    "LGB: Need Laser designator flight",
+                    "No IRM on Recon"
+                ]
+            },
+            {
+                "name": "Phantom FGR.2",
+                "crew": 2,
+                "fuel": 10,
+                "bomb": "",
+                "sight": "",
+                "rwr": "B",
+                "jam": "",
+                "performance": {
+                    "combat": {
+                        "clean": { "low": "4", "med": "4", "high": "5" },
+                        "laden": { "low": "-", "med": "-", "high": "-" }
+                    },
+                    "dash": {
+                        "clean": { "low": "5", "med": "6", "high": "7" },
+                        "laden": { "low": "-", "med": "-", "high": "-" }
+                    },
+                    "maneuver": {
+                        "clean": { "low": "5", "med": "6", "high": "6" },
+                        "laden": { "low": "-", "med": "-", "high": "-" }
+                    }
+                },
+                "ordnance": {
+                },
+                "capabilities": [
+                    "Night"
+                ],
+                "air_to_air_depletion_number": {
+                    "AIM-9L": 3,
+                    "20mm Gun": 4,
+                    "Skyflash": 3
+                },
+                "notes": [
+                    "AIM-9L:BVR",
+                    "Skyflash:BVR"
+                ]
+            },
+            {
+                "name": "Tornado F.2A",
+                "crew": 2,
+                "fuel": 10,
+                "bomb": "",
+                "sight": "",
+                "rwr": "C",
+                "jam": "",
+                "performance": {
+                    "combat": {
+                        "clean": { "low": "4", "med": "4", "high": "5" },
+                        "laden": { "low": "-", "med": "-", "high": "-" }
+                    },
+                    "dash": {
+                        "clean": { "low": "5", "med": "6", "high": "8" },
+                        "laden": { "low": "-", "med": "-", "high": "-" }
+                    },
+                    "maneuver": {
+                        "clean": { "low": "4", "med": "5", "high": "6" },
+                        "laden": { "low": "-", "med": "-", "high": "-" }
+                    }
+                },
+                "ordnance": {
+                },
+                "capabilities": [
+                    "Night"
+                ],
+                "air_to_air_depletion_number": {
+                    "AIM-9L": 6,
+                    "27mm Gun": 4,
+                    "Skyflash": 3
+                },
+                "notes": [
+                    "AIM-9L:BVR",
+                    "Skyflash:BVR"
+                ]
+            },
+            {
+                "name": "Tornado GR.1",
+                "crew": 2,
+                "fuel": 11,
+                "bomb": [
+                    4,
+                    2
+                ],
+                "sight": "+4",
+                "rwr": "C",
+                "jam": "3d",
+                "performance": {
+                    "combat": {
+                        "clean": { "low": "4", "med": "4", "high": "5" },
+                        "laden": { "low": "3", "med": "3", "high": "3" }
+                    },
+                    "dash": {
+                        "clean": { "low": "5", "med": "6", "high": "7" },
+                        "laden": { "low": "4", "med": "4", "high": "5" }
+                    },
+                    "maneuver": {
+                        "clean": { "low": "4", "med": "5", "high": "6" },
+                        "laden": { "low": "2", "med": "3", "high": "3" }
+                    }
+                },
+                "ordnance": {
+                },
+                "capabilities": [
+                    "Night","TFR","AT CBU","JP233"
+                ],
+                "air_to_air_depletion_number": {
+                    "AIM-9L": 6,
+                    "27mm Gun": 4,
+                    "Skyflash": 3
+                },
+                "notes": [
+                    "AIM-9L:BVR",
+                    "Deep Strike: Bomb is 2"
+                ]
+            },
+            {
+                "name": "Tornado GR.1A",
+                "crew": 2,
+                "fuel": 14,
+                "bomb": "",
+                "sight": "+4",
+                "rwr": "C",
+                "jam": "3d",
+                "performance": {
+                    "combat": {
+                        "clean": { "low": "4", "med": "4", "high": "5" },
+                        "laden": { "low": "3", "med": "3", "high": "3" }
+                    },
+                    "dash": {
+                        "clean": { "low": "5", "med": "6", "high": "7" },
+                        "laden": { "low": "4", "med": "4", "high": "5" }
+                    },
+                    "maneuver": {
+                        "clean": { "low": "4", "med": "5", "high": "6" },
+                        "laden": { "low": "3", "med": "3", "high": "3" }
+                    }
+                },
+                "ordnance": {
+                },
+                "capabilities": [
+                    "Night","TFR","Recon"
+                ],
+                "air_to_air_depletion_number": {
+                    "AIM-9L": 6
+                },
+                "notes": [
+                    "AIM-9L:BVR"
+                ]
+            }
+        ],
+        "air_to_air_weapons_attack_value": [
+            {
+                "name": "AIM-9L",
+                "class": "IRM",
+                "rating": 3,
+                "bvr": 0
+            },
+            {
+                "name": "AIM-9G",
+                "class": "IRM",
+                "rating": 1,
+                "bvr": 1
+            },
+            {
+                "name": "Skyflash",
+                "class": "RHM",
+                "rating": 3,
+                "bvr": 2
+            },
+            {
+                "name": "20mm Gun",
+                "class": "Gun",
+                "rating": 2
+            },
+            {
+                "name": "27mm Gun",
+                "class": "Gun",
+                "rating": 3
+            },
+            {
+                "name": "30mm Gun",
+                "class": "Gun",
+                "rating": 3
+            }
+        ]
+    },
+    "CAN": {
+        "aircraft": [
+            {
+                "name": "CF-5A Freedom Fighter",
+                "crew": 1,
+                "fuel": 4,
+                "bomb": 1,
+                "sight": "+0",
+                "rwr": "",
+                "jam": "",
+                "performance": {
+                    "combat": {
+                        "clean": { "low": "3", "med": "3", "high": "4" },
+                        "laden": { "low": "2", "med": "2", "high": "3" }
+                    },
+                    "dash": {
+                        "clean": { "low": "4", "med": "5", "high": "5" },
+                        "laden": { "low": "3", "med": "3", "high": "4" }
+                    },
+                    "maneuver": {
+                        "clean": { "low": "5", "med": "6", "high": "7" },
+                        "laden": { "low": "2", "med": "3", "high": "3" }
+                    }
+                },
+                "ordnance": {
+                },
+                "capabilities": [
+                    "Rocket Pod", "AT CBU"
+                ],
+                "air_to_air_depletion_number": {
+                    "AIM-9L": 3,
+                    "20mm Gun": 4
+                },
+                "notes": [
+                    "No IRM on Bombing",
+                    "AIM-9L:BVR"
+                ]
+            },
+            {
+                "name": "CF-18A Hornet",
+                "crew": 1,
+                "fuel": 6,
+                "bomb": [
+                    4,
+                    2
+                ],
+                "sight": "+3",
+                "rwr": "B",
+                "jam": "3d",
+                "performance": {
+                    "combat": {
+                        "clean": { "low": "4", "med": "4", "high": "5" },
+                        "laden": { "low": "3", "med": "3", "high": "4" }
+                    },
+                    "dash": {
+                        "clean": { "low": "5", "med": "6", "high": "7" },
+                        "laden": { "low": "4", "med": "5", "high": "5" }
+                    },
+                    "maneuver": {
+                        "clean": { "low": "7", "med": "7", "high": "8" },
+                        "laden": { "low": "4", "med": "5", "high": "5" }
+                    }
+                },
+                "ordnance": {
+                },
+                "capabilities": [
+                    "Night","Multirole","AT CBU", "Rocket Pod"
+                ],
+                "air_to_air_depletion_number": {
+                    "AIM-9L": 3,
+                    "20mm Gun": 3,
+                    "AIM-7M": 6
+                },
+                "notes": [
+                    "AIM-7M:BVR",
+                    "AIM-9L:BVR",
+                    "IRM depletion number is 6 for Bombing/SEAD",
+                    "Deep Strike: Bomb is 2"
+                ]
+            }
+        ],
+        "air_to_air_weapons_attack_value": [
+            {
+                "name": "AIM-9L",
+                "class": "IRM",
+                "rating": 3,
+                "bvr": 0
+            },
+            {
+                "name": "AIM-7M",
+                "class": "RHM",
+                "rating": 3,
+                "bvr": 0
+            },
+            {
+                "name": "20mm Gun",
+                "class": "Gun",
+                "rating": 2
+            }
+        ]
+    },
+    "BEL": {
+        "aircraft": [
+            {
+                "name": "F-16A Falcon",
+                "crew": 1,
+                "fuel": 6,
+                "bomb": 3,
+                "sight": "+3",
+                "rwr": "B",
+                "jam": "",
+                "performance": {
+                    "combat": {
+                        "clean": { "low": "4", "med": "4", "high": "5" },
+                        "laden": { "low": "3", "med": "3", "high": "4" }
+                    },
+                    "dash": {
+                        "clean": { "low": "5", "med": "6", "high": "8" },
+                        "laden": { "low": "4", "med": "5", "high": "5" }
+                    },
+                    "maneuver": {
+                        "clean": { "low": "9", "med": "9", "high": "9" },
+                        "laden": { "low": "4", "med": "5", "high": "5" }
+                    }
+                },
+                "ordnance": {
+                },
+                "capabilities": [
+                    "Night Ltd","Multirole","Recon","AT CBU", "AP CBU"
+                ],
+                "air_to_air_depletion_number": {
+                    "AIM-9L": 3,
+                    "20mm Gun": 3
+                },
+                "notes": [
+                    "IRM depletion number is 6 for Bombing/SEAD",
+                    "AIM-9L:BVR"
+                ]
+            },
+            {
+                "name": "Mirage 5BA",
+                "crew": 1,
+                "fuel": 6,
+                "bomb": 2,
+                "sight": "+1",
+                "rwr": "C",
+                "jam": "3d",
+                "performance": {
+                    "combat": {
+                        "clean": { "low": "3", "med": "4", "high": "5" },
+                        "laden": { "low": "3", "med": "3", "high": "4" }
+                    },
+                    "dash": {
+                        "clean": { "low": "5", "med": "6", "high": "7" },
+                        "laden": { "low": "4", "med": "5", "high": "5" }
+                    },
+                    "maneuver": {
+                        "clean": { "low": "5", "med": "6", "high": "6" },
+                        "laden": { "low": "2", "med": "3", "high": "3" }
+                    }
+                },
+                "ordnance": {
+                },
+                "capabilities": [
+                    "Night Ltd", "AT CBU", "Rocket Pod"
+                ],
+                "air_to_air_depletion_number": {
+                    "AIM-9F": 6,
+                    "30mm Gun": 4
+                },
+                "notes": [
+                ]
+            },
+            {
+                "name": "Mirage 5BR",
+                "crew": 1,
+                "fuel": 6,
+                "bomb": 2,
+                "sight": "+1",
+                "rwr": "C",
+                "jam": "3d",
+                "performance": {
+                    "combat": {
+                        "clean": { "low": "3", "med": "4", "high": "5" },
+                        "laden": { "low": "-", "med": "-", "high": "-" }
+                    },
+                    "dash": {
+                        "clean": { "low": "5", "med": "6", "high": "7" },
+                        "laden": { "low": "-", "med": "-", "high": "-" }
+                    },
+                    "maneuver": {
+                        "clean": { "low": "5", "med": "6", "high": "6" },
+                        "laden": { "low": "-", "med": "-", "high": "-" }
+                    }
+                },
+                "ordnance": {
+                },
+                "capabilities": [
+                    "Night", "Recon"
+                ],
+                "air_to_air_depletion_number": {
+                    "30mm Gun": 4
+                },
+                "notes": [
+                ]
+            }
+        ],
+        "air_to_air_weapons_attack_value": [
+            {
+                "name": "AIM-9L",
+                "class": "IRM",
+                "rating": 3,
+                "bvr": 0
+            },
+            {
+                "name": "AIM-9F",
+                "class": "IRM",
+                "rating": 1,
+                "bvr": 0
+            },
+            {
+                "name": "30mm Gun",
+                "class": "Gun",
+                "rating": 3
+            },
+            {
+                "name": "20mm Gun",
+                "class": "Gun",
+                "rating": 3
+            }
+        ]
+    },
+    "NET": {
+        "aircraft": [
+            {
+                "name": "F-16A Falcon",
+                "crew": 1,
+                "fuel": 6,
+                "bomb": 3,
+                "sight": "+3",
+                "rwr": "B",
+                "jam": "",
+                "performance": {
+                    "combat": {
+                        "clean": { "low": "4", "med": "4", "high": "5" },
+                        "laden": { "low": "3", "med": "3", "high": "4" }
+                    },
+                    "dash": {
+                        "clean": { "low": "5", "med": "6", "high": "8" },
+                        "laden": { "low": "4", "med": "5", "high": "5" }
+                    },
+                    "maneuver": {
+                        "clean": { "low": "9", "med": "9", "high": "9" },
+                        "laden": { "low": "4", "med": "5", "high": "5" }
+                    }
+                },
+                "ordnance": {
+                },
+                "capabilities": [
+                    "Night Ltd","Multirole","Recon","AT CBU", "AP CBU"
+                ],
+                "air_to_air_depletion_number": {
+                    "AIM-9L": 3,
+                    "20mm Gun": 3
+                },
+                "notes": [
+                    "IRM depletion number is 6 for Bombing/SEAD",
+                    "AIM-9L:BVR"
+                ]
+            },
+            {
+                "name": "NF-5A Freedom Fighter",
+                "crew": 1,
+                "fuel": 4,
+                "bomb": 1,
+                "sight": "+0",
+                "rwr": "B",
+                "jam": "",
+                "performance": {
+                    "combat": {
+                        "clean": { "low": "3", "med": "3", "high": "4" },
+                        "laden": { "low": "2", "med": "2", "high": "3" }
+                    },
+                    "dash": {
+                        "clean": { "low": "4", "med": "5", "high": "5" },
+                        "laden": { "low": "3", "med": "3", "high": "4" }
+                    },
+                    "maneuver": {
+                        "clean": { "low": "5", "med": "6", "high": "7" },
+                        "laden": { "low": "2", "med": "3", "high": "3" }
+                    }
+                },
+                "ordnance": {
+                },
+                "capabilities": [
+                    "AT CBU"
+                ],
+                "air_to_air_depletion_number": {
+                    "AIM-9L": 3,
+                    "20mm Gun": 4
+                },
+                "notes": [
+                    "No IRM on Bombing",
+                    "AIM-9L:BVR"
+                ]
+            }
+        ],
+        "air_to_air_weapons_attack_value": [
+            {
+                "name": "AIM-9L",
+                "class": "IRM",
+                "rating": 3,
+                "bvr": 0
+            },
+            {
+                "name": "20mm Gun",
+                "class": "Gun",
+                "rating": 2
+            }
+        ]
+    },
+    "WP": {
+        "aircraft": [
+            {
+                "name": "AN-12PP Cub C",
+                "crew": 12,
+                "fuel": "Unlimited",
+                "bomb": "-",
+                "sight": "-",
+                "rwr": "C",
+                "jam": "2n",
+                "performance": {
+                    "combat": {
+                        "clean": { "low": "2", "med": "2", "high": "2" },
+                        "laden": { "low": "-", "med": "-", "high": "-" }
+                    },
+                    "dash": {
+                        "clean": { "low": "-", "med": "-", "high": "-" },
+                        "laden": { "low": "-", "med": "-", "high": "-" }
+                    },
+                    "maneuver": {
+                        "clean": { "low": "1", "med": "1", "high": "1" },
+                        "laden": { "low": "-", "med": "-", "high": "-" }
+                    }
+                },
+                "ordnance": {},
+                "capabilities": [
+                    "Night","No Zoom","Large","Poor SAM Defense"
+                ],
+                "air_to_air_depletion_number": {
+                    "Rear gun": 2
+                },
+                "notes": [
+                ]
+            },
+            {
+                "name": "IL-76MD Candid",
+                "crew": 4,
+                "fuel": "Unlimited",
+                "bomb": "-",
+                "sight": "-",
+                "rwr": "B",
+                "jam": "",
+                "performance": {
+                    "combat": {
+                        "clean": { "low": "2", "med": "3", "high": "3" },
+                        "laden": { "low": "-", "med": "-", "high": "-" }
+                    },
+                    "dash": {
+                        "clean": { "low": "-", "med": "-", "high": "-" },
+                        "laden": { "low": "-", "med": "-", "high": "-" }
+                    },
+                    "maneuver": {
+                        "clean": { "low": "1", "med": "1", "high": "1" },
+                        "laden": { "low": "-", "med": "-", "high": "-" }
+                    }
+                },
+                "ordnance": {},
+                "capabilities": [
+                    "Night","No Zoom","Large","Poor SAM Defense"
+                ],
+                "air_to_air_depletion_number": {
+                    "Rear gun": 2
+                },
+                "notes": [
+                ]
+            },
+            {
+                "name": "MiG-21BIS Fishbed N",
+                "crew": 1,
+                "fuel": 6,
+                "bomb": "1",
+                "sight": "+0",
+                "rwr": "A",
+                "jam": "2n",
+                "performance": {
+                    "combat": {
+                        "clean": { "low": "3", "med": "4", "high": "5" },
+                        "laden": { "low": "3", "med": "3", "high": "3" }
+                    },
+                    "dash": {
+                        "clean": { "low": "4", "med": "5", "high": "7" },
+                        "laden": { "low": "4", "med": "4", "high": "4" }
+                    },
+                    "maneuver": {
+                        "clean": { "low": "5", "med": "6", "high": "7" },
+                        "laden": { "low": "2", "med": "4", "high": "3" }
+                    }
+                },
+                "ordnance": {},
+                "capabilities": [
+                    "Night Ltd", "Multirole","AT CBU", "Rocket Pod", "Chaff"
+                ],
+                "air_to_air_depletion_number": {
+                    "R-60": 3,
+                    "23mm gun": 4,
+                    "R-3r": 6
+                },
+                "notes": [
+                    "No IRM on Bombing/SEAD/Support/Chaff",
+                    "No RHM on Bombing/SEAD/Support/Chaff",
+                    "Jam only on Bombing/SEAD",
+                    "R-23:BVR"
+                ]
+            },
+            {
+                "name": "MiG-21R Fishbed H",
+                "crew": 1,
+                "fuel": 9,
+                "bomb": "1",
+                "sight": "+0",
+                "rwr": "A",
+                "jam": "2n",
+                "performance": {
+                    "combat": {
+                        "clean": { "low": "3", "med": "4", "high": "5" },
+                        "laden": { "low": "-", "med": "-", "high": "-" }
+                    },
+                    "dash": {
+                        "clean": { "low": "4", "med": "5", "high": "7" },
+                        "laden": { "low": "-", "med": "-", "high": "-" }
+                    },
+                    "maneuver": {
+                        "clean": { "low": "5", "med": "6", "high": "7" },
+                        "laden": { "low": "-", "med": "-", "high": "-" }
+                    }
+                },
+                "ordnance": {},
+                "capabilities": [
+                    "Night","Recon"
+                ],
+                "air_to_air_depletion_number": {
+                },
+                "notes": [
+                ]
+            },
+            {
+                "name": "MiG-23M Flogger B",
+                "crew": 1,
+                "fuel": 7,
+                "bomb": [
+                    2,
+                    1
+                ],
+                "sight": "+0",
+                "rwr": "A",
+                "jam": "",
+                "performance": {
+                    "combat": {
+                        "clean": { "low": "4", "med": "4", "high": "5" },
+                        "laden": { "low": "3", "med": "3", "high": "4" }
+                    },
+                    "dash": {
+                        "clean": { "low": "5", "med": "6", "high": "8" },
+                        "laden": { "low": "4", "med": "5", "high": "5" }
+                    },
+                    "maneuver": {
+                        "clean": { "low": "4", "med": "5", "high": "5" },
+                        "laden": { "low": "2", "med": "2", "high": "3" }
+                    }
+                },
+                "ordnance": {
+                    "Chaff": 1
+                },
+                "capabilities": [
+                    "Night Ltd", "Multirole","AT CBU", "Rocket Pod", "AP CBU","Anti-runway","IRST"
+                ],
+                "air_to_air_depletion_number": {
+                    "R-60": 6,
+                    "23mm gun": 4,
+                    "R-23": 6
+                },
+                "notes": [
+                    "No IRM on Bombing/SEAD/Support/Chaff",
+                    "No RHM on Bombing/SEAD/Support/Chaff",
+                    "Deep Strike: Bomb is 1",
+                    "R-23:BVR"
+                ]
+            },
+            {
+                "name": "MiG-23MLA Flogger G",
+                "crew": 1,
+                "fuel": 7,
+                "bomb": [
+                    2,
+                    1
+                ],
+                "sight": "+0",
+                "rwr": "A",
+                "jam": "",
+                "performance": {
+                    "combat": {
+                        "clean": { "low": "4", "med": "4", "high": "5" },
+                        "laden": { "low": "3", "med": "3", "high": "4" }
+                    },
+                    "dash": {
+                        "clean": { "low": "5", "med": "6", "high": "8" },
+                        "laden": { "low": "4", "med": "5", "high": "5" }
+                    },
+                    "maneuver": {
+                        "clean": { "low": "4", "med": "5", "high": "6" },
+                        "laden": { "low": "2", "med": "3", "high": "3" }
+                    }
+                },
+                "ordnance": {
+                    "EOGM": 1
+                },
+                "capabilities": [
+                    "Night Ltd", "Multirole","AT CBU", "Rocket Pod", "AP CBU","Anti-runway","IRST"
+                ],
+                "air_to_air_depletion_number": {
+                    "R-60": 3,
+                    "23mm gun": 4,
+                    "R-24": 6,
+                    "R-60M": 3
+                },
+                "notes": [
+                    "No IRM on Bombing/SEAD/Support/Chaff",
+                    "No RHM on Bombing/SEAD/Support/Chaff",
+                    "Deep Strike: Bomb is 1",
+                    "R-24:BVR",
+                    "On D10=5~10, Use R-60M instead of R-60"
+                ]
+            },
+            {
+                "name": "MiG-23MLD Flogger K",
+                "crew": 1,
+                "fuel": 7,
+                "bomb": [
+                    2,
+                    1
+                ],
+                "sight": "+0",
+                "rwr": "B",
+                "jam": "2n",
+                "performance": {
+                    "combat": {
+                        "clean": { "low": "4", "med": "4", "high": "5" },
+                        "laden": { "low": "3", "med": "3", "high": "4" }
+                    },
+                    "dash": {
+                        "clean": { "low": "5", "med": "6", "high": "8" },
+                        "laden": { "low": "4", "med": "5", "high": "5" }
+                    },
+                    "maneuver": {
+                        "clean": { "low": "5", "med": "5", "high": "6" },
+                        "laden": { "low": "2", "med": "3", "high": "3" }
+                    }
+                },
+                "ordnance": {
+                    "EOGM": 1
+                },
+                "capabilities": [
+                    "Night Ltd", "Multirole","AT CBU", "Rocket Pod", "AP CBU","Anti-runway","IRST"
+                ],
+                "air_to_air_depletion_number": {
+                    "R-73": 3,
+                    "23mm gun": 4,
+                    "R-24": 6,
+                    "R-60M": 3
+                },
+                "notes": [
+                    "No IRM on Bombing/SEAD/Support/Chaff",
+                    "No RHM on Bombing/SEAD/Support/Chaff",
+                    "Deep Strike: Bomb is 1",
+                    "Jam only on Bombing/SEAD",
+                    "On D10=6~10, Use R-73 instead of R-60",
+                    "R-24:BVR"
+                ]
+            },
+            {
+                "name": "MiG-25BM Foxbat F",
+                "crew": 1,
+                "fuel": 8,
+                "bomb": 2,
+                "sight": "+0",
+                "rwr": "C",
+                "jam": "3n",
+                "performance": {
+                    "combat": {
+                        "clean": { "low": "4", "med": "5", "high": "5", "very_high": "5" },
+                        "laden": { "low": "2", "med": "2", "high": "4" }
+                    },
+                    "dash": {
+                        "clean": { "low": "5", "med": "6", "high": "9" },
+                        "laden": { "low": "5", "med": "5", "high": "5" }
+                    },
+                    "maneuver": {
+                        "clean": { "low": "4", "med": "3", "high": "3" },
+                        "laden": { "low": "2", "med": "2", "high": "2" }
+                    }
+                },
+                "ordnance": {
+                    "Kh-58": 2
+                },
+                "capabilities": [
+                    "Night", "AT CBU", "Rocket Pod", "AP CBU"
+                ],
+                "air_to_air_depletion_number": {
+                },
+                "notes": [
+                    "Kh-58 is available only on SEAD",
+                    "Jam only on Escort Jamming"                ]
+            },
+            {
+                "name": "MiG-25PD Foxbat E",
+                "crew": 1,
+                "fuel": 8,
+                "bomb": "",
+                "sight": "",
+                "rwr": "A",
+                "jam": "",
+                "performance": {
+                    "combat": {
+                        "clean": { "low": "4", "med": "5", "high": "5" },
+                        "laden": { "low": "-", "med": "-", "high": "-" }
+                    },
+                    "dash": {
+                        "clean": { "low": "5", "med": "6", "high": "9" },
+                        "laden": { "low": "-", "med": "-", "high": "-" }
+                    },
+                    "maneuver": {
+                        "clean": { "low": "4", "med": "3", "high": "3" },
+                        "laden": { "low": "-", "med": "-", "high": "-" }
+                    }
+                },
+                "ordnance": {
+                },
+                "capabilities": [
+                    "Night Ltd","IRST"
+                ],
+                "air_to_air_depletion_number": {
+                    "R-40": 6,
+                    "R-60M": 3
+                },
+                "notes": [
+                    "R-40:BVR"
+                ]
+            },
+            {
+                "name": "MiG-25RB Foxbat B",
+                "crew": 1,
+                "fuel": 10,
+                "bomb": [
+                    2,
+                    1
+                ],
+                "sight": "+0",
+                "rwr": "A",
+                "jam": "3n",
+                "performance": {
+                    "combat": {
+                        "clean": { "low": "4", "med": "5", "high": "5", "very_high": "5" },
+                        "laden": { "low": "3", "med": "4", "high": "4" }
+                    },
+                    "dash": {
+                        "clean": { "low": "5", "med": "6", "high": "9", "very_high": "11" },
+                        "laden": { "low": "5", "med": "5", "high": "5" }
+                    },
+                    "maneuver": {
+                        "clean": { "low": "4", "med": "3", "high": "3", "very_high": "2" },
+                        "laden": { "low": "2", "med": "2", "high": "2" }
+                    }
+                },
+                "ordnance": {
+                },
+                "capabilities": [
+                    "Night Ltd","Recon SAR","AT CBU","AP CBU","Rocket Pod"
+                ],
+                "air_to_air_depletion_number": {
+                },
+                "notes": [
+                    "Deep Strike: Bomb is 1"
+                ]
+            },
+            {
+                "name": "MiG-27K Flogger J2",
+                "crew": 1,
+                "fuel": 7,
+                "bomb": [
+                    3,
+                    2
+                ],
+                "rwr": "B",
+                "sight": "+2",
+                "jam": "2d",
+                "performance": {
+                    "combat": {
+                        "clean": { "low": "3", "med": "4", "high": "4" },
+                        "laden": { "low": "3", "med": "3", "high": "3" }
+                    },
+                    "dash": {
+                        "clean": { "low": "4", "med": "5", "high": "6" },
+                        "laden": { "low": "4", "med": "4", "high": "4" }
+                    },
+                    "maneuver": {
+                        "clean": { "low": "4", "med": "5", "high": "5" },
+                        "laden": { "low": "2", "med": "2", "high": "3" }
+                    }
+                },
+                "ordnance": {
+                        "EOGM": 1,
+                        "LGB": 1,
+                        "Kh-25MP": 1
+                },
+                "capabilities": [
+                    "Night Ltd","AT CBU","AP CBU","Rocket Pod", "Anti-runway","KMGU"
+                ],
+                "air_to_air_depletion_number": {
+                    "30mm Gun": 4
+                },
+                "notes": [
+                    "Deep Strike: Bomb is 2",
+                    "Kh-25MP is available only on SEAD"
+                ]
+            },
+            {
+                "name": "MiG-27M Flogger J",
+                "crew": 1,
+                "fuel": 7,
+                "bomb": [
+                    3,
+                    2
+                ],
+                "sight": "+1",
+                "rwr": "B",
+                "jam": "2d",
+                "performance": {
+                    "combat": {
+                        "clean": { "low": "3", "med": "4", "high": "4" },
+                        "laden": { "low": "3", "med": "3", "high": "3" }
+                    },
+                    "dash": {
+                        "clean": { "low": "4", "med": "5", "high": "6" },
+                        "laden": { "low": "4", "med": "4", "high": "4" }
+                    },
+                    "maneuver": {
+                        "clean": { "low": "4", "med": "5", "high": "5" },
+                        "laden": { "low": "2", "med": "2", "high": "3" }
+                    }
+                },
+                "ordnance": {
+                        "EOGM": 1,
+                        "Kh-25MP": 1
+                },
+                "capabilities": [
+                    "Night Ltd","AT CBU","AP CBU","Rocket Pod", "Anti-runway", "KMGU"
+                ],
+                "air_to_air_depletion_number": {
+                    "30mm Gun": 4
+                },
+                "notes": [
+                    "Deep Strike: Bomb is 2",
+                    "Kh-25MP is available only on SEAD"
+                ]
+            },
+            {
+                "name": "MiG-29 Fulcrum A",
+                "crew": 1,
+                "fuel": 4,
+                "bomb": 1,
+                "sight": "",
+                "rwr": "B",
+                "jam": "",
+                "performance": {
+                    "combat": {
+                        "clean": { "low": "4", "med": "4", "high": "5" },
+                        "laden": { "low": "4", "med": "4", "high": "4" }
+                    },
+                    "dash": {
+                        "clean": { "low": "5", "med": "6", "high": "8" },
+                        "laden": { "low": "4", "med": "5", "high": "5" }
+                    },
+                    "maneuver": {
+                        "clean": { "low": "7", "med": "7", "high": "8" },
+                        "laden": { "low": "3", "med": "4", "high": "4" }
+                    }
+                },
+                "ordnance": {
+                },
+                "capabilities": [
+                    "Night Ltd","AT CBU","AP CBU","Rocket Pod", "IRST", "Multirole", "No Doctrine"
+                ],
+                "air_to_air_depletion_number": {
+                    "R-73": 3,
+                    "30mm Gun": 4,
+                    "R-23": 6
+                },
+                "notes": [
+                    "R-27:BVR",
+                    "No RHM on Bombing/SEAD/Support"
+                ]
+            },
+            {
+                "name": "Su-17M3R Fitter H",
+                "crew": 1,
+                "fuel": 10,
+                "bomb": "",
+                "sight": "",
+                "rwr": "A",
+                "jam": "2n",
+                "performance": {
+                    "combat": {
+                        "clean": { "low": "3", "med": "4", "high": "5" },
+                        "laden": { "low": "-", "med": "-", "high": "-" }
+                    },
+                    "dash": {
+                        "clean": { "low": "4", "med": "5", "high": "7" },
+                        "laden": { "low": "-", "med": "-", "high": "-" }
+                    },
+                    "maneuver": {
+                        "clean": { "low": "4", "med": "5", "high": "5" },
+                        "laden": { "low": "-", "med": "-", "high": "-" }
+                    }
+                },
+                "ordnance": {
+                },
+                "capabilities": [
+                    "Defensive Wheel", "Recon SAR"
+                ],
+                "air_to_air_depletion_number": {
+                },
+                "notes": [
+                ]
+            },
+            {
+                "name": "Su-17M4 Fitter K",
+                "crew": 1,
+                "fuel": 8,
+                "bomb": [
+                    3,
+                    2
+                ],
+                "sight": "+1",
+                "rwr": "B",
+                "jam": "2n",
+                "performance": {
+                    "combat": {
+                        "clean": { "low": "3", "med": "4", "high": "5" },
+                        "laden": { "low": "3", "med": "3", "high": "3" }
+                    },
+                    "dash": {
+                        "clean": { "low": "4", "med": "5", "high": "7" },
+                        "laden": { "low": "4", "med": "4", "high": "4" }
+                    },
+                    "maneuver": {
+                        "clean": { "low": "4", "med": "5", "high": "5" },
+                        "laden": { "low": "2", "med": "2", "high": "2" }
+                    }
+                },
+                "ordnance": {
+                    "EOGM": 1,
+                    "Kh-25MP": 1,
+                    "Kh-58": 1
+                },
+                "capabilities": [
+                    "Defensive Wheel", "AT CBU", "AP CBU", "Rocket Pod", "KMGU"
+                ],
+                "air_to_air_depletion_number": {
+                    "R-60": 6,
+                    "30mm Gun": 4
+                },
+                "notes": [
+                    "Deep Strike: Bomb is 2",
+                    "Kh-58 is available only on SEAD",
+                    "Kh-25MP is available only on SEAD"
+                ]
+            },
+            {
+                "name": "Su-24 Fencer C",
+                "crew": 2,
+                "fuel": 10,
+                "bomb": [
+                    5,
+                    3
+                ],
+                "sight": "+2",
+                "rwr": "A",
+                "jam": "3d",
+                "performance": {
+                    "combat": {
+                        "clean": { "low": "4", "med": "4", "high": "5" },
+                        "laden": { "low": "2", "med": "3", "high": "3" }
+                    },
+                    "dash": {
+                        "clean": { "low": "5", "med": "6", "high": "7" },
+                        "laden": { "low": "3", "med": "4", "high": "5" }
+                    },
+                    "maneuver": {
+                        "clean": { "low": "4", "med": "5", "high": "5" },
+                        "laden": { "low": "2", "med": "3", "high": "3" }
+                    }
+                },
+                "ordnance": {
+                    "EOGM": 2,
+                    "Kh-28M": 1
+                },
+                "capabilities": [
+                    "Night","AT CBU","AP CBU","Rocket Pod", "KMGU", "Anti-runway", "TFR"
+                ],
+                "air_to_air_depletion_number": {
+                    "R-60M": 8,
+                    "23mm gun": 3
+                },
+                "notes": [
+                    "Deep Strike: Bomb is 3",
+                    "Kh-28M is available only on SEAD"
+                ]
+            },
+            {
+                "name": "Su-24M Fencer D",
+                "crew": 2,
+                "fuel": 10,
+                "bomb": "",
+                "sight": "+3",
+                "rwr": "B",
+                "jam": "3d",
+                "performance": {
+                    "combat": {
+                        "clean": { "low": "4", "med": "4", "high": "5" },
+                        "laden": { "low": "2", "med": "3", "high": "3" }
+                    },
+                    "dash": {
+                        "clean": { "low": "5", "med": "6", "high": "7" },
+                        "laden": { "low": "3", "med": "4", "high": "5" }
+                    },
+                    "maneuver": {
+                        "clean": { "low": "4", "med": "5", "high": "5" },
+                        "laden": { "low": "2", "med": "3", "high": "3" }
+                    }
+                },
+                "ordnance": {
+                    "Kh-58": 1,
+                    "Kh-25MP": 2,
+                    "EOGM" : 2,
+                    "EOGB": 1,
+                    "LGB": 2
+                },
+                "capabilities": [
+                    "Night", "TFR", "AP CBU", "AT CBU", "Rocket Pod", "Anti-runway", "KMGU"
+                ],
+                "air_to_air_depletion_number": {
+                    "R-60M": 8,
+                    "23mm gun": 3
+                },
+                "notes": [
+                    "Deep Strike: Bomb is 3"
+                ]
+            },
+            {
+                "name": "Su-24MP Fencer F",
+                "crew": 2,
+                "fuel": 10,
+                "bomb": "",
+                "sight": "",
+                "rwr": "B",
+                "jam": "3d",
+                "performance": {
+                    "combat": {
+                        "clean": { "low": "4", "med": "4", "high": "5" },
+                        "laden": { "low": "2", "med": "3", "high": "3" }
+                    },
+                    "dash": {
+                        "clean": { "low": "5", "med": "6", "high": "7" },
+                        "laden": { "low": "3", "med": "4", "high": "5" }
+                    },
+                    "maneuver": {
+                        "clean": { "low": "4", "med": "5", "high": "5" },
+                        "laden": { "low": "2", "med": "3", "high": "3" }
+                    }
+                },
+                "ordnance": {
+                    "Chaff": 1
+                },
+                "capabilities": [
+                    "Night"
+                ],
+                "air_to_air_depletion_number": {
+                    "R-60M": 8,
+                    "23mm gun": 3
+                },
+                "notes": [
+                ]
+            },
+            {
+                "name": "Su-24MR Fencer E",
+                "crew": 2,
+                "fuel": 12,
+                "bomb": "",
+                "sight": "",
+                "rwr": "B",
+                "jam": "3d",
+                "performance": {
+                    "combat": {
+                        "clean": { "low": "4", "med": "4", "high": "5" },
+                        "laden": { "low": "-", "med": "-", "high": "-" }
+                    },
+                    "dash": {
+                        "clean": { "low": "5", "med": "6", "high": "7" },
+                        "laden": { "low": "-", "med": "-", "high": "-" }
+                    },
+                    "maneuver": {
+                        "clean": { "low": "4", "med": "5", "high": "5" },
+                        "laden": { "low": "-", "med": "-", "high": "-" }
+                    }
+                },
+                "ordnance": {
+                },
+                "capabilities": [
+                    "Night", "Recon SAR", "TFR"
+                ],
+                "air_to_air_depletion_number": {
+                    "R-60M": 8
+                },
+                "notes": [
+                ]
+            },
+            {
+                "name": "Su-25 Frogfoot A",
+                "crew": 1,
+                "fuel": 4,
+                "bomb": 3,
+                "sight": "+1",
+                "rwr": "B",
+                "jam": "",
+                "performance": {
+                    "combat": {
+                        "clean": { "low": "2", "med": "2", "high": "2" },
+                        "laden": { "low": "2", "med": "2", "high": "2" }
+                    },
+                    "dash": {
+                        "clean": { "low": "3", "med": "3", "high": "3" },
+                        "laden": { "low": "3", "med": "3", "high": "3" }
+                    },
+                    "maneuver": {
+                        "clean": { "low": "4", "med": "5", "high": "5" },
+                        "laden": { "low": "3", "med": "3", "high": "3" }
+                    }
+                },
+                "ordnance": {
+                    "EOGM": 2
+                },
+                "capabilities": [
+                    "Defensive Wheel", "No Zoom", "KMGU", "Rocket Pod", "AT CBU", "AP CBU", "Anti-runway"
+                ],
+                "air_to_air_depletion_number": {
+                    "R-60M": 8,
+                    "30mm Gun": 4
+                },
+                "notes": [
+                ]
+            },
+            {
+                "name": "Su-27S Flanker B",
+                "crew": 1,
+                "fuel": 10,
+                "bomb": 2,
+                "sight": "+1",
+                "rwr": "B",
+                "jam": "3d",
+                "performance": {
+                    "combat": {
+                        "clean": { "low": "3", "med": "4", "high": "5" },
+                        "laden": { "low": "3", "med": "3", "high": "4" }
+                    },
+                    "dash": {
+                        "clean": { "low": "5", "med": "6", "high": "7" },
+                        "laden": { "low": "4", "med": "5", "high": "5" }
+                    },
+                    "maneuver": {
+                        "clean": { "low": "6", "med": "7", "high": "7" },
+                        "laden": { "low": "3", "med": "4", "high": "4" }
+                    }
+                },
+                "ordnance": {
+                },
+                "capabilities": [
+                    "Night", "IRST", "Multirole", "No Doctrine", "AT CBU", "AP CBU", "Rocket Pod"
+                ],
+                "air_to_air_depletion_number": {
+                    "R-73": 3,
+                    "30mm Gun": 4,
+                    "R-27": 6
+                },
+                "notes": [
+                    "R-27:BVR"
+                ]
+            },
+            {
+                "name": "Tu-16K Badger G",
+                "crew": 4,
+                "fuel": "Unlimited",
+                "bomb": 9,
+                "sight": "+1",
+                "rwr": "A",
+                "jam": "",
+                "performance": {
+                    "combat": {
+                        "clean": { "low": "3", "med": "3", "high": "3" },
+                        "laden": { "low": "3", "med": "3", "high": "3" }
+                    },
+                    "dash": {
+                        "clean": { "low": "4", "med": "4", "high": "4" },
+                        "laden": { "low": "4", "med": "4", "high": "4" }
+                    },
+                    "maneuver": {
+                        "clean": { "low": "1", "med": "1", "high": "1" },
+                        "laden": { "low": "1", "med": "1", "high": "1" }
+                    }
+                },
+                "ordnance": {
+                    "Kh-28M" :2,
+                    "AS-6": 2
+                },
+                "capabilities": [
+                    "Night", "Large", "No Zoom", "Poor SAM Defense"
+                ],
+                "air_to_air_depletion_number": {
+                    "Rear gun": 4
+                },
+                "notes": [
+                    "Kh-28M or AS-6"
+                ]
+            },
+            {
+                "name": "Tu-16P Badger J",
+                "crew": 8,
+                "fuel": "Unlimited",
+                "bomb": "",
+                "sight": "",
+                "rwr": "C",
+                "jam": "3n",
+                "performance": {
+                    "combat": {
+                        "clean": { "low": "3", "med": "3", "high": "3" },
+                        "laden": { "low": "-", "med": "-", "high": "-" }
+                    },
+                    "dash": {
+                        "clean": { "low": "4", "med": "4", "high": "4" },
+                        "laden": { "low": "-", "med": "-", "high": "-" }
+                    },
+                    "maneuver": {
+                        "clean": { "low": "1", "med": "1", "high": "1" },
+                        "laden": { "low": "-", "med": "-", "high": "-" }
+                    }
+                },
+                "ordnance": {
+                },
+                "capabilities": [
+                    "Night", "Large", "No Zoom", "Poor SAM Defense"
+                ],
+                "air_to_air_depletion_number": {
+                    "Rear gun": 4
+                },
+                "notes": [
+                ]
+            },
+            {
+                "name": "Tu-22KPD Blinder B",
+                "crew": 3,
+                "fuel": "Unlimited",
+                "bomb": 8,
+                "sight": "+1",
+                "rwr": "A",
+                "jam": "3n",
+                "performance": {
+                    "combat": {
+                        "clean": { "low": "3", "med": "3", "high": "4" },
+                        "laden": { "low": "3", "med": "3", "high": "4" }
+                    },
+                    "dash": {
+                        "clean": { "low": "4", "med": "4", "high": "6" },
+                        "laden": { "low": "4", "med": "4", "high": "6" }
+                    },
+                    "maneuver": {
+                        "clean": { "low": "1", "med": "1", "high": "1" },
+                        "laden": { "low": "1", "med": "1", "high": "1" }
+                    }
+                },
+                "ordnance": {
+                },
+                "capabilities": [
+                    "Night", "Large", "No Zoom", "Poor SAM Defense"
+                ],
+                "air_to_air_depletion_number": {
+                    "Rear gun": 3
+                },
+                "notes": [
+                ]
+            },
+            {
+                "name": "Tu-22PD Blinder E",
+                "crew": 6,
+                "fuel": "Unlimited",
+                "bomb": "",
+                "sight": "",
+                "rwr": "A",
+                "jam": "2n",
+                "performance": {
+                    "combat": {
+                        "clean": { "low": "3", "med": "3", "high": "4" },
+                        "laden": { "low": "-", "med": "-", "high": "-" }
+                    },
+                    "dash": {
+                        "clean": { "low": "4", "med": "4", "high": "6" },
+                        "laden": { "low": "-", "med": "-", "high": "-" }
+                    },
+                    "maneuver": {
+                        "clean": { "low": "1", "med": "1", "high": "1" },
+                        "laden": { "low": "-", "med": "-", "high": "-" }
+                    }
+                },
+                "ordnance": {
+                    "Chaff": 1
+                },
+                "capabilities": [
+                    "Night", "Large", "No Zoom", "Poor SAM Defense"
+                ],
+                "air_to_air_depletion_number": {
+                    "Rear gun": 3
+                },
+                "notes": [
+                ]
+            },
+            {
+                "name": "YAK-28PP Brewer E",
+                "crew": 2,
+                "fuel": 10,
+                "bomb": "",
+                "sight": "",
+                "rwr": "B",
+                "jam": "3n",
+                "performance": {
+                    "combat": {
+                        "clean": { "low": "3", "med": "4", "high": "4" },
+                        "laden": { "low": "-", "med": "-", "high": "-" }
+                    },
+                    "dash": {
+                        "clean": { "low": "4", "med": "5", "high": "6" },
+                        "laden": { "low": "-", "med": "-", "high": "-" }
+                    },
+                    "maneuver": {
+                        "clean": { "low": "4", "med": "5", "high": "5" },
+                        "laden": { "low": "-", "med": "-", "high": "-" }
+                    }
+                },
+                "ordnance": {
+                },
+                "capabilities": [
+                    "Night", "Chaff"
+                ],
+                "air_to_air_depletion_number": {
+                },
+                "notes": [
+                ]
+            }
+        ],
+        "air_to_air_depletion_number_weapons": [
+            {
+                "name": "R-3s",
+                "class": "IRM",
+                "rating": 2
+            },
+            {
+                "name": "Rear gun",
+                "class": "Gun",
+                "rating": 0
+            },
+            {
+                "name": "R-60",
+                "class": "IRM",
+                "rating": 1
+            },
+            {
+                "name": "R-73",
+                "class": "IRM",
+                "rating": 3
+            },
+            {
+                "name": "R-60M",
+                "class": "IRM",
+                "rating": 2
+            },
+            {
+                "name": "R-3r",
+                "class": "RHM",
+                "rating": 0
+            },
+            {
+                "name": "R-24",
+                "class": "RHM",
+                "rating": 2,
+                "bvr": 0
+            },
+            {
+                "name": "R-27",
+                "class": "RHM",
+                "rating": 3,
+                "bvr": 1
+            },
+            {
+                "name": "R-23",
+                "class": "RHM",
+                "rating": 2,
+                "bvr": -1
+            },
+            {
+                "name": "23mm gun",
+                "class": "Gun",
+                "rating": 2
+            }
+        ]
+    },
+    "EGE": {
+        "aircraft": [
+            {
+                "name": "MiG-21BIS Fishbed L",
+                "crew": 1,
+                "fuel": 6,
+                "bomb": "1",
+                "sight": "+0",
+                "rwr": "A",
+                "jam": "2n",
+                "performance": {
+                    "combat": {
+                        "clean": { "low": "3", "med": "4", "high": "5" },
+                        "laden": { "low": "3", "med": "3", "high": "3" }
+                    },
+                    "dash": {
+                        "clean": { "low": "4", "med": "5", "high": "7" },
+                        "laden": { "low": "4", "med": "4", "high": "4" }
+                    },
+                    "maneuver": {
+                        "clean": { "low": "5", "med": "6", "high": "7" },
+                        "laden": { "low": "2", "med": "4", "high": "3" }
+                    }
+                },
+                "ordnance": {},
+                "capabilities": [
+                    "Night Ltd", "Multirole","AT CBU", "Rocket Pod"
+                ],
+                "air_to_air_depletion_number": {
+                    "R-60": 6,
+                    "23mm gun": 4,
+                    "R-3r": 6
+                },
+                "notes": [
+                    "No IRM on Bombing/SEAD/Support/Chaff",
+                    "No RHM on Bombing/SEAD/Support/Chaff",
+                    "Jam only on Bombing/SEAD",
+                    "R-3r:BVR"
+                ]
+            },
+            {
+                "name": "MiG-21M Fishbed J",
+                "crew": 1,
+                "fuel": 8,
+                "bomb": "",
+                "sight": "",
+                "rwr": "A",
+                "jam": "2n",
+                "performance": {
+                    "combat": {
+                        "clean": { "low": "3", "med": "4", "high": "5" },
+                        "laden": { "low": "-", "med": "-", "high": "-" }
+                    },
+                    "dash": {
+                        "clean": { "low": "4", "med": "5", "high": "7" },
+                        "laden": { "low": "-", "med": "-", "high": "-" }
+                    },
+                    "maneuver": {
+                        "clean": { "low": "5", "med": "6", "high": "7" },
+                        "laden": { "low": "-", "med": "-", "high": "-" }
+                    }
+                },
+                "ordnance": {},
+                "capabilities": [
+                    "Night","Recon","Multirole"
+                ],
+                "air_to_air_depletion_number": {
+                    "23mm gun": 4
+                },
+                "notes": [
+                ]
+            },
+            {
+                "name": "MiG-21MF Fishbed J",
+                "crew": 1,
+                "fuel": 6,
+                "bomb": "1",
+                "sight": "+0",
+                "rwr": "A",
+                "jam": "",
+                "performance": {
+                    "combat": {
+                        "clean": { "low": "3", "med": "4", "high": "5" },
+                        "laden": { "low": "2", "med": "3", "high": "3" }
+                    },
+                    "dash": {
+                        "clean": { "low": "4", "med": "5", "high": "7" },
+                        "laden": { "low": "3", "med": "4", "high": "4" }
+                    },
+                    "maneuver": {
+                        "clean": { "low": "5", "med": "6", "high": "7" },
+                        "laden": { "low": "2", "med": "2", "high": "3" }
+                    }
+                },
+                "ordnance": {},
+                "capabilities": [
+                    "Night Ltd", "Multirole","AT CBU", "Rocket Pod", "Chaff"
+                ],
+                "air_to_air_depletion_number": {
+                    "R-13M": 3,
+                    "23mm gun": 4
+                },
+                "notes": [
+                    "No IRM on Bombing/SEAD/Chaff"
+                ]
+            },
+            {
+                "name": "MiG-21SPS Fishbed F",
+                "crew": 1,
+                "fuel": 6,
+                "bomb": "1",
+                "sight": "+0",
+                "rwr": "A",
+                "jam": "",
+                "performance": {
+                    "combat": {
+                        "clean": { "low": "3", "med": "4", "high": "4" },
+                        "laden": { "low": "2", "med": "3", "high": "3" }
+                    },
+                    "dash": {
+                        "clean": { "low": "4", "med": "5", "high": "6" },
+                        "laden": { "low": "3", "med": "4", "high": "4" }
+                    },
+                    "maneuver": {
+                        "clean": { "low": "5", "med": "6", "high": "7" },
+                        "laden": { "low": "2", "med": "2", "high": "3" }
+                    }
+                },
+                "ordnance": {},
+                "capabilities": [
+                    "Night Ltd", "Multirole","AT CBU", "Rocket Pod", "Chaff"
+                ],
+                "air_to_air_depletion_number": {
+                    "R-13M": 3,
+                    "23mm gun": 4
+                },
+                "notes": [
+                    "No IRM on Bombing/SEAD/Chaff",
+                    "Gun is only on D10=1~6"
+                ]
+            },
+            {
+                "name": "MiG-23BN Flogger H",
+                "crew": 1,
+                "fuel": 7,
+                "bomb": [
+                    3,
+                    2
+                ],
+                "sight": "+1",
+                "rwr": "A",
+                "jam": "2n",
+                "performance": {
+                    "combat": {
+                        "clean": { "low": "3", "med": "4", "high": "4" },
+                        "laden": { "low": "3", "med": "3", "high": "4" }
+                    },
+                    "dash": {
+                        "clean": { "low": "5", "med": "5", "high": "6" },
+                        "laden": { "low": "4", "med": "4", "high": "5" }
+                    },
+                    "maneuver": {
+                        "clean": { "low": "4", "med": "5", "high": "5" },
+                        "laden": { "low": "2", "med": "3", "high": "3" }
+                    }
+                },
+                "ordnance": {
+                    "EOGM": 1
+                },
+                "capabilities": [
+                    "Night Ltd","AT CBU", "Rocket Pod", "AP CBU"
+                ],
+                "air_to_air_depletion_number": {
+                    "23mm gun": 4
+                },
+                "notes": [
+                    "Deep Strike: Bomb is 2"
+                ]
+            },
+            {
+                "name": "MiG-23MF Flogger B",
+                "crew": 1,
+                "fuel": 7,
+                "bomb": [
+                    2,
+                    1
+                ],
+                "sight": "+0",
+                "rwr": "A",
+                "jam": "",
+                "performance": {
+                    "combat": {
+                        "clean": { "low": "4", "med": "4", "high": "5" },
+                        "laden": { "low": "3", "med": "3", "high": "4" }
+                    },
+                    "dash": {
+                        "clean": { "low": "5", "med": "6", "high": "8" },
+                        "laden": { "low": "4", "med": "5", "high": "5" }
+                    },
+                    "maneuver": {
+                        "clean": { "low": "4", "med": "5", "high": "5" },
+                        "laden": { "low": "2", "med": "3", "high": "3" }
+                    }
+                },
+                "ordnance": {
+                },
+                "capabilities": [
+                    "Night Ltd", "Multirole","AT CBU", "Rocket Pod", "IRST"
+                ],
+                "air_to_air_depletion_number": {
+                    "R-60": 6,
+                    "23mm gun": 4,
+                    "R-23": 6
+                },
+                "notes": [
+                    "No IRM on Bombing/SEAD/Support/Chaff",
+                    "No RHM on Bombing/SEAD/Support/Chaff",
+                    "Deep Strike: Bomb is 1",
+                    "R-23:BVR"
+                ]
+            },
+            {
+                "name": "MiG-23ML Flogger G",
+                "crew": 1,
+                "fuel": 7,
+                "bomb": [
+                    2,
+                    1
+                ],
+                "sight": "+0",
+                "rwr": "B",
+                "jam": "",
+                "performance": {
+                    "combat": {
+                        "clean": { "low": "4", "med": "4", "high": "5" },
+                        "laden": { "low": "3", "med": "3", "high": "4" }
+                    },
+                    "dash": {
+                        "clean": { "low": "5", "med": "6", "high": "8" },
+                        "laden": { "low": "4", "med": "5", "high": "5" }
+                    },
+                    "maneuver": {
+                        "clean": { "low": "4", "med": "5", "high": "6" },
+                        "laden": { "low": "2", "med": "3", "high": "3" }
+                    }
+                },
+                "ordnance": {
+                },
+                "capabilities": [
+                    "Night Ltd", "Multirole","AT CBU", "Rocket Pod","IRST"
+                ],
+                "air_to_air_depletion_number": {
+                    "R-60": 3,
+                    "23mm gun": 4,
+                    "R-24": 6,
+                    "R-60M": 3
+                },
+                "notes": [
+                    "No IRM on Bombing/SEAD/Support/Chaff",
+                    "No RHM on Bombing/SEAD/Support/Chaff",
+                    "Deep Strike: Bomb is 1",
+                    "On D10=6~10, Use R-60M instead of R-60",
+                    "R-24:BVR"
+                ]
+            },
+            {
+                "name": "Su-22M4 Fitter K",
+                "crew": 1,
+                "fuel": 8,
+                "bomb": [
+                    3,
+                    2
+                ],
+                "sight": "+1",
+                "rwr": "B",
+                "jam": "2n",
+                "performance": {
+                    "combat": {
+                        "clean": { "low": "3", "med": "4", "high": "5" },
+                        "laden": { "low": "3", "med": "3", "high": "3" }
+                    },
+                    "dash": {
+                        "clean": { "low": "5", "med": "5", "high": "7" },
+                        "laden": { "low": "4", "med": "4", "high": "4" }
+                    },
+                    "maneuver": {
+                        "clean": { "low": "4", "med": "5", "high": "5" },
+                        "laden": { "low": "2", "med": "2", "high": "2" }
+                    }
+                },
+                "ordnance": {
+                    "EOGM": 1
+                },
+                "capabilities": [
+                    "Recon","AT CBU","AP CBU","Rocket Pod", "KMGU"
+                ],
+                "air_to_air_depletion_number": {
+                    "R-60": 6,
+                    "30mm gun": 4
+                },
+                "notes": [
+                    "Deep Strike: Bomb is 2"
+                ]
+            }
+        ],
+        "air_to_air_depletion_number_weapons": [
+            {
+                "name": "R-13M",
+                "class": "IRM",
+                "rating": 0
+            },
+            {
+                "name": "Rear gun",
+                "class": "Gun",
+                "rating": 0
+            },
+            {
+                "name": "R-60",
+                "class": "IRM",
+                "rating": 1
+            },
+            {
+                "name": "R-73",
+                "class": "IRM",
+                "rating": 3
+            },
+            {
+                "name": "R-60M",
+                "class": "IRM",
+                "rating": 2
+            },
+            {
+                "name": "R-3r",
+                "class": "RHM",
+                "rating": 0,
+                "bvr": -1
+            },
+            {
+                "name": "R-24",
+                "class": "RHM",
+                "rating": 2,
+                "bvr": 0
+            },
+            {
+                "name": "R-27",
+                "class": "RHM",
+                "rating": 3,
+                "bvr": 1
+            },
+            {
+                "name": "R-23",
+                "class": "RHM",
+                "rating": 2,
+                "bvr": -1
+            },
+            {
+                "name": "23mm gun",
+                "class": "Gun",
+                "rating": 2
+            },
+            {
+                "name": "30mm gun",
+                "class": "Gun",
+                "rating": 3
+            }
+        ]
+    }
+}

@@ -1,128 +1,285 @@
 <!DOCTYPE html>
 <html lang="ko">
 <head>
-  <meta charset="UTF" />
+  <link rel="apple-touch-icon" sizes="180x180" href="./assets/favicon_io/apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="./assets/favicon_io/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="./assets/favicon_io/favicon-16x16.png">
+  <link rel="manifest" href="./assets/favicon_io/site.webmanifest">
+  <link rel="icon" href="./assets/favicon_io/favicon.ico" type="image/x-icon">
+  <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Red Storm / Downtown ADC Generator</title>
+  <title>Red Storm / Downtown — Solo Tools</title>
+  <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@500;700&family=Noto+Sans+KR:wght@400;500;600&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
   <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
     body {
-      font-family: Arial, sans-serif;
+      font-family: 'Noto Sans KR', sans-serif;
       display: flex;
       flex-direction: column;
       align-items: center;
       justify-content: center;
-      height: 100vh;
+      min-height: 100vh;
       margin: 0;
-      background-color: #f5f5f5;
+      background-color: #0e0e0e;
+      background-image:
+        radial-gradient(ellipse at 30% 50%, rgba(60,120,50,0.07) 0%, transparent 60%),
+        radial-gradient(ellipse at 70% 50%, rgba(120,100,40,0.07) 0%, transparent 60%);
+      color: #ccc;
+      overflow: hidden;
     }
-    .toggle-container {
-      position: absolute;
-      top: 2rem;
-      right: 2rem;
-      display: flex;
-      align-items: center;
-      gap: 0.75rem;
+
+    /* Scanline overlay */
+    body::before {
+      content: '';
+      position: fixed;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background: repeating-linear-gradient(
+        0deg,
+        transparent,
+        transparent 2px,
+        rgba(255,255,255,0.015) 2px,
+        rgba(255,255,255,0.015) 4px
+      );
+      pointer-events: none;
+      z-index: 100;
     }
-    .toggle-container span {
-      font-weight: bold;
-      font-size: 1rem;
-      color: #333;
+
+    .header {
+      text-align: center;
+      margin-bottom: 3rem;
     }
-    .switch {
-      position: relative;
-      display: inline-block;
-      width: 60px;
-      height: 34px;
+
+    .header h1 {
+      font-family: 'Oswald', sans-serif;
+      font-size: 2.2rem;
+      font-weight: 700;
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+      color: #aaa;
+      text-shadow: 0 0 20px rgba(255,255,255,0.08);
     }
-    .switch input { 
-      opacity: 0;
-      width: 0;
-      height: 0;
+
+    .header .subtitle {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.75rem;
+      letter-spacing: 0.25em;
+      color: #666;
+      margin-top: 0.5rem;
+      text-transform: uppercase;
     }
-    .slider {
-      position: absolute;
-      cursor: pointer;
-      top: 0;
-      left: 0;
-      right: 0;
-      bottom: 0;
-      background-color: #ccc;
-      transition: .4s;
-      border-radius: 34px;
-    }
-    .slider:before {
-      position: absolute;
-      content: "";
-      height: 26px;
-      width: 26px;
-      left: 4px;
-      bottom: 4px;
-      background-color: white;
-      transition: .4s;
-      border-radius: 50%;
-    }
-    input:checked + .slider {
-      background-color: #2196F3;
-    }
-    input:checked + .slider:before {
-      transform: translateX(26px);
-    }
-    h1 {
-      font-size: 1.5rem;
-      margin-bottom: 2rem;
-    }
+
     .container {
       display: flex;
-      gap: 2rem;
+      gap: 3rem;
       justify-content: center;
+      align-items: stretch;
+      flex-wrap: wrap;
+      padding: 0 2rem;
     }
-    .game {
-      text-align: center;
+
+    .game-card {
+      position: relative;
+      width: 400px;
+      border-radius: 12px;
+      overflow: hidden;
       cursor: pointer;
-      transition: transform 0.2s;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      text-decoration: none;
     }
-    .game:hover {
+
+    .game-card:hover {
+      transform: translateY(-6px);
+    }
+
+    /* Red Storm card — CRT green theme */
+    .game-card.redstorm {
+      background: linear-gradient(160deg, #0a1a0a 0%, #122412 60%, #0e1e0e 100%);
+      border: 1px solid #2a4a20;
+      box-shadow: 0 4px 24px rgba(0,0,0,0.5), inset 0 0 40px rgba(80,160,60,0.04);
+    }
+    .game-card.redstorm:hover {
+      border-color: #4a8a3a;
+      box-shadow: 0 8px 40px rgba(60,140,50,0.15), inset 0 0 40px rgba(80,160,60,0.06);
+    }
+
+    /* Downtown card — Vietnam sepia/olive theme */
+    .game-card.downtown {
+      background: linear-gradient(160deg, #1a180e 0%, #22200e 60%, #1a180e 100%);
+      border: 1px solid #4a4a2a;
+      box-shadow: 0 4px 24px rgba(0,0,0,0.5), inset 0 0 40px rgba(160,140,60,0.04);
+    }
+    .game-card.downtown:hover {
+      border-color: #8a7a3a;
+      box-shadow: 0 8px 40px rgba(160,140,60,0.15), inset 0 0 40px rgba(160,140,60,0.06);
+    }
+
+    .card-image {
+      width: 100%;
+      height: 500px;
+      overflow: hidden;
+      position: relative;
+    }
+
+    .card-image img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+      transition: transform 0.4s ease;
+    }
+
+    .game-card:hover .card-image img {
       transform: scale(1.05);
     }
-    img {
-      width: 280px;
-      height: auto;
-      border-radius: 10px;
-      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+
+    .card-image::after {
+      content: '';
+      position: absolute;
+      bottom: 0; left: 0; right: 0;
+      height: 60%;
+      pointer-events: none;
+    }
+
+    .game-card.redstorm .card-image::after {
+      background: linear-gradient(to top, #0a1a0a, transparent);
+    }
+
+    .game-card.downtown .card-image::after {
+      background: linear-gradient(to top, #1a180e, transparent);
+    }
+
+    .card-body {
+      padding: 1.2rem 1.5rem 1.5rem;
+    }
+
+    .card-era {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.65rem;
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+      margin-bottom: 0.5rem;
+    }
+
+    .game-card.redstorm .card-era { color: #5a9a4a; }
+    .game-card.downtown .card-era { color: #9c9c5e; }
+
+    .card-title {
+      font-family: 'Oswald', sans-serif;
+      font-size: 1.6rem;
+      font-weight: 700;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      margin-bottom: 0.4rem;
+    }
+
+    .game-card.redstorm .card-title { color: #8fbf6a; }
+    .game-card.downtown .card-title { color: #c4a96b; }
+
+    .card-desc {
+      font-size: 0.8rem;
+      line-height: 1.6;
+      margin-bottom: 1rem;
+    }
+
+    .game-card.redstorm .card-desc { color: #5a7a4a; }
+    .game-card.downtown .card-desc { color: #7a7a5a; }
+
+    .card-enter {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-family: 'Oswald', sans-serif;
+      font-size: 0.85rem;
+      font-weight: 500;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      transition: gap 0.2s ease;
+    }
+
+    .game-card:hover .card-enter {
+      gap: 0.8rem;
+    }
+
+    .game-card.redstorm .card-enter { color: #6aaf5a; }
+    .game-card.downtown .card-enter { color: #b09050; }
+
+    .card-enter .arrow {
+      font-size: 1rem;
+      transition: transform 0.2s ease;
+    }
+
+    .game-card:hover .card-enter .arrow {
+      transform: translateX(4px);
+    }
+
+    /* Footer */
+    .footer {
+      position: fixed;
+      bottom: 1.5rem;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.6rem;
+      letter-spacing: 0.2em;
+      color: #333;
+      text-transform: uppercase;
+    }
+
+    /* Mobile */
+    @media (max-width: 760px) {
+      .container {
+        flex-direction: column;
+        align-items: center;
+        gap: 2rem;
+      }
+      .game-card {
+        width: min(400px, 90vw);
+      }
+      .header h1 {
+        font-size: 1.6rem;
+        letter-spacing: 0.2em;
+      }
+      .header {
+        margin-bottom: 2rem;
+      }
     }
   </style>
 </head>
 <body>
-  <div class="toggle-container">
-    <span>ENG</span>
-    <label class="switch">
-      <input type="checkbox" id="lang-toggle">
-      <span class="slider"></span>
-    </label>
+
+  <div class="header">
+    <h1>GMT Air Combat</h1>
+    <div class="subtitle">Solo Campaign Helper Tools</div>
   </div>
 
-  <h1>ADC Generator</h1>
   <div class="container">
-    <div class="game" id="redstorm-link">
-      <img src="assets/thumbnail/redstorm.webp" alt="Red Storm" />
-    </div>
-    <div class="game" id="downtown-link">
-      <img src="assets/thumbnail/downtown.webp" alt="Downtown" />
-    </div>
+    <!-- Red Storm -->
+    <a class="game-card redstorm" href="Redstorm_suite.html">
+      <div class="card-image">
+        <img src="assets/thumbnail/redstorm.webp" alt="Red Storm" />
+      </div>
+      <div class="card-body">
+        <div class="card-era">Cold War · 1987</div>
+        <div class="card-title">Red Storm</div>
+        <div class="card-desc">NATO vs Warsaw Pact — 냉전 유럽 상공 공중전</div>
+        <div class="card-enter">Enter <span class="arrow">→</span></div>
+      </div>
+    </a>
+
+    <!-- Downtown -->
+    <a class="game-card downtown" href="downtown_suite.html">
+      <div class="card-image">
+        <img src="assets/downtown_artwork.png" alt="Downtown" />
+      </div>
+      <div class="card-body">
+        <div class="card-era">Vietnam · 1965–1972</div>
+        <div class="card-title">Downtown</div>
+        <div class="card-desc">Rolling Thunder — 베트남 하노이 상공 공중전</div>
+        <div class="card-enter">Enter <span class="arrow">→</span></div>
+      </div>
+    </a>
   </div>
-  
-  <script>
-    const langToggle = document.getElementById('lang-toggle');
-    const redstormLink = document.getElementById('redstorm-link');
-    const downtownLink = document.getElementById('downtown-link');
-  
-    const updateLinks = () => {
-      redstormLink.onclick = () => location.href = langToggle.checked ? 'redstorm(eng).html#us' : 'redstorm.html#us';
-      downtownLink.onclick = () => location.href = langToggle.checked ? 'downtown(eng).html#us' : 'downtown.html#us';
-    };
-  
-    langToggle.addEventListener('change', updateLinks);
-    updateLinks(); // Set initial links on page load
-  </script>
+
+  <div class="footer">GMT Games · Air Combat Series</div>
+
 </body>
 </html>

@@ -1,0 +1,3436 @@
+{
+    "USAF": {
+        "aircraft": [
+            {
+                "name": "F-111D Aardvark",
+                "nickname": "Aardvark",
+                "crew": "Pilot-WSO",
+                "year": 1972,
+                "fuel": 15,
+                "bomb": 6,
+                "bomb_laden": 4,
+                "sight": "+3",
+                "rwr": "C",
+                "jam": "3d",
+                "radar": "APQ-130, APQ-128",
+                "performance": {
+                    "combat": {
+                        "clean": { "low": "3", "med": "4", "high": "5" },
+                        "laden": { "low": "3", "med": "3", "high": "3" }
+                    },
+                    "dash": {
+                        "clean": { "low": "5", "med": "6", "high": "7" },
+                        "laden": { "low": "4", "med": "4", "high": "5" }
+                    },
+                    "maneuver": {
+                        "clean": { "low": "4", "med": "5", "high": "5" },
+                        "laden": { "low": "2", "med": "3", "high": "3" }
+                    }
+                },
+                "capabilities": ["Night", "TFR"],
+                "guns": null,
+                "radar_missiles": null,
+                "infrared_missiles": [
+                    { "name": "AIM-9P", "count": 2, "rating": "x-x-0" }
+                ],
+                "ordnance": {
+                    "special": ["(6) Durandal RDB"]
+                },
+                "loadouts": [
+                    { "type": "Bombing", "weapons": "(6) Mk80 series", "air_to_air": { "AIM-9P": 8 } },
+                    { "type": "Bombing", "weapons": "(6) CBU series", "air_to_air": { "AIM-9P": 8 } },
+                    { "type": "Bombing", "weapons": "(6) Durandal RDB", "air_to_air": { "AIM-9P": 8 } },
+                    { "type": "Deep Strike", "weapons": "(4) Mk80 series", "air_to_air": { "AIM-9P": 8 } },
+                    { "type": "Deep Strike", "weapons": "(4) Durandal RDB", "air_to_air": { "AIM-9P": 8 } }
+                ],
+                "notes": []
+            },
+            {
+                "name": "F-111E Aardvark",
+                "nickname": "Aardvark",
+                "crew": "Pilot-WSO",
+                "year": 1969,
+                "fuel": 15,
+                "bomb": 6,
+                "bomb_laden": 4,
+                "sight": "+3",
+                "rwr": "C",
+                "jam": "3d",
+                "radar": "APQ-113, APQ-110",
+                "performance": {
+                    "combat": {
+                        "clean": { "low": "3", "med": "4", "high": "5" },
+                        "laden": { "low": "3", "med": "3", "high": "3" }
+                    },
+                    "dash": {
+                        "clean": { "low": "5", "med": "6", "high": "7" },
+                        "laden": { "low": "4", "med": "4", "high": "5" }
+                    },
+                    "maneuver": {
+                        "clean": { "low": "4", "med": "5", "high": "5" },
+                        "laden": { "low": "2", "med": "3", "high": "3" }
+                    }
+                },
+                "capabilities": ["Night", "TFR"],
+                "guns": null,
+                "radar_missiles": null,
+                "infrared_missiles": [
+                    { "name": "AIM-9P", "count": 2, "rating": "x-x-0" }
+                ],
+                "ordnance": {
+                    "special": ["(6) Durandal RDB"]
+                },
+                "loadouts": [
+                    { "type": "Bombing", "weapons": "(6) Mk80 series", "air_to_air": { "AIM-9P": 8 } },
+                    { "type": "Bombing", "weapons": "(6) CBU series", "air_to_air": { "AIM-9P": 8 } },
+                    { "type": "Bombing", "weapons": "(6) Durandal RDB", "air_to_air": { "AIM-9P": 8 } },
+                    { "type": "Deep Strike", "weapons": "(4) Mk80 series", "air_to_air": { "AIM-9P": 8 } },
+                    { "type": "Deep Strike", "weapons": "(4) Durandal RDB", "air_to_air": { "AIM-9P": 8 } }
+                ],
+                "notes": []
+            },
+            {
+                "name": "F-111F Aardvark",
+                "nickname": "Aardvark",
+                "crew": "Pilot-WSO",
+                "year": 1972,
+                "fuel": 15,
+                "bomb": 6,
+                "bomb_laden": 4,
+                "sight": "+4",
+                "rwr": "C",
+                "jam": "3d",
+                "radar": "APQ-144, APQ-146",
+                "performance": {
+                    "combat": {
+                        "clean": { "low": "4", "med": "4", "high": "5" },
+                        "laden": { "low": "3", "med": "3", "high": "3" }
+                    },
+                    "dash": {
+                        "clean": { "low": "5", "med": "6", "high": "8" },
+                        "laden": { "low": "4", "med": "5", "high": "5" }
+                    },
+                    "maneuver": {
+                        "clean": { "low": "4", "med": "5", "high": "5" },
+                        "laden": { "low": "2", "med": "3", "high": "3" }
+                    }
+                },
+                "capabilities": ["Night", "TFR", "FLIR"],
+                "guns": null,
+                "radar_missiles": null,
+                "infrared_missiles": [
+                    { "name": "AIM-9P", "count": 2, "rating": "x-x-0" }
+                ],
+                "ordnance": {
+                    "special": ["(1) EOGB (GBU-15)", "(2) LGB (Paveway III)"]
+                },
+                "loadouts": [
+                    { "type": "Bombing", "weapons": "(6) Mk80 series", "air_to_air": { "AIM-9P": 8 } },
+                    { "type": "Bombing", "weapons": "(6) CBU series", "air_to_air": { "AIM-9P": 8 } },
+                    { "type": "Deep Strike", "weapons": "(4) Mk80 series", "air_to_air": { "AIM-9P": 8 } },
+                    { "type": "Precision/D.S.", "weapons": "(1) EOGB (GBU-15)", "air_to_air": { "AIM-9P": 8 } },
+                    { "type": "Precision/D.S.", "weapons": "(2) LGB (Paveway III)", "air_to_air": { "AIM-9P": 8 } }
+                ],
+                "notes": []
+            },
+            {
+                "name": "EF-111A Raven",
+                "nickname": "Spark-Vark",
+                "crew": "Pilot-EWO",
+                "year": 1983,
+                "fuel": 15,
+                "bomb": null,
+                "bomb_laden": null,
+                "sight": "+3",
+                "rwr": "D",
+                "jam": "4d",
+                "radar": "APQ-160, APQ-110",
+                "performance": {
+                    "combat": {
+                        "clean": { "low": "3", "med": "4", "high": "5" },
+                        "laden": { "low": "-", "med": "-", "high": "-" }
+                    },
+                    "dash": {
+                        "clean": { "low": "5", "med": "6", "high": "7" },
+                        "laden": { "low": "-", "med": "-", "high": "-" }
+                    },
+                    "maneuver": {
+                        "clean": { "low": "4", "med": "5", "high": "5" },
+                        "laden": { "low": "-", "med": "-", "high": "-" }
+                    }
+                },
+                "capabilities": ["Night", "TFR"],
+                "guns": null,
+                "radar_missiles": null,
+                "infrared_missiles": null,
+                "jammers": {
+                    "count": 5,
+                    "max_jammers": 10,
+                    "max_low_band": 2,
+                    "range_table": { "3": 16, "2": 32, "1": 64 },
+                    "options": [
+                        { "name": "ALQ-99 Low-Band", "effect": "-1 EW" },
+                        { "name": "ALQ-99 High-Band Band 4", "effect": "-1 EW" },
+                        { "name": "ALQ-99 High-Band Band 5/6 (SAM & FC)", "effect": "4 Deception" },
+                        { "name": "ALQ-99 High-Band Band 7", "effect": "-1 GCI" },
+                        { "name": "ALQ-99 High-Band Band 8 (SAM)", "effect": "4 Deception" },
+                        { "name": "ALQ-99 High-Band Band 9 (SAM Beacon)", "effect": "4 Deception" }
+                    ]
+                },
+                "loadouts": [],
+                "notes": ["Selections made and fixed preflight"]
+            },
+            {
+                "name": "F-4D Phantom II",
+                "nickname": "Rhino",
+                "crew": "Pilot-WSO",
+                "year": 1971,
+                "fuel": 10,
+                "bomb": 3,
+                "bomb_laden": 2,
+                "sight": "+1",
+                "rwr": "A (APR-25)",
+                "jam": "2 Noise",
+                "radar": "APQ-109: [12] 10+; -1",
+                "performance": {
+                    "combat": {
+                        "clean": { "low": "3", "med": "4", "high": "4" },
+                        "laden": { "low": "2", "med": "3", "high": "3" }
+                    },
+                    "dash": {
+                        "clean": { "low": "5", "med": "5", "high": "6" },
+                        "laden": { "low": "3", "med": "4", "high": "5" }
+                    },
+                    "maneuver": {
+                        "clean": { "low": "5", "med": "6", "high": "6" },
+                        "laden": { "low": "2", "med": "3", "high": "3" }
+                    }
+                },
+                "capabilities": ["Night"],
+                "guns": [{ "name": "SUU-23 Pod", "count": 2 }],
+                "radar_missiles": [
+                    { "name": "AIM-7E2", "count_min": 0, "count_max": 2, "rating": "5-2-1" }
+                ],
+                "infrared_missiles": [
+                    { "name": "AIM-9J", "count": 2, "rating": "x-x-0" }
+                ],
+                "ordnance": {
+                    "special": ["(1) EOGB (GBU-15)", "(1) EOGM (Maverick)", "(1) LGB (Paveway III)"]
+                },
+                "loadouts": [
+                    { "type": "Bombing", "weapons": "(3) M117/Mk80 series", "air_to_air": { "AIM-7": 6, "AIM-9": 6 } },
+                    { "type": "Deep Strike", "weapons": "(2) M117/Mk80 series", "air_to_air": { "AIM-7": 6, "AIM-9": 6 } },
+                    { "type": "Precision/D.S.", "weapons": "(1) EOGB/LGB", "air_to_air": { "AIM-7": 6, "AIM-9": 6 } },
+                    { "type": "Precision", "weapons": "(1) EOGM (Maverick)", "air_to_air": { "AIM-7": 6, "AIM-9": 6 } },
+                    { "type": "SEAD", "weapons": "(2) CBU series, (1) ARM (Shrike)", "air_to_air": { "AIM-7": 6, "AIM-9": 6 } },
+                    { "type": "CAP", "weapons": "SUU-23 {4} 1D6=1-5", "air_to_air": { "AIM-7": 3, "AIM-9": 3 } },
+                    { "type": "Close Escort", "weapons": "SUU-23 {4} 1D6=1-5", "air_to_air": { "AIM-7": 3, "AIM-9": 3 } }
+                ],
+                "notes": ["Dec '71 variant", "Two card variants: Strike and SEAD/Air-to-Air"]
+            },
+            {
+                "name": "F-4E Phantom II",
+                "nickname": "Rhino",
+                "crew": "Pilot-WSO",
+                "year": 1968,
+                "fuel": 10,
+                "bomb": 3,
+                "bomb_laden": 2,
+                "sight": "+1",
+                "rwr": "A (APR-37)",
+                "jam": "3d",
+                "radar": "APQ-120: [14] 12+; -1",
+                "performance": {
+                    "combat": {
+                        "clean": { "low": "4", "med": "4", "high": "5" },
+                        "laden": { "low": "3", "med": "3", "high": "3" }
+                    },
+                    "dash": {
+                        "clean": { "low": "5", "med": "6", "high": "7" },
+                        "laden": { "low": "4", "med": "4", "high": "5" }
+                    },
+                    "maneuver": {
+                        "clean": { "low": "6", "med": "6", "high": "6" },
+                        "laden": { "low": "2", "med": "3", "high": "3" }
+                    }
+                },
+                "capabilities": ["Night", "LD/SD", "LTD", "TISEO"],
+                "guns": [{ "name": "20mm M61", "count": 2, "depletion": 3 }],
+                "radar_missiles": [
+                    { "name": "AIM-7F", "count_min": 1, "count_max": 3, "rating": "9-5-2" }
+                ],
+                "infrared_missiles": [
+                    { "name": "AIM-9L", "count_min": 0, "count_max": 3, "rating": "1-1-1" }
+                ],
+                "ordnance": {
+                    "special": ["(1) EOGB (GBU-15)", "(1) EOGM (Maverick)", "(1) LGB (Paveway III)"]
+                },
+                "loadouts": [
+                    { "type": "Bombing", "weapons": "(3) M117/Mk80 series", "air_to_air": { "AIM-7": 6, "AIM-9": 6 } },
+                    { "type": "Deep Strike", "weapons": "(2) M117/Mk80 series", "air_to_air": { "AIM-7": 6, "AIM-9": 6 } },
+                    { "type": "Precision/D.S.", "weapons": "(1) EOGB/LGB", "air_to_air": { "AIM-7": 6, "AIM-9": 6 } },
+                    { "type": "Precision", "weapons": "(1) EOGM (Maverick)", "air_to_air": { "AIM-7": 6, "AIM-9": 6 } },
+                    { "type": "SEAD", "weapons": "(2) CBU series, (1) ARM (Shrike)", "air_to_air": { "AIM-7": 6, "AIM-9": 6 } },
+                    { "type": "CAP", "weapons": null, "air_to_air": { "AIM-7": 3, "AIM-9": 3 } },
+                    { "type": "Close Escort", "weapons": null, "air_to_air": { "AIM-7": 3, "AIM-9": 3 } },
+                    { "type": "LASER Desig.", "weapons": null, "air_to_air": { "AIM-7": 3, "AIM-9": 3 } }
+                ],
+                "notes": ["Nov '68 variant", "Two card variants: Strike and SEAD/Air-to-Air/LTD"]
+            },
+            {
+                "name": "F-4G Phantom II",
+                "nickname": "Wild Weasel V",
+                "crew": "Pilot-WSO",
+                "year": 1978,
+                "fuel": 10,
+                "bomb": 2,
+                "bomb_laden": null,
+                "sight": "+1",
+                "rwr": "D",
+                "jam": "3d",
+                "radar": "APQ-120: [14] 12+; -1",
+                "performance": {
+                    "combat": {
+                        "clean": { "low": "4", "med": "4", "high": "5" },
+                        "laden": { "low": "3", "med": "3", "high": "3" }
+                    },
+                    "dash": {
+                        "clean": { "low": "5", "med": "6", "high": "7" },
+                        "laden": { "low": "4", "med": "4", "high": "5" }
+                    },
+                    "maneuver": {
+                        "clean": { "low": "6", "med": "6", "high": "6" },
+                        "laden": { "low": "2", "med": "3", "high": "3" }
+                    }
+                },
+                "capabilities": ["Night", "LD/SD", "LTD"],
+                "guns": null,
+                "radar_missiles": [
+                    { "name": "AIM-7F", "count_min": 1, "count_max": 3, "rating": "9-5-2" }
+                ],
+                "infrared_missiles": null,
+                "ordnance": {
+                    "special": ["(1) ARM (Shrike)", "(2) ARM (HARM)", "(1) EOGM (Maverick)"]
+                },
+                "loadouts": [
+                    { "type": "SEAD", "weapons": "(2) ARM (HARM)", "air_to_air": { "AIM-7": 6 } },
+                    { "type": "SEAD", "weapons": "(1) ARM (Shrike), (1) EOGM (Maverick)", "air_to_air": { "AIM-7": 6 } },
+                    { "type": "SEAD", "weapons": "(1) ARM (Shrike), (1) CBU series", "air_to_air": { "AIM-7": 6 } }
+                ],
+                "notes": []
+            },
+            {
+                "name": "RF-4C Phantom II",
+                "nickname": null,
+                "crew": "Pilot-RSO",
+                "year": 1967,
+                "fuel": 12,
+                "bomb": null,
+                "bomb_laden": null,
+                "sight": "N/A",
+                "rwr": "B",
+                "jam": "3d",
+                "radar": "APQ-99: [8] 6+; -2",
+                "performance": {
+                    "combat": {
+                        "clean": { "low": "3", "med": "4", "high": "4" },
+                        "laden": { "low": "-", "med": "-", "high": "-" }
+                    },
+                    "dash": {
+                        "clean": { "low": "5", "med": "5", "high": "6" },
+                        "laden": { "low": "-", "med": "-", "high": "-" }
+                    },
+                    "maneuver": {
+                        "clean": { "low": "5", "med": "6", "high": "6" },
+                        "laden": { "low": "-", "med": "-", "high": "-" }
+                    }
+                },
+                "capabilities": ["Night", "TFR"],
+                "guns": null,
+                "radar_missiles": null,
+                "infrared_missiles": null,
+                "recon": ["APQ-102 Side-Looking Radar", "Overhead Cameras", "Oblique Cameras", "AAS-18 IR Imaging Set", "Synthetic Aperture Radar"],
+                "loadouts": [],
+                "notes": ["Apr '67; Jul '72 upgrade"]
+            },
+            {
+                "name": "A-7D Corsair II",
+                "nickname": "S.L.U.F.",
+                "crew": "Pilot",
+                "year": 1972,
+                "fuel": 8,
+                "bomb": 3,
+                "bomb_laden": null,
+                "sight": "+3",
+                "rwr": "A",
+                "jam": "2n",
+                "radar": "APQ-99",
+                "performance": {
+                    "combat": {
+                        "clean": { "low": "2", "med": "3", "high": "3" },
+                        "laden": { "low": "2", "med": "2", "high": "2" }
+                    },
+                    "dash": {
+                        "clean": { "low": "3", "med": "4", "high": "4" },
+                        "laden": { "low": "3", "med": "3", "high": "3" }
+                    },
+                    "maneuver": {
+                        "clean": { "low": "5", "med": "4", "high": "3" },
+                        "laden": { "low": "2", "med": "2", "high": "2" }
+                    }
+                },
+                "capabilities": ["Night", "TFR", "LST"],
+                "guns": [{ "name": "20mm M61", "count": 2, "depletion": 3 }],
+                "radar_missiles": null,
+                "infrared_missiles": [
+                    { "name": "AIM-9J", "count": 2, "rating": "x-x-0" }
+                ],
+                "ordnance": {
+                    "special": ["(2) EOGM (Maverick)", "(1) LGB (GBU series)"]
+                },
+                "loadouts": [
+                    { "type": "Bombing", "weapons": "(3) Mk80 series", "air_to_air": { "AIM-9": 6 } },
+                    { "type": "EOGM", "weapons": "(2) Maverick", "air_to_air": { "AIM-9": 6 } },
+                    { "type": "LGB", "weapons": "(1) LGB (GBU series)", "air_to_air": { "AIM-9": 6 } },
+                    { "type": "SEAD", "weapons": "(1) Shrike, (2) CBU series", "air_to_air": { "AIM-9": 6 } }
+                ],
+                "notes": ["Oct '77", "No slash attacks; no zoom climbs"]
+            },
+            {
+                "name": "A-10A Thunderbolt II",
+                "nickname": "Warthog",
+                "crew": "Pilot",
+                "year": 1977,
+                "fuel": 11,
+                "bomb": 3,
+                "bomb_laden": null,
+                "sight": "+1",
+                "rwr": "B",
+                "jam": "3d",
+                "radar": "None",
+                "performance": {
+                    "combat": {
+                        "clean": { "low": "2", "med": "2", "high": "2" },
+                        "laden": { "low": "2", "med": "2", "high": "2" }
+                    },
+                    "dash": {
+                        "clean": { "low": "3", "med": "3", "high": "3" },
+                        "laden": { "low": "2", "med": "2", "high": "2" }
+                    },
+                    "maneuver": {
+                        "clean": { "low": "5", "med": "5", "high": "4" },
+                        "laden": { "low": "3", "med": "3", "high": "2" }
+                    }
+                },
+                "capabilities": ["Night", "LST"],
+                "guns": [{ "name": "30mm GAU-8", "count": 3, "depletion": 2 }],
+                "radar_missiles": null,
+                "infrared_missiles": [
+                    { "name": "AIM-9L", "count_min": 0, "count_max": 3, "rating": "1-1-1" }
+                ],
+                "ordnance": {
+                    "special": ["(2) EOGM (Maverick)", "(1) LGB (GBU series)"]
+                },
+                "loadouts": [
+                    { "type": "Bombing", "weapons": "(3) Mk80 series", "air_to_air": { "AIM-9": 6 } },
+                    { "type": "Bombing", "weapons": "(3) CBU series", "air_to_air": { "AIM-9": 6 } },
+                    { "type": "EOGM", "weapons": "(2) Maverick", "air_to_air": { "AIM-9": 6 } },
+                    { "type": "LGB", "weapons": "(1) LGB (GBU series)", "air_to_air": { "AIM-9": 6 } }
+                ],
+                "notes": ["No slash attacks; no zoom climbs"]
+            },
+            {
+                "name": "F-15A Eagle",
+                "nickname": "Flying Tennis Court",
+                "crew": "Pilot",
+                "year": 1976,
+                "fuel": 10,
+                "bomb": null,
+                "bomb_laden": null,
+                "sight": "N/A",
+                "rwr": "B (ALR-56)",
+                "jam": "3d (ALQ-165)",
+                "radar": "APG-63: [25] 20+; -1",
+                "performance": {
+                    "combat": {
+                        "clean": { "low": "4", "med": "4", "high": "5" },
+                        "laden": { "low": "-", "med": "-", "high": "-" }
+                    },
+                    "dash": {
+                        "clean": { "low": "5", "med": "6", "high": "8" },
+                        "laden": { "low": "-", "med": "-", "high": "-" }
+                    },
+                    "maneuver": {
+                        "clean": { "low": "8", "med": "9", "high": "9" },
+                        "laden": { "low": "-", "med": "-", "high": "-" }
+                    }
+                },
+                "capabilities": ["Night", "LD/SD", "TWS", "IFF"],
+                "guns": [{ "name": "20mm M61", "count": 3, "depletion": 3 }],
+                "radar_missiles": [
+                    { "name": "AIM-7F", "count_min": 1, "count_max": 3, "rating": "9-5-2", "available_until": "1981" },
+                    { "name": "AIM-7M", "count_min": 2, "count_max": 3, "rating": "9-5-2", "available_from": "1982" }
+                ],
+                "infrared_missiles": [
+                    { "name": "AIM-9J", "count": 2, "rating": "x-x-0", "available_until": "1978" },
+                    { "name": "AIM-9L", "count_min": 0, "count_max": 3, "rating": "1-1-1", "available_from": "1979" },
+                    { "name": "AIM-9M", "count_min": 1, "count_max": 3, "rating": "2-1-1", "available_from": "1982" }
+                ],
+                "loadouts": [
+                    { "type": "CAP", "weapons": null, "air_to_air": { "AIM-7": 3, "AIM-9": 3 } },
+                    { "type": "Close Escort", "weapons": null, "air_to_air": { "AIM-7": 3, "AIM-9": 3 } }
+                ],
+                "notes": ["Jan '76"]
+            },
+            {
+                "name": "F-15C Eagle",
+                "nickname": "Rodan",
+                "crew": "Pilot",
+                "year": 1980,
+                "fuel": 12,
+                "bomb": null,
+                "bomb_laden": null,
+                "sight": "N/A",
+                "rwr": "C (ALR-56)",
+                "jam": "3d (ALQ-165)",
+                "radar": "APG-63: [30] 24+; -1",
+                "performance": {
+                    "combat": {
+                        "clean": { "low": "4", "med": "4", "high": "4" },
+                        "laden": { "low": "-", "med": "-", "high": "-" }
+                    },
+                    "dash": {
+                        "clean": { "low": "5", "med": "6", "high": "7" },
+                        "laden": { "low": "-", "med": "-", "high": "-" }
+                    },
+                    "maneuver": {
+                        "clean": { "low": "6", "med": "7", "high": "7" },
+                        "laden": { "low": "-", "med": "-", "high": "-" }
+                    }
+                },
+                "capabilities": ["Night", "LD/SD", "TWS", "IFF", "NCTR", "PSP"],
+                "guns": [{ "name": "20mm M61", "count": 3, "depletion": 3 }],
+                "radar_missiles": [
+                    { "name": "AIM-7F", "count_min": 1, "count_max": 3, "rating": "9-5-2", "available_until": "1981" },
+                    { "name": "AIM-7M", "count_min": 2, "count_max": 3, "rating": "9-5-2", "available_from": "1982", "available_until": "1990" },
+                    { "name": "AIM-120", "count_min": 2, "count_max": 3, "rating": "8-3-2", "available_from": "1991" }
+                ],
+                "infrared_missiles": [
+                    { "name": "AIM-9L", "count_min": 0, "count_max": 3, "rating": "1-1-1", "available_until": "1981" },
+                    { "name": "AIM-9M", "count_min": 1, "count_max": 3, "rating": "2-1-1", "available_from": "1982" }
+                ],
+                "loadouts": [
+                    { "type": "CAP", "weapons": null, "air_to_air": { "AIM-7": 3, "AIM-9": 3 } },
+                    { "type": "CAP", "weapons": null, "air_to_air": { "AIM-120": 3, "AIM-9": 3 } },
+                    { "type": "Close Escort", "weapons": null, "air_to_air": { "AIM-7": 3, "AIM-9": 3 } },
+                    { "type": "Close Escort", "weapons": null, "air_to_air": { "AIM-120": 3, "AIM-9": 3 } }
+                ],
+                "notes": []
+            },
+            {
+                "name": "F-15C MSIP Eagle",
+                "nickname": "Starship",
+                "crew": "Pilot",
+                "year": 1985,
+                "fuel": 22,
+                "bomb": null,
+                "bomb_laden": null,
+                "sight": "N/A",
+                "rwr": "C (ALR-56)",
+                "jam": "3d (ALQ-165)",
+                "radar": "APG-63: [30] 24+; -1",
+                "performance": {
+                    "combat": {
+                        "clean": { "low": "4", "med": "4", "high": "4" },
+                        "laden": { "low": "-", "med": "-", "high": "-" }
+                    },
+                    "dash": {
+                        "clean": { "low": "5", "med": "6", "high": "7" },
+                        "laden": { "low": "-", "med": "-", "high": "-" }
+                    },
+                    "maneuver": {
+                        "clean": { "low": "6", "med": "7", "high": "7" },
+                        "laden": { "low": "-", "med": "-", "high": "-" }
+                    }
+                },
+                "capabilities": ["Night", "LD/SD", "TWS", "IFF", "NCTR", "PSP"],
+                "guns": [{ "name": "20mm M61", "count": 3, "depletion": 3 }],
+                "radar_missiles": [
+                    { "name": "AIM-7M", "count_min": 2, "count_max": 3, "rating": "9-5-2", "available_until": "1990" },
+                    { "name": "AIM-120", "count_min": 2, "count_max": 3, "rating": "8-3-2", "available_from": "1991" }
+                ],
+                "infrared_missiles": [
+                    { "name": "AIM-9M", "count_min": 1, "count_max": 3, "rating": "2-1-1" }
+                ],
+                "loadouts": [
+                    { "type": "CAP", "weapons": null, "air_to_air": { "AIM-7": 3, "AIM-9": 3 } },
+                    { "type": "CAP", "weapons": null, "air_to_air": { "AIM-120": 3, "AIM-9": 3 } },
+                    { "type": "Close Escort", "weapons": null, "air_to_air": { "AIM-7": 3, "AIM-9": 3 } },
+                    { "type": "Close Escort", "weapons": null, "air_to_air": { "AIM-120": 3, "AIM-9": 3 } }
+                ],
+                "notes": []
+            },
+            {
+                "name": "F-117A Nighthawk",
+                "nickname": "Cockroach",
+                "crew": "Pilot",
+                "year": 1983,
+                "fuel": 12,
+                "bomb": 1,
+                "bomb_laden": null,
+                "sight": "+4",
+                "rwr": "B",
+                "jam": "8d Stealth",
+                "radar": "None",
+                "performance": {
+                    "combat": {
+                        "clean": { "low": "3", "med": "3", "high": "3" },
+                        "laden": { "low": "-", "med": "-", "high": "-" }
+                    },
+                    "dash": {
+                        "clean": { "low": "4", "med": "4", "high": "4" },
+                        "laden": { "low": "-", "med": "-", "high": "-" }
+                    },
+                    "maneuver": {
+                        "clean": { "low": "3", "med": "3", "high": "3" },
+                        "laden": { "low": "-", "med": "-", "high": "-" }
+                    }
+                },
+                "capabilities": ["Night", "FLIR"],
+                "guns": null,
+                "radar_missiles": null,
+                "infrared_missiles": null,
+                "ordnance": {
+                    "special": ["(1) LGB (Paveway III)"]
+                },
+                "loadouts": [
+                    { "type": "Precision/D.S.", "weapons": "(1) LGB (Paveway III)", "air_to_air": {} }
+                ],
+                "notes": ["No Zoom Climbs"]
+            },
+            {
+                "name": "F-16A Fighting Falcon Block 1",
+                "nickname": "Viper",
+                "crew": "Pilot",
+                "year": 1978,
+                "fuel": 6,
+                "bomb": 3,
+                "bomb_laden": 2,
+                "sight": "+3",
+                "rwr": "B",
+                "jam": "3d",
+                "radar": "APG-66: [14] 12+; -1",
+                "performance": {
+                    "combat": {
+                        "clean": { "low": "4", "med": "4", "high": "5" },
+                        "laden": { "low": "3", "med": "3", "high": "4" }
+                    },
+                    "dash": {
+                        "clean": { "low": "5", "med": "6", "high": "8" },
+                        "laden": { "low": "4", "med": "5", "high": "5" }
+                    },
+                    "maneuver": {
+                        "clean": { "low": "9", "med": "9", "high": "9" },
+                        "laden": { "low": "4", "med": "5", "high": "5" }
+                    }
+                },
+                "capabilities": ["LD/SD"],
+                "guns": [{ "name": "20mm M61", "count": 3, "depletion": 3 }],
+                "radar_missiles": null,
+                "infrared_missiles": [
+                    { "name": "AIM-9L", "count_min": 0, "count_max": 3, "rating": "1-1-1", "available_until": "1981" },
+                    { "name": "AIM-9M", "count_min": 1, "count_max": 3, "rating": "2-1-1", "available_from": "1982" }
+                ],
+                "loadouts": [
+                    { "type": "Bombing", "weapons": "(3) Mk80 series", "air_to_air": { "AIM-9": 6 } },
+                    { "type": "Deep Strike", "weapons": "(2) Mk80 series", "air_to_air": { "AIM-9": 6 } },
+                    { "type": "SEAD", "weapons": "(3) Mk80 series", "air_to_air": { "AIM-9": 6 } },
+                    { "type": "CAP", "weapons": null, "air_to_air": { "AIM-9": 3 } },
+                    { "type": "Close Escort", "weapons": null, "air_to_air": { "AIM-9": 3 } }
+                ],
+                "notes": ["Aug '78"]
+            },
+            {
+                "name": "F-16A Fighting Falcon Block 5",
+                "nickname": "Viper",
+                "crew": "Pilot",
+                "year": 1978,
+                "fuel": 6,
+                "bomb": 3,
+                "bomb_laden": 2,
+                "sight": "+3",
+                "rwr": "B",
+                "jam": "3d",
+                "radar": "APG-66: [14] 12+; -1",
+                "performance": {
+                    "combat": {
+                        "clean": { "low": "4", "med": "4", "high": "5" },
+                        "laden": { "low": "3", "med": "3", "high": "4" }
+                    },
+                    "dash": {
+                        "clean": { "low": "5", "med": "6", "high": "8" },
+                        "laden": { "low": "4", "med": "5", "high": "5" }
+                    },
+                    "maneuver": {
+                        "clean": { "low": "9", "med": "9", "high": "9" },
+                        "laden": { "low": "4", "med": "5", "high": "5" }
+                    }
+                },
+                "capabilities": ["LD/SD"],
+                "guns": [{ "name": "20mm M61", "count": 3, "depletion": 3 }],
+                "radar_missiles": null,
+                "infrared_missiles": [
+                    { "name": "AIM-9L", "count_min": 0, "count_max": 3, "rating": "1-1-1", "available_until": "1981" },
+                    { "name": "AIM-9M", "count_min": 1, "count_max": 3, "rating": "2-1-1", "available_from": "1982" }
+                ],
+                "loadouts": [
+                    { "type": "Bombing", "weapons": "(3) Mk80 series", "air_to_air": { "AIM-9": 6 } },
+                    { "type": "Deep Strike", "weapons": "(2) Mk80 series", "air_to_air": { "AIM-9": 6 } },
+                    { "type": "SEAD", "weapons": "(3) Mk80 series", "air_to_air": { "AIM-9": 6 } },
+                    { "type": "CAP", "weapons": null, "air_to_air": { "AIM-9": 3 } },
+                    { "type": "Close Escort", "weapons": null, "air_to_air": { "AIM-9": 3 } }
+                ],
+                "notes": []
+            },
+            {
+                "name": "F-16A Fighting Falcon Block 10",
+                "nickname": "Viper",
+                "crew": "Pilot",
+                "year": 1978,
+                "fuel": 6,
+                "bomb": 3,
+                "bomb_laden": 2,
+                "sight": "+3",
+                "rwr": "B",
+                "jam": "3d",
+                "radar": "APG-66: [14] 12+; -1",
+                "performance": {
+                    "combat": {
+                        "clean": { "low": "4", "med": "4", "high": "5" },
+                        "laden": { "low": "3", "med": "3", "high": "4" }
+                    },
+                    "dash": {
+                        "clean": { "low": "5", "med": "6", "high": "8" },
+                        "laden": { "low": "4", "med": "5", "high": "5" }
+                    },
+                    "maneuver": {
+                        "clean": { "low": "9", "med": "9", "high": "9" },
+                        "laden": { "low": "4", "med": "5", "high": "5" }
+                    }
+                },
+                "capabilities": ["LD/SD"],
+                "guns": [{ "name": "20mm M61", "count": 3, "depletion": 3 }],
+                "radar_missiles": null,
+                "infrared_missiles": [
+                    { "name": "AIM-9L", "count_min": 0, "count_max": 3, "rating": "1-1-1", "available_until": "1981" },
+                    { "name": "AIM-9M", "count_min": 1, "count_max": 3, "rating": "2-1-1", "available_from": "1982" }
+                ],
+                "loadouts": [
+                    { "type": "Bombing", "weapons": "(3) Mk80 series", "air_to_air": { "AIM-9": 6 } },
+                    { "type": "Deep Strike", "weapons": "(2) Mk80 series", "air_to_air": { "AIM-9": 6 } },
+                    { "type": "SEAD", "weapons": "(3) Mk80 series", "air_to_air": { "AIM-9": 6 } },
+                    { "type": "CAP", "weapons": null, "air_to_air": { "AIM-9": 3 } },
+                    { "type": "Close Escort", "weapons": null, "air_to_air": { "AIM-9": 3 } }
+                ],
+                "notes": []
+            },
+            {
+                "name": "F-16A Fighting Falcon Block 15",
+                "nickname": "Viper",
+                "crew": "Pilot",
+                "year": 1978,
+                "fuel": 6,
+                "bomb": 3,
+                "bomb_laden": 2,
+                "sight": "+3",
+                "rwr": "B",
+                "jam": "3d",
+                "radar": "APG-66: [14] 12+; -1",
+                "performance": {
+                    "combat": {
+                        "clean": { "low": "4", "med": "4", "high": "5" },
+                        "laden": { "low": "3", "med": "3", "high": "4" }
+                    },
+                    "dash": {
+                        "clean": { "low": "5", "med": "6", "high": "8" },
+                        "laden": { "low": "4", "med": "5", "high": "5" }
+                    },
+                    "maneuver": {
+                        "clean": { "low": "9", "med": "9", "high": "9" },
+                        "laden": { "low": "4", "med": "5", "high": "5" }
+                    }
+                },
+                "capabilities": ["Ltd. Night", "LD/SD"],
+                "guns": [{ "name": "20mm M61", "count": 3, "depletion": 3 }],
+                "radar_missiles": [
+                    { "name": "AIM-120", "count_min": 2, "count_max": 3, "rating": "8-3-2" }
+                ],
+                "infrared_missiles": [
+                    { "name": "AIM-9L", "count_min": 0, "count_max": 3, "rating": "1-1-1", "available_until": "1981" },
+                    { "name": "AIM-9M", "count_min": 1, "count_max": 3, "rating": "2-1-1", "available_from": "1982" }
+                ],
+                "ordnance": {
+                    "special": ["(1) EOGM (Maverick)", "(1) EOGM (Penguin)"]
+                },
+                "loadouts": [
+                    { "type": "Bombing", "weapons": "(3) Mk80 series", "air_to_air": { "AIM-9": 6 } },
+                    { "type": "Deep Strike", "weapons": "(2) Mk80 series", "air_to_air": { "AIM-9": 6 } },
+                    { "type": "Precision", "weapons": "(1) EOGM (Maverick)", "air_to_air": { "AIM-9": 6 } },
+                    { "type": "SEAD", "weapons": "(3) Mk80 series", "air_to_air": { "AIM-9": 6 } },
+                    { "type": "CAP", "weapons": null, "air_to_air": { "AIM-120": 5, "AIM-9": 3 } },
+                    { "type": "Close Escort", "weapons": null, "air_to_air": { "AIM-120": 5, "AIM-9": 3 } }
+                ],
+                "notes": []
+            },
+            {
+                "name": "F-16C Fighting Falcon Block 25",
+                "nickname": "Viper",
+                "crew": "Pilot",
+                "year": 1983,
+                "fuel": 6,
+                "bomb": 3,
+                "bomb_laden": 2,
+                "sight": "+3",
+                "rwr": "B",
+                "jam": "Cd",
+                "radar": "APG-68: [16] 14+; -1",
+                "performance": {
+                    "combat": {
+                        "clean": { "low": "4", "med": "4", "high": "5" },
+                        "laden": { "low": "3", "med": "3", "high": "4" }
+                    },
+                    "dash": {
+                        "clean": { "low": "5", "med": "6", "high": "8" },
+                        "laden": { "low": "4", "med": "5", "high": "5" }
+                    },
+                    "maneuver": {
+                        "clean": { "low": "8", "med": "9", "high": "9" },
+                        "laden": { "low": "4", "med": "5", "high": "5" }
+                    }
+                },
+                "capabilities": ["LD/SD", "TWS", "Ltd. Night"],
+                "guns": [{ "name": "20mm M61", "count": 3, "depletion": 3 }],
+                "radar_missiles": [
+                    { "name": "AIM-120", "count_min": 2, "count_max": 3, "rating": "8-3-2" }
+                ],
+                "infrared_missiles": [
+                    { "name": "AIM-9M", "count_min": 1, "count_max": 3, "rating": "2-1-1" }
+                ],
+                "ordnance": {
+                    "special": ["(1) EOGM (Maverick)", "(1) ARM (Shrike)", "(1) ARM (HARM)"]
+                },
+                "loadouts": [
+                    { "type": "Bombing", "weapons": "(3) Mk80 series", "air_to_air": { "AIM-9": 6 } },
+                    { "type": "Deep Strike", "weapons": "(2) Mk80 series", "air_to_air": { "AIM-9": 6 } },
+                    { "type": "Precision", "weapons": "(1) EOGM (Maverick)", "air_to_air": { "AIM-9": 6 } },
+                    { "type": "SEAD", "weapons": "(3) Mk80 series, (1) ARM (Shrike)", "air_to_air": { "AIM-9": 6 } },
+                    { "type": "SEAD", "weapons": "(1) ARM (HARM)", "air_to_air": { "AIM-9": 6 } },
+                    { "type": "CAP/C.E.", "weapons": null, "air_to_air": { "AIM-120": 5, "AIM-9": 3 } }
+                ],
+                "notes": []
+            },
+            {
+                "name": "F-16C Fighting Falcon Block 30-32",
+                "nickname": "Viper",
+                "crew": "Pilot",
+                "year": 1985,
+                "fuel": 6,
+                "bomb": 3,
+                "bomb_laden": 2,
+                "sight": "+3",
+                "rwr": "C",
+                "jam": "3d",
+                "radar": "APG-68: [16] 14+; -1",
+                "performance": {
+                    "combat": {
+                        "clean": { "low": "4", "med": "4", "high": "5" },
+                        "laden": { "low": "3", "med": "3", "high": "4" }
+                    },
+                    "dash": {
+                        "clean": { "low": "5", "med": "6", "high": "8" },
+                        "laden": { "low": "4", "med": "5", "high": "5" }
+                    },
+                    "maneuver": {
+                        "clean": { "low": "8", "med": "9", "high": "9" },
+                        "laden": { "low": "4", "med": "5", "high": "5" }
+                    }
+                },
+                "capabilities": ["LD/SD", "TWS", "Ltd. Night"],
+                "guns": [{ "name": "20mm M61", "count": 3, "depletion": 3 }],
+                "radar_missiles": [
+                    { "name": "AIM-120", "count_min": 2, "count_max": 3, "rating": "8-3-2" }
+                ],
+                "infrared_missiles": [
+                    { "name": "AIM-9M", "count_min": 1, "count_max": 3, "rating": "2-1-1" }
+                ],
+                "ordnance": {
+                    "special": ["(1) EOGM (Maverick)", "(1) ARM (Shrike)", "(1) ARM (HARM)"]
+                },
+                "loadouts": [
+                    { "type": "Bombing", "weapons": "(3) Mk80 series", "air_to_air": { "AIM-9": 6 } },
+                    { "type": "Deep Strike", "weapons": "(2) Mk80 series", "air_to_air": { "AIM-9": 6 } },
+                    { "type": "Precision", "weapons": "(1) EOGM (Maverick)", "air_to_air": { "AIM-9": 6 } },
+                    { "type": "SEAD", "weapons": "(3) Mk80 series, (1) ARM (Shrike)", "air_to_air": { "AIM-9": 6 } },
+                    { "type": "SEAD", "weapons": "(1) ARM (HARM)", "air_to_air": { "AIM-9": 6 } },
+                    { "type": "CAP/C.E.", "weapons": null, "air_to_air": { "AIM-120": 5, "AIM-9": 3 } }
+                ],
+                "notes": []
+            },
+            {
+                "name": "C-141B Starlifter",
+                "nickname": "Starlifter",
+                "crew": "2 Pilot - 2 Nav - 2 LM",
+                "year": 1979,
+                "fuel": "Unlimited",
+                "bomb": null,
+                "bomb_laden": null,
+                "sight": "N/A",
+                "rwr": "N/A",
+                "jam": "N/A",
+                "radar": "Nav.",
+                "performance": {
+                    "combat": {
+                        "clean": { "low": "2", "med": "3", "high": "3" },
+                        "laden": { "low": "-", "med": "-", "high": "-" }
+                    },
+                    "dash": {
+                        "clean": { "low": "-", "med": "-", "high": "-" },
+                        "laden": { "low": "-", "med": "-", "high": "-" }
+                    },
+                    "maneuver": {
+                        "clean": { "low": "1", "med": "1", "high": "1" },
+                        "laden": { "low": "-", "med": "-", "high": "-" }
+                    }
+                },
+                "capabilities": ["Night"],
+                "guns": null,
+                "radar_missiles": null,
+                "infrared_missiles": null,
+                "loadouts": [],
+                "notes": ["Large, Poor SAM Defense, no Zoom"]
+            },
+            {
+                "name": "EC-130H Hercules",
+                "nickname": "Compass Call",
+                "crew": "2 Pilot - 2 Nav - 9 EWO",
+                "year": 1979,
+                "fuel": "Unlimited",
+                "bomb": null,
+                "bomb_laden": null,
+                "sight": "N/A",
+                "rwr": "B",
+                "jam": "N/A",
+                "radar": "Nav.",
+                "performance": {
+                    "combat": {
+                        "clean": { "low": "2", "med": "2", "high": "-" },
+                        "laden": { "low": "-", "med": "-", "high": "-" }
+                    },
+                    "dash": {
+                        "clean": { "low": "-", "med": "-", "high": "-" },
+                        "laden": { "low": "-", "med": "-", "high": "-" }
+                    },
+                    "maneuver": {
+                        "clean": { "low": "1", "med": "1", "high": "-" },
+                        "laden": { "low": "-", "med": "-", "high": "-" }
+                    }
+                },
+                "capabilities": ["Night"],
+                "guns": null,
+                "radar_missiles": null,
+                "infrared_missiles": null,
+                "jammers": {
+                    "count": 5,
+                    "range_table": { "3": 18, "2": 36, "1": 70 }
+                },
+                "loadouts": [],
+                "notes": ["Large, Poor SAM Defense, no Zoom"]
+            },
+            {
+                "name": "B-52G Stratofortress",
+                "nickname": "BUFF",
+                "crew": "2 Pilot - 2 RN - EWO - Gun",
+                "year": 1972,
+                "fuel": "Unlimited",
+                "bomb": 20,
+                "bomb_laden": null,
+                "sight": "+3",
+                "rwr": "B (APR-14/17/25/36)",
+                "jam": "5d",
+                "radar": "APQ-166",
+                "performance": {
+                    "combat": {
+                        "clean": { "low": "2", "med": "3", "high": "3" },
+                        "laden": { "low": "2", "med": "3", "high": "3" }
+                    },
+                    "dash": {
+                        "clean": { "low": "3", "med": "3", "high": "3" },
+                        "laden": { "low": "3", "med": "3", "high": "3" }
+                    },
+                    "maneuver": {
+                        "clean": { "low": "1", "med": "1", "high": "1" },
+                        "laden": { "low": "1", "med": "1", "high": "1" }
+                    }
+                },
+                "capabilities": ["Night", "TFR", "R.Nav."],
+                "guns": [{ "name": "4x .50 cal.", "count": 0, "depletion": "∞" }],
+                "radar_missiles": null,
+                "infrared_missiles": null,
+                "ordnance": {
+                    "special": ["(4) AGM SRAM"]
+                },
+                "loadouts": [
+                    { "type": "Bombing", "weapons": "(7) M117/Mk80 series" },
+                    { "type": "Bombing", "weapons": "(13) M117/Mk80 series" },
+                    { "type": "Bombing/D.S.", "weapons": "(7) M117/Mk80 series, (4) SRAM" }
+                ],
+                "notes": ["Large, Poor SAM Defense, no Zoom", "Operating altitude exceeds Fire Can"]
+            },
+            {
+                "name": "BGM-109G",
+                "nickname": "GLCM",
+                "crew": null,
+                "year": 1983,
+                "fuel": "Unlimited",
+                "bomb": null,
+                "bomb_laden": null,
+                "sight": "N/A",
+                "rwr": "N/A",
+                "jam": "2d",
+                "radar": "None",
+                "performance": {
+                    "combat": {
+                        "clean": { "low": "-", "med": "-", "high": "-" },
+                        "laden": { "low": "-", "med": "-", "high": "-" }
+                    },
+                    "dash": {
+                        "clean": { "low": "-", "med": "-", "high": "-" },
+                        "laden": { "low": "-", "med": "-", "high": "-" }
+                    },
+                    "maneuver": {
+                        "clean": { "low": "1", "med": "-", "high": "-" },
+                        "laden": { "low": "-", "med": "-", "high": "-" }
+                    }
+                },
+                "capabilities": ["Night", "TFR"],
+                "loadouts": [
+                    { "type": "Bombing", "weapons": "(N) 150 kT" }
+                ],
+                "notes": []
+            },
+            {
+                "name": "AGM-69A",
+                "nickname": "SRAM",
+                "crew": null,
+                "year": 1972,
+                "fuel": "Unlimited",
+                "bomb": null,
+                "bomb_laden": null,
+                "sight": "N/A",
+                "rwr": "N/A",
+                "jam": "2d",
+                "radar": "None",
+                "performance": {
+                    "combat": {
+                        "clean": { "low": "-", "med": "-", "high": "-" },
+                        "laden": { "low": "-", "med": "-", "high": "-" }
+                    },
+                    "dash": {
+                        "clean": { "low": "8", "med": "-", "high": "15" },
+                        "laden": { "low": "-", "med": "-", "high": "-" }
+                    },
+                    "maneuver": {
+                        "clean": { "low": "4", "med": "-", "high": "6" },
+                        "laden": { "low": "-", "med": "-", "high": "-" }
+                    }
+                },
+                "capabilities": [],
+                "loadouts": [
+                    { "type": "Bombing", "weapons": "(N) 210 kT" },
+                    { "type": "SEAD", "weapons": "(N) 17 kT" }
+                ],
+                "notes": []
+            },
+            {
+                "name": "BQM-74C Chukar III",
+                "nickname": "Decoy",
+                "crew": null,
+                "year": 1978,
+                "fuel": "Unlimited",
+                "bomb": null,
+                "bomb_laden": null,
+                "sight": "N/A",
+                "rwr": "N/A",
+                "jam": "N/A",
+                "radar": "None",
+                "performance": {
+                    "combat": {
+                        "clean": { "low": "-", "med": "3", "high": "-" },
+                        "laden": { "low": "-", "med": "-", "high": "-" }
+                    },
+                    "dash": {
+                        "clean": { "low": "-", "med": "-", "high": "-" },
+                        "laden": { "low": "-", "med": "-", "high": "-" }
+                    },
+                    "maneuver": {
+                        "clean": { "low": "-", "med": "1", "high": "-" },
+                        "laden": { "low": "-", "med": "-", "high": "-" }
+                    }
+                },
+                "capabilities": ["Night"],
+                "loadouts": [],
+                "notes": ["Resembles a flight of aircraft. Removed from play upon visual I.D., SAM avoidance, or successful air-to-air engagement."]
+            }
+        ]
+    },
+    "RAF": {
+        "aircraft": [
+            {
+                "name": "FGR.2 Phantom II",
+                "nickname": "Tomb",
+                "crew": "Pilot-RIO",
+                "year": 1969,
+                "fuel": 10,
+                "bomb": null,
+                "bomb_laden": null,
+                "sight": "N/A",
+                "rwr": "B",
+                "jam": "N/A",
+                "radar": "AWG-12 [16] 14+; -1",
+                "performance": {
+                    "combat": {
+                        "clean": { "low": "4", "med": "4", "high": "4" },
+                        "laden": { "low": "3", "med": "3", "high": "3" }
+                    },
+                    "dash": {
+                        "clean": { "low": "5", "med": "6", "high": "7" },
+                        "laden": { "low": "4", "med": "5", "high": "5" }
+                    },
+                    "maneuver": {
+                        "clean": { "low": "5", "med": "6", "high": "7" },
+                        "laden": { "low": "2", "med": "3", "high": "3" }
+                    }
+                },
+                "capabilities": ["Night", "LD/SD"],
+                "guns": [{ "name": "SUU-23", "count": 2, "depletion": 4 }],
+                "radar_missiles": [
+                    { "name": "Skyflash", "count_min": 2, "count_max": 3, "rating": "8-4-2" }
+                ],
+                "infrared_missiles": [
+                    { "name": "AIM-9L", "count_min": 0, "count_max": 3, "rating": "1-1-1" }
+                ],
+                "loadouts": [
+                    { "type": "CAP", "weapons": null, "air_to_air": { "Skyflash": 3, "AIM-9": 3 } },
+                    { "type": "CAP", "weapons": "(1) SUU-23 {4}", "air_to_air": { "Skyflash": 3, "AIM-9": 3 } },
+                    { "type": "Close Escort", "weapons": null, "air_to_air": { "Skyflash": 3, "AIM-9": 3 } },
+                    { "type": "Close Escort", "weapons": "(1) SUU-23 {4}", "air_to_air": { "Skyflash": 3, "AIM-9": 3 } }
+                ],
+                "notes": ["Sep '69", "1D10 Roll for each flight: 1-5 SUU-23 fitted, 6-10 SUU-23 unavailable"]
+            },
+            {
+                "name": "Tornado GR.1",
+                "nickname": "Tonka",
+                "crew": "Pilot-WSO",
+                "year": 1979,
+                "fuel": 11,
+                "bomb": 4,
+                "bomb_laden": 2,
+                "sight": "+4",
+                "rwr": "C",
+                "jam": "3d",
+                "radar": "Decca 72 TFR",
+                "performance": {
+                    "combat": {
+                        "clean": { "low": "4", "med": "4", "high": "5" },
+                        "laden": { "low": "3", "med": "3", "high": "3" }
+                    },
+                    "dash": {
+                        "clean": { "low": "5", "med": "6", "high": "7" },
+                        "laden": { "low": "4", "med": "4", "high": "5" }
+                    },
+                    "maneuver": {
+                        "clean": { "low": "4", "med": "5", "high": "6" },
+                        "laden": { "low": "2", "med": "3", "high": "3" }
+                    }
+                },
+                "capabilities": ["Night"],
+                "guns": [{ "name": "27mm", "count": 3, "depletion": 4 }],
+                "radar_missiles": null,
+                "infrared_missiles": [
+                    { "name": "AIM-9L", "count_min": 0, "count_max": 3, "rating": "1-1-1" }
+                ],
+                "loadouts": [
+                    { "type": "Bombing", "weapons": "(4) Mk80 series" },
+                    { "type": "Bombing (RD)", "weapons": "(1) JP233" },
+                    { "type": "Deep Strike", "weapons": "(2) Mk80 series" },
+                    { "type": "SEAD", "weapons": "(4) Mk80 series" }
+                ],
+                "notes": ["Jun '79"]
+            },
+            {
+                "name": "Tornado GR.1A",
+                "nickname": "Tonka",
+                "crew": "Pilot-WSO",
+                "year": 1979,
+                "fuel": 14,
+                "bomb": null,
+                "bomb_laden": null,
+                "sight": "N/A",
+                "rwr": "C",
+                "jam": "3d",
+                "radar": "Decca 72 TFR",
+                "performance": {
+                    "combat": {
+                        "clean": { "low": "4", "med": "4", "high": "5" },
+                        "laden": { "low": "3", "med": "3", "high": "3" }
+                    },
+                    "dash": {
+                        "clean": { "low": "5", "med": "6", "high": "7" },
+                        "laden": { "low": "4", "med": "4", "high": "5" }
+                    },
+                    "maneuver": {
+                        "clean": { "low": "4", "med": "5", "high": "6" },
+                        "laden": { "low": "3", "med": "3", "high": "3" }
+                    }
+                },
+                "capabilities": ["Night"],
+                "guns": null,
+                "radar_missiles": null,
+                "infrared_missiles": [
+                    { "name": "AIM-9L", "count_min": 0, "count_max": 3, "rating": "1-1-1" }
+                ],
+                "recon": ["3x IR Linescanners"],
+                "loadouts": [],
+                "notes": ["May only conduct photorecce at Deck"]
+            },
+            {
+                "name": "Tornado F.2A",
+                "nickname": "Tin Fin",
+                "crew": "Pilot-WSO",
+                "year": 1985,
+                "fuel": 10,
+                "bomb": null,
+                "bomb_laden": null,
+                "sight": "N/A",
+                "rwr": "C",
+                "jam": "N/A",
+                "radar": "AI.24 [25] 20+; -1",
+                "performance": {
+                    "combat": {
+                        "clean": { "low": "4", "med": "4", "high": "5" },
+                        "laden": { "low": "-", "med": "-", "high": "-" }
+                    },
+                    "dash": {
+                        "clean": { "low": "5", "med": "6", "high": "8" },
+                        "laden": { "low": "-", "med": "-", "high": "-" }
+                    },
+                    "maneuver": {
+                        "clean": { "low": "4", "med": "5", "high": "6" },
+                        "laden": { "low": "-", "med": "-", "high": "-" }
+                    }
+                },
+                "capabilities": ["LD/SD", "Night"],
+                "guns": [{ "name": "27mm", "count": 3, "depletion": 4 }],
+                "radar_missiles": [
+                    { "name": "Skyflash", "count_min": 2, "count_max": 3, "rating": "8-4-2" }
+                ],
+                "infrared_missiles": [
+                    { "name": "AIM-9L", "count_min": 0, "count_max": 3, "rating": "1-1-1" }
+                ],
+                "loadouts": [
+                    { "type": "CAP", "weapons": null, "air_to_air": { "Skyflash": 3, "AIM-9": 6 } },
+                    { "type": "Close Escort", "weapons": null, "air_to_air": { "Skyflash": 3, "AIM-9": 6 } }
+                ],
+                "notes": ["May '85", "Roll 1D10 for each flight: 1-4 AI.24 [25] 20+; -1, 5-10 AI.24 [12] 8+; -2"]
+            },
+            {
+                "name": "Jaguar GR.1A",
+                "nickname": null,
+                "crew": "Pilot",
+                "year": 1969,
+                "fuel": 7,
+                "bomb": 2,
+                "bomb_laden": null,
+                "sight": "+2",
+                "rwr": "A",
+                "jam": "2n",
+                "radar": "N/A",
+                "performance": {
+                    "combat": {
+                        "clean": { "low": "3", "med": "4", "high": "4" },
+                        "laden": { "low": "2", "med": "3", "high": "3" }
+                    },
+                    "dash": {
+                        "clean": { "low": "5", "med": "5", "high": "6" },
+                        "laden": { "low": "3", "med": "4", "high": "4" }
+                    },
+                    "maneuver": {
+                        "clean": { "low": "6", "med": "5", "high": "4" },
+                        "laden": { "low": "3", "med": "3", "high": "2" }
+                    }
+                },
+                "capabilities": ["Ltd Night", "Toss"],
+                "guns": [{ "name": "30mm", "count": 3, "depletion": 4 }],
+                "radar_missiles": null,
+                "infrared_missiles": [
+                    { "name": "AIM-9G", "count": 1, "rating": "x-x-0" }
+                ],
+                "ordnance": {
+                    "special": ["(1) LGB"]
+                },
+                "loadouts": [
+                    { "type": "Bombing", "weapons": "(2) Bombs", "air_to_air": { "AIM-9": 8 } },
+                    { "type": "Bombing", "weapons": "(2) Rockets", "air_to_air": { "AIM-9": 8 } },
+                    { "type": "SEAD", "weapons": "(2) Rockets", "air_to_air": { "AIM-9": 8 } },
+                    { "type": "Precision", "weapons": "(1) LGB", "air_to_air": {} }
+                ],
+                "notes": ["Sep '69", "Requires laser designation by another flight"]
+            },
+            {
+                "name": "Buccaneer S.2B",
+                "nickname": null,
+                "crew": "Pilot-WSO",
+                "year": 1962,
+                "fuel": 12,
+                "bomb": 2,
+                "bomb_laden": null,
+                "sight": "+1",
+                "rwr": "B",
+                "jam": "2n",
+                "radar": "Blue Parrot TFR",
+                "performance": {
+                    "combat": {
+                        "clean": { "low": "3", "med": "3", "high": "2" },
+                        "laden": { "low": "2", "med": "2", "high": "2" }
+                    },
+                    "dash": {
+                        "clean": { "low": "4", "med": "4", "high": "3" },
+                        "laden": { "low": "3", "med": "3", "high": "3" }
+                    },
+                    "maneuver": {
+                        "clean": { "low": "4", "med": "3", "high": "2" },
+                        "laden": { "low": "2", "med": "2", "high": "2" }
+                    }
+                },
+                "capabilities": ["Night"],
+                "guns": null,
+                "radar_missiles": null,
+                "infrared_missiles": [
+                    { "name": "AIM-9L", "count_min": 0, "count_max": 3, "rating": "1-1-1" }
+                ],
+                "ordnance": {
+                    "special": ["(1) EOGB", "(1) LGB", "(1) AS.37 ARM"]
+                },
+                "loadouts": [
+                    { "type": "Bombing", "weapons": "(2) Mk80 series", "air_to_air": { "AIM-9": 8 } },
+                    { "type": "Precision", "weapons": "(1) EOGB", "air_to_air": { "AIM-9": 8 } },
+                    { "type": "Precision", "weapons": "(1) LGB", "air_to_air": { "AIM-9": 8 } },
+                    { "type": "SEAD", "weapons": "(1) AS.37 ARM", "air_to_air": { "AIM-9": 8 } },
+                    { "type": "Deep Strike", "weapons": "(2) Mk80 series", "air_to_air": { "AIM-9": 8 } },
+                    { "type": "LASER Desig.", "weapons": "(1) Pave Spike", "air_to_air": { "AIM-9": 8 } }
+                ],
+                "notes": ["Zoom Climb Not Allowed"]
+            },
+            {
+                "name": "Harrier GR.3",
+                "nickname": null,
+                "crew": "Pilot",
+                "year": 1982,
+                "fuel": 10,
+                "bomb": 1.5,
+                "bomb_laden": null,
+                "sight": "N/A",
+                "rwr": "A",
+                "jam": "N/A",
+                "radar": "N/A",
+                "performance": {
+                    "combat": {
+                        "clean": { "low": "3", "med": "3", "high": "2" },
+                        "laden": { "low": "2", "med": "2", "high": "2" }
+                    },
+                    "dash": {
+                        "clean": { "low": "4", "med": "4", "high": "3" },
+                        "laden": { "low": "3", "med": "3", "high": "3" }
+                    },
+                    "maneuver": {
+                        "clean": { "low": "6", "med": "5", "high": "4" },
+                        "laden": { "low": "3", "med": "3", "high": "2" }
+                    }
+                },
+                "capabilities": [],
+                "guns": [{ "name": "30mm", "count": 3, "depletion": 4 }],
+                "radar_missiles": null,
+                "infrared_missiles": [
+                    { "name": "AIM-9G", "count": 1, "rating": "x-x-0" }
+                ],
+                "ordnance": {
+                    "special": ["(1) LGB"]
+                },
+                "loadouts": [
+                    { "type": "Bombing", "weapons": "(1.5) Mk80 series" },
+                    { "type": "Bombing", "weapons": "(1.5) LAU series" },
+                    { "type": "Precision", "weapons": "(1) LGB" },
+                    { "type": "SEAD", "weapons": "(1.5) LAU series" },
+                    { "type": "CAP", "weapons": null, "air_to_air": { "AIM-9": 6 } },
+                    { "type": "Close Escort", "weapons": null, "air_to_air": { "AIM-9": 6 } },
+                    { "type": "Rescue CAP", "weapons": "(1.5) LAU series" }
+                ],
+                "notes": ["<1982", "May perform Max turns as Free turns", "May enter Defensive Wheel", "Requires laser designation by another flight"]
+            },
+            {
+                "name": "Falcon 20F",
+                "nickname": null,
+                "crew": "2 Pilot - 3 EWO",
+                "year": 1965,
+                "fuel": "Unlimited",
+                "bomb": null,
+                "bomb_laden": null,
+                "sight": "N/A",
+                "rwr": "C",
+                "jam": "3n",
+                "radar": "N/A",
+                "performance": {
+                    "combat": {
+                        "clean": { "low": "2", "med": "2", "high": "3" },
+                        "laden": { "low": "-", "med": "-", "high": "-" }
+                    },
+                    "dash": {
+                        "clean": { "low": "-", "med": "-", "high": "-" },
+                        "laden": { "low": "-", "med": "-", "high": "-" }
+                    },
+                    "maneuver": {
+                        "clean": { "low": "1", "med": "1", "high": "1" },
+                        "laden": { "low": "-", "med": "-", "high": "-" }
+                    }
+                },
+                "capabilities": ["Night"],
+                "guns": null,
+                "radar_missiles": null,
+                "infrared_missiles": null,
+                "jammers": {
+                    "count": 1,
+                    "range_table": { "3": 10, "2": 20, "1": 40 }
+                },
+                "loadouts": [],
+                "notes": ["Zoom Climb Not Allowed", "1965+"]
+            }
+        ]
+    },
+    "Belgian": {
+        "aircraft": [
+            {
+                "name": "F-16A Fighting Falcon Block 5",
+                "nickname": "Viper",
+                "crew": "Pilot",
+                "year": 1979,
+                "fuel": 6,
+                "bomb": 3,
+                "bomb_laden": null,
+                "sight": "+3",
+                "rwr": "B",
+                "jam": "N/A",
+                "radar": "APG-66: [14] 12+; -1",
+                "performance": {
+                    "combat": {
+                        "clean": { "low": "4", "med": "4", "high": "5" },
+                        "laden": { "low": "3", "med": "3", "high": "4" }
+                    },
+                    "dash": {
+                        "clean": { "low": "5", "med": "6", "high": "8" },
+                        "laden": { "low": "4", "med": "5", "high": "5" }
+                    },
+                    "maneuver": {
+                        "clean": { "low": "9", "med": "9", "high": "9" },
+                        "laden": { "low": "4", "med": "5", "high": "5" }
+                    }
+                },
+                "capabilities": ["LD", "Ltd Night"],
+                "guns": [{ "name": "20mm M61", "count": 3, "depletion": 3 }],
+                "radar_missiles": null,
+                "infrared_missiles": [
+                    { "name": "AIM-9L", "count_min": 0, "count_max": 3, "rating": "1-1-1" }
+                ],
+                "loadouts": [
+                    { "type": "Bombing", "weapons": "(3) Mk80 series", "air_to_air": { "AIM-9": 6 } },
+                    { "type": "SEAD", "weapons": "(3) Mk80 series", "air_to_air": { "AIM-9": 6 } },
+                    { "type": "CAP", "weapons": null, "air_to_air": { "AIM-9": 3 } },
+                    { "type": "Close Escort", "weapons": null, "air_to_air": { "AIM-9": 3 } },
+                    { "type": "Recon", "weapons": null, "air_to_air": { "AIM-9": 3 } }
+                ],
+                "notes": ["1979"]
+            },
+            {
+                "name": "Mirage 5BR",
+                "nickname": null,
+                "crew": "Pilot",
+                "year": 1967,
+                "fuel": 6,
+                "bomb": null,
+                "bomb_laden": null,
+                "sight": "N/A",
+                "rwr": "C",
+                "jam": "3d",
+                "radar": "N/A",
+                "performance": {
+                    "combat": {
+                        "clean": { "low": "3", "med": "4", "high": "5" },
+                        "laden": { "low": "-", "med": "-", "high": "-" }
+                    },
+                    "dash": {
+                        "clean": { "low": "5", "med": "6", "high": "7" },
+                        "laden": { "low": "-", "med": "-", "high": "-" }
+                    },
+                    "maneuver": {
+                        "clean": { "low": "5", "med": "6", "high": "6" },
+                        "laden": { "low": "-", "med": "-", "high": "-" }
+                    }
+                },
+                "capabilities": ["Night"],
+                "guns": [{ "name": "2x 30mm", "count": 3, "depletion": 4 }],
+                "radar_missiles": null,
+                "infrared_missiles": null,
+                "recon": ["None"],
+                "loadouts": [],
+                "notes": ["Jan '67", "Recon: None"]
+            },
+            {
+                "name": "Mirage 5BA",
+                "nickname": null,
+                "crew": "Pilot",
+                "year": 1967,
+                "fuel": 6,
+                "bomb": 2,
+                "bomb_laden": null,
+                "sight": "+1",
+                "rwr": "C",
+                "jam": "3d",
+                "radar": "N/A",
+                "performance": {
+                    "combat": {
+                        "clean": { "low": "3", "med": "4", "high": "5" },
+                        "laden": { "low": "3", "med": "3", "high": "4" }
+                    },
+                    "dash": {
+                        "clean": { "low": "5", "med": "6", "high": "7" },
+                        "laden": { "low": "4", "med": "5", "high": "5" }
+                    },
+                    "maneuver": {
+                        "clean": { "low": "5", "med": "6", "high": "6" },
+                        "laden": { "low": "2", "med": "3", "high": "3" }
+                    }
+                },
+                "capabilities": ["Ltd Night"],
+                "guns": [{ "name": "2x 30mm", "count": 3, "depletion": 4 }],
+                "radar_missiles": null,
+                "infrared_missiles": [
+                    { "name": "AIM-9F", "count": 1, "rating": "x-x-0" }
+                ],
+                "loadouts": [
+                    { "type": "CAP", "weapons": null, "air_to_air": {} },
+                    { "type": "Close Escort", "weapons": null, "air_to_air": {} },
+                    { "type": "Bombing", "weapons": "(2) Bombs" },
+                    { "type": "Bombing", "weapons": "(2) Rockets" },
+                    { "type": "SEAD", "weapons": "(2) Rockets" }
+                ],
+                "notes": ["Jan '67"]
+            },
+            {
+                "name": "NF-5A Freedom Fighter",
+                "nickname": null,
+                "crew": "Pilot",
+                "year": 1969,
+                "fuel": 4,
+                "bomb": 1,
+                "bomb_laden": null,
+                "sight": "+0",
+                "rwr": "B",
+                "jam": "N/A",
+                "radar": "N/A",
+                "performance": {
+                    "combat": {
+                        "clean": { "low": "3", "med": "3", "high": "4" },
+                        "laden": { "low": "2", "med": "2", "high": "3" }
+                    },
+                    "dash": {
+                        "clean": { "low": "4", "med": "5", "high": "5" },
+                        "laden": { "low": "3", "med": "3", "high": "4" }
+                    },
+                    "maneuver": {
+                        "clean": { "low": "5", "med": "6", "high": "7" },
+                        "laden": { "low": "2", "med": "3", "high": "3" }
+                    }
+                },
+                "capabilities": [],
+                "guns": [{ "name": "20mm M61", "count": 2, "depletion": 4 }],
+                "radar_missiles": null,
+                "infrared_missiles": [
+                    { "name": "AIM-9L", "count_min": 0, "count_max": 3, "rating": "1-1-1" }
+                ],
+                "loadouts": [
+                    { "type": "Bombing", "weapons": "(1) Mk80 series" },
+                    { "type": "SEAD", "weapons": "(2) CBU series" },
+                    { "type": "CAP", "weapons": null, "air_to_air": { "AIM-9": 3 } },
+                    { "type": "Close Escort", "weapons": null, "air_to_air": { "AIM-9": 3 } }
+                ],
+                "notes": ["Oct '69"]
+            }
+        ]
+    },
+    "Canadian": {
+        "aircraft": [
+            {
+                "name": "CF-18A Hornet",
+                "nickname": null,
+                "crew": "Pilot",
+                "year": 1984,
+                "fuel": 6,
+                "bomb": 4,
+                "bomb_laden": 2,
+                "sight": "+3",
+                "rwr": "B",
+                "jam": "3d",
+                "radar": "APG-65: [16] 14+; -1",
+                "performance": {
+                    "combat": {
+                        "clean": { "low": "4", "med": "4", "high": "5" },
+                        "laden": { "low": "3", "med": "3", "high": "4" }
+                    },
+                    "dash": {
+                        "clean": { "low": "5", "med": "6", "high": "7" },
+                        "laden": { "low": "4", "med": "5", "high": "5" }
+                    },
+                    "maneuver": {
+                        "clean": { "low": "7", "med": "7", "high": "8" },
+                        "laden": { "low": "4", "med": "5", "high": "5" }
+                    }
+                },
+                "capabilities": ["Night", "LD/SD", "TWS", "TFR"],
+                "guns": [{ "name": "20mm M61", "count": 3, "depletion": 3 }],
+                "radar_missiles": [
+                    { "name": "AIM-7M", "count_min": 2, "count_max": 3, "rating": "9-5-2" }
+                ],
+                "infrared_missiles": [
+                    { "name": "AIM-9L", "count_min": 0, "count_max": 3, "rating": "1-1-1" }
+                ],
+                "loadouts": [
+                    { "type": "Bombing", "weapons": "(4) Mk80 series", "air_to_air": { "AIM-9": 6 } },
+                    { "type": "Deep Strike", "weapons": "(2) Mk80 series", "air_to_air": { "AIM-9": 6 } },
+                    { "type": "SEAD", "weapons": "(2) CBU series", "air_to_air": { "AIM-9": 6 } },
+                    { "type": "CAP", "weapons": null, "air_to_air": { "AIM-7": 5, "AIM-9": 3 } },
+                    { "type": "Close Escort", "weapons": null, "air_to_air": { "AIM-7": 5, "AIM-9": 3 } }
+                ],
+                "notes": ["1984"]
+            },
+            {
+                "name": "CF-5A Freedom Fighter",
+                "nickname": null,
+                "crew": "Pilot",
+                "year": 1968,
+                "fuel": 4,
+                "bomb": 1,
+                "bomb_laden": null,
+                "sight": "+0",
+                "rwr": "N/A",
+                "jam": "N/A",
+                "radar": "N/A",
+                "performance": {
+                    "combat": {
+                        "clean": { "low": "3", "med": "3", "high": "4" },
+                        "laden": { "low": "2", "med": "2", "high": "3" }
+                    },
+                    "dash": {
+                        "clean": { "low": "4", "med": "5", "high": "5" },
+                        "laden": { "low": "3", "med": "3", "high": "4" }
+                    },
+                    "maneuver": {
+                        "clean": { "low": "5", "med": "6", "high": "7" },
+                        "laden": { "low": "2", "med": "3", "high": "3" }
+                    }
+                },
+                "capabilities": [],
+                "guns": [{ "name": "20mm M61", "count": 2, "depletion": 4 }],
+                "radar_missiles": null,
+                "infrared_missiles": [
+                    { "name": "AIM-9L", "count_min": 0, "count_max": 3, "rating": "1-1-1" }
+                ],
+                "loadouts": [
+                    { "type": "Bombing", "weapons": "(1) Mk80 series" },
+                    { "type": "Bombing", "weapons": "(1) LAU series" },
+                    { "type": "SEAD", "weapons": "(2) CBU series" },
+                    { "type": "CAP", "weapons": null, "air_to_air": { "AIM-9": 3 } },
+                    { "type": "Close Escort", "weapons": null, "air_to_air": { "AIM-9": 3 } }
+                ],
+                "notes": ["1968"]
+            }
+        ]
+    },
+    "West German": {
+        "aircraft": [
+            {
+                "name": "RF-4E Phantom II",
+                "nickname": "Eisenschwein",
+                "crew": "Pilot-WSO",
+                "year": 1971,
+                "fuel": 10,
+                "bomb": null,
+                "bomb_laden": null,
+                "sight": "N/A",
+                "rwr": "B",
+                "jam": "3d",
+                "radar": "APQ-120: [14] 12+; -1",
+                "performance": {
+                    "combat": {
+                        "clean": { "low": "4", "med": "4", "high": "5" },
+                        "laden": { "low": "-", "med": "-", "high": "-" }
+                    },
+                    "dash": {
+                        "clean": { "low": "5", "med": "6", "high": "7" },
+                        "laden": { "low": "-", "med": "-", "high": "-" }
+                    },
+                    "maneuver": {
+                        "clean": { "low": "6", "med": "6", "high": "6" },
+                        "laden": { "low": "-", "med": "-", "high": "-" }
+                    }
+                },
+                "capabilities": ["Night"],
+                "guns": null,
+                "radar_missiles": null,
+                "infrared_missiles": null,
+                "recon": ["SAR", "Cameras"],
+                "loadouts": [],
+                "notes": ["Jan '71"]
+            },
+            {
+                "name": "F-4F Phantom II",
+                "nickname": "Luftverteidgungsdiesel",
+                "crew": "Pilot-WSO",
+                "year": 1973,
+                "fuel": 10,
+                "bomb": 3,
+                "bomb_laden": 2,
+                "sight": "+1",
+                "rwr": "B",
+                "jam": "3d",
+                "radar": "APQ-120: [14] 12+; -1",
+                "performance": {
+                    "combat": {
+                        "clean": { "low": "4", "med": "4", "high": "5" },
+                        "laden": { "low": "3", "med": "3", "high": "3" }
+                    },
+                    "dash": {
+                        "clean": { "low": "5", "med": "6", "high": "7" },
+                        "laden": { "low": "4", "med": "4", "high": "5" }
+                    },
+                    "maneuver": {
+                        "clean": { "low": "6", "med": "6", "high": "6" },
+                        "laden": { "low": "2", "med": "3", "high": "3" }
+                    }
+                },
+                "capabilities": ["LD", "Night"],
+                "guns": [{ "name": "20mm M61", "count": 2, "depletion": 3 }],
+                "radar_missiles": null,
+                "infrared_missiles": [
+                    { "name": "AIM-9L", "count_min": 0, "count_max": 3, "rating": "1-1-1" }
+                ],
+                "loadouts": [
+                    { "type": "Bombing", "weapons": "(3) Mk80 series", "air_to_air": { "AIM-9": 6 } },
+                    { "type": "Deep Strike", "weapons": "(2) Mk80 series", "air_to_air": { "AIM-9": 6 } },
+                    { "type": "SEAD", "weapons": "(3) CBU series", "air_to_air": { "AIM-9": 6 } },
+                    { "type": "CAP", "weapons": null, "air_to_air": { "AIM-9": 3 } },
+                    { "type": "Close Escort", "weapons": null, "air_to_air": { "AIM-9": 3 } },
+                    { "type": "Rescue CAP", "weapons": null, "air_to_air": { "AIM-9": 3 } }
+                ],
+                "notes": ["1973"]
+            },
+            {
+                "name": "Tornado IDS",
+                "nickname": "Eierlegende Wollmilchsau",
+                "crew": "Pilot-WSO",
+                "year": 1979,
+                "fuel": 9,
+                "bomb": 4,
+                "bomb_laden": 2,
+                "sight": "+4",
+                "rwr": "B",
+                "jam": "3d",
+                "radar": "Decca 72 TFR",
+                "performance": {
+                    "combat": {
+                        "clean": { "low": "4", "med": "4", "high": "5" },
+                        "laden": { "low": "3", "med": "3", "high": "3" }
+                    },
+                    "dash": {
+                        "clean": { "low": "5", "med": "6", "high": "7" },
+                        "laden": { "low": "4", "med": "4", "high": "5" }
+                    },
+                    "maneuver": {
+                        "clean": { "low": "4", "med": "5", "high": "6" },
+                        "laden": { "low": "3", "med": "3", "high": "3" }
+                    }
+                },
+                "capabilities": ["Night"],
+                "guns": [{ "name": "27mm", "count": 3, "depletion": 4 }],
+                "radar_missiles": null,
+                "infrared_missiles": [
+                    { "name": "AIM-9L", "count_min": 0, "count_max": 3, "rating": "1-1-1" }
+                ],
+                "loadouts": [
+                    { "type": "Bombing", "weapons": "(4) Mk80 series" },
+                    { "type": "Bombing", "weapons": "(4) LAU series" },
+                    { "type": "Bombing (AV)", "weapons": "(1) MW-1B" },
+                    { "type": "Bombing (RD)", "weapons": "(1) MW-1A" },
+                    { "type": "Deep Strike", "weapons": "(2) Mk80 series" },
+                    { "type": "SEAD", "weapons": "(4) Mk80 series" },
+                    { "type": "SEAD", "weapons": "(4) LAU series" }
+                ],
+                "notes": ["1979"]
+            },
+            {
+                "name": "Alpha Jet A",
+                "nickname": null,
+                "crew": "Pilot-WSO",
+                "year": 1979,
+                "fuel": 4,
+                "bomb": 1,
+                "bomb_laden": null,
+                "sight": "+1",
+                "rwr": "N/A",
+                "jam": "N/A",
+                "radar": "N/A",
+                "performance": {
+                    "combat": {
+                        "clean": { "low": "2", "med": "2", "high": "2" },
+                        "laden": { "low": "2", "med": "2", "high": "2" }
+                    },
+                    "dash": {
+                        "clean": { "low": "3", "med": "3", "high": "3" },
+                        "laden": { "low": "3", "med": "3", "high": "3" }
+                    },
+                    "maneuver": {
+                        "clean": { "low": "5", "med": "4", "high": "4" },
+                        "laden": { "low": "2", "med": "2", "high": "2" }
+                    }
+                },
+                "capabilities": [],
+                "guns": [{ "name": "27mm", "count": 2, "depletion": 4 }],
+                "radar_missiles": null,
+                "infrared_missiles": null,
+                "loadouts": [
+                    { "type": "Bombing", "weapons": "(1) Mk80 series" },
+                    { "type": "Bombing", "weapons": "(1) LAU series" },
+                    { "type": "SEAD", "weapons": "(1) CBU series" }
+                ],
+                "notes": ["Mar '79", "May enter Defensive Wheel", "Zoom Climb Not Allowed"]
+            },
+            {
+                "name": "F-104G Starfighter",
+                "nickname": "Gemahlenernagel",
+                "crew": "Pilot",
+                "year": 1961,
+                "fuel": 5,
+                "bomb": 1,
+                "bomb_laden": null,
+                "sight": "+1",
+                "rwr": "A",
+                "jam": "N/A",
+                "radar": "F15A-41B [4]",
+                "performance": {
+                    "combat": {
+                        "clean": { "low": "4", "med": "4", "high": "5" },
+                        "laden": { "low": "3", "med": "4", "high": "4" }
+                    },
+                    "dash": {
+                        "clean": { "low": "5", "med": "6", "high": "8" },
+                        "laden": { "low": "4", "med": "5", "high": "5" }
+                    },
+                    "maneuver": {
+                        "clean": { "low": "4", "med": "5", "high": "6" },
+                        "laden": { "low": "2", "med": "3", "high": "3" }
+                    }
+                },
+                "capabilities": ["Ltd Night"],
+                "guns": [{ "name": "20mm M61", "count": 2, "depletion": 3 }],
+                "radar_missiles": null,
+                "infrared_missiles": [
+                    { "name": "AIM-9F", "count": 1, "rating": "x-x-0" }
+                ],
+                "loadouts": [
+                    { "type": "Bombing", "weapons": "(1) Mk80 Series" },
+                    { "type": "Bombing", "weapons": "(1) LAU Series" },
+                    { "type": "SEAD", "weapons": "(1) LAU Series" },
+                    { "type": "CAP", "weapons": null, "air_to_air": { "AIM-9": 6 } },
+                    { "type": "Close Escort", "weapons": null, "air_to_air": { "AIM-9": 6 } },
+                    { "type": "Rescue CAP", "weapons": "(1) LAU Series" }
+                ],
+                "notes": ["1961"]
+            },
+            {
+                "name": "HFB 320 Hansa Jet",
+                "nickname": null,
+                "crew": "2 Pilot - 3 EWO",
+                "year": 1976,
+                "fuel": "Unlimited",
+                "bomb": null,
+                "bomb_laden": null,
+                "sight": "+1",
+                "rwr": "B",
+                "jam": "2n",
+                "radar": "N/A",
+                "performance": {
+                    "combat": {
+                        "clean": { "low": "2", "med": "2", "high": "3" },
+                        "laden": { "low": "-", "med": "-", "high": "-" }
+                    },
+                    "dash": {
+                        "clean": { "low": "-", "med": "-", "high": "-" },
+                        "laden": { "low": "-", "med": "-", "high": "-" }
+                    },
+                    "maneuver": {
+                        "clean": { "low": "1", "med": "1", "high": "2" },
+                        "laden": { "low": "-", "med": "-", "high": "-" }
+                    }
+                },
+                "capabilities": ["Night"],
+                "guns": null,
+                "radar_missiles": null,
+                "infrared_missiles": null,
+                "jammers": {
+                    "count": 1,
+                    "range_table": { "3": 6, "2": 12, "1": 24 }
+                },
+                "loadouts": [],
+                "notes": ["1976", "Zoom Climb Not Allowed"]
+            }
+        ]
+    },
+    "Soviet": {
+        "aircraft": [
+            {
+                "name": "MiG-21R",
+                "nickname": "Fishbed H / Balalaika",
+                "crew": "Pilot",
+                "year": 1966,
+                "fuel": 9,
+                "bomb": null,
+                "bomb_laden": null,
+                "sight": "N/A",
+                "rwr": "A",
+                "jam": "2n",
+                "radar": "RP-22 [6] 3+; -2",
+                "performance": {
+                    "combat": {
+                        "clean": { "low": "3", "med": "4", "high": "5" },
+                        "laden": { "low": "-", "med": "-", "high": "-" }
+                    },
+                    "dash": {
+                        "clean": { "low": "4", "med": "5", "high": "7" },
+                        "laden": { "low": "-", "med": "-", "high": "-" }
+                    },
+                    "maneuver": {
+                        "clean": { "low": "5", "med": "6", "high": "7" },
+                        "laden": { "low": "-", "med": "-", "high": "-" }
+                    }
+                },
+                "capabilities": [],
+                "guns": null,
+                "radar_missiles": null,
+                "infrared_missiles": null,
+                "recon": [
+                    "3x Cameras",
+                    "3x Cameras + Type D Photint Pod",
+                    "3x Cameras + Type R ELINT Pod"
+                ],
+                "loadouts": [],
+                "notes": ["1966"]
+            },
+            {
+                "name": "MiG-21 bis",
+                "nickname": "Fishbed N / Balalaika",
+                "crew": "Pilot",
+                "year": 1972,
+                "fuel": 6,
+                "bomb": 1,
+                "bomb_laden": null,
+                "sight": "+0",
+                "rwr": "A",
+                "jam": "2n (Bomb/SEAD only)",
+                "radar": "RP-22 [6] 3+; -2",
+                "performance": {
+                    "combat": {
+                        "clean": { "low": "3", "med": "4", "high": "5" },
+                        "laden": { "low": "3", "med": "3", "high": "3" }
+                    },
+                    "dash": {
+                        "clean": { "low": "4", "med": "5", "high": "7" },
+                        "laden": { "low": "4", "med": "4", "high": "4" }
+                    },
+                    "maneuver": {
+                        "clean": { "low": "5", "med": "6", "high": "7" },
+                        "laden": { "low": "2", "med": "4", "high": "3" }
+                    }
+                },
+                "capabilities": ["Ltd Night"],
+                "guns": [{ "name": "23mm", "count": 2, "depletion": 4 }],
+                "radar_missiles": [
+                    { "name": "R-3R", "count_min": -1, "count_max": 0, "rating": "2-1-0" }
+                ],
+                "infrared_missiles": [
+                    { "name": "R-60", "count": 1, "rating": "x-x-0" }
+                ],
+                "loadouts": [
+                    { "type": "CAP", "weapons": null, "air_to_air": { "R-3R": 6 } },
+                    { "type": "CAP", "weapons": null, "air_to_air": { "R-60": 6 } },
+                    { "type": "Close Escort", "weapons": null, "air_to_air": { "R-3R": 6 } },
+                    { "type": "Close Escort", "weapons": null, "air_to_air": { "R-60": 6 } },
+                    { "type": "Bombing", "weapons": "(1) Bombs" },
+                    { "type": "Bombing", "weapons": "(1) Rockets" },
+                    { "type": "SEAD", "weapons": "(1) Rockets" },
+                    { "type": "Chaff", "weapons": "(1) Chaff" }
+                ],
+                "notes": ["1972 variant"]
+            },
+            {
+                "name": "MiG-29A",
+                "nickname": "Fulcrum A / Lastochka",
+                "crew": "Pilot",
+                "year": 1983,
+                "fuel": 4,
+                "bomb": 1,
+                "bomb_laden": null,
+                "sight": "+1",
+                "rwr": "B",
+                "jam": "N/A",
+                "radar": "N019 [12] 8+; -1",
+                "performance": {
+                    "combat": {
+                        "clean": { "low": "4", "med": "4", "high": "5" },
+                        "laden": { "low": "4", "med": "4", "high": "4" }
+                    },
+                    "dash": {
+                        "clean": { "low": "5", "med": "6", "high": "8" },
+                        "laden": { "low": "4", "med": "5", "high": "5" }
+                    },
+                    "maneuver": {
+                        "clean": { "low": "7", "med": "7", "high": "8" },
+                        "laden": { "low": "3", "med": "4", "high": "4" }
+                    }
+                },
+                "capabilities": ["LD/SD", "Night", "IRST"],
+                "guns": [{ "name": "30mm", "count": 3, "depletion": 4 }],
+                "radar_missiles": [
+                    { "name": "R-27", "count_min": 1, "count_max": 3, "rating": "7-4-2" }
+                ],
+                "infrared_missiles": [
+                    { "name": "R-73", "count": 3, "rating": "x-x-0" }
+                ],
+                "loadouts": [
+                    { "type": "CAP", "weapons": null, "air_to_air": { "R-73": 3, "R-27": 6 } },
+                    { "type": "Close Escort", "weapons": null, "air_to_air": { "R-73": 3, "R-27": 6 } },
+                    { "type": "Bombing", "weapons": "(1) Bombs", "air_to_air": { "R-73": 3 } },
+                    { "type": "SEAD", "weapons": "(1) Rockets", "air_to_air": { "R-73": 3 } }
+                ],
+                "notes": ["1983"]
+            },
+            {
+                "name": "Su-27S",
+                "nickname": "Flanker B / Zhuravlik",
+                "crew": "Pilot",
+                "year": 1985,
+                "fuel": 10,
+                "bomb": 2,
+                "bomb_laden": null,
+                "sight": "+1",
+                "rwr": "B",
+                "jam": "3d",
+                "radar": "Myech N001 [24] 16+; -1",
+                "performance": {
+                    "combat": {
+                        "clean": { "low": "3", "med": "4", "high": "5" },
+                        "laden": { "low": "3", "med": "3", "high": "4" }
+                    },
+                    "dash": {
+                        "clean": { "low": "5", "med": "6", "high": "7" },
+                        "laden": { "low": "4", "med": "5", "high": "5" }
+                    },
+                    "maneuver": {
+                        "clean": { "low": "6", "med": "7", "high": "7" },
+                        "laden": { "low": "3", "med": "4", "high": "4" }
+                    }
+                },
+                "capabilities": ["LD/SD", "Night", "IRST"],
+                "guns": [{ "name": "30mm", "count": 3, "depletion": 4 }],
+                "radar_missiles": [
+                    { "name": "R-27", "count_min": 1, "count_max": 3, "rating": "7-4-2" }
+                ],
+                "infrared_missiles": [
+                    { "name": "R-73", "count": 3, "rating": "x-x-0" }
+                ],
+                "loadouts": [
+                    { "type": "CAP", "weapons": null, "air_to_air": { "R-73": 3, "R-27": 6 } },
+                    { "type": "Close Escort", "weapons": null, "air_to_air": { "R-73": 3, "R-27": 6 } },
+                    { "type": "Bombing", "weapons": "(1) Bombs", "air_to_air": { "R-73": 3, "R-27": 6 } }
+                ],
+                "notes": ["1985"]
+            },
+            {
+                "name": "MiG-23M",
+                "nickname": "Flogger B / Cheburashka",
+                "crew": "Pilot",
+                "year": 1972,
+                "fuel": 7,
+                "bomb": 2,
+                "bomb_laden": 1,
+                "sight": "+0",
+                "rwr": "A",
+                "jam": "N/A",
+                "radar": "Sapfir 23DIII [8] 6+; -2",
+                "performance": {
+                    "combat": {
+                        "clean": { "low": "4", "med": "4", "high": "5" },
+                        "laden": { "low": "3", "med": "3", "high": "4" }
+                    },
+                    "dash": {
+                        "clean": { "low": "5", "med": "6", "high": "8" },
+                        "laden": { "low": "4", "med": "5", "high": "5" }
+                    },
+                    "maneuver": {
+                        "clean": { "low": "4", "med": "5", "high": "5" },
+                        "laden": { "low": "2", "med": "2", "high": "3" }
+                    }
+                },
+                "capabilities": ["Ltd Night", "IRST"],
+                "guns": [{ "name": "23mm", "count": 2, "depletion": 4 }],
+                "radar_missiles": [
+                    { "name": "R-23", "count_min": -1, "count_max": 2, "rating": "4-2-1" }
+                ],
+                "infrared_missiles": [
+                    { "name": "R-60", "count": 1, "rating": "x-x-0" },
+                    { "name": "R-3R", "count_min": -1, "count_max": 0, "rating": "2-1-0" }
+                ],
+                "loadouts": [
+                    { "type": "CAP", "weapons": null, "air_to_air": { "R-3R": 6, "R-23": 6 } },
+                    { "type": "CAP", "weapons": null, "air_to_air": { "R-60": 6, "R-23": 6 } },
+                    { "type": "Close Escort", "weapons": null, "air_to_air": { "R-3R": 6, "R-23": 6 } },
+                    { "type": "Close Escort", "weapons": null, "air_to_air": { "R-60": 6, "R-23": 6 } },
+                    { "type": "Bombing", "weapons": "(2) Bombs" },
+                    { "type": "Bombing", "weapons": "(2) Rockets" },
+                    { "type": "Bombing (RD)", "weapons": "(2) BETAB-500" },
+                    { "type": "Deep Strike", "weapons": "(1) Bombs" },
+                    { "type": "SEAD", "weapons": "(2) Rockets" },
+                    { "type": "Chaff", "weapons": "(2) Chaff" }
+                ],
+                "notes": ["1972"]
+            },
+            {
+                "name": "MiG-23 MLA",
+                "nickname": "Flogger G / Cheburashka",
+                "crew": "Pilot",
+                "year": 1978,
+                "fuel": 7,
+                "bomb": 2,
+                "bomb_laden": 1,
+                "sight": "+0",
+                "rwr": "A",
+                "jam": "N/A",
+                "radar": "Sapfir 23ML [12] 8+; -2",
+                "performance": {
+                    "combat": {
+                        "clean": { "low": "4", "med": "4", "high": "5" },
+                        "laden": { "low": "3", "med": "3", "high": "4" }
+                    },
+                    "dash": {
+                        "clean": { "low": "5", "med": "6", "high": "8" },
+                        "laden": { "low": "4", "med": "5", "high": "5" }
+                    },
+                    "maneuver": {
+                        "clean": { "low": "4", "med": "5", "high": "6" },
+                        "laden": { "low": "2", "med": "3", "high": "3" }
+                    }
+                },
+                "capabilities": ["LD", "Ltd Night"],
+                "guns": [{ "name": "23mm", "count": 2, "depletion": 4 }],
+                "radar_missiles": [
+                    { "name": "R-24", "count_min": 0, "count_max": 2, "rating": "6-3-1" }
+                ],
+                "infrared_missiles": [
+                    { "name": "R-60", "count": 1, "rating": "x-x-0" },
+                    { "name": "R-60M", "count": 2, "rating": "x-x-0" }
+                ],
+                "ordnance": {
+                    "special": ["(1) EOGM"]
+                },
+                "loadouts": [
+                    { "type": "CAP", "weapons": null, "air_to_air": { "R-60": 6, "R-24": 6 } },
+                    { "type": "CAP", "weapons": null, "air_to_air": { "R-60M": 6, "R-24": 6 } },
+                    { "type": "Close Escort", "weapons": null, "air_to_air": { "R-60": 6, "R-24": 6 } },
+                    { "type": "Close Escort", "weapons": null, "air_to_air": { "R-60M": 6, "R-24": 6 } },
+                    { "type": "Bombing", "weapons": "(2) Bombs" },
+                    { "type": "Bombing", "weapons": "(2) Rockets" },
+                    { "type": "Bombing (RD)", "weapons": "(2) BETAB-500" },
+                    { "type": "Deep Strike", "weapons": "(1) Bombs" },
+                    { "type": "Precision", "weapons": "(1) EOGM" },
+                    { "type": "SEAD", "weapons": "(2) Rockets" }
+                ],
+                "notes": ["1978"]
+            },
+            {
+                "name": "MiG-23 MLD",
+                "nickname": "Flogger K / Cheburashka",
+                "crew": "Pilot",
+                "year": 1982,
+                "fuel": 7,
+                "bomb": 2,
+                "bomb_laden": 1,
+                "sight": "+0",
+                "rwr": "B",
+                "jam": "2n (Bomb/SEAD only)",
+                "radar": "Sapfir 23MLAII [12] 8+; -2",
+                "performance": {
+                    "combat": {
+                        "clean": { "low": "4", "med": "4", "high": "5" },
+                        "laden": { "low": "3", "med": "3", "high": "4" }
+                    },
+                    "dash": {
+                        "clean": { "low": "5", "med": "6", "high": "8" },
+                        "laden": { "low": "4", "med": "5", "high": "5" }
+                    },
+                    "maneuver": {
+                        "clean": { "low": "5", "med": "5", "high": "6" },
+                        "laden": { "low": "2", "med": "3", "high": "3" }
+                    }
+                },
+                "capabilities": ["LD", "Night", "IRST"],
+                "guns": [{ "name": "23mm", "count": 2, "depletion": 4 }],
+                "radar_missiles": [
+                    { "name": "R-24", "count_min": 0, "count_max": 2, "rating": "6-3-1" }
+                ],
+                "infrared_missiles": [
+                    { "name": "R-60M", "count": 2, "rating": "x-x-0" },
+                    { "name": "R-73", "count": 3, "rating": "x-x-0" }
+                ],
+                "ordnance": {
+                    "special": ["(1) EOGM"]
+                },
+                "loadouts": [
+                    { "type": "CAP", "weapons": null, "air_to_air": { "R-60M": 6, "R-24": 6 } },
+                    { "type": "CAP", "weapons": null, "air_to_air": { "R-73": 6, "R-24": 6 } },
+                    { "type": "Close Escort", "weapons": null, "air_to_air": { "R-60M": 6, "R-24R": 6 } },
+                    { "type": "Close Escort", "weapons": null, "air_to_air": { "R-73": 6, "R-24": 6 } },
+                    { "type": "Bombing", "weapons": "(2) Bombs" },
+                    { "type": "Bombing", "weapons": "(2) Rockets" },
+                    { "type": "Bombing (RD)", "weapons": "(2) BETAB-500" },
+                    { "type": "Deep Strike", "weapons": "(1) Bombs" },
+                    { "type": "Precision", "weapons": "(1) EOGM" },
+                    { "type": "SEAD", "weapons": "(2) Rockets" }
+                ],
+                "notes": ["1982"]
+            },
+            {
+                "name": "Su-25",
+                "nickname": "Frogfoot A / Grach",
+                "crew": "Pilot",
+                "year": 1978,
+                "fuel": 4,
+                "bomb": 3,
+                "bomb_laden": null,
+                "sight": "+1",
+                "rwr": "B",
+                "jam": "N/A",
+                "radar": "N/A",
+                "performance": {
+                    "combat": {
+                        "clean": { "low": "2", "med": "2", "high": "2" },
+                        "laden": { "low": "2", "med": "2", "high": "2" }
+                    },
+                    "dash": {
+                        "clean": { "low": "3", "med": "3", "high": "3" },
+                        "laden": { "low": "3", "med": "3", "high": "3" }
+                    },
+                    "maneuver": {
+                        "clean": { "low": "4", "med": "5", "high": "5" },
+                        "laden": { "low": "3", "med": "3", "high": "3" }
+                    }
+                },
+                "capabilities": [],
+                "guns": [{ "name": "30mm", "count": 3, "depletion": 4 }],
+                "radar_missiles": null,
+                "infrared_missiles": [
+                    { "name": "R-60M", "count": 2, "rating": "x-x-0" }
+                ],
+                "ordnance": {
+                    "special": ["(2) EOGM"]
+                },
+                "loadouts": [
+                    { "type": "Bombing", "weapons": "(3) Bombs", "air_to_air": { "R-60M": 8 } },
+                    { "type": "Bombing", "weapons": "(3) Rockets", "air_to_air": { "R-60M": 8 } },
+                    { "type": "Bombing (AV)", "weapons": "(3) Bombs (KMGU)", "air_to_air": { "R-60M": 8 } },
+                    { "type": "Bombing (RD)", "weapons": "(2) BETAB-500" },
+                    { "type": "Precision", "weapons": "(2) EOGM" },
+                    { "type": "SEAD", "weapons": "(2) Rockets" }
+                ],
+                "notes": ["1978", "Defensive Wheel Allowed", "Zoom Climb Not Allowed"]
+            },
+            {
+                "name": "MiG-27M",
+                "nickname": "Flogger J / Utkkonos",
+                "crew": "Pilot",
+                "year": 1978,
+                "fuel": 7,
+                "bomb": 3,
+                "bomb_laden": 2,
+                "sight": "+1",
+                "rwr": "B",
+                "jam": "2d",
+                "radar": "N/A",
+                "performance": {
+                    "combat": {
+                        "clean": { "low": "3", "med": "4", "high": "4" },
+                        "laden": { "low": "3", "med": "3", "high": "3" }
+                    },
+                    "dash": {
+                        "clean": { "low": "4", "med": "5", "high": "6" },
+                        "laden": { "low": "4", "med": "4", "high": "4" }
+                    },
+                    "maneuver": {
+                        "clean": { "low": "4", "med": "5", "high": "5" },
+                        "laden": { "low": "2", "med": "2", "high": "3" }
+                    }
+                },
+                "capabilities": ["Ltd Night"],
+                "guns": [{ "name": "30mm", "count": 3, "depletion": 4 }],
+                "radar_missiles": null,
+                "infrared_missiles": null,
+                "ordnance": {
+                    "special": ["(1) EOGM", "(1) Kh-25MP ARM"]
+                },
+                "loadouts": [
+                    { "type": "Bombing", "weapons": "(3) Bombs" },
+                    { "type": "Bombing", "weapons": "(3) Rockets" },
+                    { "type": "Bombing (AV)", "weapons": "(3) KMGU" },
+                    { "type": "Bombing (RD)", "weapons": "(3) BETAB-500" },
+                    { "type": "Deep Strike", "weapons": "(2) Bombs" },
+                    { "type": "Precision", "weapons": "(1) EOGM" },
+                    { "type": "SEAD", "weapons": "(1) ARM" }
+                ],
+                "notes": ["1978"]
+            },
+            {
+                "name": "MiG-27K",
+                "nickname": "Flogger J2 / Utkkonos",
+                "crew": "Pilot",
+                "year": 1975,
+                "fuel": 7,
+                "bomb": 3,
+                "bomb_laden": 2,
+                "sight": "+2",
+                "rwr": "B",
+                "jam": "2d",
+                "radar": "N/A",
+                "performance": {
+                    "combat": {
+                        "clean": { "low": "3", "med": "4", "high": "4" },
+                        "laden": { "low": "3", "med": "3", "high": "3" }
+                    },
+                    "dash": {
+                        "clean": { "low": "4", "med": "5", "high": "6" },
+                        "laden": { "low": "4", "med": "4", "high": "4" }
+                    },
+                    "maneuver": {
+                        "clean": { "low": "4", "med": "5", "high": "5" },
+                        "laden": { "low": "2", "med": "2", "high": "3" }
+                    }
+                },
+                "capabilities": ["Ltd Night", "LTD"],
+                "guns": [{ "name": "30mm", "count": 3, "depletion": 4 }],
+                "radar_missiles": null,
+                "infrared_missiles": null,
+                "ordnance": {
+                    "special": ["(1) EOGM", "(1) Kh-25MP ARM", "(1) LGB"]
+                },
+                "loadouts": [
+                    { "type": "Bombing", "weapons": "(3) Bombs" },
+                    { "type": "Bombing", "weapons": "(3) Rockets" },
+                    { "type": "Bombing (RD)", "weapons": "(3) BETAB-500" },
+                    { "type": "Deep Strike", "weapons": "(2) Bombs" },
+                    { "type": "Precision", "weapons": "(1) EOGM" },
+                    { "type": "Precision", "weapons": "(1) LGB" },
+                    { "type": "SEAD", "weapons": "(1) ARM" }
+                ],
+                "notes": ["1975"]
+            },
+            {
+                "name": "Su-17M3R",
+                "nickname": "Fitter H / Strizh",
+                "crew": "Pilot",
+                "year": 1976,
+                "fuel": 10,
+                "bomb": null,
+                "bomb_laden": null,
+                "sight": "N/A",
+                "rwr": "A",
+                "jam": "2n",
+                "radar": "SAR",
+                "performance": {
+                    "combat": {
+                        "clean": { "low": "3", "med": "4", "high": "5" },
+                        "laden": { "low": "-", "med": "-", "high": "-" }
+                    },
+                    "dash": {
+                        "clean": { "low": "4", "med": "5", "high": "7" },
+                        "laden": { "low": "-", "med": "-", "high": "-" }
+                    },
+                    "maneuver": {
+                        "clean": { "low": "4", "med": "5", "high": "5" },
+                        "laden": { "low": "-", "med": "-", "high": "-" }
+                    }
+                },
+                "capabilities": [],
+                "guns": null,
+                "radar_missiles": null,
+                "infrared_missiles": null,
+                "recon": ["Cameras", "SAR", "ELINT"],
+                "loadouts": [],
+                "notes": ["1976", "Defensive Wheel Allowed"]
+            },
+            {
+                "name": "Su-17M4",
+                "nickname": "Fitter K / Strizh",
+                "crew": "Pilot",
+                "year": 1981,
+                "fuel": 8,
+                "bomb": 3,
+                "bomb_laden": 2,
+                "sight": "+1",
+                "rwr": "B",
+                "jam": "2n",
+                "radar": "N/A",
+                "performance": {
+                    "combat": {
+                        "clean": { "low": "3", "med": "4", "high": "5" },
+                        "laden": { "low": "3", "med": "3", "high": "3" }
+                    },
+                    "dash": {
+                        "clean": { "low": "4", "med": "5", "high": "7" },
+                        "laden": { "low": "4", "med": "4", "high": "4" }
+                    },
+                    "maneuver": {
+                        "clean": { "low": "4", "med": "5", "high": "5" },
+                        "laden": { "low": "2", "med": "2", "high": "2" }
+                    }
+                },
+                "capabilities": [],
+                "guns": [{ "name": "30mm", "count": 3, "depletion": 4 }],
+                "radar_missiles": null,
+                "infrared_missiles": [
+                    { "name": "R-60", "count": 1, "rating": "x-x-0" }
+                ],
+                "ordnance": {
+                    "special": ["(1) EOGM", "(1) Kh-25MP ARM", "(1) Kh-58 ARM"]
+                },
+                "loadouts": [
+                    { "type": "Bombing", "weapons": "(3) Bombs", "air_to_air": { "R-60": 6 } },
+                    { "type": "Bombing", "weapons": "(3) Rockets", "air_to_air": { "R-60": 6 } },
+                    { "type": "Bombing (AV)", "weapons": "(3) Bombs (KMGU)", "air_to_air": { "R-60": 6 } },
+                    { "type": "Deep Strike", "weapons": "(2) Bombs", "air_to_air": { "R-60": 6 } },
+                    { "type": "Precision", "weapons": "(2) EOGM", "air_to_air": { "R-60": 6 } },
+                    { "type": "SEAD", "weapons": "(2) Rockets", "air_to_air": { "R-60": 6 } }
+                ],
+                "notes": ["1981", "Defensive Wheel Allowed"]
+            },
+            {
+                "name": "Su-24",
+                "nickname": "Fencer C / Chemodan",
+                "crew": "Pilot - BN",
+                "year": 1971,
+                "fuel": 10,
+                "bomb": 5,
+                "bomb_laden": 3,
+                "sight": "+2",
+                "rwr": "A",
+                "jam": "3d",
+                "radar": "Orion A, Relyef TFR",
+                "performance": {
+                    "combat": {
+                        "clean": { "low": "4", "med": "4", "high": "5" },
+                        "laden": { "low": "2", "med": "3", "high": "3" }
+                    },
+                    "dash": {
+                        "clean": { "low": "5", "med": "6", "high": "7" },
+                        "laden": { "low": "3", "med": "4", "high": "5" }
+                    },
+                    "maneuver": {
+                        "clean": { "low": "4", "med": "5", "high": "5" },
+                        "laden": { "low": "2", "med": "3", "high": "3" }
+                    }
+                },
+                "capabilities": ["Night"],
+                "guns": [{ "name": "23mm", "count": 2, "depletion": 3 }],
+                "radar_missiles": null,
+                "infrared_missiles": [
+                    { "name": "R-60M", "count": 2, "rating": "x-x-0" }
+                ],
+                "ordnance": {
+                    "special": ["(2) EOGM", "(1) Kh-28M ARM"]
+                },
+                "loadouts": [
+                    { "type": "Bombing", "weapons": "(5) Bombs" },
+                    { "type": "Bombing", "weapons": "(5) Rockets" },
+                    { "type": "Bombing (AV)", "weapons": "(5) KMGU" },
+                    { "type": "Bombing (RD)", "weapons": "(5) BETAB-500" },
+                    { "type": "Deep Strike", "weapons": "(3) Bombs" },
+                    { "type": "Precision", "weapons": "(2) EOGM" },
+                    { "type": "SEAD", "weapons": "(1) ARM" }
+                ],
+                "notes": ["1971"]
+            },
+            {
+                "name": "Su-24M",
+                "nickname": "Fencer D / Chemodan",
+                "crew": "Pilot - BN",
+                "year": 1983,
+                "fuel": 10,
+                "bomb": 5,
+                "bomb_laden": 3,
+                "sight": "+3",
+                "rwr": "B",
+                "jam": "3d",
+                "radar": "Orion A, Relyef TFR",
+                "performance": {
+                    "combat": {
+                        "clean": { "low": "4", "med": "4", "high": "5" },
+                        "laden": { "low": "2", "med": "3", "high": "3" }
+                    },
+                    "dash": {
+                        "clean": { "low": "5", "med": "6", "high": "7" },
+                        "laden": { "low": "3", "med": "4", "high": "5" }
+                    },
+                    "maneuver": {
+                        "clean": { "low": "4", "med": "5", "high": "5" },
+                        "laden": { "low": "2", "med": "3", "high": "3" }
+                    }
+                },
+                "capabilities": ["Night"],
+                "guns": [{ "name": "23mm", "count": 2, "depletion": 3 }],
+                "radar_missiles": null,
+                "infrared_missiles": [
+                    { "name": "R-60M", "count": 2, "rating": "x-x-0" }
+                ],
+                "ordnance": {
+                    "special": ["(1) EOGM", "(2) Kh-25MP ARM", "(1) Kh-58 ARM", "(2) LGB", "(1) EOGB"]
+                },
+                "loadouts": [
+                    { "type": "Bombing", "weapons": "(5) Bombs" },
+                    { "type": "Bombing", "weapons": "(5) Rockets" },
+                    { "type": "Bombing (AV)", "weapons": "(5) KMGU" },
+                    { "type": "Bombing (RD)", "weapons": "(5) BETAB-500" },
+                    { "type": "Deep Strike", "weapons": "(3) Bombs" },
+                    { "type": "Precision", "weapons": "(1) EOGM" },
+                    { "type": "Precision", "weapons": "(2) LGB" },
+                    { "type": "SEAD", "weapons": "(1) Kh-58 ARM" },
+                    { "type": "SEAD", "weapons": "(2) Kh-25MP ARM" }
+                ],
+                "notes": ["1983"]
+            },
+            {
+                "name": "Su-24MR",
+                "nickname": "Fencer E / Chemodan",
+                "crew": "Pilot - BN",
+                "year": 1983,
+                "fuel": 12,
+                "bomb": null,
+                "bomb_laden": null,
+                "sight": "N/A",
+                "rwr": "B",
+                "jam": "3d",
+                "radar": "Relyef TFR, RBS-BO Shtik SLAR",
+                "performance": {
+                    "combat": {
+                        "clean": { "low": "4", "med": "4", "high": "5" },
+                        "laden": { "low": "-", "med": "-", "high": "-" }
+                    },
+                    "dash": {
+                        "clean": { "low": "5", "med": "6", "high": "7" },
+                        "laden": { "low": "-", "med": "-", "high": "-" }
+                    },
+                    "maneuver": {
+                        "clean": { "low": "4", "med": "5", "high": "5" },
+                        "laden": { "low": "-", "med": "-", "high": "-" }
+                    }
+                },
+                "capabilities": ["Night"],
+                "guns": null,
+                "radar_missiles": null,
+                "infrared_missiles": [
+                    { "name": "R-60M", "count": 2, "rating": "x-x-0" }
+                ],
+                "recon": ["Panoramic Cameras", "Aist-M TV", "RBS-BO Shtik SLAR", "Zima IR recon", "ELINT"],
+                "loadouts": [],
+                "notes": ["1983"]
+            },
+            {
+                "name": "Su-24MP",
+                "nickname": "Fencer F / Chemodan",
+                "crew": "Pilot - BN",
+                "year": 1983,
+                "fuel": 10,
+                "bomb": null,
+                "bomb_laden": null,
+                "sight": "N/A",
+                "rwr": "C",
+                "jam": "3d",
+                "radar": "Orion A",
+                "performance": {
+                    "combat": {
+                        "clean": { "low": "3", "med": "4", "high": "5" },
+                        "laden": { "low": "2", "med": "3", "high": "3" }
+                    },
+                    "dash": {
+                        "clean": { "low": "5", "med": "6", "high": "7" },
+                        "laden": { "low": "3", "med": "4", "high": "5" }
+                    },
+                    "maneuver": {
+                        "clean": { "low": "4", "med": "5", "high": "5" },
+                        "laden": { "low": "2", "med": "3", "high": "3" }
+                    }
+                },
+                "capabilities": ["Night"],
+                "guns": [{ "name": "23mm", "count": 2, "depletion": 3 }],
+                "radar_missiles": null,
+                "infrared_missiles": [
+                    { "name": "R-60M", "count": 2, "rating": "x-x-0" }
+                ],
+                "jammers": {
+                    "count": 2,
+                    "range_table": { "3": 8, "2": 16, "1": 32 }
+                },
+                "loadouts": [
+                    { "type": "Chaff Laying", "weapons": "(*) Chaff" },
+                    { "type": "Escort Jam", "weapons": "(*) Chaff" }
+                ],
+                "notes": ["1983"]
+            },
+            {
+                "name": "MiG-25RBM",
+                "nickname": "Foxbat B",
+                "crew": "Pilot",
+                "year": 1970,
+                "fuel": 10,
+                "bomb": 2,
+                "bomb_laden": 1,
+                "sight": "+0",
+                "rwr": "A",
+                "jam": "3n",
+                "radar": "SAR",
+                "performance": {
+                    "combat": {
+                        "clean": { "low": "4", "med": "5", "high": "5", "very_high": "5" },
+                        "laden": { "low": "3", "med": "4", "high": "4" }
+                    },
+                    "dash": {
+                        "clean": { "low": "5", "med": "6", "high": "9", "very_high": "11" },
+                        "laden": { "low": "5", "med": "5", "high": "5" }
+                    },
+                    "maneuver": {
+                        "clean": { "low": "4", "med": "3", "high": "3", "very_high": "2" },
+                        "laden": { "low": "2", "med": "2", "high": "2" }
+                    }
+                },
+                "capabilities": ["Night"],
+                "guns": null,
+                "radar_missiles": null,
+                "infrared_missiles": null,
+                "recon": ["SAR", "Cameras", "Tangazh ELINT"],
+                "loadouts": [
+                    { "type": "Bombing", "weapons": "(2) Bombs" },
+                    { "type": "Deep Strike", "weapons": "(1) Bombs" }
+                ],
+                "notes": ["1970"]
+            },
+            {
+                "name": "MiG-25PD",
+                "nickname": "Foxbat E",
+                "crew": "Pilot",
+                "year": 1979,
+                "fuel": 8,
+                "bomb": null,
+                "bomb_laden": null,
+                "sight": "N/A",
+                "rwr": "A",
+                "jam": "N/A",
+                "radar": "Sapfir RP-25M [24] 18+; -2",
+                "performance": {
+                    "combat": {
+                        "clean": { "low": "4", "med": "5", "high": "5" },
+                        "laden": { "low": "-", "med": "-", "high": "-" }
+                    },
+                    "dash": {
+                        "clean": { "low": "5", "med": "6", "high": "9" },
+                        "laden": { "low": "-", "med": "-", "high": "-" }
+                    },
+                    "maneuver": {
+                        "clean": { "low": "4", "med": "3", "high": "3" },
+                        "laden": { "low": "-", "med": "-", "high": "-" }
+                    }
+                },
+                "capabilities": ["LD", "Night", "IRST"],
+                "guns": [{ "name": "23mm", "count": 2, "depletion": 4 }],
+                "radar_missiles": [
+                    { "name": "R-40R", "count_min": 0, "count_max": 1, "rating": "8-4-2" }
+                ],
+                "infrared_missiles": [
+                    { "name": "R-60", "count": 1, "rating": "x-x-0" }
+                ],
+                "loadouts": [
+                    { "type": "CAP", "weapons": null, "air_to_air": { "R-60": 3, "R-40R": 6 } },
+                    { "type": "Close Escort", "weapons": null, "air_to_air": { "R-60": 3, "R-40R": 6 } }
+                ],
+                "notes": ["1979"]
+            },
+            {
+                "name": "MiG-25BM",
+                "nickname": "Foxbat F",
+                "crew": "Pilot",
+                "year": 1982,
+                "fuel": 8,
+                "bomb": null,
+                "bomb_laden": null,
+                "sight": "+0",
+                "rwr": "C",
+                "jam": "3n Fantasmagoria A/B",
+                "radar": "Synch-M N-0005 [12] 10+; -2",
+                "performance": {
+                    "combat": {
+                        "clean": { "low": "4", "med": "5", "high": "5", "very_high": "5" },
+                        "laden": { "low": "2", "med": "2", "high": "4" }
+                    },
+                    "dash": {
+                        "clean": { "low": "5", "med": "6", "high": "9" },
+                        "laden": { "low": "5", "med": "5", "high": "5" }
+                    },
+                    "maneuver": {
+                        "clean": { "low": "4", "med": "3", "high": "3" },
+                        "laden": { "low": "2", "med": "2", "high": "2" }
+                    }
+                },
+                "capabilities": ["LD", "Night"],
+                "guns": null,
+                "radar_missiles": null,
+                "infrared_missiles": null,
+                "ordnance": {
+                    "special": ["(2) Kh-58 ARM", "(2) Kh-28M ARM", "(2) Kh-25MP ARM"]
+                },
+                "jammers": {
+                    "count": 1,
+                    "range_table": { "3": 8, "2": 16, "1": 32 }
+                },
+                "loadouts": [
+                    { "type": "SEAD", "weapons": "(2) ARM" },
+                    { "type": "Escort Jam", "weapons": "N/A" }
+                ],
+                "notes": ["1982", "May only jam in forward or aft arc"]
+            },
+            {
+                "name": "Yak-28PP",
+                "nickname": "Brewer E",
+                "crew": "Pilot - EWO",
+                "year": 1970,
+                "fuel": 10,
+                "bomb": null,
+                "bomb_laden": null,
+                "sight": "N/A",
+                "rwr": "B",
+                "jam": "3n",
+                "radar": "N/A",
+                "performance": {
+                    "combat": {
+                        "clean": { "low": "3", "med": "4", "high": "4" },
+                        "laden": { "low": "-", "med": "-", "high": "-" }
+                    },
+                    "dash": {
+                        "clean": { "low": "4", "med": "5", "high": "6" },
+                        "laden": { "low": "-", "med": "-", "high": "-" }
+                    },
+                    "maneuver": {
+                        "clean": { "low": "4", "med": "5", "high": "5" },
+                        "laden": { "low": "-", "med": "-", "high": "-" }
+                    }
+                },
+                "capabilities": ["Night"],
+                "guns": null,
+                "radar_missiles": null,
+                "infrared_missiles": null,
+                "jammers": {
+                    "count": 1,
+                    "range_table": { "3": 7, "2": 14, "1": 28 }
+                },
+                "loadouts": [
+                    { "type": "Chaff Laying", "weapons": "(*) Chaff" },
+                    { "type": "Escort Jam", "weapons": "(*) Chaff" }
+                ],
+                "notes": ["1970", "May only jam in forward or aft arc"]
+            },
+            {
+                "name": "Tu-22KPD",
+                "nickname": "Blinder B / Shilo",
+                "crew": "Pilot - Nav - WSO",
+                "year": 1967,
+                "fuel": "Unlimited",
+                "bomb": 8,
+                "bomb_laden": null,
+                "sight": "+1",
+                "rwr": "A",
+                "jam": "2n",
+                "radar": "\"Down Beat\" Leninets PN",
+                "performance": {
+                    "combat": {
+                        "clean": { "low": "3", "med": "3", "high": "4" },
+                        "laden": { "low": "3", "med": "3", "high": "4" }
+                    },
+                    "dash": {
+                        "clean": { "low": "4", "med": "4", "high": "6" },
+                        "laden": { "low": "4", "med": "4", "high": "6" }
+                    },
+                    "maneuver": {
+                        "clean": { "low": "1", "med": "1", "high": "1" },
+                        "laden": { "low": "1", "med": "1", "high": "1" }
+                    }
+                },
+                "capabilities": ["Night", "Kurs-N ELINT"],
+                "guns": [{ "name": "Tail: 2x 23mm", "count": 0, "depletion": 3 }],
+                "radar_missiles": null,
+                "infrared_missiles": null,
+                "ordnance": {
+                    "special": ["(1) Kh-22P ARM"]
+                },
+                "loadouts": [
+                    { "type": "Bombing", "weapons": "(8) Bombs" },
+                    { "type": "SEAD", "weapons": "(1) Kh-22P ARM" }
+                ],
+                "notes": ["1967", "Large Aircraft; Poor SAM Defense", "Zoom Climb Not Allowed"]
+            },
+            {
+                "name": "Tu-22PD",
+                "nickname": "Blinder E / Shilo",
+                "crew": "Pilot - Nav - WSO - 3 EWO",
+                "year": 1956,
+                "fuel": "Unlimited",
+                "bomb": null,
+                "bomb_laden": null,
+                "sight": "N/A",
+                "rwr": "A",
+                "jam": "2n",
+                "radar": "\"Down Beat\" Leninets PN",
+                "performance": {
+                    "combat": {
+                        "clean": { "low": "3", "med": "3", "high": "4" },
+                        "laden": { "low": "-", "med": "-", "high": "-" }
+                    },
+                    "dash": {
+                        "clean": { "low": "4", "med": "4", "high": "6" },
+                        "laden": { "low": "-", "med": "-", "high": "-" }
+                    },
+                    "maneuver": {
+                        "clean": { "low": "1", "med": "1", "high": "1" },
+                        "laden": { "low": "-", "med": "-", "high": "-" }
+                    }
+                },
+                "capabilities": ["Night", "Kurs-N ELINT"],
+                "guns": [{ "name": "Tail: 2x 23mm", "count": 0, "depletion": 3 }],
+                "radar_missiles": null,
+                "infrared_missiles": null,
+                "jammers": {
+                    "count": 1,
+                    "range_table": { "3": 10, "2": 20, "1": 40 }
+                },
+                "loadouts": [
+                    { "type": "Chaff Laying", "weapons": "(*) Chaff" },
+                    { "type": "Escort Jam", "weapons": "(*) Chaff" }
+                ],
+                "notes": ["Jan '56", "Large Aircraft; Poor SAM Defense", "Zoom Climb Not Allowed", "May only jam in forward or aft arc"]
+            },
+            {
+                "name": "Tu-16P",
+                "nickname": "Badger J / Elka",
+                "crew": "2 Pilot - Nav - BN - 3 EWO - Gunner",
+                "year": 1965,
+                "fuel": "Unlimited",
+                "bomb": null,
+                "bomb_laden": null,
+                "sight": "N/A",
+                "rwr": "C",
+                "jam": "3n",
+                "radar": "\"Short Horn\" Rubin-1K",
+                "performance": {
+                    "combat": {
+                        "clean": { "low": "3", "med": "3", "high": "3" },
+                        "laden": { "low": "-", "med": "-", "high": "-" }
+                    },
+                    "dash": {
+                        "clean": { "low": "4", "med": "4", "high": "4" },
+                        "laden": { "low": "-", "med": "-", "high": "-" }
+                    },
+                    "maneuver": {
+                        "clean": { "low": "1", "med": "1", "high": "1" },
+                        "laden": { "low": "-", "med": "-", "high": "-" }
+                    }
+                },
+                "capabilities": ["Night", "ELINT"],
+                "guns": [{ "name": "Tail: 2x 23mm", "count": 0, "depletion": 4 }],
+                "radar_missiles": null,
+                "infrared_missiles": null,
+                "jammers": {
+                    "count": 1,
+                    "range_table": { "3": 10, "2": 20, "1": 40 }
+                },
+                "loadouts": [],
+                "notes": ["Mar '65", "Large Aircraft; Poor SAM Defense", "Zoom Climb Not Allowed", "May only jam in forward or aft arc"]
+            },
+            {
+                "name": "Tu-16K-26",
+                "nickname": "Badger G",
+                "crew": "2 Pilot - Nav - BN - 3 Gunner",
+                "year": 1968,
+                "fuel": "Unlimited",
+                "bomb": 9,
+                "bomb_laden": null,
+                "sight": "+1",
+                "rwr": "A",
+                "jam": "N/A",
+                "radar": "\"Short Horn\" Rubin-1K",
+                "performance": {
+                    "combat": {
+                        "clean": { "low": "3", "med": "3", "high": "3" },
+                        "laden": { "low": "3", "med": "3", "high": "3" }
+                    },
+                    "dash": {
+                        "clean": { "low": "4", "med": "4", "high": "4" },
+                        "laden": { "low": "4", "med": "4", "high": "4" }
+                    },
+                    "maneuver": {
+                        "clean": { "low": "1", "med": "1", "high": "1" },
+                        "laden": { "low": "1", "med": "1", "high": "1" }
+                    }
+                },
+                "capabilities": ["Night"],
+                "guns": [
+                    { "name": "Nose: 1x 23mm", "count": 0, "depletion": 3 },
+                    { "name": "Upper Turret: 2x 23mm", "count": 0, "depletion": 3 },
+                    { "name": "Lower Turret: 2x 23mm", "count": 0, "depletion": 3 },
+                    { "name": "Tail: 2x 23mm", "count": 0, "depletion": 4 }
+                ],
+                "radar_missiles": null,
+                "infrared_missiles": null,
+                "ordnance": {
+                    "special": ["(2) AS-6 ASM", "(2) Kh-28 ARM"]
+                },
+                "loadouts": [
+                    { "type": "Bombing", "weapons": "(9) Bombs" },
+                    { "type": "ASM", "weapons": "(2) AS-6 Kingfish" },
+                    { "type": "SEAD", "weapons": "(2) Kh-28 ARM" }
+                ],
+                "notes": ["Sep '68", "Large Aircraft; Poor SAM Defense", "Zoom Climb Not Allowed"]
+            },
+            {
+                "name": "IL-76MD",
+                "nickname": "Candid",
+                "crew": "2 Pilot - Nav - FE - Gunner",
+                "year": 1973,
+                "fuel": "Unlimited",
+                "bomb": null,
+                "bomb_laden": null,
+                "sight": "N/A",
+                "rwr": "B",
+                "jam": "N/A",
+                "radar": "N/A",
+                "performance": {
+                    "combat": {
+                        "clean": { "low": "2", "med": "3", "high": "3" },
+                        "laden": { "low": "-", "med": "-", "high": "-" }
+                    },
+                    "dash": {
+                        "clean": { "low": "-", "med": "-", "high": "-" },
+                        "laden": { "low": "-", "med": "-", "high": "-" }
+                    },
+                    "maneuver": {
+                        "clean": { "low": "1", "med": "1", "high": "1" },
+                        "laden": { "low": "-", "med": "-", "high": "-" }
+                    }
+                },
+                "capabilities": ["Night"],
+                "guns": [{ "name": "Tail: 2x 23mm", "count": 0, "depletion": 2 }],
+                "radar_missiles": null,
+                "infrared_missiles": null,
+                "loadouts": [],
+                "notes": ["Oct '73", "Large Aircraft; Poor SAM Defense", "Zoom Climb Not Allowed"]
+            },
+            {
+                "name": "AN-12PP",
+                "nickname": "Cub C",
+                "crew": "2 Pilot - Nav - FE - Rad - Gun - 6 EWO",
+                "year": 1970,
+                "fuel": "Unlimited",
+                "bomb": null,
+                "bomb_laden": null,
+                "sight": "N/A",
+                "rwr": "C",
+                "jam": "2n",
+                "radar": "\"Toad Stool\" RBP-2",
+                "performance": {
+                    "combat": {
+                        "clean": { "low": "2", "med": "2", "high": "2" },
+                        "laden": { "low": "-", "med": "-", "high": "-" }
+                    },
+                    "dash": {
+                        "clean": { "low": "-", "med": "-", "high": "-" },
+                        "laden": { "low": "-", "med": "-", "high": "-" }
+                    },
+                    "maneuver": {
+                        "clean": { "low": "1", "med": "1", "high": "1" },
+                        "laden": { "low": "-", "med": "-", "high": "-" }
+                    }
+                },
+                "capabilities": ["Night", "ELINT"],
+                "guns": [{ "name": "Tail: 2x 23mm", "count": 0, "depletion": 2 }],
+                "radar_missiles": null,
+                "infrared_missiles": null,
+                "jammers": {
+                    "count": 2,
+                    "range_table": { "3": 10, "2": 20, "1": 40 }
+                },
+                "loadouts": [
+                    { "type": "Chaff Laying", "weapons": "(*) Chaff" },
+                    { "type": "Escort Jam", "weapons": "(*) Chaff" }
+                ],
+                "notes": ["1970", "Large Aircraft; Poor SAM Defense", "Zoom Climb Not Allowed"]
+            },
+            {
+                "name": "KSR-5",
+                "nickname": "AS-6 Kingfish",
+                "crew": null,
+                "year": 1970,
+                "fuel": "Unlimited",
+                "bomb": 2,
+                "bomb_laden": null,
+                "sight": "+0",
+                "rwr": "N/A",
+                "jam": "N/A",
+                "radar": "Downlink+Seeker",
+                "performance": {
+                    "combat": {
+                        "clean": { "low": "-", "med": "-", "high": "12" },
+                        "laden": { "low": "-", "med": "-", "high": "-" }
+                    },
+                    "dash": {
+                        "clean": { "low": "-", "med": "-", "high": "-" },
+                        "laden": { "low": "-", "med": "-", "high": "-" }
+                    },
+                    "maneuver": {
+                        "clean": { "low": "-", "med": "-", "high": "3" },
+                        "laden": { "low": "-", "med": "-", "high": "-" }
+                    }
+                },
+                "capabilities": ["Night"],
+                "loadouts": [
+                    { "type": "ASM", "weapons": "(2) KSR-5 ASM" },
+                    { "type": "SEAD", "weapons": "(2) KSR-5P ARM" }
+                ],
+                "notes": ["1970"]
+            },
+            {
+                "name": "Kh-55",
+                "nickname": "AS-15 Kent / Granat",
+                "crew": null,
+                "year": 1983,
+                "fuel": "Unlimited",
+                "bomb": null,
+                "bomb_laden": null,
+                "sight": "N/A",
+                "rwr": "N/A",
+                "jam": "N/A",
+                "radar": "TFR",
+                "performance": {
+                    "combat": {
+                        "clean": { "low": "-", "med": "-", "high": "-" },
+                        "laden": { "low": "-", "med": "-", "high": "-" }
+                    },
+                    "dash": {
+                        "clean": { "low": "-", "med": "-", "high": "-" },
+                        "laden": { "low": "-", "med": "-", "high": "-" }
+                    },
+                    "maneuver": {
+                        "clean": { "low": "1", "med": "-", "high": "-" },
+                        "laden": { "low": "-", "med": "-", "high": "-" }
+                    }
+                },
+                "capabilities": ["Night"],
+                "loadouts": [
+                    { "type": "Bombing", "weapons": "(N) 200 kT" }
+                ],
+                "notes": ["1983", "Cruise Missile"]
+            }
+        ]
+    },
+    "East German": {
+        "aircraft": [
+            {
+                "name": "MiG-21SPS",
+                "nickname": "Fishbed F",
+                "crew": "Pilot",
+                "year": 1966,
+                "fuel": 6,
+                "bomb": 1,
+                "bomb_laden": null,
+                "sight": "+0",
+                "rwr": "A",
+                "jam": "N/A",
+                "radar": "RP-21M [4]",
+                "performance": {
+                    "combat": {
+                        "clean": { "low": "3", "med": "4", "high": "4" },
+                        "laden": { "low": "2", "med": "3", "high": "3" }
+                    },
+                    "dash": {
+                        "clean": { "low": "4", "med": "5", "high": "6" },
+                        "laden": { "low": "3", "med": "4", "high": "4" }
+                    },
+                    "maneuver": {
+                        "clean": { "low": "5", "med": "6", "high": "7" },
+                        "laden": { "low": "2", "med": "2", "high": "3" }
+                    }
+                },
+                "capabilities": ["Ltd Night"],
+                "guns": [{ "name": "23mm Pod", "count": 2, "depletion": 4 }],
+                "radar_missiles": null,
+                "infrared_missiles": [
+                    { "name": "R-13M", "count": 0, "rating": "x-x-0" }
+                ],
+                "loadouts": [
+                    { "type": "CAP", "weapons": null, "air_to_air": { "R-13M": 6 } },
+                    { "type": "CAP", "weapons": "(1) Gun Pod", "air_to_air": { "R-13M": 6 } },
+                    { "type": "Close Escort", "weapons": null, "air_to_air": { "R-13M": 6 } },
+                    { "type": "Close Escort", "weapons": "(1) Gun Pod", "air_to_air": { "R-13M": 6 } },
+                    { "type": "Bombing", "weapons": "(1) Bombs" },
+                    { "type": "Bombing", "weapons": "(1) Rockets" },
+                    { "type": "Bombing (AV)", "weapons": "(1) AT CBU" },
+                    { "type": "SEAD", "weapons": "(1) Rockets" },
+                    { "type": "Chaff Laying", "weapons": "(1) Chaff" }
+                ],
+                "notes": ["1966"]
+            },
+            {
+                "name": "MiG-21MF",
+                "nickname": "Fishbed J",
+                "crew": "Pilot",
+                "year": 1968,
+                "fuel": 6,
+                "bomb": 1,
+                "bomb_laden": null,
+                "sight": "+0",
+                "rwr": "A",
+                "jam": "N/A",
+                "radar": "RP-22M [5]",
+                "performance": {
+                    "combat": {
+                        "clean": { "low": "2", "med": "4", "high": "5" },
+                        "laden": { "low": "3", "med": "3", "high": "3" }
+                    },
+                    "dash": {
+                        "clean": { "low": "4", "med": "5", "high": "7" },
+                        "laden": { "low": "3", "med": "4", "high": "4" }
+                    },
+                    "maneuver": {
+                        "clean": { "low": "5", "med": "6", "high": "7" },
+                        "laden": { "low": "2", "med": "2", "high": "3" }
+                    }
+                },
+                "capabilities": ["Ltd Night"],
+                "guns": [{ "name": "23mm", "count": 2, "depletion": 4 }],
+                "radar_missiles": null,
+                "infrared_missiles": [
+                    { "name": "R-13M", "count": 0, "rating": "x-x-0" }
+                ],
+                "loadouts": [
+                    { "type": "CAP", "weapons": null, "air_to_air": { "R-13M": 6 } },
+                    { "type": "Close Escort", "weapons": null, "air_to_air": { "R-13M": 6 } },
+                    { "type": "Bombing", "weapons": "(1) Bombs" },
+                    { "type": "Bombing", "weapons": "(1) Rockets" },
+                    { "type": "Bombing (AV)", "weapons": "(1) AT CBU" },
+                    { "type": "SEAD", "weapons": "(1) Rockets" },
+                    { "type": "Chaff Laying", "weapons": "(1) Chaff" }
+                ],
+                "notes": ["1968"]
+            },
+            {
+                "name": "MiG-21M",
+                "nickname": "Fishbed J (Recon)",
+                "crew": "Pilot",
+                "year": 1968,
+                "fuel": 8,
+                "bomb": null,
+                "bomb_laden": null,
+                "sight": "N/A",
+                "rwr": "A",
+                "jam": "2n",
+                "radar": "RP-21MA [4]",
+                "performance": {
+                    "combat": {
+                        "clean": { "low": "3", "med": "4", "high": "5" },
+                        "laden": { "low": "-", "med": "-", "high": "-" }
+                    },
+                    "dash": {
+                        "clean": { "low": "4", "med": "5", "high": "7" },
+                        "laden": { "low": "-", "med": "-", "high": "-" }
+                    },
+                    "maneuver": {
+                        "clean": { "low": "5", "med": "6", "high": "7" },
+                        "laden": { "low": "-", "med": "-", "high": "-" }
+                    }
+                },
+                "capabilities": ["Ltd Night"],
+                "guns": [{ "name": "23mm", "count": 2, "depletion": 4 }],
+                "radar_missiles": null,
+                "infrared_missiles": null,
+                "recon": [
+                    "3x Cameras",
+                    "3x Cameras + Type D Photint Pod",
+                    "3x Cameras + Type R ELINT Pod"
+                ],
+                "loadouts": [],
+                "notes": ["1968"]
+            },
+            {
+                "name": "MiG-21 bis",
+                "nickname": "Fishbed L",
+                "crew": "Pilot",
+                "year": 1972,
+                "fuel": 6,
+                "bomb": 1,
+                "bomb_laden": null,
+                "sight": "+0",
+                "rwr": "A",
+                "jam": "2n (Bomb/SEAD only)",
+                "radar": "RP-22M [5]",
+                "performance": {
+                    "combat": {
+                        "clean": { "low": "3", "med": "4", "high": "5" },
+                        "laden": { "low": "3", "med": "3", "high": "3" }
+                    },
+                    "dash": {
+                        "clean": { "low": "4", "med": "5", "high": "7" },
+                        "laden": { "low": "4", "med": "4", "high": "4" }
+                    },
+                    "maneuver": {
+                        "clean": { "low": "5", "med": "6", "high": "7" },
+                        "laden": { "low": "2", "med": "4", "high": "3" }
+                    }
+                },
+                "capabilities": ["Ltd Night"],
+                "guns": [{ "name": "23mm", "count": 2, "depletion": 4 }],
+                "radar_missiles": [
+                    { "name": "R-3R", "count_min": -1, "count_max": 0, "rating": "2-1-0" }
+                ],
+                "infrared_missiles": [
+                    { "name": "R-60", "count": 1, "rating": "x-x-0" }
+                ],
+                "loadouts": [
+                    { "type": "CAP", "weapons": null, "air_to_air": { "R-3R": 6 } },
+                    { "type": "CAP", "weapons": null, "air_to_air": { "R-60": 6 } },
+                    { "type": "Close Escort", "weapons": null, "air_to_air": { "R-3R": 6 } },
+                    { "type": "Close Escort", "weapons": null, "air_to_air": { "R-60": 6 } },
+                    { "type": "Bombing", "weapons": "(1) Bombs" },
+                    { "type": "Bombing", "weapons": "(1) Rockets" },
+                    { "type": "Bombing (AV)", "weapons": "(1) AT CBU" },
+                    { "type": "SEAD", "weapons": "(1) Rockets" },
+                    { "type": "Chaff Laying", "weapons": "(1) Chaff" }
+                ],
+                "notes": ["1972"]
+            },
+            {
+                "name": "MiG-23MF",
+                "nickname": "Flogger B",
+                "crew": "Pilot",
+                "year": 1972,
+                "fuel": 7,
+                "bomb": 2,
+                "bomb_laden": 1,
+                "sight": "+0",
+                "rwr": "A",
+                "jam": "N/A",
+                "radar": "Sapfir 23E [8] 6+; -2",
+                "performance": {
+                    "combat": {
+                        "clean": { "low": "4", "med": "4", "high": "5" },
+                        "laden": { "low": "3", "med": "3", "high": "4" }
+                    },
+                    "dash": {
+                        "clean": { "low": "5", "med": "6", "high": "8" },
+                        "laden": { "low": "4", "med": "5", "high": "5" }
+                    },
+                    "maneuver": {
+                        "clean": { "low": "4", "med": "5", "high": "5" },
+                        "laden": { "low": "2", "med": "3", "high": "3" }
+                    }
+                },
+                "capabilities": ["Ltd Night", "IRST"],
+                "guns": [{ "name": "23mm", "count": 2, "depletion": 4 }],
+                "radar_missiles": [
+                    { "name": "R-23", "count_min": 2, "count_max": -1, "rating": "4-2-1" }
+                ],
+                "infrared_missiles": [
+                    { "name": "R-60", "count": 1, "rating": "x-x-0" },
+                    { "name": "R-3R", "count_min": -1, "count_max": 0, "rating": "2-1-0" }
+                ],
+                "loadouts": [
+                    { "type": "CAP", "weapons": null, "air_to_air": { "R-3R": 6, "R-23": 6 } },
+                    { "type": "CAP", "weapons": null, "air_to_air": { "R-60": 6, "R-23": 6 } },
+                    { "type": "Close Escort", "weapons": null, "air_to_air": { "R-3R": 6, "R-23": 6 } },
+                    { "type": "Close Escort", "weapons": null, "air_to_air": { "R-60": 6, "R-23": 6 } },
+                    { "type": "Bombing", "weapons": "(2) Bombs" },
+                    { "type": "Bombing", "weapons": "(2) Rockets" },
+                    { "type": "Bombing (AV)", "weapons": "(2) AT CBU" },
+                    { "type": "Deep Strike", "weapons": "(1) Bombs" },
+                    { "type": "SEAD", "weapons": "(2) Rockets" },
+                    { "type": "Chaff", "weapons": "(2) Chaff" }
+                ],
+                "notes": ["1972"]
+            },
+            {
+                "name": "MiG-23 ML",
+                "nickname": "Flogger G",
+                "crew": "Pilot",
+                "year": 1978,
+                "fuel": 7,
+                "bomb": 2,
+                "bomb_laden": 1,
+                "sight": "+0",
+                "rwr": "B",
+                "jam": "N/A",
+                "radar": "Sapfir 23ML [11] 7+; -2",
+                "performance": {
+                    "combat": {
+                        "clean": { "low": "4", "med": "4", "high": "5" },
+                        "laden": { "low": "3", "med": "3", "high": "4" }
+                    },
+                    "dash": {
+                        "clean": { "low": "5", "med": "6", "high": "8" },
+                        "laden": { "low": "4", "med": "5", "high": "5" }
+                    },
+                    "maneuver": {
+                        "clean": { "low": "4", "med": "5", "high": "6" },
+                        "laden": { "low": "2", "med": "3", "high": "3" }
+                    }
+                },
+                "capabilities": ["LD", "Ltd Night"],
+                "guns": [{ "name": "23mm", "count": 2, "depletion": 4 }],
+                "radar_missiles": [
+                    { "name": "R-24", "count_min": 2, "count_max": 0, "rating": "6-3-1" }
+                ],
+                "infrared_missiles": [
+                    { "name": "R-60", "count": 1, "rating": "x-x-0" },
+                    { "name": "R-60M", "count": 2, "rating": "x-x-0" }
+                ],
+                "loadouts": [
+                    { "type": "CAP", "weapons": null, "air_to_air": { "R-60": 6, "R-24": 6 } },
+                    { "type": "CAP", "weapons": null, "air_to_air": { "R-60M": 6, "R-24": 6 } },
+                    { "type": "Close Escort", "weapons": null, "air_to_air": { "R-60": 6, "R-24": 6 } },
+                    { "type": "Close Escort", "weapons": null, "air_to_air": { "R-60M": 6, "R-24": 6 } },
+                    { "type": "Bombing", "weapons": "(2) Bombs" },
+                    { "type": "Bombing", "weapons": "(2) Rockets" },
+                    { "type": "Bombing (AV)", "weapons": "(2) AT CBU" },
+                    { "type": "Deep Strike", "weapons": "(1) Bombs" },
+                    { "type": "SEAD", "weapons": "(2) Rockets" },
+                    { "type": "Chaff", "weapons": "(2) Chaff" }
+                ],
+                "notes": ["1978"]
+            },
+            {
+                "name": "MiG-23 BN",
+                "nickname": "Flogger H",
+                "crew": "Pilot",
+                "year": 1973,
+                "fuel": 7,
+                "bomb": 3,
+                "bomb_laden": 2,
+                "sight": "+1",
+                "rwr": "A",
+                "jam": "2n",
+                "radar": "N/A",
+                "performance": {
+                    "combat": {
+                        "clean": { "low": "4", "med": "4", "high": "4" },
+                        "laden": { "low": "3", "med": "3", "high": "4" }
+                    },
+                    "dash": {
+                        "clean": { "low": "5", "med": "6", "high": "8" },
+                        "laden": { "low": "4", "med": "5", "high": "5" }
+                    },
+                    "maneuver": {
+                        "clean": { "low": "4", "med": "5", "high": "6" },
+                        "laden": { "low": "2", "med": "3", "high": "3" }
+                    }
+                },
+                "capabilities": ["Ltd Night"],
+                "guns": [{ "name": "23mm", "count": 2, "depletion": 4 }],
+                "radar_missiles": null,
+                "infrared_missiles": null,
+                "ordnance": {
+                    "special": ["(1) EOGM"]
+                },
+                "loadouts": [
+                    { "type": "Bombing", "weapons": "(3) Bombs" },
+                    { "type": "Bombing", "weapons": "(3) Rockets" },
+                    { "type": "Bombing (AV)", "weapons": "(3) AT CBU" },
+                    { "type": "Deep Strike", "weapons": "(2) Bombs" },
+                    { "type": "Precision", "weapons": "(1) EOGM" },
+                    { "type": "SEAD", "weapons": "(3) Rockets" }
+                ],
+                "notes": ["1973"]
+            },
+            {
+                "name": "Su-22M4",
+                "nickname": "Fitter K",
+                "crew": "Pilot",
+                "year": 1983,
+                "fuel": 8,
+                "bomb": 3,
+                "bomb_laden": 2,
+                "sight": "+1",
+                "rwr": "B",
+                "jam": "2n",
+                "radar": "N/A",
+                "performance": {
+                    "combat": {
+                        "clean": { "low": "3", "med": "4", "high": "5" },
+                        "laden": { "low": "3", "med": "3", "high": "3" }
+                    },
+                    "dash": {
+                        "clean": { "low": "5", "med": "5", "high": "7" },
+                        "laden": { "low": "4", "med": "4", "high": "4" }
+                    },
+                    "maneuver": {
+                        "clean": { "low": "4", "med": "5", "high": "5" },
+                        "laden": { "low": "2", "med": "2", "high": "2" }
+                    }
+                },
+                "capabilities": [],
+                "guns": [{ "name": "30mm", "count": 3, "depletion": 4 }],
+                "radar_missiles": null,
+                "infrared_missiles": [
+                    { "name": "R-60", "count": 1, "rating": "x-x-0" }
+                ],
+                "ordnance": {
+                    "special": ["(1) EOGM"]
+                },
+                "loadouts": [
+                    { "type": "Bombing", "weapons": "(3) Bombs", "air_to_air": { "R-60": 6 } },
+                    { "type": "Bombing", "weapons": "(3) Rockets", "air_to_air": { "R-60": 6 } },
+                    { "type": "Bombing (AV)", "weapons": "(3) Bombs (KMGU)", "air_to_air": { "R-60": 6 } },
+                    { "type": "Deep Strike", "weapons": "(2) Bombs", "air_to_air": { "R-60": 6 } },
+                    { "type": "Precision", "weapons": "(2) EOGM", "air_to_air": { "R-60": 6 } },
+                    { "type": "SEAD", "weapons": "(2) Rockets", "air_to_air": { "R-60": 6 } }
+                ],
+                "notes": ["1983", "Defensive Wheel Allowed"]
+            }
+        ]
+    }
+}
