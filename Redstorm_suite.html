@@ -520,6 +520,7 @@ input:checked + .slider-toggle:before {
 /* RAID table fixed column widths */
 .oob-table col.col-mission  { width: 70px; }
 .oob-table col.col-callsign { width: 80px; }
+.callsign-sel { width:100%; font-size:11px; padding:2px; background:var(--bg2); color:var(--fg); border:1px solid var(--border); border-radius:3px; }
 .oob-table col.col-aircraft { width: 90px; }
 .oob-table col.col-skillav  { width: 55px; }
 .oob-table col.col-status   { width: 75px; }
@@ -864,7 +865,7 @@ input:checked + .slider-toggle:before {
 /* --- ADC Image Modal --- */
 .img-modal {
   display: none;
-  position: absolute;
+  position: fixed;
   z-index: 1000;
   background: rgba(10,20,10,0.97);
   border: 1px solid var(--crt-border);
@@ -872,7 +873,7 @@ input:checked + .slider-toggle:before {
   padding: 16px;
 }
 .img-modal .modal-content { position: relative; text-align: center; }
-.img-modal #modal-image { max-height: 90vh; }
+.img-modal #modal-image { max-height: 80vh; }
 .close-btn {
   color: var(--fade);
   position: absolute;
@@ -3118,25 +3119,47 @@ document.addEventListener('DOMContentLoaded', async () => {
 
     const countryData = callsignData[countryKey];
     const clean = aircraftName.replace(/\s*\[.*?\]\s*$/, '').trim().toUpperCase();
+    // Extract designation prefix: "F-15C Eagle" → "F-15C", "Alpha Jet A" → null
+    const desig = clean.match(/^([A-Z]{1,3}-?\d+\w*)/);
+    const desigBase = desig ? desig[1].replace(/[A-Z]$/, '') : null; // "F-15C" → "F-15"
 
     // Sort keys by length descending so longer/more specific keys match first
-    // e.g. "EC-130" before "C-141", "CF-18" before "F-18"
     const keys = Object.keys(countryData).sort((a, b) => b.length - a.length);
 
+    // Pass 1: Exact designation match ("F-15C" startsWith "F-15", not "F-1" or "F-111")
     for (const key of keys) {
       const keyUp = key.toUpperCase();
-      // Check if the clean aircraft name starts with or contains the key
-      if (clean.includes(keyUp) || clean.startsWith(keyUp.replace(/-/g, ''))) {
-        return countryData[key];
+      const keyDesig = keyUp.match(/^([A-Z]{1,3}-?\d+)/);
+      if (desigBase && keyDesig) {
+        // Exact base match: "F-15" === "F-15", not "F-15".startsWith("F-1")
+        if (desigBase === keyDesig[1] || (desig && desig[1].startsWith(keyDesig[1]) && keyDesig[1].length >= desigBase.length)) {
+          return countryData[key];
+        }
       }
-      // Also try matching designation: "F-15A Eagle" matches "F-15"
-      const desig = clean.match(/^([A-Z]+-?\d+)/);
-      const keyDesig = keyUp.match(/^([A-Z]+-?\d+)/);
-      if (desig && keyDesig && desig[1].startsWith(keyDesig[1])) {
+    }
+
+    // Pass 2: Name-based match for non-designation aircraft ("Alpha Jet", "Harrier", "Tornado", etc.)
+    for (const key of keys) {
+      const keyUp = key.toUpperCase();
+      // Skip short designation-like keys to avoid false matches (e.g. "F-4" matching inside "RF-4")
+      if (/^[A-Z]{1,2}-\d+$/.test(keyUp) && keyUp.length <= 4) continue;
+      if (clean.startsWith(keyUp) || clean.includes(' ' + keyUp) || clean.includes(keyUp + ' ')) {
         return countryData[key];
       }
     }
-    // Try partial matches for special names: "Harrier", "Jaguar", "Buccaneer", etc.
+
+    // Pass 3: Relaxed designation prefix match
+    for (const key of keys) {
+      const keyUp = key.toUpperCase();
+      if (clean.startsWith(keyUp)) return countryData[key];
+      // "RF-4C" contains "F-4" as designation substring
+      const keyDesig = keyUp.match(/^([A-Z]{1,3}-?\d+)/);
+      if (desigBase && keyDesig && desigBase.endsWith(keyDesig[1])) {
+        return countryData[key];
+      }
+    }
+
+    // Pass 4: Partial name match as last resort
     for (const key of keys) {
       if (clean.includes(key.toUpperCase())) {
         return countryData[key];
@@ -3157,14 +3180,62 @@ document.addEventListener('DOMContentLoaded', async () => {
         return cs;
       }
     }
-    // All used — return random with number suffix
+    // All used — return random with unique number suffix
     const base = pool[Math.floor(Math.random() * pool.length)];
-    const suffix = Math.floor(Math.random() * 90) + 10;
-    return `${base} ${suffix}`;
+    let suffix, candidate;
+    do {
+      suffix = Math.floor(Math.random() * 90) + 10;
+      candidate = `${base} ${suffix}`;
+    } while (_usedCallsigns.has(candidate));
+    _usedCallsigns.add(candidate);
+    return candidate;
   }
 
   function releaseCallsign(callsign) {
-    if (callsign) _usedCallsigns.delete(callsign.split(' ')[0]);
+    if (!callsign) return;
+    _usedCallsigns.delete(callsign);
+    _usedCallsigns.delete(callsign.split(' ')[0]);
+  }
+
+  // Build callsign <select> dropdown for a given aircraft, auto-selecting first unused
+  function populateCallsignSelect(selectEl, aircraftName, preferVal) {
+    // Release previous value first
+    const prevVal = selectEl._prevVal || selectEl.value;
+    if (prevVal) releaseCallsign(prevVal);
+
+    selectEl.innerHTML = '';
+    const pool = findCallsignPool(aircraftName);
+    if (!pool || pool.length === 0) {
+      selectEl.innerHTML = '<option value="">—</option>';
+      selectEl._prevVal = '';
+      return '';
+    }
+
+    // Build all options
+    pool.forEach(cs => {
+      const opt = document.createElement('option');
+      opt.value = cs;
+      opt.textContent = _usedCallsigns.has(cs) ? `${cs} ✦` : cs;
+      selectEl.appendChild(opt);
+    });
+
+    // Select: prefer given value, else first unused
+    let selected = '';
+    if (preferVal && pool.includes(preferVal)) {
+      selectEl.value = preferVal;
+      selected = preferVal;
+    } else {
+      for (const cs of pool) {
+        if (!_usedCallsigns.has(cs)) {
+          selectEl.value = cs;
+          selected = cs;
+          break;
+        }
+      }
+    }
+    if (selected) _usedCallsigns.add(selected);
+    selectEl._prevVal = selected;
+    return selected;
   }
 
   // ============ LOAD JSON FILES ============
@@ -3267,7 +3338,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 
   function createRowHTML(side) {
     return `<td><select class="fit-width">${buildMissionOptions()}</select></td>` +
-      `<td><input type="text" value=""></td>` +
+      `<td><select class="callsign-sel"></select></td>` +
       `<td><select>${buildAircraftOptions(side)}</select></td>` +
       `<td><input type="text" value="" style="width:40px;"></td>` +
       `<td><select>${buildSkillOptions()}</select></td>` +
@@ -3834,16 +3905,20 @@ document.addEventListener('DOMContentLoaded', async () => {
 
     // Aircraft change → auto-assign callsign + auto-fill ADC stats
     const aircraftSel = row.querySelector('td:nth-child(3) select');
-    const callsignInput = row.querySelector('td:nth-child(2) input');
-    if (aircraftSel && callsignInput) {
+    const callsignSel = row.querySelector('td:nth-child(2) select');
+    if (aircraftSel && callsignSel) {
       aircraftSel.addEventListener('change', () => {
-        // Release old callsign
-        releaseCallsign(callsignInput.value);
-        // Assign new
-        const cs = assignCallsign(aircraftSel.value);
-        if (cs) callsignInput.value = cs;
+        // Populate dropdown and auto-select (releases old callsign internally)
+        populateCallsignSelect(callsignSel, aircraftSel.value);
         // Auto-fill stats from ADC
         autoFillFromAdc(row);
+        saveToLocalStorage();
+      });
+      // Callsign manual change → track used set
+      callsignSel.addEventListener('change', () => {
+        releaseCallsign(callsignSel._prevVal);
+        _usedCallsigns.add(callsignSel.value);
+        callsignSel._prevVal = callsignSel.value;
         saveToLocalStorage();
       });
     }
@@ -3870,8 +3945,8 @@ document.addEventListener('DOMContentLoaded', async () => {
       btn.textContent = '\uC0AD\uC81C';
       btn.className = 'delete-row';
       btn.onclick = () => {
-        const csInput = row.querySelector('td:nth-child(2) input');
-        if (csInput) releaseCallsign(csInput.value);
+        const csSel = row.querySelector('td:nth-child(2) select');
+        if (csSel) releaseCallsign(csSel.value);
         row.remove();
         saveToLocalStorage();
       };
@@ -3879,7 +3954,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     }
   }
 
-  function addNewRow(tableId, side) {
+  function addNewRow(tableId, side, skipCallsign) {
     const table = document.getElementById(tableId);
     const tbody = table.querySelector('tbody');
     const newRow = document.createElement('tr');
@@ -3887,12 +3962,13 @@ document.addEventListener('DOMContentLoaded', async () => {
     tbody.insertBefore(newRow, tbody.lastElementChild);
     addDeleteButton(newRow);
     addRowListeners(newRow);
-    // Auto-assign callsign for initial aircraft
-    const aircraftSel = newRow.querySelector('td:nth-child(3) select');
-    const callsignInput = newRow.querySelector('td:nth-child(2) input');
-    if (aircraftSel && callsignInput && !callsignInput.value) {
-      const cs = assignCallsign(aircraftSel.value);
-      if (cs) callsignInput.value = cs;
+    // Auto-assign callsign only for manual row add (not during auto-populate)
+    if (!skipCallsign) {
+      const aircraftSel = newRow.querySelector('td:nth-child(3) select');
+      const callsignSel = newRow.querySelector('td:nth-child(2) select');
+      if (aircraftSel && callsignSel) {
+        populateCallsignSelect(callsignSel, aircraftSel.value);
+      }
     }
     // Auto-calculate aggressiveness from default skill level (정규군)
     const skillSel = newRow.querySelector('td:nth-child(5) select');
@@ -3901,7 +3977,7 @@ document.addEventListener('DOMContentLoaded', async () => {
       aggVal.textContent = calculateAggressiveness(skillSel.value);
     }
     // Auto-fill ADC stats for initial aircraft (deferred to next tick)
-    whenAdcReady(() => autoFillFromAdc(newRow));
+    if (!skipCallsign) whenAdcReady(() => autoFillFromAdc(newRow));
     saveToLocalStorage();
     return newRow;
   }
@@ -3937,8 +4013,13 @@ document.addEventListener('DOMContentLoaded', async () => {
         modalImage.onload = () => {
           modal.style.display = 'block';
           const rect = button.getBoundingClientRect();
-          modal.style.top = `${window.scrollY + rect.bottom + 5}px`;
-          modal.style.left = `${window.scrollX + rect.right - modal.offsetWidth}px`;
+          let top = rect.bottom + 5;
+          let left = rect.right - modal.offsetWidth;
+          // Keep within viewport
+          if (top + modal.offsetHeight > window.innerHeight) top = rect.top - modal.offsetHeight - 5;
+          if (left < 0) left = 5;
+          modal.style.top = `${top}px`;
+          modal.style.left = `${left}px`;
           activeModalButton = button;
           modalImage.onload = null;
         };
@@ -4174,23 +4255,16 @@ document.addEventListener('DOMContentLoaded', async () => {
           try {
             const parsed = parseQuantity(flight.수량);
             for (let f = 0; f < parsed.flights; f++) {
-              const row = addNewRow('nato-flight-table', 'nato');
+              const row = addNewRow('nato-flight-table', 'nato', true);
               // Mission
               const missionSel = row.querySelector('td:nth-child(1) select');
               setSelectValue(missionSel, flight.임무);
               // Aircraft - match closest (before callsign so auto-assign works)
               const aircraftSel = row.querySelector('td:nth-child(3) select');
               matchAircraft(aircraftSel, flight.기종);
-              // Callsign - use scenario value or auto-assign
-              const callsignInput = row.querySelector('td:nth-child(2) input');
-              if (flight.콜사인) {
-                callsignInput.value = flight.콜사인;
-                _usedCallsigns.add(flight.콜사인.split(' ')[0]);
-              } else if (!callsignInput.value) {
-                releaseCallsign(callsignInput.value);
-                const cs = assignCallsign(aircraftSel.value);
-                if (cs) callsignInput.value = cs;
-              }
+              // Callsign - populate dropdown, use scenario value or auto-assign
+              const callsignSel = row.querySelector('td:nth-child(2) select');
+              populateCallsignSelect(callsignSel, aircraftSel.value, flight.콜사인 || undefined);
               // Qty
               const qtyInput = row.querySelector('td:nth-child(4) input');
               qtyInput.value = parsed.aircraft;
@@ -4327,11 +4401,16 @@ document.addEventListener('DOMContentLoaded', async () => {
           try {
             const parsed = parseQuantity(flight.수량);
             for (let f = 0; f < parsed.flights; f++) {
-              const row = addNewRow('wp-flight-table', 'wp');
+              const row = addNewRow('wp-flight-table', 'wp', true);
               const missionSel = row.querySelector('td:nth-child(1) select');
               setSelectValue(missionSel, flight.임무);
               const aircraftSel = row.querySelector('td:nth-child(3) select');
               matchAircraft(aircraftSel, flight.기종);
+              // Callsign - populate after aircraft is set
+              const callsignSel = row.querySelector('td:nth-child(2) select');
+              if (callsignSel) {
+                populateCallsignSelect(callsignSel, aircraftSel.value);
+              }
               const qtyInput = row.querySelector('td:nth-child(4) input');
               qtyInput.value = parsed.aircraft;
               const skillSel = row.querySelector('td:nth-child(5) select');
@@ -4849,7 +4928,7 @@ document.addEventListener('DOMContentLoaded', async () => {
   function restoreTableData(tableId, side, tableData) {
     if (!tableData || tableData.length === 0) return;
     tableData.forEach(rowData => {
-      const row = addNewRow(tableId, side);
+      const row = addNewRow(tableId, side, true);
       let cellIndex = 0;
       let statusIndex = 0;
       row.querySelectorAll('td:not(:last-child)').forEach(cell => {
@@ -4877,14 +4956,19 @@ document.addEventListener('DOMContentLoaded', async () => {
           const sel = cell.querySelector('select');
           const input = cell.querySelector('input');
           const button = cell.querySelector('button.view-btn');
-          if (sel && saved.type === 'select') {
+          if (sel && sel.classList.contains('callsign-sel') && saved.value) {
+            // Callsign select: populate full pool from aircraft, then set saved value
+            const aircraftSel = row.querySelector('td:nth-child(3) select');
+            populateCallsignSelect(sel, aircraftSel?.value || '', saved.value);
+          } else if (sel && (saved.type === 'select' || saved.type === 'input')) {
             // Try to set value, add if missing
             let found = false;
             for (let i = 0; i < sel.options.length; i++) {
-              if (sel.options[i].textContent === saved.value) { sel.selectedIndex = i; found = true; break; }
+              if (sel.options[i].value === saved.value || sel.options[i].textContent === saved.value) { sel.selectedIndex = i; found = true; break; }
             }
             if (!found && saved.value) {
               const opt = document.createElement('option');
+              opt.value = saved.value;
               opt.textContent = saved.value;
               opt.selected = true;
               sel.appendChild(opt);
@@ -4992,7 +5076,7 @@ document.addEventListener('DOMContentLoaded', async () => {
   // RAID row creation (has role + abort columns)
   function createRaidRowHTML(side) {
     return `<td><select class="fit-width">${buildMissionOptions()}</select></td>` +
-      `<td><input type="text" value=""></td>` +
+      `<td><select class="callsign-sel"></select></td>` +
       `<td><select>${buildAircraftOptions(side)}</select></td>` +
       `<td class="skill-av-cell"><div class="stacked-cell"><select>${buildSkillOptions()}</select><div class="aggress-container"><span class="aggress-value">0</span><div class="aggress-controls"><button type="button" class="aggress-btn up">\u25B2</button><button type="button" class="aggress-btn down">\u25BC</button></div></div></div></td>` +
       `<td>${buildStatusGrid()}</td>` +
@@ -5007,7 +5091,7 @@ document.addEventListener('DOMContentLoaded', async () => {
       `<td></td>`;
   }
 
-  function addRaidRow(tableId, side) {
+  function addRaidRow(tableId, side, skipCallsign) {
     const table = document.getElementById(tableId);
     const tbody = table.querySelector('tbody');
     const newRow = document.createElement('tr');
@@ -5015,12 +5099,13 @@ document.addEventListener('DOMContentLoaded', async () => {
     tbody.insertBefore(newRow, tbody.lastElementChild);
     addDeleteButton(newRow);
     addRaidRowListeners(newRow);
-    // Auto-assign callsign for initial aircraft
-    const aircraftSel = newRow.querySelector('td:nth-child(3) select');
-    const callsignInput = newRow.querySelector('td:nth-child(2) input');
-    if (aircraftSel && callsignInput && !callsignInput.value) {
-      const cs = assignCallsign(aircraftSel.value);
-      if (cs) callsignInput.value = cs;
+    // Auto-assign callsign only for manual row add
+    if (!skipCallsign) {
+      const aircraftSel = newRow.querySelector('td:nth-child(3) select');
+      const callsignSel = newRow.querySelector('td:nth-child(2) select');
+      if (aircraftSel && callsignSel) {
+        populateCallsignSelect(callsignSel, aircraftSel.value);
+      }
     }
     // Auto-calculate aggressiveness from default skill level (정규군)
     const skillSel = newRow.querySelector('.stacked-cell select');
@@ -5434,7 +5519,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         // Populate NATO
         if (data.nato?.flights) {
           data.nato.flights.forEach(oobRow => {
-            const row = addRaidRow('raid-nato-table', 'nato');
+            const row = addRaidRow('raid-nato-table', 'nato', true);
             restoreRaidRow(row, oobRowToRaidRow(oobRow));
             // Ensure ADC auto-fill runs for each RAID row too
             whenAdcReady(() => autoFillFromAdc(row));
@@ -5444,7 +5529,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         // Populate WP
         if (data.wp?.flights) {
           data.wp.flights.forEach(oobRow => {
-            const row = addRaidRow('raid-wp-table', 'wp');
+            const row = addRaidRow('raid-wp-table', 'wp', true);
             restoreRaidRow(row, oobRowToRaidRow(oobRow));
             whenAdcReady(() => autoFillFromAdc(row));
           });
@@ -5601,7 +5686,20 @@ document.addEventListener('DOMContentLoaded', async () => {
         const saved = rowData.cells[cellIndex];
         const sel = cell.querySelector('select');
         const input = cell.querySelector('input');
-        if (sel && saved.type === 'select') {
+        if (sel && sel.classList.contains('callsign-sel') && saved.value) {
+          // Callsign select: first restore aircraft value (cell processed later),
+          // then populate callsign pool from the correct aircraft
+          const aircraftSel = row.querySelector('td:nth-child(3) select');
+          // Find the aircraft value from rowData cells (aircraft cell comes after callsign)
+          const aircraftSaved = rowData.cells.find((c, idx) => idx > cellIndex && c.type === 'select' &&
+            aircraftSel && [...aircraftSel.options].some(o => o.textContent === c.value));
+          if (aircraftSaved && aircraftSel) {
+            for (let i = 0; i < aircraftSel.options.length; i++) {
+              if (aircraftSel.options[i].textContent === aircraftSaved.value) { aircraftSel.selectedIndex = i; break; }
+            }
+          }
+          populateCallsignSelect(sel, aircraftSel?.value || '', saved.value);
+        } else if (sel && saved.type === 'select') {
           let found = false;
           for (let i = 0; i < sel.options.length; i++) {
             if (sel.options[i].textContent === saved.value) { sel.selectedIndex = i; found = true; break; }
@@ -5717,7 +5815,7 @@ document.addEventListener('DOMContentLoaded', async () => {
       if (data.nato && data.nato.length > 0) {
         clearTable('raid-nato-table');
         data.nato.forEach(rowData => {
-          const row = addRaidRow('raid-nato-table', 'nato');
+          const row = addRaidRow('raid-nato-table', 'nato', true);
           restoreRaidRow(row, rowData);
           if (rowData.aborted) {
             row.classList.add('row-aborted');
@@ -5729,7 +5827,7 @@ document.addEventListener('DOMContentLoaded', async () => {
       if (data.wp && data.wp.length > 0) {
         clearTable('raid-wp-table');
         data.wp.forEach(rowData => {
-          const row = addRaidRow('raid-wp-table', 'wp');
+          const row = addRaidRow('raid-wp-table', 'wp', true);
           restoreRaidRow(row, rowData);
           if (rowData.aborted) {
             row.classList.add('row-aborted');
@@ -5840,6 +5938,19 @@ document.addEventListener('DOMContentLoaded', async () => {
           out += `<div class="sop-dice-result" id="sop-inline-random-result"></div>`;
           out += `</div>`;
         }
+        // Inline detection images for detection phase
+        if (phase.name && phase.name.includes('탐지')) {
+          out += `<div style="margin-top:10px;display:flex;gap:8px;flex-wrap:wrap;">`;
+          out += `<img src="assets/rs_detect1.png" style="max-width:48%;border-radius:4px;border:1px solid var(--border);" alt="Detection 1">`;
+          out += `<img src="assets/rs_detect2.png" style="max-width:48%;border-radius:4px;border:1px solid var(--border);" alt="Detection 2">`;
+          out += `</div>`;
+        }
+        // Inline tracking image for tracking phase
+        if (phase.name && phase.name.includes('추적')) {
+          out += `<div style="margin-top:10px;">`;
+          out += `<img src="assets/rs_track.png" style="max-width:48%;border-radius:4px;border:1px solid var(--border);" alt="Tracking">`;
+          out += `</div>`;
+        }
         // Inline weather dice for weather phase
         if (phase.name && phase.name.includes('날씨')) {
           out += `<div style="margin-top:10px;padding:10px;background:rgba(40,70,120,0.15);border:1px solid var(--blue-bright);border-radius:4px;">`;
@@ -5859,7 +5970,6 @@ document.addEventListener('DOMContentLoaded', async () => {
     // 1. Sequence of Play
     const sop = sopData.sequence_of_play;
     if (sop) {
-      html += buildPhaseGroup(sop.scenario_setup);
       html += buildPhaseGroup(sop.turn_sequence);
       html += buildPhaseGroup(sop.scenario_end);
     }
@@ -6318,7 +6428,7 @@ document.addEventListener('DOMContentLoaded', async () => {
       if (cells.length < 6) return null;
       // New layout: 0=mission, 1=callsign, 2=aircraft, 3=qty, 4=skill+AV(stacked), 5=status...
       return {
-        callsign: cells[1]?.querySelector('input')?.value || '—',
+        callsign: cells[1]?.querySelector('select')?.value || cells[1]?.querySelector('input')?.value || '—',
         aircraft: cells[2]?.querySelector('select')?.value || '—',
         qty: cells[3]?.querySelector('input')?.value || '?',
         av: parseInt(row.querySelector('.aggress-value')?.textContent) || 0
@@ -8859,13 +8969,11 @@ document.addEventListener('DOMContentLoaded', async () => {
 
     adcViewerPanel.classList.remove('hidden');
     document.body.style.paddingBottom = '540px';
-    adcFab.style.bottom = '544px';
   }
 
   function closeAdcViewer() {
     adcViewerPanel.classList.add('hidden');
     document.body.style.paddingBottom = '';
-    adcFab.style.bottom = '24px';
   }
 
   adcFab.addEventListener('click', () => {
