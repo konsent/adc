@@ -370,6 +370,62 @@
     width: 140px;
   }
   .field-pair input:focus { outline: none; border-color: var(--tan); }
+  #us-target-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 12px;
+    table-layout: auto;
+  }
+  #us-target-table thead th {
+    font-family: 'Oswald', sans-serif;
+    font-size: 13px;
+    font-weight: 500;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    padding: 8px 10px;
+    text-align: center;
+    background: rgba(26,58,90,0.6);
+    color: #a8c8e8;
+    border-bottom: 1px solid #4a8ac4;
+  }
+  #us-target-table thead th:not(:first-child) {
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+  }
+  #us-target-table tbody tr {
+    border-bottom: 1px solid rgba(74,74,42,0.25);
+  }
+  #us-target-table tbody td {
+    padding: 5px 8px;
+    vertical-align: middle;
+    color: var(--cream);
+    font-size: 12px;
+  }
+  #us-target-table tbody td:not(:first-child) {
+    text-align: center;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    color: var(--fade2);
+  }
+  #us-target-table tbody td input {
+    background: rgba(74,74,42,0.12);
+    border: 1px solid rgba(74,74,42,0.5);
+    color: var(--cream);
+    font-family: 'Noto Sans KR', sans-serif;
+    font-size: 11px;
+    padding: 3px 6px;
+    width: 100%;
+    box-sizing: border-box;
+  }
+  #us-target-table tbody td input:focus { outline: none; border-color: var(--tan); }
+  #us-target-table .tgt-idx {
+    width: 28px;
+    text-align: center;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    color: var(--fade);
+  }
 
   .table-wrap {
     overflow-x: auto;
@@ -2080,10 +2136,21 @@
           <label>날짜</label>
           <input type="text" id="us-date" placeholder="YYYY-MM-DD" />
         </div>
-        <div class="field-pair">
-          <label>표적</label>
-          <input type="text" id="us-target" placeholder="목표 지점" />
-        </div>
+      </div>
+    </div>
+
+    <!-- 표적 -->
+    <div class="panel">
+      <div class="panel-title us-color">▸ 표적</div>
+      <div class="table-wrap">
+        <table id="us-target-table">
+          <thead>
+            <tr><th>표적명</th><th>헥스</th><th>프로필</th></tr>
+          </thead>
+          <tbody id="us-target-tbody">
+            <tr><td colspan="3" style="text-align:center;color:var(--fade);padding:10px;font-size:11px;">시나리오를 선택하면 표적이 표시됩니다</td></tr>
+          </tbody>
+        </table>
       </div>
     </div>
 
@@ -6124,8 +6191,8 @@ document.addEventListener('DOMContentLoaded', () => {
     html += renderNote("사후 부대 없음");
     html += renderAmmo([
       "B-52D/G: 레이더 폭격 (9개 미니 공격대, 3턴 전 진입 불가, 육안 식별·비상 투하 면제)",
-      "F-111A: ARM SEAD (공개 SAM만, 전량 투하, 화살표 5헥스 임의 진입)",
-      "F-4D CAP: IFF[11.54], F-4E: CBU (무차별  폭격 불가)",
+      "F-111A: ARM SEAD (공개 SAM만 공격 가능, 폭탄 전량 투하, 화살표 5헥스 임의 진입)",
+      "F-4D CAP: IFF[11.54], F-4E: CBU (무차별 폭격 불가)",
       "F-105G WW / F-4C WW: ARM",
       "채프 통로 6개 사전 설치 (16헥스, 시나리오 종료까지)",
       "비컨 재밍 +1, SAM 표적 획득 -2",
@@ -8621,7 +8688,7 @@ document.addEventListener('DOMContentLoaded', () => {
       us: {
         scenario: scenarioInput.value || '',
         date:   document.getElementById('us-date')?.value || '',
-        target: document.getElementById('us-target')?.value || '',
+        targets: getTargetValues(),
         lead:  getTableData('us-lead-table'),
         main:  getTableData('us-main-table'),
         trail: getTableData('us-trail-table')
@@ -8712,8 +8779,9 @@ document.addEventListener('DOMContentLoaded', () => {
       const data = JSON.parse(saved);
       if (data.us) {
         updateScenarioDisplay(data.us.scenario || '');
-        const di = document.getElementById('us-date'); const ti = document.getElementById('us-target');
-        if (di) di.value = data.us.date || ''; if (ti) ti.value = data.us.target || '';
+        const di = document.getElementById('us-date');
+        if (di) di.value = data.us.date || '';
+        restoreTargetFields(data.us.targets || data.us.target || []);
         restoreTable('us-lead-table',  data.us.lead);
         restoreTable('us-main-table',  data.us.main);
         restoreTable('us-trail-table', data.us.trail);
@@ -8830,6 +8898,57 @@ document.addEventListener('DOMContentLoaded', () => {
       delete clone.dataset.isLoading;
     });
   }
+  function renderTargetFields(targets) {
+    const tbody = document.getElementById('us-target-tbody');
+    if (!tbody) return;
+    tbody.innerHTML = '';
+    if (!targets || targets.length === 0) {
+      const tr = document.createElement('tr');
+      tr.innerHTML = '<td colspan="3" style="text-align:center;color:var(--fade);padding:10px;font-size:11px;">시나리오를 선택하면 표적이 표시됩니다</td>';
+      tbody.appendChild(tr);
+      return;
+    }
+    targets.forEach(function(t, i) {
+      const tr = document.createElement('tr');
+      if (typeof t === 'string') {
+        // 이전 포맷 또는 수동 입력 복원
+        tr.innerHTML = '<td class="tgt-idx">' + (i + 1) + '</td><td colspan="2"><input type="text" value="' + t.replace(/"/g, '&quot;') + '" data-col="name" /></td>';
+      } else {
+        tr.innerHTML = '<td>' + (t.name || '') + '</td>'
+          + '<td>' + (t.hex || '') + '</td>'
+          + '<td>' + (t.profile || '') + '</td>';
+      }
+      tbody.appendChild(tr);
+    });
+    tbody.querySelectorAll('input').forEach(function(inp) {
+      inp.addEventListener('input', saveToLocalStorage);
+    });
+  }
+  function getTargetValues() {
+    const rows = document.querySelectorAll('#us-target-tbody tr');
+    const arr = [];
+    rows.forEach(function(tr) {
+      const inp = tr.querySelector('input');
+      if (inp) {
+        if (inp.value.trim()) arr.push(inp.value.trim());
+      } else {
+        const cells = tr.querySelectorAll('td');
+        if (cells.length >= 3 && cells[0].textContent.trim()) {
+          arr.push({ name: cells[0].textContent.trim(), hex: cells[1].textContent.trim(), profile: cells[2].textContent.trim() });
+        }
+      }
+    });
+    return arr;
+  }
+  function restoreTargetFields(saved) {
+    if (typeof saved === 'string') {
+      renderTargetFields(saved ? [saved] : []);
+    } else if (Array.isArray(saved)) {
+      renderTargetFields(saved.length > 0 ? saved : []);
+    } else {
+      renderTargetFields([]);
+    }
+  }
   function loadFromOob() {
     const oobJSON = localStorage.getItem('oobToAdcData');
     if (!oobJSON) return;
@@ -8844,14 +8963,7 @@ document.addEventListener('DOMContentLoaded', () => {
     scenarioInput.value = oobData.scenarioName || '';
     const dateInput = document.getElementById('us-date');
     if (dateInput) dateInput.value = oobData.date || '';
-    const targetInput = document.getElementById('us-target');
-    if (targetInput) {
-      if (oobData.targets && oobData.targets.length > 0) {
-        targetInput.value = oobData.targets.map(t => t.name + ' (' + t.hex + ', ' + t.profile + ')').join(' / ');
-      } else {
-        targetInput.value = '';
-      }
-    }
+    renderTargetFields(oobData.targets || []);
 
     if (!oobData.squads || oobData.squads.length === 0) {
       saveToLocalStorage();
@@ -10618,8 +10730,7 @@ document.addEventListener('DOMContentLoaded', () => {
     if (scenInput) { scenInput.value = ''; updateScenarioDisplay(''); }
     var dateEl = document.getElementById('us-date');
     if (dateEl) dateEl.value = '';
-    var targetEl = document.getElementById('us-target');
-    if (targetEl) targetEl.value = '';
+    renderTargetFields([]);
     // raidRoles 초기화
     raidRoles.attacker = null;
     raidRoles.defender = null;
@@ -10765,13 +10876,12 @@ document.addEventListener('DOMContentLoaded', () => {
   // from adc.html
   initializeTemplates();
   document.querySelectorAll('table tbody tr:not(:last-child)').forEach(addRowListeners);
-  const di2 = document.getElementById('us-date'); const ti2 = document.getElementById('us-target');
+  const di2 = document.getElementById('us-date');
   if (di2) di2.addEventListener('input', function(){
     saveToLocalStorage();
     // 날짜 변경 → 모든 행의 무기/ordnance 재생성 (가용 날짜 필터 재적용)
     refreshAllWeaponsForDate();
   });
-  if (ti2) ti2.addEventListener('input', saveToLocalStorage);
   loadFromShareUrl();
   loadFromLocalStorage();
   // 초기 로드 시 시나리오에 따라 원형진 가시성 설정
@@ -11535,7 +11645,7 @@ document.addEventListener('DOMContentLoaded', () => {
   function _compactRaid(d) {
     const ct = tbl => (tbl || []).map(_cr);
     return {
-      u: d.us  ? { sc: d.us.scenario||'', d: d.us.date||'', t: d.us.target||'',
+      u: d.us  ? { sc: d.us.scenario||'', d: d.us.date||'', t: d.us.targets||d.us.target||'',
                    l: ct(d.us.lead), m: ct(d.us.main), r: ct(d.us.trail) } : null,
       d: d.drv ? { t: ct(d.drv.table) } : null,
       a: d.activeTab || 'us'
@@ -11544,7 +11654,7 @@ document.addEventListener('DOMContentLoaded', () => {
   function _expandRaid(c) {
     const et = tbl => (tbl || []).map(_er);
     return {
-      us:  c.u ? { scenario: c.u.sc||'', date: c.u.d||'', target: c.u.t||'',
+      us:  c.u ? { scenario: c.u.sc||'', date: c.u.d||'', targets: c.u.t||[],
                    lead: et(c.u.l), main: et(c.u.m), trail: et(c.u.r) } : null,
       drv: c.d ? { table: et(c.d.t) } : null,
       activeTab: c.a || 'us'

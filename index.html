@@ -8,7 +8,7 @@
   <link rel="icon" href="./assets/favicon_io/favicon.ico" type="image/x-icon">
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Red Storm / Downtown — Solo Tools</title>
+  <title>Wargame Solo Helper</title>
   <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@500;700&family=Noto+Sans+KR:wght@400;500;600&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
   <style>
     * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -81,7 +81,7 @@
 
     .game-card {
       position: relative;
-      width: 400px;
+      width: 350px;
       border-radius: 12px;
       overflow: hidden;
       cursor: pointer;
@@ -117,7 +117,7 @@
 
     .card-image {
       width: 100%;
-      height: 500px;
+      height: 430px;
       overflow: hidden;
       position: relative;
     }
@@ -214,6 +214,24 @@
       transform: translateX(4px);
     }
 
+    /* Silent Victory card — deep ocean blue theme */
+    .game-card.silentvictory {
+      background: linear-gradient(160deg, #0a0e1a 0%, #0e1824 60%, #0a0e1a 100%);
+      border: 1px solid #1a3a5a;
+      box-shadow: 0 4px 24px rgba(0,0,0,0.5), inset 0 0 40px rgba(40,100,180,0.04);
+    }
+    .game-card.silentvictory:hover {
+      border-color: #3a6a9a;
+      box-shadow: 0 8px 40px rgba(40,100,180,0.15), inset 0 0 40px rgba(40,100,180,0.06);
+    }
+    .game-card.silentvictory .card-image::after {
+      background: linear-gradient(to top, #0a0e1a, transparent);
+    }
+    .game-card.silentvictory .card-era { color: #4a7a9a; }
+    .game-card.silentvictory .card-title { color: #6aaabf; }
+    .game-card.silentvictory .card-desc { color: #4a6a7a; }
+    .game-card.silentvictory .card-enter { color: #5a9ab0; }
+
     /* Footer */
     .footer {
       position: fixed;
@@ -261,7 +279,7 @@
 <body>
 
   <div class="header">
-    <h1>GMT Air Combat</h1>
+    <h1>Wargame Solo Helper</h1>
     <div class="subtitle">Solo Campaign Helper Tools</div>
   </div>
 
@@ -291,9 +309,21 @@
         <div class="card-enter">Enter <span class="arrow">→</span></div>
       </div>
     </a>
+    <!-- Silent Victory -->
+    <a class="game-card silentvictory" href="silent_victory.html">
+      <div class="card-image">
+        <img src="assets/thumbnail/silentvictory.webp" alt="Silent Victory" />
+      </div>
+      <div class="card-body">
+        <div class="card-era">Pacific · 1941–1945</div>
+        <div class="card-title">Silent Victory</div>
+        <div class="card-desc">U.S. Submarine — 태평양전 미 잠수함 작전</div>
+        <div class="card-enter">Enter <span class="arrow">→</span></div>
+      </div>
+    </a>
   </div>
 
-  <div class="footer">GMT Games · Air Combat Series</div>
+  <div class="footer">GMT Games · Wargame Solo Helper</div>
 
 </body>
 </html>
