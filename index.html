@@ -26,7 +26,8 @@
         radial-gradient(ellipse at 30% 50%, rgba(60,120,50,0.07) 0%, transparent 60%),
         radial-gradient(ellipse at 70% 50%, rgba(120,100,40,0.07) 0%, transparent 60%);
       color: #ccc;
-      overflow: hidden;
+      overflow-x: hidden;
+      overflow-y: auto;
     }
 
     /* Scanline overlay */
@@ -226,6 +227,10 @@
 
     /* Mobile */
     @media (max-width: 760px) {
+      body {
+        justify-content: flex-start;
+        padding: 2rem 0 4rem;
+      }
       .container {
         flex-direction: column;
         align-items: center;
@@ -234,12 +239,21 @@
       .game-card {
         width: min(400px, 90vw);
       }
+      .card-image {
+        height: 280px;
+      }
       .header h1 {
         font-size: 1.6rem;
         letter-spacing: 0.2em;
       }
       .header {
         margin-bottom: 2rem;
+      }
+      .footer {
+        position: relative;
+        bottom: auto;
+        margin-top: 2rem;
+        text-align: center;
       }
     }
   </style>
