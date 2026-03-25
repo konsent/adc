@@ -139,7 +139,7 @@ body {
   text-transform: uppercase;
 }
 
-/* --- Baltic Toggle --- */
+/* --- Header Controls --- */
 .header-controls {
   position: absolute;
   top: 20px;
@@ -147,47 +147,6 @@ body {
   display: flex;
   align-items: center;
   gap: 10px;
-}
-.header-controls span {
-  font-family: 'Oswald', sans-serif;
-  font-size: 13px;
-  letter-spacing: 0.1em;
-  color: var(--fade);
-}
-.switch {
-  position: relative;
-  display: inline-block;
-  width: 48px;
-  height: 26px;
-}
-.switch input { opacity: 0; width: 0; height: 0; }
-.slider-toggle {
-  position: absolute;
-  cursor: pointer;
-  top: 0; left: 0; right: 0; bottom: 0;
-  background-color: rgba(74,74,42,0.5);
-  border: 1px solid var(--olive);
-  transition: .4s;
-  border-radius: 26px;
-}
-.slider-toggle:before {
-  position: absolute;
-  content: "";
-  height: 20px;
-  width: 20px;
-  left: 3px;
-  bottom: 2px;
-  background-color: var(--fade);
-  transition: .4s;
-  border-radius: 50%;
-}
-input:checked + .slider-toggle {
-  background-color: rgba(40,100,40,0.6);
-  border-color: var(--tan);
-}
-input:checked + .slider-toggle:before {
-  transform: translateX(20px);
-  background-color: var(--tan);
 }
 
 /* --- Panel (Cold War) --- */
@@ -1585,11 +1544,6 @@ tr.row-aborted td:nth-last-child(-n+3) { opacity: 1; text-decoration: none; }
   <div class="title-line"></div>
   <div class="title-sub">SOLO HELPER</div>
   <div class="header-controls">
-    <span>BALTIC</span>
-    <label class="switch">
-      <input type="checkbox" id="baltic-toggle">
-      <span class="slider-toggle"></span>
-    </label>
   </div>
 </div>
 
@@ -1696,12 +1650,12 @@ tr.row-aborted td:nth-last-child(-n+3) { opacity: 1; text-decoration: none; }
           <div class="card-area" data-card-type="sam" data-side="nato"></div>
           <button class="add-card-btn" data-box="nato-sam-box">+</button>
         </div>
-        <div class="card-box baltic-only hidden" id="nato-missile-box">
+        <div class="card-box baltic-only" id="nato-missile-box">
           <h3>NATO MISSILE</h3>
           <div class="card-area" data-card-type="missile" data-side="nato"></div>
           <button class="add-card-btn" data-box="nato-missile-box">+</button>
         </div>
-        <div class="card-box baltic-only hidden" id="nato-heli-box">
+        <div class="card-box baltic-only" id="nato-heli-box">
           <h3>NATO HELICOPTER</h3>
           <div class="card-area" data-card-type="heli" data-side="nato"></div>
           <button class="add-card-btn" data-box="nato-heli-box">+</button>
@@ -1751,12 +1705,12 @@ tr.row-aborted td:nth-last-child(-n+3) { opacity: 1; text-decoration: none; }
           <div class="card-area" data-card-type="sam" data-side="wp"></div>
           <button class="add-card-btn" data-box="wp-sam-box">+</button>
         </div>
-        <div class="card-box baltic-only hidden" id="wp-missile-box">
+        <div class="card-box baltic-only" id="wp-missile-box">
           <h3>WP MISSILE</h3>
           <div class="card-area" data-card-type="missile" data-side="wp"></div>
           <button class="add-card-btn" data-box="wp-missile-box">+</button>
         </div>
-        <div class="card-box baltic-only hidden" id="wp-heli-box">
+        <div class="card-box baltic-only" id="wp-heli-box">
           <h3>WP HELICOPTER</h3>
           <div class="card-area" data-card-type="heli" data-side="wp"></div>
           <button class="add-card-btn" data-box="wp-heli-box">+</button>
@@ -3050,7 +3004,8 @@ document.addEventListener('DOMContentLoaded', async () => {
     }
   }
 
-  const balticToggle = document.getElementById('baltic-toggle');
+  // Baltic is always enabled (toggle removed)
+  const balticToggle = { checked: true };
 
   // Card data
   const cardData = {
@@ -3287,15 +3242,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     });
   });
 
-  // ============ BALTIC TOGGLE ============
-  function handleBalticToggle() {
-    const isBaltic = balticToggle.checked;
-    document.querySelectorAll('.baltic-only').forEach(el => {
-      el.classList.toggle('hidden', !isBaltic);
-    });
-    saveToLocalStorage();
-  }
-  balticToggle.addEventListener('change', handleBalticToggle);
+  // Baltic always enabled — toggle removed
 
   // ============ AGGRESSIVENESS ============
   function calculateAggressiveness(skillLevel) {
@@ -4708,10 +4655,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 
   function restoreState(data) {
     if (!data) return;
-    if (data.isBaltic) {
-      balticToggle.checked = true;
-      handleBalticToggle();
-    }
+    // Baltic always enabled
     if (data.scenario) {
       scenarioSelect.value = data.scenario;
       if (campaignData && campaignData.scenarios[data.scenario]) {

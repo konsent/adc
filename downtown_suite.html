@@ -987,6 +987,19 @@
   }
   .note-block strong { color: var(--tan); }
 
+  /* D10 Raid Planner */
+  #d10-planner { display:none; margin-bottom:12px; }
+  #d10-planner .planner-hdr { font-size:13px; font-weight:700; color:var(--amber); margin-bottom:8px; }
+  #d10-planner table { width:100%; border-collapse:collapse; font-size:12px; }
+  #d10-planner th { background:rgba(139,122,90,0.15); color:var(--tan); padding:5px 6px; text-align:left; border-bottom:1px solid var(--olive); font-weight:600; }
+  #d10-planner td { padding:5px 6px; border-bottom:1px solid rgba(139,122,90,0.1); vertical-align:middle; }
+  #d10-planner td:first-child { white-space:nowrap; font-weight:600; color:var(--cream); }
+  #d10-planner select { background:rgba(74,74,42,0.15); border:1px solid var(--olive); color:var(--cream); font-family:'Noto Sans KR',sans-serif; font-size:11px; padding:3px 5px; width:100%; }
+  #d10-planner .slot-time { font-size:10px; color:var(--fade); }
+  #d10-planner .slot-lock { color:var(--amber); font-size:10px; font-style:italic; }
+  #d10-planner .planner-note { font-size:11px; color:var(--fade); margin-top:6px; line-height:1.6; }
+  #d10-planner .planner-go { margin-top:8px; }
+
   .ammo-summary {
     border: 1px solid rgba(196,122,26,0.4);
     background: rgba(196,122,26,0.05);
@@ -1746,6 +1759,29 @@
   #bot-gci-sub .gci-sam-opt-lbl{font-family:'Oswald',sans-serif;font-size:11px;font-weight:700;letter-spacing:.1em;color:#a0c8e8;min-width:36px;text-transform:uppercase;padding-top:1px}
   #bot-gci-sub .gci-sam-opt-txt{font-size:12px;color:var(--fade2);line-height:1.5;flex:1}
   #bot-gci-sub hr.gci-div{border:none;border-top:1px solid rgba(74,74,42,.25);margin:10px 0}
+  .weapon-bvr-wrap { position:relative; display:inline-block; }
+  .weapon-bvr-tag { position:absolute; top:-14px; left:50%; transform:translateX(-50%); font-family:'Oswald',sans-serif; font-size:7px; font-weight:700; letter-spacing:.08em; color:#f09090; background:rgba(208,80,80,.2); border:1px solid rgba(208,80,80,.45); padding:0 3px; line-height:12px; text-align:center; white-space:nowrap; z-index:1; }
+
+  /* Sub-group tag (above note cell, similar to BVR tag) */
+  .sg-tag { position:absolute; bottom:100%; left:50%; transform:translateX(-50%); margin-bottom:5px; font-family:'Oswald',sans-serif; font-size:7px; font-weight:700; letter-spacing:.06em; padding:0 4px; line-height:12px; white-space:nowrap; z-index:2; border-radius:1px; }
+  .sg-wrap { position:relative; display:inline-block; width:100%; }
+  /* Sub-group row backgrounds & tag colors */
+  tr[data-sg="A"]         { background:rgba(80,190,110,.14) !important; }
+  tr[data-sg="A"] .sg-tag         { color:#50c870; background:rgba(80,190,110,.28); border:1px solid rgba(80,190,110,.55); }
+  tr[data-sg="B"]         { background:rgba(70,140,230,.14) !important; }
+  tr[data-sg="B"] .sg-tag         { color:#50a0e8; background:rgba(70,140,230,.28); border:1px solid rgba(70,140,230,.55); }
+  tr[data-sg="C"]         { background:rgba(210,150,70,.14) !important; }
+  tr[data-sg="C"] .sg-tag         { color:#d0a050; background:rgba(210,150,70,.28); border:1px solid rgba(210,150,70,.55); }
+  tr[data-sg="F111"]      { background:rgba(230,190,50,.14) !important; }
+  tr[data-sg="F111"] .sg-tag      { color:#d8b830; background:rgba(230,190,50,.28); border:1px solid rgba(230,190,50,.55); }
+  tr[data-sg="B52"]       { background:rgba(170,100,210,.14) !important; }
+  tr[data-sg="B52"] .sg-tag       { color:#b478d8; background:rgba(170,100,210,.28); border:1px solid rgba(170,100,210,.55); }
+  tr[data-sg="carrier1"]  { background:rgba(80,190,110,.14) !important; }
+  tr[data-sg="carrier1"] .sg-tag  { color:#50c870; background:rgba(80,190,110,.28); border:1px solid rgba(80,190,110,.55); }
+  tr[data-sg="carrier2"]  { background:rgba(70,140,230,.14) !important; }
+  tr[data-sg="carrier2"] .sg-tag  { color:#50a0e8; background:rgba(70,140,230,.28); border:1px solid rgba(70,140,230,.55); }
+  tr[data-sg="carrier3"]  { background:rgba(210,150,70,.14) !important; }
+  tr[data-sg="carrier3"] .sg-tag  { color:#d0a050; background:rgba(210,150,70,.28); border:1px solid rgba(210,150,70,.55); }
 </style>
 </head>
 <body>
@@ -1852,8 +1888,82 @@
         <label class="field-label">공격 날짜 선택</label>
         <select id="ssr-raid-select" onchange="onSsrRaidChange()"></select>
       </div>
-      <!-- SSR info display -->
-      <div id="ssr-info" class="note-block" style="display:none; border-left-color: var(--amber); color: var(--amber);"></div>
+      <!-- SSR info: 편제 결과에 표시되므로 여기서는 삭제 -->
+
+      <!-- D10 Raid Planner -->
+      <div id="d10-planner">
+        <div class="planner-hdr">D10 공격대 편성 (4회 공격)</div>
+        <div style="margin-bottom:8px">
+          <label class="field-label" style="margin-bottom:4px">공격 날짜</label>
+          <select id="d10-date" style="font-size:12px; background:rgba(74,74,42,0.15); border:1px solid var(--olive); color:var(--cream); padding:4px 6px;">
+            <option value="16apr">16 Apr 1972</option>
+            <option value="9may">9 May 1972</option>
+          </select>
+        </div>
+        <table>
+          <thead>
+            <tr><th style="width:110px">시간대</th><th>시간</th><th style="width:55%">공격대 유형</th></tr>
+          </thead>
+          <tbody>
+            <tr id="d10-slot-night1">
+              <td>야간 공격대 1 <span class="slot-time">야간·무월·05:00</span></td>
+              <td><input type="checkbox" id="d10-use-night1" checked onchange="d10PlannerUpdate()"></td>
+              <td><span class="slot-lock">B-52 공격대 (고정)</span>
+                <select id="d10-night1-sub" style="margin-top:3px">
+                  <option value="b52_usaf">B-52 / USAF (표 D 기반)</option>
+                  <option value="b52_usn">B-52 / USN (표 B, 항모 선택)</option>
+                </select>
+              </td>
+            </tr>
+            <tr id="d10-slot-am">
+              <td>오전 공격대 <span class="slot-time">주간·07:00</span></td>
+              <td><input type="checkbox" id="d10-use-am" checked onchange="d10PlannerUpdate()"></td>
+              <td><select id="d10-type-am" onchange="d10PlannerUpdate()">
+                <option value="usaf">USAF 공격대 (표 D, 대규모)</option>
+                <option value="usn">USN 공격대 (표 B)</option>
+                <option value="mine" selected>기뢰 부설 (USN)</option>
+              </select></td>
+            </tr>
+            <tr id="d10-slot-noon">
+              <td>정오 공격대 <span class="slot-time">주간·12:00</span></td>
+              <td><input type="checkbox" id="d10-use-noon" checked onchange="d10PlannerUpdate()"></td>
+              <td><select id="d10-type-noon" onchange="d10PlannerUpdate()">
+                <option value="usaf">USAF 공격대 (표 D, 대규모)</option>
+                <option value="usn">USN 공격대 (표 B)</option>
+                <option value="mine">기뢰 부설 (USN)</option>
+              </select></td>
+            </tr>
+            <tr id="d10-slot-pm">
+              <td>오후 공격대 <span class="slot-time">주간·16:00</span></td>
+              <td><input type="checkbox" id="d10-use-pm" checked onchange="d10PlannerUpdate()"></td>
+              <td><select id="d10-type-pm" onchange="d10PlannerUpdate()">
+                <option value="usaf">USAF 공격대 (표 D, 대규모)</option>
+                <option value="usn">USN 공격대 (표 B)</option>
+                <option value="mine">기뢰 부설 (USN)</option>
+              </select></td>
+            </tr>
+            <tr id="d10-slot-night2">
+              <td>야간 공격대 2 <span class="slot-time">야간·무월·22:00</span></td>
+              <td><input type="checkbox" id="d10-use-night2" onchange="d10PlannerUpdate()"></td>
+              <td><span class="slot-lock">B-52 공격대 (고정)</span>
+                <select id="d10-night2-sub" style="margin-top:3px">
+                  <option value="b52_usaf">B-52 / USAF (표 D 기반)</option>
+                  <option value="b52_usn">B-52 / USN (표 B, 항모 선택)</option>
+                </select>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+        <div id="d10-planner-warn" class="planner-note" style="color:var(--amber)"></div>
+        <div class="planner-note">
+          • 야간 1 또는 2 중 하나 선택 (B-52 필수) + 주간 3개 중 기뢰 부설 1회 필수<br>
+          • B-52·기뢰 부설 각 1회 제한. 나머지는 USAF/USN 자유 조합
+        </div>
+        <div class="planner-go">
+          <select id="d10-gen-slot" style="font-size:12px; background:rgba(74,74,42,0.15); border:1px solid var(--olive); color:var(--cream); padding:4px 6px;"></select>
+          <button class="btn" style="margin-left:6px" onclick="d10GenerateSlot()">▸ 선택 공격대 편제 생성</button>
+        </div>
+      </div>
 
       <!-- USN Carrier section -->
       <div id="usn-section" class="field-group">
@@ -2851,6 +2961,7 @@
             <div class="sec-lbl">보정 수치</div>
             <div class="mods" style="grid-template-columns:1fr">
               <label class="mod"><input type="checkbox" data-v="-1" onchange="recalcMig()"><span>근접 대형 (Close Formation)</span><span class="mv n">-1</span></label>
+              <label class="mod" id="mig-d8-mod" style="display:none"><input type="checkbox" data-v="-1" onchange="recalcMig()" checked><span>D8/D9 SSR: MiG 패닉 추가 차감</span><span class="mv n">-1</span></label>
             </div>
             <div class="total-row" style="margin-bottom:10px"><span class="total-lbl">보정 합계 (1 이하이면 비상 투하)</span><span class="total-n" id="mig-total">+0</span></div>
             <button class="btn" onclick="rollMig()">▸ MiG 패닉 판정 (1d10)</button>
@@ -2867,6 +2978,9 @@
             </table>
             <div class="warn-box" style="margin-top:10px">
               <b style="color:var(--tan)">비상 투하</b>: 폭장을 즉시 투하합니다.
+            </div>
+            <div class="warn-box" id="mig-d10-b52-warn" style="display:none; margin-top:8px; border-left-color:var(--amber)">
+              <b style="color:var(--amber)">D10 SSR:</b> B-52 비행대는 공중전·MiG 패닉·사기 판정의 결과로 <b>무장을 비상 투하하지 않습니다</b>.
             </div>
           </div>
         </div>
@@ -2955,6 +3069,9 @@
               </div>
               <div class="field-row" style="margin-top:8px"><span class="field-lbl">방어 재밍 강도</span><input type="number" id="flak-def-jam" value="0" min="0" oninput="recalcFlak()"></div>
               <div class="field-row"><span class="field-lbl">스탠드오프 재밍</span><input type="number" id="flak-stand-jam" value="0" min="0" oninput="recalcFlak()"></div>
+              <div class="warn-box" id="flak-d9-warn" style="display:none; margin-top:8px; border-left-color:var(--amber)">
+                <b style="color:var(--amber)">D9 SSR:</b> 폭격 비행대는 폭탄 투하구간~공격 해결까지 <b>방어 재밍을 상실</b>합니다. 방어 재밍 강도를 <b>0</b>으로 입력하세요.
+              </div>
             </div>
             <div class="total-row"><span class="total-lbl">보정 합계</span><span class="total-n" id="flak-total">+0</span></div>
             <div class="field-row" style="margin-top:8px">
@@ -3247,6 +3364,8 @@
               <label class="mod"><input type="checkbox" data-v="-3" onchange="recalcSR1()"><span>신속 표적 획득 (탐지된 표적만)</span><span class="mv n">-3</span></label>
               <label class="mod"><input type="checkbox" data-v="-1" onchange="recalcSR1()"><span>1965년 1월 ~ 1966년 6월</span><span class="mv n">-1</span></label>
               <label class="mod"><input type="checkbox" data-v="1" onchange="recalcSR1()"><span>대형 항공기 표적</span><span class="mv p">+1</span></label>
+              <label class="mod" id="sr-d9-jam-half" style="display:none"><input type="checkbox" onchange="recalcSR1()" checked><span>D9 SSR: 방어 재밍 강도 절반 (자동 적용)</span><span class="mv n">½</span></label>
+              <label class="mod" id="sr-d16-sam" style="display:none"><input type="checkbox" data-v="-2" onchange="recalcSR1()" checked><span>D16 SSR: SAM 표적 획득 -2</span><span class="mv n">-2</span></label>
             </div>
             <div class="total-row"><span class="total-lbl">총 보정</span><span class="total-n" id="sr1-total">+0</span></div>
           </div>
@@ -3263,6 +3382,9 @@
             <div class="info-box" style="margin-top:10px">
               방어 재밍 및 스탠드오프 재밍 강도는 음수 보정으로 자동 적용됩니다.<br>
               대레이더 전술 사용 시 방어 재밍 보정은 해당 없음.
+            </div>
+            <div class="warn-box" id="sr-d9-bomb-warn" style="display:none; margin-top:8px; border-left-color:var(--amber)">
+              <b style="color:var(--amber)">D9 SSR:</b> 폭격 비행대는 폭탄 투하구간 선언~공격 해결까지 <b>SAM 방어 재밍을 상실</b>합니다. 해당 비행대의 방어 재밍 강도를 <b>0</b>으로 입력하세요.
             </div>
           </div>
         </div>
@@ -3344,7 +3466,7 @@
               <label class="mod"><input type="checkbox" data-v="-1" onchange="recalcSR3()"><span>표적의 SAM 방어가 취약함</span><span class="mv n">-1</span></label>
               <label class="mod"><input type="checkbox" data-v="-1" onchange="recalcSR3()"><span>표적에서 SAM으로 시야 없음</span><span class="mv n">-1</span></label>
               <label class="mod"><input type="checkbox" data-v="-2" onchange="recalcSR3()"><span>표적에 RWR 능력 없음</span><span class="mv n">-2</span></label>
-              <label class="mod"><input type="checkbox" data-v="2" onchange="recalcSR3()"><span>비콘 재밍</span><span class="mv p">+2</span></label>
+              <label class="mod" id="sr3-beacon-wrap"><input type="checkbox" id="sr3-beacon" data-v="2" onchange="recalcSR3()"><span>비콘 재밍</span><span class="mv p" id="sr3-beacon-mv">+2</span></label>
             </div>
             <div class="total-row"><span class="total-lbl">총 보정</span><span class="total-n" id="sr3-total">+0</span></div>
           </div>
@@ -4453,17 +4575,20 @@ document.addEventListener('DOMContentLoaded', () => {
         if (raid === '23nov_usn') {
           return { table: 'B', year: 1966, month: 11, carrierId: 'R',
             variants: { d4_dual_carrier: true, d4_carrier2: 'Q' },
+            allowedCarriers: ['R','Q'],
             extraNotes: ['23 Nov: 2개 항모 동시 공격 — Ticonderoga(R) + Coral Sea(Q)'] };
         }
         if (raid === '14dec_usn') {
           return { table: 'B', year: 1966, month: 12, carrierId: 'R',
             variants: { d4_dual_carrier: true, d4_carrier2: 'P' },
+            allowedCarriers: ['R','P'],
             extraNotes: ['14 Dec: 2개 항모 동시 공격 — Ticonderoga(R) + FDR(P)'] };
         }
         if (raid.includes('usn')) {
           const carrierMap = { '2dec_usn': 'Q', '13dec_usn': 'R' };
+          const cid = carrierMap[raid] || 'R';
           return { table: 'B', year: 1966, month: raid.includes('dec') ? 12 : 11,
-            carrierId: carrierMap[raid] || 'R' };
+            carrierId: cid, allowedCarriers: [cid] };
         }
         const isMajor = ['2dec_usaf','5dec_usaf','8dec_usaf'].includes(raid);
         const month = raid.includes('nov') ? 11 : 12;
@@ -4508,14 +4633,14 @@ document.addEventListener('DOMContentLoaded', () => {
             return { table: 'A', year: 1967, month: 4, variants: { major: true },
               extraNotes: ['25 Apr 주사위: ' + roll + ' (1-5) → USAF 주요 공격대, 표적: Hanoi Le Pap 변압기'] };
           } else {
-            return { table: 'B', year: 1967, month: 4, carrierId: 'V',
+            return { table: 'B', year: 1967, month: 4, carrierId: 'V', allowedCarriers: ['V'],
               extraNotes: ['25 Apr 주사위: ' + roll + ' (6-10) → USN (Bon Homme Richard V), 표적: Haiphong POL 저장시설'] };
           }
         }
         if (raid === '26apr') {
           const roll = (window._d5Roll26 !== undefined) ? window._d5Roll26 : d10(); window._d5Roll26 = roll;
           if (roll <= 5) {
-            return { table: 'B', year: 1967, month: 4, carrierId: 'R',
+            return { table: 'B', year: 1967, month: 4, carrierId: 'R', allowedCarriers: ['R'],
               extraNotes: ['26 Apr 주사위: ' + roll + ' (1-5) → USN (Ticonderoga R), 표적: Haiphong POL 저장시설'] };
           } else {
             return { table: 'A', year: 1967, month: 4, variants: { joint: true, major: true, deleteMigcap: true },
@@ -4528,9 +4653,11 @@ document.addEventListener('DOMContentLoaded', () => {
             variants: { phantom: true, joint: true },
             extraNotes: ['24 Apr: 3개 공격대 동시 생성 (USAF 팬텀 + USN Kep + USN Hon Gai)'] };
         }
-        if (raid && raid.includes('usn')) {
-          const cmap = { '20apr_usn':'S', '22apr_usn':'R' };
-          return { table: 'B', year: 1967, month: 4, carrierId: cmap[raid] || 'R' };
+        if (raid === '20apr_usn') {
+          return { table: 'B', year: 1967, month: 4, carrierId: 'S', allowedCarriers: ['S','V'] };
+        }
+        if (raid === '22apr_usn') {
+          return { table: 'B', year: 1967, month: 4, carrierId: 'R', allowedCarriers: ['R'] };
         }
         const variants = {
           joint: ['23apr_usaf','28apr_usaf','30apr_usaf'].includes(raid),
@@ -4542,102 +4669,170 @@ document.addEventListener('DOMContentLoaded', () => {
         return { table: 'A', year: 1967, month: 4, variants };
       },
       rules: [
-        { text: "USAF: 공격 임무 F-105 1개 비행대에만 AIM-9B → Strike/CAP (나머지 IRM 불가)", raids: ['19apr_usaf','23apr_usaf','24apr','25apr','26apr','28apr_usaf','29apr_usaf','30apr_usaf'] },
-        { text: "19 Apr: 공격 임무 F-105 비행대 1개 삭제", raids: ['19apr_usaf'] },
-        { text: "19/23/26/30 Apr: MiGCAP 임무 전체 삭제", raids: ['19apr_usaf','23apr_usaf','26apr','30apr_usaf'] },
-        { text: "23 Apr USAF: 합동 공격대 변형", raids: ['23apr_usaf'] },
-        { text: "24 Apr: 3개 공격대 협동 공격 — USAF 팬텀(Hoa Lac) + USN 1차(Kep) + USN 2차(Hon Gai)", raids: ['24apr'] },
-        { text: "25/26 Apr: d10 굴림 → 1-5 또는 6-10에 따라 USAF/USN 결정 (표적 자동 결정)", raids: ['25apr','26apr'] },
-        { text: "28 Apr USAF: 합동 공격대 변형", raids: ['28apr_usaf'] },
+        "아이언 핸드 임무 및 24 Apr F-4C 타격 편대: CBU 탑재 가능 [17.61]",
+        { text: "USAF: F-105 1개 비행대에만 AIM-9B → Strike/CAP (나머지 IRM 불가) — 24 Apr 제외", raids: ['19apr_usaf','23apr_usaf','25apr','26apr','28apr_usaf','29apr_usaf','30apr_usaf'] },
+        { text: "19 Apr: 공격 임무 F-105 비행대 1개 삭제 + MiGCAP 삭제", raids: ['19apr_usaf'] },
+        { text: "20 Apr USN: 항모 S(Kitty Hawk) 또는 V(Bon Homme Richard) 선택", raids: ['20apr_usn'] },
+        { text: "22 Apr USN: 항모 R(Ticonderoga)", raids: ['22apr_usn'] },
+        { text: "23 Apr USAF: 합동 공격대 + MiGCAP 삭제", raids: ['23apr_usaf'] },
+        { text: "24 Apr: 3개 공격대 협동 공격 — USAF 팬텀(Hoa Lac) + USN(Kep, S) + USN(Hon Gai, V)", raids: ['24apr'] },
+        { text: "25 Apr: d10 1-5→USAF 대규모 / 6-10→USN(V). 표적 자동 결정", raids: ['25apr'] },
+        { text: "26 Apr: d10 1-5→USN(R) / 6-10→USAF 대규모+합동+MiGCAP 삭제. 표적 자동 결정", raids: ['26apr'] },
+        { text: "25/26 Apr: 동시 진행 가능 (1차 10:30 진입, 2차 30턴 후 11:00 진입)", raids: ['25apr','26apr'] },
+        { text: "28 Apr USAF: 합동 공격대", raids: ['28apr_usaf'] },
         { text: "29 Apr: F-105 비행대 폭격 강도 3으로 증가 (속도 영향 없음)", raids: ['29apr_usaf'] },
-        { text: "30 Apr USAF: 주요 공격대 (F-105 1개 추가) + 합동 공격대", raids: ['30apr_usaf'] },
+        { text: "30 Apr USAF: 대규모+합동 공격대 + MiGCAP 삭제", raids: ['30apr_usaf'] },
       ],
     },
     D6: {
       name: "D6: Respect",
       date: "1967년 8월",
-      raids: null,
-      rules: ["별도 SSR 없음 — 표준 편제 사용"],
-      autoSet: () => ({ table: 'A', year: 1967, month: 8 }),
+      raids: [
+        { label: "기본 — RF-4C 정찰 단독", id: "recon" },
+        { label: "변형 — RF-4C 정찰 + F-4 CAP 추가", id: "recon_cap" },
+      ],
+      rules: [
+        { text: "USAF 전용 · 정규군 수준", raids: ['recon', 'recon_cap'] },
+        { text: "1×{2} RF-4C 정찰 임무", raids: ['recon', 'recon_cap'] },
+        { text: "변형: 1×{2} F-4 CAP 추가 (d10: 1-6→F-4C, 7-10→F-4D)", raids: ['recon_cap'] },
+        { text: "변형: F-4는 BVR 공격 허용", raids: ['recon_cap'] },
+        { text: "변형: F-4D는 AIM-4D IRM 탑재", raids: ['recon_cap'] },
+        "표적 A: 북서부 철도 (0247~1728, 31헥스). 표적 B: 타이응우옌-껩 철도 (0627~1019, 11헥스)",
+        "사진 촬영: 표적 헥스 90%+ 중강도 고도 통과 필요 (A: 28/31, B: 10/11)",
+        "고도 변경·30°초과 선회·대레이더 전술[15.35]·SAM 회피[15.43] 시 해당 헥스 촬영 무효",
+        "USAF: 진입 화살표 A 사용 가능",
+        "SAM 대대 탄약 1발만 보유 [15.44 예외]",
+        "DRV: AAA 고강도 업그레이드 및 고강도 집중구역 구매 불가",
+        "기상 주사위 9 = '없음'. 무작위 이벤트 주사위 생략",
+        "고급 재밍[19.51]: 노이즈 재밍 상실 기준 3기→2기 미만으로 변경",
+      ],
+      autoSet: (raid) => ({
+        table: 'A', year: 1967, month: 8,
+        variants: { d6fixed: true, d6cap: raid === 'recon_cap' },
+      }),
     },
     D7: {
       name: "D7: Thick as a Brick",
       date: "1967년 8월",
-      raids: null,
-      rules: [
-        "USAF: 공격 임무 F-105 1개 비행대에만 AIM-9B → Strike/CAP",
-        "나머지 F-105는 IRM 탑재 불가",
+      raids: [
+        { label: "USAF 공격대 (표 A) — 표적에 따라 자동 결정", id: "usaf" },
+        { label: "USN 공격대 (표 B) — 표적에 따라 자동 결정", id: "usn" },
       ],
-      autoSet: () => ({ table: 'A', year: 1967, month: 8, variants: { weaselShort: false } }),
+      rules: [
+        "USAF: 표 A 사용 / USN: 표 B 사용 (항모 W-Constellation 또는 Z-Coral Sea)",
+        "USAF: 진입 화살표 A 사용 가능",
+        "F-4D는 AIM-4D IRM 탑재",
+        "USAF: F-105 1개 비행대에만 AIM-9B → Strike/CAP, 나머지 F-105 IRM 불가",
+        "폴 두머 교량(d10: 4-5) 공격 시 대규모 공격대(Major Raid) 적용",
+        "랑당 철도 조차장(d10: 1) 공격 시 완충 지역 VP 페널티 미적용 [9.3]",
+      ],
+      autoSet: (raid) => {
+        if (raid === 'usn') return { table: 'B', year: 1967, month: 8, carrierId: 'W', allowedCarriers: ['W','Z'] };
+        return { table: 'A', year: 1967, month: 8 };
+      },
     },
     D8: {
       name: "D8: All Tomorrowʼs Parties",
       date: "1967년 10월",
-      raids: null,
-      rules: [
-        "USAF: 공격 임무 F-105 1개 비행대에만 AIM-9B → Strike/CAP",
-        "나머지 F-105는 IRM 탑재 불가",
+      raids: [
+        { label: "USAF 공격대 (표 A) — 표적에 따라 자동 결정", id: "usaf" },
+        { label: "USN 공격대 (표 B) — 표적에 따라 자동 결정", id: "usn" },
       ],
-      autoSet: () => ({ table: 'A', year: 1967, month: 10 }),
+      rules: [
+        "d10 굴려 표적 결정 (일부 표적은 USAF/USN 지정, 일부는 선택)",
+        "USAF: 표 A 사용 / USN: 표 B 사용 (항모 X-Oriskany 또는 Z-Coral Sea)",
+        "MiG 패닉 판정[13.12] 보정 수치에서 추가 -1 차감",
+        "F-4D는 AIM-4D IRM 탑재",
+        "USAF: F-105 1개 비행대에만 AIM-9B → Strike/CAP, 나머지 F-105 IRM 불가",
+        "USN 폭격 A-4 비행대 절반은 Walleye I EOGB 탑재 가능",
+        "Shrike 부족: USN 항공기 ADC Shrike 공격 수치 -1",
+      ],
+      autoSet: (raid) => {
+        if (raid === 'usn') return { table: 'B', year: 1967, month: 10, carrierId: 'X', allowedCarriers: ['X','Z'] };
+        return { table: 'A', year: 1967, month: 10 };
+      },
     },
     D9: {
       name: "D9: I Wish It Would Rain",
       date: "1967년 11월",
       raids: null,
       rules: [
-        "USAF: 공격 임무 F-105 1개 비행대에만 AIM-9B → Strike/CAP",
-        "나머지 F-105는 IRM 탑재 불가",
+        "USAF 전용 — 코만도 클럽 공격대 (표 C)",
+        "d10 굴려 표적 결정: 1-4 푹옌 / 5-6 투이프엉 / 7-10 호아락",
+        "조기경보 수준 A로 고정",
+        "적색 진입 화살표만 사용 가능",
+        "모든 CAP 비행대 = F-4D (AIM-4D IRM + 건 포드 장착)",
+        "USAF: F-105 1개 비행대에만 AIM-9B → Strike/CAP, 나머지 F-105 IRM 불가",
+        "CAP 비행대는 MiG 스크린 BVR 교전 규칙[11.54] 사용 가능",
+        "MiG 패닉 판정[13.12] 보정 수치에서 추가 -1 차감",
+        "폭격 비행대: 폭탄 투하구간~공격 해결까지 SAM 방어 재밍 상실",
+        "SAM 표적 획득 판정: 모든 방어 재밍 강도 절반 (소수점 내림)",
       ],
-      autoSet: () => ({ table: 'A', year: 1967, month: 11 }),
+      autoSet: () => ({ table: 'C_CLUB', year: 1967, month: 11 }),
     },
     D10: {
       name: "D10: Smoke on the Water",
       date: "1972년 4월 16일 / 5월 9일",
       raids: [
-        { label: "16 Apr — USAF 공격대", id: "16apr_usaf" },
+        { label: "16 Apr — USAF 공격대 (대규모)", id: "16apr_usaf" },
         { label: "16 Apr — USN 공격대 (항모 선택)", id: "16apr_usn" },
         { label: "16 Apr — B-52 공격 / USAF (표 D 기반)", id: "16apr_b52_usaf" },
         { label: "16 Apr — B-52 공격 / USN (표 B 기반, 항모 선택)", id: "16apr_b52_usn" },
         { label: "16 Apr — 기뢰 부설 (USN)", id: "16apr_mine" },
-        { label: "9 May — USAF 공격대", id: "9may_usaf" },
+        { label: "9 May — USAF 공격대 (대규모)", id: "9may_usaf" },
         { label: "9 May — USN 공격대 (항모 선택)", id: "9may_usn" },
         { label: "9 May — B-52 공격 / USAF (표 D 기반)", id: "9may_b52_usaf" },
         { label: "9 May — B-52 공격 / USN (표 B 기반, 항모 선택)", id: "9may_b52_usn" },
         { label: "9 May — 기뢰 부설 (USN)", id: "9may_mine" },
       ],
       autoSet: (raid) => {
-        if (!raid) return { table: 'D', year: 1972, month: 4 };
+        if (!raid) return { table: 'D', year: 1972, month: 4, variants: { majorD: true } };
         const month = raid.includes('apr') ? 4 : 5;
-        if (raid.includes('b52_usn')) return { table: 'B', year: 1972, month, carrierId: 'ddd', variants: { b52: true } };
+        const _d10c = ['ddd','eee','fff','ggg'];
+        if (raid.includes('b52_usn')) return { table: 'B', year: 1972, month, carrierId: 'ddd', variants: { b52: true }, allowedCarriers: _d10c };
         if (raid.includes('b52_usaf')) return { table: 'D', year: 1972, month, variants: { b52: true } };
-        if (raid.includes('usn')) return { table: 'B', year: 1972, month, carrierId: 'ddd' };
-        if (raid.includes('mine')) return { table: 'B', year: 1972, month, carrierId: 'ddd', variants: { mine: true } };
-        return { table: 'D', year: 1972, month };
+        if (raid.includes('usn')) return { table: 'B', year: 1972, month, carrierId: 'ddd', allowedCarriers: _d10c };
+        if (raid.includes('mine')) return { table: 'B', year: 1972, month, carrierId: 'ddd', variants: { mine: true }, allowedCarriers: _d10c };
+        return { table: 'D', year: 1972, month, variants: { majorD: true } };
       },
       rules: [
-        "USAF: 표 D 사용. USN: 표 B 사용",
-        "항모 ID: ddd-Constellation, eee-Coral Sea, fff-Hancock, ggg-Kitty Hawk",
-        "B-52 공격: 채프 임무 포함 (5×{4} F-4D 채프 살포), 공격 임무 = 6×{3} B-52D",
-        "기뢰 부설: USN 공격 변형 — 공격 임무 = 2×{3} A-7A + 1×{3} A-6A",
+        "미니 캠페인: 4회 공격 순서대로 진행. 28.43(피해 지속)·28.44(SAM 탄약) 적용, 기타 캠페인 규칙 미적용",
+        "주간 4회: 야간(B-52 필수) + 오전·정오·오후. 기뢰 부설 1회 필수. B-52·기뢰 각 1회 제한",
+        "DRV MAP: 야간·오전 = 0, 정오·오후 = 26. 증원 VP는 4회 합산",
+        "USAF: 표 D (대규모 공격대). USN: 표 B",
+        "항모: ddd-Constellation, eee-Coral Sea, fff-Hancock, ggg-Kitty Hawk",
+        "복수 표적이 함께 나열된 경우 하나의 공격대로 모두 공격 가능",
+        "B-52 공격대: 표 D/B 재밍·MiGCAP·아이언핸드·정찰 (AE 삭제), 공격 = 6×{3} B-52D + 사전 5×{4} F-4D 채프",
+        "B-52(한정): 녹색 진입 화살표 사용 가능",
+        "기뢰 부설: USN (AE 삭제) — 2×{3} A-7A + 1×{3} A-6A. 하이퐁 항구 3헥스(2708·2608·2509) 초저고도 수평 폭격",
+        "기뢰: 폭탄과 동일 취급 (기뢰 부설 헥스만 사용). 폭탄 투하구간 완료 시 항공기당 1포인트 부설, 공격 판정 불필요",
+        "SAM 기지 표적 3곳: DRV 배치 완료 후 미군이 위치 공개된 기지 중 지정 (더미도 VP 획득)",
+        "USAF 공격대는 대규모 공격대(Major Raid)",
+        "CAP F-4D: IFF 장비 탑재 [11.54]",
+        "B-52: 공중전·MiG 패닉·사기로 무장 비상 투하 안 함",
+        "USN 폭격 비행대 절반은 EOGB 사용 가능",
       ],
     },
     D11: {
       name: "D11: Superfly",
       date: "1972년 5월 10일",
       raids: [
-        { label: "USAF 공격대 (고정 편제)", id: "usaf" },
-        { label: "USN 공격대 (표 B)", id: "usn" },
+        { label: "USAF 공격대 (고정 편제, 09:45 주간)", id: "usaf" },
+        { label: "USN 공격대 (표 B ×3항모, 12:50 주간)", id: "usn" },
       ],
       autoSet: (raid) => {
-        if (raid === 'usn') return { table: 'B', year: 1972, month: 5, carrierId: 'ddd' };
+        if (raid === 'usn') return { table: 'B', year: 1972, month: 5, carrierId: 'ddd', variants: { d11usn3: true }, allowedCarriers: ['ddd','eee','ggg'] };
         return { table: 'D', year: 1972, month: 5, variants: { d11fixed: true } };
       },
       rules: [
-        "USAF: 표준 Linebacker 편제 불사용 — 사전/주요A/주요B/사후 고정 편제 사용",
-        "사전: EB-66E×4(재밍) + F-4E×2(채프) + F-105G×4(SEAD) + F-4D×8(CAP)",
-        "주요A·B: F-4D×4(폭격) + F-4E×1(CAP) + F-105G×4(SEAD) 각각",
-        "사후: RF-4C×1(정찰) + F-4E×1(CAP)",
-        "USN: 표 B 사용. 항모 ddd-Constellation, eee-Coral Sea, ggg-Kitty Hawk",
+        "USAF 또는 USN 중 하나를 비밀 결정. USAF: 표적 2헥스 선택, USN: 표적 3헥스 선택",
+        "USAF: 고정 편제 (사전/주요A/주요B/사후). 주요A·B 각각 별도 표적·비행 경로",
+        "USAF 주요A: LGB 3비행대 + EOGB 1비행대. 주요B: 모두 재래식 폭탄",
+        "USAF: 주요A·B 중 하나는 다른 하나 진입 후 5턴 뒤 진입",
+        "USN: 표 B ×3 (ddd-Constellation, eee-Coral Sea, ggg-Kitty Hawk). 해병대 재밍 미지원",
+        "USN: 사전 전력 동시 진입. 주력 2차=1차+10턴, 3차=2차+10턴. 각각 별도 표적·비행 경로",
+        "USN: 모든 비행대 재래식 폭탄 사용",
+        "F-4D CAP 비행대: IFF 조회 장비 탑재 [11.54]",
       ],
     },
     D12: {
@@ -4645,8 +4840,13 @@ document.addEventListener('DOMContentLoaded', () => {
       date: "1972년 6월 1일",
       raids: null,
       rules: [
-        "표 E — USAF CSAR 임무 사용",
-        "추가: 1×{4} F-4E, CAP",
+        "표 E — USAF CSAR 임무 + 1×{4} F-4E CAP 추가. 전 편대 베테랑",
+        "상세 CSAR 규칙 사용 [26.3]",
+        "CSAR 임무: 진입 판정 불필요, 1턴부터 진입 가능",
+        "6턴 이전 승무원 포로 판정 생략, 이후 매 턴 정상 판정",
+        "SAM 대대: 하노이/하이퐁 4헥스 이내 배치 의무 없음",
+        "DRV 항공 전력: 비행장에서 준비 완료 상태로 시작",
+        "격추 승무원 마커 → 헥스 0148 배치 + -1 NVA 카운터 동일 헥스",
       ],
       autoSet: () => ({ table: 'E_USAF', year: 1972, month: 6 }),
     },
@@ -4654,18 +4854,23 @@ document.addEventListener('DOMContentLoaded', () => {
       name: "D13: Will the Circle Be Unbroken",
       date: "1972년 6월",
       raids: [
-        { label: "USAF 공격대 (표 D)", id: "usaf" },
-        { label: "USN 공격대 (Kitty Hawk ggg)", id: "usn_ggg" },
-        { label: "USN 공격대 (Saratoga iii)", id: "usn_iii" },
+        { label: "USAF 공격대 (표 D) — 표적에 따라 자동 결정", id: "usaf" },
+        { label: "USN 공격대 (표 B) — 표적에 따라 자동 결정", id: "usn" },
       ],
       autoSet: (raid) => {
-        if (raid === 'usn_ggg') return { table: 'B', year: 1972, month: 6, carrierId: 'ggg' };
-        if (raid === 'usn_iii') return { table: 'B', year: 1972, month: 6, carrierId: 'iii' };
+        if (raid === 'usn') return { table: 'B', year: 1972, month: 6, carrierId: 'ggg', allowedCarriers: ['ggg','iii'] };
         return { table: 'D', year: 1972, month: 6 };
       },
       rules: [
-        "표 D — USAF 공격대 또는 표 B — USN 공격대",
-        "USN 항모: ggg-Kitty Hawk 또는 iii-Saratoga",
+        "d10 굴려 표적 결정 (일부 USAF/USN 지정, 일부 선택 가능)",
+        "USAF: 표 D 사용 / USN: 표 B 사용 (항모 ggg-Kitty Hawk 또는 iii-Saratoga)",
+        "F-4D CAP: IFF 조회 장비[11.54] 사용 가능",
+        "USN 폭격 비행대 절반은 EOGB 사용 가능",
+        "타이응우옌 제철소(d10: 1-2) USAF 공격 시 재래식 타격 변형 적용",
+        "그 외 USAF 폭격 비행대: LGB 사용",
+        "EWR 카운터 4개 (2510, 2027, 2035, 2252) — 레이더 ON 상태 배치, 비사격 파이어 캔 취급",
+        "EWR 2개 꺼질 때마다 DRV 탐지 수준 1단계 하향. VP는 SAM 대대와 동일 기준",
+        "ARM으로 EWR 공격: 미군 계획 단계에서 사전 지정 필요 (지정 시 SAM/파이어 캔 ARM 불가)",
       ],
     },
     D14: {
@@ -4673,11 +4878,21 @@ document.addEventListener('DOMContentLoaded', () => {
       date: "1972년 12월 18일",
       raids: null,
       rules: [
-        "전 부대 USAF — 고정 편제 사용 (표 D 미사용)",
-        "사전: EB-66E×2(재밍) + F-4D×4(CAP)",
-        "주요: F-111A×8(폭격) + B-52D×10(폭격) + B-52G×6(폭격)",
-        "주요: F-4D×4(MiGCAP) + F-105G WW×2+F-4E×2(Iron Hand) + F-105G WW×2+F-4C WW×2(Iron Hand)",
-        "사후: 없음. SSR 4·5 참조",
+        "전 부대 USAF — 고정 편제 (표 D 미사용). 전 편대 베테랑",
+        "모든 MiG 지상 시작. 표적 공격 또는 B-52가 하노이 10헥스 이내 진입 전까지 이륙 불가",
+        "SAM 최소 10개: 하노이 도심 4헥스 이내 배치",
+        "나열된 모든 표적 공격 필수. F-111·B-52를 여러 미니 공격대로 분할",
+        "F-111: 8개 미니 공격대 (각 1×{1})",
+        "B-52: 5개 미니 공격대 (각 표적 1개). B-52G 최소 3비행대 → 옌비엔+킨노 배정. 레이더 폭격 사용",
+        "사전 전력: 맵 어디에든 탐지된 상태로 배치 가능",
+        "B-52: 5턴 이전 진입 불가. 진입 화살표 A·B·C만 사용. 이탈 헥스는 화살표 1·2에서 5헥스 이내",
+        "B-52: 매 이동 종료 시 비행 경로 위 필수 (위반 시 즉시 작전 중지)",
+        "B-52는 공중전·MiG 패닉·사기로 무장 비상 투하 안 함",
+        "F-4D: IFF 조회 장비 탑재. F-4E: CBU 무장",
+        "비컨 재밍 보정 +1 (기본 +2 대신)",
+        "조기경보 판정 생략 — 항상 '양호' (결과 A)",
+        "사진 정찰 불필요. BDA 미실시 VP 손실 없음",
+        "사후 부대 없음",
       ],
       autoSet: () => ({ table: 'D', year: 1972, month: 12, variants: { d14fixed: true } }),
     },
@@ -4686,10 +4901,15 @@ document.addEventListener('DOMContentLoaded', () => {
       date: "1972년 12월 21일",
       raids: null,
       rules: [
-        "고정 편제 — 표 D 미사용",
-        "사전: EB-66E×2(재밍) + F-4D×8(채프) + F-4E×8(CAP)",
-        "주요: A-7D×24+F-4D×4(Strike A-D) + F-4D×8(Strike/CAP E-F)",
-        "주요: F-105G WW×4+F-4E×4(Iron Hand) + F-4E×16+F-4D×16(MiGCAP)",
+        "전 부대 USAF — 고정 편제 (표 D 미사용). 전 편대 베테랑",
+        "모든 MiG 지상 시작 (조기경보 결과 무관). 모든 DRV 비행장 = 소규모 비행장[9.41]",
+        "나열된 모든 표적 공격 필수. 타격 A~F = 6개 미니 공격대, 각 별도 비행 경로",
+        "사전 전력: 맵 어디에든 배치 가능",
+        "CAP F-4D(한정): IFF 조회 장비 탑재",
+        "타격 A·E·F: F-4D 1개는 무선 항법 폭격 가능 (선도기 역할)",
+        "타격 B·C·D: LGB 무장. 그 외 모든 비행대: 일반 폭탄 또는 CBU",
+        "사진 정찰 불필요. BDA 미실시 VP 손실 없음",
+        "사후 부대 없음",
       ],
       autoSet: () => ({ table: 'D', year: 1972, month: 12, variants: { d15fixed: true } }),
     },
@@ -4698,11 +4918,20 @@ document.addEventListener('DOMContentLoaded', () => {
       date: "1972년 12월 26일",
       raids: null,
       rules: [
-        "USAF + USN 혼성 — 고정 편제",
-        "사전: EB-66E×3(재밍) + EA-6B×4(재밍)",
-        "주요: B-52D×25+B-52G×15(폭격) + F-111A×4(Iron Hand)",
-        "주요: F-105G WW×4+F-4E×4+F-4C WW×4(Iron Hand×2) + F-4D×16(MiGCAP×2)",
-        "사후: 없음. SSR 3 참조",
+        "USAF+USN 혼성 — 고정 편제. 전 편대 베테랑",
+        "모든 MiG 지상 시작",
+        "나열된 모든 표적 공격 필수. B-52를 9개 미니 공격대로 분할 (각 표적 1개, 레이더 폭격)",
+        "2기 B-52D 비행대 → 지압니·킨노 미니 공격대에 배정",
+        "F-111 SEAD: 게임 시작 시 공개된 SAM만 공격 가능. 폭탄 전량 투하. 진입 화살표 5헥스 이내 임의 진입",
+        "채프 통로 6개 사전 설치 (각 16헥스, 시나리오 종료까지 유지)",
+        "사전 전력: 맵 어디에든 배치 가능",
+        "B-52: 3턴 이전 진입 불가. 시작 시 육안 식별 상태. 공중전·MiG 패닉·사기로 무장 비상 투하 안 함",
+        "F-4D CAP: IFF 조회 장비 탑재",
+        "F-4E: CBU 무장 (맹목 폭격 불가)",
+        "비컨 재밍 보정 +1 (기본 +2 대신)",
+        "SAM 표적 획득 판정 -2 보정 (획득 유지에는 미적용)",
+        "사진 정찰 불필요. BDA 미실시 VP 손실 없음",
+        "사후 부대 없음",
       ],
       autoSet: () => ({ table: 'D', year: 1972, month: 12, variants: { d16fixed: true } }),
     },
@@ -4785,7 +5014,6 @@ document.addEventListener('DOMContentLoaded', () => {
   }
   function onScenarioChange() {
     const scen = document.getElementById('scenario-select').value;
-    const ssrInfo = document.getElementById('ssr-info');
     const raidSection = document.getElementById('ssr-raid-section');
     const raidSelect = document.getElementById('ssr-raid-select');
 
@@ -4798,45 +5026,145 @@ document.addEventListener('DOMContentLoaded', () => {
     // 방어 원형진: 1967년 4월 이전 시나리오(D1~D3)이면 숨김
     updateWheelVisibility(scen);
 
+    const d10Planner = document.getElementById('d10-planner');
+
     if (!scen) {
-      ssrInfo.style.display = 'none';
       raidSection.style.display = 'none';
+      if (d10Planner) d10Planner.style.display = 'none';
       return;
     }
 
     const data = SSR_DATA[scen];
     if (!data) return;
 
+    // D10: 플래너 표시, 기존 raid selector 숨김
+    if (scen === 'D10' && d10Planner) {
+      raidSection.style.display = 'none';
+      d10Planner.style.display = 'block';
+      d10PlannerUpdate();
+      applyScenarioSettings(scen, null);
+      return;
+    }
+
+    if (d10Planner) d10Planner.style.display = 'none';
+
     if (data.raids && data.raids.length > 0) {
       raidSection.style.display = 'block';
       raidSelect.innerHTML = data.raids.map(r =>
         `<option value="${r.id}">${r.label}</option>`
       ).join('');
-      renderSsrInfo(data, data.raids[0].id);
       applyScenarioSettings(scen, data.raids[0].id);
     } else {
       raidSection.style.display = 'none';
-      renderSsrInfo(data, null);
       applyScenarioSettings(scen, null);
     }
   }
-  function renderSsrInfo(data, raidId) {
-    const ssrInfo = document.getElementById('ssr-info');
-    ssrInfo.style.display = 'block';
-    const filtered = data.rules.filter(r => {
-      if (typeof r === 'string') return true;
-      if (!raidId) return true;
-      return r.raids.includes(raidId);
+  // ── D10 Raid Planner ──
+  const D10_SLOTS = [
+    { id:'night1', label:'야간1 (05:00)', fixed:'b52', subSel:'d10-night1-sub' },
+    { id:'am',     label:'오전 (07:00)',   typeSel:'d10-type-am' },
+    { id:'noon',   label:'정오 (12:00)',   typeSel:'d10-type-noon' },
+    { id:'pm',     label:'오후 (16:00)',   typeSel:'d10-type-pm' },
+    { id:'night2', label:'야간2 (22:00)',  fixed:'b52', subSel:'d10-night2-sub' },
+  ];
+
+  function d10PlannerUpdate() {
+    // 야간 상호 배타
+    const n1 = document.getElementById('d10-use-night1');
+    const n2 = document.getElementById('d10-use-night2');
+    if (n1 && n2) {
+      if (n1.checked) { n2.checked = false; n2.disabled = true; }
+      else if (n2.checked) { n1.checked = false; n1.disabled = true; }
+      else { n1.disabled = false; n2.disabled = false; }
+    }
+
+    const checks = D10_SLOTS.map(s => ({
+      ...s,
+      on: document.getElementById('d10-use-' + s.id)?.checked,
+      type: s.fixed || (document.getElementById(s.typeSel)?.value ?? ''),
+    }));
+    const active = checks.filter(c => c.on);
+    const warn = document.getElementById('d10-planner-warn');
+    const errors = [];
+
+    // 정확히 4개 선택
+    if (active.length !== 4) errors.push(`공격대 ${active.length}개 선택됨 (4개 필요)`);
+
+    // 야간 1개만
+    const nights = active.filter(c => c.id === 'night1' || c.id === 'night2');
+    if (nights.length === 0) errors.push('야간 공격대(B-52) 1개 필수');
+
+    // 기뢰 정확히 1개
+    const mines = active.filter(c => c.type === 'mine');
+    if (mines.length === 0) errors.push('기뢰 부설 공격대 1개 필수');
+    if (mines.length > 1) errors.push('기뢰 부설 공격대는 1회 제한');
+
+    warn.innerHTML = errors.length ? '⚠ ' + errors.join(' / ') : '';
+
+    // 생성 드롭다운 갱신
+    const genSel = document.getElementById('d10-gen-slot');
+    genSel.innerHTML = '';
+    active.forEach(c => {
+      const raidId = d10SlotToRaidId(c);
+      const opt = document.createElement('option');
+      opt.value = c.id;
+      opt.textContent = c.label + ' — ' + d10TypeLabel(c);
+      genSel.appendChild(opt);
     });
-    const lines = filtered.map(r => '• ' + (typeof r === 'string' ? r : r.text));
-    ssrInfo.innerHTML = '<strong>\u{1F4CB} ' + data.name + '</strong> (' + data.date + ')<br>' + lines.join('<br>');
   }
+
+  function d10TypeLabel(slot) {
+    if (slot.fixed === 'b52') {
+      const sub = document.getElementById(slot.subSel)?.value || 'b52_usaf';
+      return sub === 'b52_usn' ? 'B-52/USN' : 'B-52/USAF';
+    }
+    const t = document.getElementById(slot.typeSel)?.value || 'usaf';
+    if (t === 'usaf') return 'USAF (대규모)';
+    if (t === 'usn') return 'USN';
+    if (t === 'mine') return '기뢰 부설';
+    return t;
+  }
+
+  function d10SlotToRaidId(slot) {
+    const datePrefix = document.getElementById('d10-date')?.value || '16apr';
+    if (slot.fixed === 'b52') {
+      const sub = document.getElementById(slot.subSel)?.value || 'b52_usaf';
+      return datePrefix + '_' + sub;
+    }
+    const t = document.getElementById(slot.typeSel)?.value || 'usaf';
+    return datePrefix + '_' + t;
+  }
+
+  function d10GenerateSlot() {
+    const genSel = document.getElementById('d10-gen-slot');
+    const slotId = genSel.value;
+    if (!slotId) return;
+
+    const slot = D10_SLOTS.find(s => s.id === slotId);
+    if (!slot) return;
+
+    // raidId 결정 → ssr-raid-select에 설정 후 generate 호출
+    const raidId = d10SlotToRaidId({
+      ...slot,
+      on: true,
+      type: slot.fixed || (document.getElementById(slot.typeSel)?.value ?? ''),
+    });
+
+    // ssr-raid-select를 동적으로 설정 (generate가 참조)
+    const raidSelect = document.getElementById('ssr-raid-select');
+    raidSelect.innerHTML = `<option value="${raidId}" selected>${raidId}</option>`;
+
+    // applyScenarioSettings 호출하여 table/carrier/variants 설정
+    applyScenarioSettings('D10', raidId);
+
+    // generate 호출
+    generate();
+  }
+
   function onSsrRaidChange() {
     const scen = document.getElementById('scenario-select').value;
     const raid = document.getElementById('ssr-raid-select').value;
     if (!scen) return;
-    const data = SSR_DATA[scen];
-    if (data) renderSsrInfo(data, raid);
     applyScenarioSettings(scen, raid);
   }
   function applyScenarioSettings(scen, raidId) {
@@ -4856,9 +5184,24 @@ document.addEventListener('DOMContentLoaded', () => {
     // 1972년 이후 시나리오 여부 → Solo Bot 체크박스 자동 동기화
     syncEra1972();
 
-    if (settings.carrierId) {
-      const sel = document.getElementById('carrier-select');
-      if (sel) sel.value = settings.carrierId;
+    // 항모 드롭다운: 허용 항모 필터 또는 전체 복원
+    const carrierSel = document.getElementById('carrier-select');
+    if (carrierSel) {
+      if (settings.allowedCarriers && settings.allowedCarriers.length > 0) {
+        const allowed = settings.allowedCarriers;
+        carrierSel.innerHTML = '';
+        CARRIERS.filter(c => allowed.includes(c.ID)).forEach(c => {
+          const opt = document.createElement('option');
+          opt.value = c.ID;
+          opt.textContent = `${c.ID} — ${c.Carrier} (${c.LineDates})`;
+          carrierSel.appendChild(opt);
+        });
+        if (settings.carrierId) carrierSel.value = settings.carrierId;
+      } else {
+        // 필터 없으면 전체 복원 (옵션 수가 줄어있는 경우에만)
+        if (carrierSel.options.length < CARRIERS.length) populateCarriers();
+        if (settings.carrierId) carrierSel.value = settings.carrierId;
+      }
     }
 
     const allVariants = ['var-standoff','var-phantom','var-joint','var-major','var-bolo',
@@ -4894,8 +5237,8 @@ document.addEventListener('DOMContentLoaded', () => {
   function printResults() {
     window.print();
   }
-  function sq(count, aircraft, size, task, ammo, diceInfo) {
-    return { count, aircraft, size, task, ammo, diceInfo };
+  function sq(count, aircraft, size, task, ammo, diceInfo, subGroup, subGroupLabel) {
+    return { count, aircraft, size, task, ammo, diceInfo, subGroup: subGroup || '', subGroupLabel: subGroupLabel || subGroup || '' };
   }
   function resolveJammingUSAF(dc) {
     if (dc < ym(1965,10)) return [{ aircraft:"EB-66C", dice:null }];
@@ -5001,10 +5344,10 @@ document.addEventListener('DOMContentLoaded', () => {
     const nailOpt = document.getElementById('nail-options');
 
     usnSec.classList.toggle('visible', t === 'B');
-    varSec.classList.toggle('visible', ['A','B','D'].includes(t));
+    varSec.classList.toggle('visible', ['A','B','D'].includes(t) || t.startsWith('C'));
     nailOpt.style.display = t === 'C_NAIL' ? 'block' : 'none';
 
-    const isA = t === 'A';
+    const isA = t === 'A' || t.startsWith('C');
     const isD = t === 'D';
     ['chk-phantom-wrap','chk-joint-wrap','chk-major-wrap','chk-bolo-wrap',
      'chk-weasel-wrap','chk-weasel-short-wrap'].forEach(id => {
@@ -5122,7 +5465,9 @@ document.addEventListener('DOMContentLoaded', () => {
         notes.push("1965.12-1966.04 아이언 핸드: F-100F 1비행대 + F-105D 1비행대");
       } else {
         let count = weasel ? 4 : 2;
-        ihSqs = [sq(count, "F-105F WW", 2, "SEAD", dc >= ym(1966,6) ? "폭탄+ARM(+CBU 선택)" : "폭탄+ARM")];
+        let ihAmmo = dc >= ym(1966,6) ? "폭탄+ARM(+CBU 선택)" : "폭탄+ARM";
+        if (variants.bombStrength3) ihAmmo += " (폭탄 강도 3)";
+        ihSqs = [sq(count, "F-105F WW", 2, "SEAD", ihAmmo)];
         if (weasel) notes.push("강화 위즐: 아이언 핸드 비행대 수 2배");
         if (weaselShort) notes.push("위즐 부족: 각 비행대 슈라이크 발사 횟수 절반");
       }
@@ -5163,19 +5508,24 @@ document.addEventListener('DOMContentLoaded', () => {
       html += renderMission('주요', '공격 임무 (볼로 작전)', strikeBoloSqs);
       addSquadsToOob('주요', '공격 임무 (볼로 작전)', strikeBoloSqs);
     } else if (phantom) {
-      const strikeSqs = [sq(2, "F-4C", 4, "Strike/CAP", "폭격")];
-      if (joint) strikeSqs.push(sq(2, "F-4C", 4, "Strike/CAP", "폭격"));
+      const phantomAmmo = dc >= ym(1966,6) ? "폭격/CBU 선택" : "폭격";
+      const strikeSqs = [sq(2, "F-4C", 4, "Strike/CAP", phantomAmmo)];
+      if (joint) strikeSqs.push(sq(2, "F-4C", 4, "Strike/CAP", phantomAmmo));
       html += renderMission('주요', '공격 임무 (팬텀 공격대)', strikeSqs,
-        joint ? "합동 공격대: F-4C Strike/CAP 2개 비행대 추가" : null);
+        [joint ? "합동 공격대: F-4C Strike/CAP 2개 비행대 추가" : null,
+         dc >= ym(1966,6) ? "CBU 탑재 가능 [17.61]" : null
+        ].filter(Boolean).join(' / ') || null);
       addSquadsToOob('주요', '공격 임무 (팬텀 공격대)', strikeSqs);
     } else {
       let strikeCount = dc < ym(1967,1) ? 3 : 4;
       if (major) strikeCount++;
+      if (variants.deleteOneStrike) strikeCount = Math.max(1, strikeCount - 1);
       const strikeSqs = [sq(strikeCount, "F-105D", 4, "Bombing", "폭격")];
       if (joint) strikeSqs.push(sq(2, "F-4C", 4, "Strike/CAP", "폭격"));
       html += renderMission('주요', '공격 임무', strikeSqs,
         [dc < ym(1967,1) ? "1967년 1월 이전: 비행대 1개 감소" : null,
          major ? "주요 공격대: F-105D 비행대 1개 추가" : null,
+         variants.deleteOneStrike ? "SSR: F-105 비행대 1개 삭제" : null,
          joint ? "합동 공격대: F-4C Strike/CAP 2개 비행대 추가" : null
         ].filter(Boolean).join(' / ') || null);
       addSquadsToOob('주요', '공격 임무', strikeSqs);
@@ -5223,15 +5573,19 @@ document.addEventListener('DOMContentLoaded', () => {
       html += renderNote("이 항공모함은 재밍 항공기 없음 (해병대 지원 제외)");
     }
 
-    const marineCount = resolveMarineJam(dc, marineOverride);
-    if (marineCount > 0) {
-      const marineAC = resolveMarineJamAircraft(dc);
-      const rollInfo = window._marineRoll ? `주사위: ${window._marineRoll}` : null;
-      const marineSqs = [sq(marineCount, marineAC.aircraft, 1, "Jamming", "재밍", marineAC.dice)];
-      html += renderMission('사전', '해병대 재밍 지원', marineSqs, rollInfo ? `해병대 재밍 주사위: ${rollInfo}` : null);
-      addSquadsToOob('사전', '해병대 재밍 지원', marineSqs);
-    } else if (marineOverride === 'auto') {
-      html += renderNote(`해병대 재밍 지원 없음 (주사위: ${window._marineRoll ?? '?'})`);
+    if (!variants.noMarineJam) {
+      const marineCount = resolveMarineJam(dc, marineOverride);
+      if (marineCount > 0) {
+        const marineAC = resolveMarineJamAircraft(dc);
+        const rollInfo = window._marineRoll ? `주사위: ${window._marineRoll}` : null;
+        const marineSqs = [sq(marineCount, marineAC.aircraft, 1, "Jamming", "재밍", marineAC.dice)];
+        html += renderMission('사전', '해병대 재밍 지원', marineSqs, rollInfo ? `해병대 재밍 주사위: ${rollInfo}` : null);
+        addSquadsToOob('사전', '해병대 재밍 지원', marineSqs);
+      } else if (marineOverride === 'auto') {
+        html += renderNote(`해병대 재밍 지원 없음 (주사위: ${window._marineRoll ?? '?'})`);
+      }
+    } else {
+      html += renderNote("해병대 재밍 미지원 (시나리오 SSR)");
     }
 
     if (variants.b52) {
@@ -5244,14 +5598,15 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const sead = carrier.SEAD;
     const seadAC = Array.isArray(sead) ? sead[0] : sead;
-    const ihSqs = variants.b52
+    const noAE = variants.b52 || variants.mine;
+    const ihSqs = noAE
       ? [sq(2, seadAC, 2, "SEAD", "폭탄+ARM")]
       : [
           sq(2, seadAC, 2, "SEAD", "폭탄+ARM"),
           sq(2, carrier.CAP.split('/')[0], 2, "Armed Escort", "폭격" + (dc >= ym(1966,1) ? "+CBU 선택" : ""))
         ];
     html += renderMission('주요', '아이언 핸드 임무', ihSqs,
-      variants.b52 ? "B-52 SSR: Armed Escort 삭제" : null);
+      noAE ? "SSR: Armed Escort 삭제" : null);
     addSquadsToOob('주요', '아이언 핸드 임무', ihSqs);
 
     const capAC = carrier.CAP.split('/')[0];
@@ -5494,6 +5849,31 @@ document.addEventListener('DOMContentLoaded', () => {
 
     return html;
   }
+  function generateD6Fixed(withCap, addSquadsToOob) {
+    renderMission._idx = 0;
+    let html = renderDivider('USAF 고정 편제 (D6: Respect)');
+    html += renderNote("USAF 전용 · 정규군 수준");
+
+    const reconSqs = [sq(1, "RF-4C", 2, "Recon", "—")];
+    html += renderMission('주요', '정찰 임무', reconSqs, "1×{2} RF-4C 정찰");
+    addSquadsToOob('주요', '정찰 임무', reconSqs);
+
+    if (withCap) {
+      const roll = d10();
+      const f4type = roll <= 6 ? "F-4C" : "F-4D";
+      const ammo = f4type === "F-4D" ? "AIM-4D IRM" : "—";
+      const capSqs = [sq(1, f4type, 2, "CAP", ammo)];
+      html += renderMission('주요', 'CAP 임무', capSqs,
+        `변형: 1×{2} ${f4type} CAP (d10=${roll}) · BVR 허용` +
+        (f4type === "F-4D" ? " · AIM-4D IRM 탑재" : ""));
+      addSquadsToOob('주요', 'CAP 임무', capSqs);
+    }
+
+    const ammoLines = ["RF-4C: 정찰 (무장 없음)"];
+    if (withCap) ammoLines.push("F-4: CAP · BVR 공격 허용 · F-4D는 AIM-4D IRM");
+    html += renderAmmo(ammoLines);
+    return html;
+  }
   function generateD2Fixed(addSquadsToOob) {
     renderMission._idx = 0;
     let html = renderDivider('USN 고정 편제 (D2: Beginnings)');
@@ -5516,25 +5896,25 @@ document.addEventListener('DOMContentLoaded', () => {
   }
   function generateD11Fixed(addSquadsToOob) {
     renderMission._idx = 0;
-    let html = renderDivider('사전 공격대 (Pre-Raid)');
+    let html = renderDivider('사전 공격대 (Pre-Raid) — 09:45 주간');
     const preJam = [sq(4, "EB-66E", 1, "Jamming", "재밍")];
     const preChaff = [sq(2, "F-4E", 4, "Chaff Laying", "채프")];
     const preIH = [sq(2, "F-105G WW", 2, "SEAD", "ARM")];
-    const preCap = [sq(2, "F-4D", 4, "CAP", "—")];
+    const preCap = [sq(2, "F-4D", 4, "CAP", "—", "IFF[11.54]")];
     html += renderMission('사전', '재밍 임무', preJam);   addSquadsToOob('사전','재밍 임무',preJam);
     html += renderMission('사전', '채프 임무', preChaff); addSquadsToOob('사전','채프 임무',preChaff);
     html += renderMission('사전', '아이언 핸드 임무', preIH); addSquadsToOob('사전','아이언 핸드',preIH);
     html += renderMission('사전', 'MiGCAP 임무', preCap); addSquadsToOob('사전','MiGCAP',preCap);
 
-    html += renderDivider('주요 공격대 A (Main Raid Force A)');
-    const mainAStrike = [sq(4,"F-4D",4,"Bombing","LGB"), sq(1,"F-4E",4,"CAP","—")];
-    const mainAIH = [sq(2,"F-105G WW",2,"SEAD","ARM")];
+    html += renderDivider('주요 공격대 A (Main Raid Force A) — 별도 표적·비행 경로');
+    const mainAStrike = [sq(3,"F-4D",4,"Bombing","LGB","LGB","A","공격대 A"), sq(1,"F-4D",4,"Bombing","EOGB","EOGB","A","공격대 A"), sq(1,"F-4E",4,"CAP","—",null,"A","공격대 A")];
+    const mainAIH = [sq(2,"F-105G WW",2,"SEAD","ARM",null,"A","공격대 A")];
     html += renderMission('주요A', '공격 임무 A', mainAStrike); addSquadsToOob('주요','공격 임무 A',mainAStrike);
     html += renderMission('주요A', '아이언 핸드 임무 A', mainAIH); addSquadsToOob('주요','아이언 핸드 A',mainAIH);
 
-    html += renderDivider('주요 공격대 B (Main Raid Force B)');
-    const mainBStrike = [sq(4,"F-4D",4,"Bombing","LGB"), sq(1,"F-4E",4,"CAP","—")];
-    const mainBIH = [sq(2,"F-105G WW",2,"SEAD","ARM")];
+    html += renderDivider('주요 공격대 B (Main Raid Force B) — A 진입 후 5턴 뒤 진입');
+    const mainBStrike = [sq(4,"F-4D",4,"Bombing","재래식 폭탄","재래식","B","공격대 B"), sq(1,"F-4E",4,"CAP","—",null,"B","공격대 B")];
+    const mainBIH = [sq(2,"F-105G WW",2,"SEAD","ARM",null,"B","공격대 B")];
     html += renderMission('주요B', '공격 임무 B', mainBStrike); addSquadsToOob('주요','공격 임무 B',mainBStrike);
     html += renderMission('주요B', '아이언 핸드 임무 B', mainBIH); addSquadsToOob('주요','아이언 핸드 B',mainBIH);
 
@@ -5542,105 +5922,184 @@ document.addEventListener('DOMContentLoaded', () => {
     const postRecon = [sq(1,"RF-4C",2,"Recon","—"), sq(1,"F-4E",4,"CAP","—")];
     html += renderMission('사후', '정찰 임무', postRecon); addSquadsToOob('사후','정찰 임무',postRecon);
 
-    html += renderAmmo(["F-4D 폭격 비행대: LGB", "F-105G WW: ARM", "F-4E CAP: 없음"]);
-    return html;
-  }
-  function generateD10B52(dc, addSquadsToOob) {
-    renderMission._idx = 0;
-    let html = renderDivider('B-52 공격대 (D10 Smoke on the Water)');
-    html += renderNote("B-52 공격대는 표 D/B의 재밍·MiGCAP·아이언핸드·정찰 임무 사용 (Armed Escort 삭제). 공격 임무 교체.");
-    const chaffSqs = [sq(5,"F-4D",4,"Chaff Laying","채프 디스펜서")];
-    html += renderMission('사전', '채프 임무 (B-52 전용)', chaffSqs); addSquadsToOob('사전','채프',chaffSqs);
-    const b52Sqs = [sq(6,"B-52D",3,"Bombing","레이더 폭격")];
-    html += renderMission('주요', '공격 임무 (B-52)', b52Sqs); addSquadsToOob('주요','공격 임무',b52Sqs);
-    html += renderAmmo(["B-52D: 레이더 폭격 능력 사용", "채프 비행대: 채프 디스펜서"]);
-    return html;
-  }
-  function generateD10Mine(dc, addSquadsToOob) {
-    renderMission._idx = 0;
-    let html = renderDivider('기뢰 부설 공격대 (D10 Smoke on the Water)');
-    html += renderNote("기뢰 부설은 USN 공격대. 공격 임무 교체.");
-    const mineSqs = [sq(2,"A-7A",3,"Bombing","기뢰"), sq(1,"A-6A",3,"Bombing","기뢰")];
-    html += renderMission('주요', '기뢰 부설 임무', mineSqs); addSquadsToOob('주요','공격 임무',mineSqs);
-    html += renderAmmo(["A-7A / A-6A: 기뢰 탑재"]);
+    html += renderAmmo(["주요A F-4D: LGB 3비행대 + EOGB 1비행대", "주요B F-4D: 재래식 폭탄", "F-105G WW: ARM", "F-4D CAP: IFF[11.54]"]);
     return html;
   }
   function generateD14Fixed(addSquadsToOob) {
     renderMission._idx = 0;
-    let html = renderDivider('사전 공격대 (Pre-Raid)');
-    const preJam = [sq(2,"EB-66E",1,"Jamming","재밍"), sq(2,"F-4D",2,"CAP","—")];
+    // ── 표적 8개 ──
+    var D14_TARGETS = [
+      { name:"껩 비행장 활주로", hex:"1120", profile:"B" },
+      { name:"푹옌 비행장 활주로", hex:"1529", profile:"B" },
+      { name:"킨노 저장구역 1", hex:"1628", profile:"C" },
+      { name:"킨노 저장구역 2", hex:"1628", profile:"C" },
+      { name:"킨노 저장구역 3", hex:"1628", profile:"C" },
+      { name:"옌비엔 동부 철도 조차장", hex:"1826", profile:"C" },
+      { name:"옌비엔 서부 철도 조차장", hex:"1826", profile:"C" },
+      { name:"호아락 비행장 활주로", hex:"2035", profile:"B" },
+    ];
+    // B-52 5개 미니 공격대: 5개 고유 헥스에 배정
+    // B-52D{3}=10, B-52G{3}=6, 합계 16. B-52G ≥3 → 옌비엔+킨노
+    var D14_B52 = [
+      { name:"껩 비행장",     hex:"1120", profile:"B", d3:2, g3:1 },
+      { name:"푹옌 비행장",   hex:"1529", profile:"B", d3:2, g3:1 },
+      { name:"킨노 저장구역", hex:"1628", profile:"C", d3:2, g3:2 },
+      { name:"옌비엔 철도",   hex:"1826", profile:"C", d3:2, g3:1 },
+      { name:"호아락 비행장", hex:"2035", profile:"B", d3:2, g3:1 },
+    ];
+    // d3합=10, g3합=6, B-52G 옌비엔+킨노=2+1=3 ✓
+    var sgCycle = ['A','B','C'];
+
+    var html = renderDivider('사전 공격대 (Pre-Raid) — 맵 어디에든 탐지 상태 배치');
+    var preJam = [sq(2,"EB-66E",1,"Jamming","재밍"), sq(2,"F-4D",2,"CAP","—","IFF[11.54]")];
     html += renderMission('사전', '재밍 임무', preJam); addSquadsToOob('사전','재밍',preJam);
 
-    html += renderDivider('주요 공격대 (Main Raid)');
-    const f111 = [sq(8,"F-111A",1,"Bombing","폭격")];
-    const b52d = [sq(10,"B-52D",3,"Bombing","레이더 폭격")];
-    const b52g = [sq(6,"B-52G",3,"Bombing","레이더 폭격")];
-    const migcap = [sq(2,"F-4D",2,"CAP","—")];
-    const ih1 = [sq(1,"F-105G WW",2,"SEAD","ARM"), sq(1,"F-4E",2,"SEAD","폭탄/CBU")];
-    const ih2 = [sq(1,"F-105G WW",2,"SEAD","ARM"), sq(1,"F-4C WW",2,"SEAD","폭탄/CBU")];
-    html += renderMission('주요', 'F-111 폭격 임무', f111, "SSR 4 참조"); addSquadsToOob('주요','F-111',f111);
-    html += renderMission('주요', 'B-52D 폭격 임무', b52d); addSquadsToOob('주요','B-52D',b52d);
-    html += renderMission('주요', 'B-52G 폭격 임무', b52g, "SSR 5 참조"); addSquadsToOob('주요','B-52G',b52g);
-    html += renderMission('주요', 'MiGCAP 임무', migcap); addSquadsToOob('주요','MiGCAP',migcap);
-    html += renderMission('주요', '아이언 핸드 임무 1', ih1); addSquadsToOob('주요','아이언핸드1',ih1);
-    html += renderMission('주요', '아이언 핸드 임무 2', ih2); addSquadsToOob('주요','아이언핸드2',ih2);
+    // ── F-111 미니 공격대 ×8 (각 표적 1:1) ──
+    html += renderDivider('F-111 미니 공격대 ×8 (각 1×{1}, 표적 1:1)');
+    for (var fi = 0; fi < D14_TARGETS.length; fi++) {
+      var ft = D14_TARGETS[fi];
+      var fSg = sgCycle[fi % 3];
+      var fSq = [sq(1,"F-111A",1,"Bombing","폭격",ft.hex + ' ' + ft.profile,fSg,"F-111: " + ft.name)];
+      html += renderMission('주요','F-111 미니 ' + (fi+1) + ' — ' + ft.name + ' (' + ft.hex + ', ' + ft.profile + ')', fSq);
+      addSquadsToOob('주요','F-111미니' + (fi+1), fSq);
+    }
+
+    // ── B-52 미니 공격대 ×5 (5턴 전 진입 불가) ──
+    html += renderDivider('B-52 미니 공격대 ×5 (5턴 전 진입 불가 · 레이더 폭격 · 화살표 A·B·C)');
+    for (var bi = 0; bi < D14_B52.length; bi++) {
+      var bt = D14_B52[bi];
+      var sg = sgCycle[bi % 3];
+      var bLabel = 'B-52: ' + bt.name;
+      var bSqs = [];
+      if (bt.d3 > 0) bSqs.push(sq(bt.d3,"B-52D",3,"Bombing","레이더 폭격",bt.hex + ' ' + bt.profile,sg,bLabel));
+      if (bt.g3 > 0) bSqs.push(sq(bt.g3,"B-52G",3,"Bombing","레이더 폭격",bt.hex + ' ' + bt.profile,sg,bLabel));
+      var bTotal = bt.d3 + bt.g3;
+      html += renderMission('주요','B-52 미니 ' + (bi+1) + ' — ' + bt.name + ' (' + bt.hex + ', ' + bt.profile + ')', bSqs,
+        bTotal + '비행대');
+      addSquadsToOob('주요','B-52미니' + (bi+1), bSqs);
+    }
+
+    // ── 호위 전력 ──
+    html += renderDivider('호위 전력 (MiGCAP · 아이언 핸드)');
+    var migcap = [sq(2,"F-4D",2,"CAP","—","IFF[11.54]")];
+    var ih1 = [sq(1,"F-105G WW",2,"SEAD","ARM"), sq(1,"F-4E",2,"SEAD","CBU","CBU 무장")];
+    var ih2 = [sq(1,"F-105G WW",2,"SEAD","ARM"), sq(1,"F-4C WW",2,"SEAD","CBU")];
+    html += renderMission('주요','MiGCAP 임무',migcap); addSquadsToOob('주요','MiGCAP',migcap);
+    html += renderMission('주요','아이언 핸드 임무 1',ih1); addSquadsToOob('주요','아이언핸드1',ih1);
+    html += renderMission('주요','아이언 핸드 임무 2',ih2); addSquadsToOob('주요','아이언핸드2',ih2);
 
     html += renderDivider('사후 공격대 (Post-Raid)');
     html += renderNote("사후 부대 없음");
-    html += renderAmmo(["F-111A: 폭격", "B-52D/G: 레이더 폭격", "F-105G WW / F-4C WW: ARM", "F-4E: 폭탄 또는 CBU"]);
+    html += renderAmmo([
+      "F-111A: 폭격 (8개 미니 공격대, 표적 1:1)",
+      "B-52D/G: 레이더 폭격 (5개 미니 공격대, 5턴 전 진입 불가, 화살표 A·B·C, 비상 투하 면제)",
+      "B-52G ≥3비행대 → 옌비엔+킨노 배정",
+      "F-4D: IFF[11.54], F-4E: CBU",
+      "F-105G WW / F-4C WW: ARM",
+    ]);
     return html;
   }
   function generateD15Fixed(addSquadsToOob) {
     renderMission._idx = 0;
-    let html = renderDivider('사전 공격대 (Pre-Raid)');
+    // 타격 A~F ↔ 표적 1:1 대응
+    const D15_TARGETS = [
+      { id:'A', name:"쭝꽌 철도 조차장",           hex:"1726", profile:"C", ammo:"폭탄/CBU" },
+      { id:'B', name:"득노이 저장구역",             hex:"1728", profile:"C", ammo:"LGB" },
+      { id:'C', name:"하노이 화력발전소",           hex:"1929", profile:"B", ammo:"LGB" },
+      { id:'D', name:"하노이 철도 조차장 및 정비소", hex:"2028", profile:"C", ammo:"LGB" },
+      { id:'E', name:"하노이 국제 라디오 수신 시설", hex:"2029", profile:"A", ammo:"폭탄/CBU" },
+      { id:'F', name:"지압니 철도 조차장",           hex:"2228", profile:"C", ammo:"폭탄/CBU" },
+    ];
+    const sgCycle = { A:'A', B:'B', C:'C', D:'A', E:'B', F:'C' };
+
+    let html = renderDivider('사전 공격대 (Pre-Raid) — 맵 어디에든 배치 가능');
     const preJam = [sq(2,"EB-66E",1,"Jamming","재밍")];
     const preChaff = [sq(2,"F-4D",4,"Chaff Laying","채프"), sq(2,"F-4E",4,"CAP","—")];
     html += renderMission('사전','재밍 임무',preJam); addSquadsToOob('사전','재밍',preJam);
     html += renderMission('사전','채프 임무',preChaff); addSquadsToOob('사전','채프',preChaff);
 
-    html += renderDivider('주요 공격대 (Main Raid)');
-    const sA = [sq(6,"A-7D",4,"Bombing","폭탄"), sq(1,"F-4D",4,"Bombing","폭탄")];
-    const sB = [sq(1,"F-4D",4,"Bombing","폭탄")];
-    const sC = [sq(1,"F-4D",4,"Bombing","폭탄")];
-    const sD = [sq(1,"F-4D",4,"Bombing","폭탄")];
-    const sE = [sq(4,"F-4D",4,"Strike/CAP","폭탄")];
-    const sF = [sq(3,"F-4D",4,"Strike/CAP","폭탄")];
-    const ih = [sq(2,"F-105G WW",2,"SEAD","ARM"), sq(2,"F-4E",2,"SEAD","폭탄/CBU")];
-    const mc = [sq(4,"F-4E",4,"CAP","—"), sq(4,"F-4D",4,"CAP","—")];
-    html += renderMission('주요','공격 임무 A',sA); addSquadsToOob('주요','공격A',sA);
-    html += renderMission('주요','공격 임무 B',sB); addSquadsToOob('주요','공격B',sB);
-    html += renderMission('주요','공격 임무 C',sC); addSquadsToOob('주요','공격C',sC);
-    html += renderMission('주요','공격 임무 D',sD); addSquadsToOob('주요','공격D',sD);
-    html += renderMission('주요','공격 임무 E (Strike/CAP)',sE); addSquadsToOob('주요','공격E',sE);
-    html += renderMission('주요','공격 임무 F (Strike/CAP)',sF); addSquadsToOob('주요','공격F',sF);
+    html += renderDivider('타격 A~F = 6개 미니 공격대 (각 별도 표적·비행 경로)');
+    D15_TARGETS.forEach(function(tgt) {
+      var sg = sgCycle[tgt.id];
+      var label = '타격 ' + tgt.id + ': ' + tgt.name;
+      var tgtNote = tgt.hex + ' ' + tgt.profile;
+      var isLGB = tgt.ammo === 'LGB';
+      var sqs;
+      if (tgt.id === 'A') {
+        sqs = [sq(6,"A-7D",4,"Bombing",tgt.ammo,tgtNote,sg,label), sq(1,"F-4D",4,"Bombing",tgt.ammo,tgtNote + ' 선도기(무선항법)',sg,label)];
+      } else if (tgt.id === 'E') {
+        sqs = [sq(4,"F-4D",4,"Strike/CAP",tgt.ammo,tgtNote + ' 선도기 가능',sg,label)];
+      } else if (tgt.id === 'F') {
+        sqs = [sq(3,"F-4D",4,"Strike/CAP",tgt.ammo,tgtNote + ' 선도기 가능',sg,label)];
+      } else {
+        sqs = [sq(1,"F-4D",4,"Bombing",tgt.ammo,tgtNote,sg,label)];
+      }
+      html += renderMission('주요','타격 임무 ' + tgt.id + ' — ' + tgt.name + ' (' + tgt.hex + ', ' + tgt.profile + ')', sqs,
+        tgt.ammo + (isLGB ? '' : ' · F-4D 1개 선도기=무선 항법 가능'));
+      addSquadsToOob('주요','공격' + tgt.id, sqs);
+    });
+
+    html += renderDivider('호위 전력');
+    const ih = [sq(2,"F-105G WW",2,"SEAD","ARM"), sq(2,"F-4E",2,"SEAD","CBU")];
+    const mc = [sq(4,"F-4E",4,"CAP","—"), sq(4,"F-4D",4,"CAP","—","IFF[11.54]")];
     html += renderMission('주요','아이언 핸드 임무',ih); addSquadsToOob('주요','아이언핸드',ih);
     html += renderMission('주요','MiGCAP 임무',mc); addSquadsToOob('주요','MiGCAP',mc);
 
     html += renderDivider('사후 공격대 (Post-Raid)');
     html += renderNote("사후 부대 없음");
-    html += renderAmmo(["A-7D / F-4D: 폭탄", "F-105G WW: ARM", "F-4E: 폭탄 또는 CBU"]);
+    html += renderAmmo([
+      "타격 B·C·D: LGB",
+      "타격 A·E·F: 폭탄/CBU (F-4D 1개 선도기=무선 항법 폭격 가능)",
+      "A-7D: 폭탄/CBU",
+      "F-105G WW: ARM, F-4E SEAD: CBU",
+      "CAP F-4D: IFF[11.54]",
+    ]);
     return html;
   }
   function generateD16Fixed(addSquadsToOob) {
     renderMission._idx = 0;
-    let html = renderDivider('사전 공격대 (Pre-Raid)');
+    // ── 9개 표적 + B-52 배분 데이터 ──
+    const D16_TARGETS = [
+      { name:"타이응우옌 철도 조차장", hex:"0728", profile:"C", d3:2, d2:0, g3:2 },
+      { name:"킨노 철도 조차장",     hex:"1528", profile:"C", d3:2, d2:2, g3:2 },
+      { name:"득노이 철도 조차장",    hex:"1728", profile:"C", d3:2, d2:0, g3:2 },
+      { name:"자트엉 저장구역",       hex:"1928", profile:"D", d3:3, d2:0, g3:1 },
+      { name:"자람 철도 조차장",      hex:"2027", profile:"C", d3:2, d2:0, g3:2 },
+      { name:"지압니 철도 조차장",    hex:"2128", profile:"C", d3:2, d2:2, g3:2 },
+      { name:"반디엔 트럭 정비 창고", hex:"2228", profile:"C", d3:3, d2:0, g3:1 },
+      { name:"하이퐁 철도 측선",      hex:"2410", profile:"C", d3:2, d2:0, g3:2 },
+      { name:"하이퐁 변전소",         hex:"2411", profile:"B", d3:3, d2:0, g3:1 },
+    ];
+    // d3: B-52D{3}, d2: B-52D{2}, g3: B-52G{3} — 합계: d3=21, d2=4, g3=15 = 40비행대
+    const sgCycle = ['A','B','C'];
+
+    let html = renderDivider('사전 공격대 (Pre-Raid) — 맵 어디에든 배치 가능');
     const j1 = [sq(3,"EB-66E",1,"Jamming","재밍")];
     const j2 = [sq(4,"EA-6B",1,"Jamming","재밍")];
     html += renderMission('사전','재밍 임무 1 (USAF)',j1); addSquadsToOob('사전','재밍1',j1);
     html += renderMission('사전','재밍 임무 2 (USN)',j2); addSquadsToOob('사전','재밍2',j2);
 
-    html += renderDivider('주요 공격대 (Main Raid)');
-    const b52d1 = [sq(21,"B-52D",3,"Bombing","레이더 폭격")];
-    const b52d2 = [sq(4,"B-52D",2,"Bombing","레이더 폭격")];
-    const b52g  = [sq(15,"B-52G",3,"Bombing","레이더 폭격")];
-    const ih1 = [sq(2,"F-105G WW",2,"SEAD","ARM"), sq(2,"F-4E",2,"SEAD","폭탄/CBU")];
-    const ih2 = [sq(2,"F-105G WW",2,"SEAD","ARM"), sq(2,"F-4C WW",2,"SEAD","폭탄/CBU")];
-    const ih3 = [sq(4,"F-111A",1,"SEAD","ARM")];
-    const mc1 = [sq(4,"F-4D",4,"CAP","—")];
-    const mc2 = [sq(4,"F-4D",4,"CAP","—")];
-    html += renderMission('주요','B-52D 폭격 임무 1',b52d1); addSquadsToOob('주요','B-52D-1',b52d1);
-    html += renderMission('주요','B-52D 폭격 임무 2',b52d2); addSquadsToOob('주요','B-52D-2',b52d2);
-    html += renderMission('주요','B-52G 폭격 임무',b52g,'SSR 3 참조'); addSquadsToOob('주요','B-52G',b52g);
+    html += renderDivider('B-52 미니 공격대 ×9 (3턴 전 진입 불가 · 레이더 폭격 · 육안 식별)');
+    for (var mi = 0; mi < D16_TARGETS.length; mi++) {
+      var tgt = D16_TARGETS[mi];
+      var sg = sgCycle[mi % 3];
+      var label = '미니' + (mi+1) + ': ' + tgt.name;
+      var sqs = [];
+      if (tgt.d3 > 0) sqs.push(sq(tgt.d3,"B-52D",3,"Bombing","레이더 폭격",tgt.hex + ' ' + tgt.profile,sg,label));
+      if (tgt.d2 > 0) sqs.push(sq(tgt.d2,"B-52D",2,"Bombing","레이더 폭격",tgt.hex + ' ' + tgt.profile + ' (2기)',sg,label));
+      if (tgt.g3 > 0) sqs.push(sq(tgt.g3,"B-52G",3,"Bombing","레이더 폭격",tgt.hex + ' ' + tgt.profile,sg,label));
+      var total = tgt.d3 + tgt.d2 + tgt.g3;
+      var noteText = total + '비행대' + (tgt.d2 > 0 ? ' · B-52D 2기편성 ' + tgt.d2 + '비행대 포함' : '');
+      html += renderMission('주요','미니 공격대 ' + (mi+1) + ' — ' + tgt.name + ' (' + tgt.hex + ', ' + tgt.profile + ')', sqs, noteText);
+      addSquadsToOob('주요','미니' + (mi+1),sqs);
+    }
+
+    html += renderDivider('호위 전력 (아이언 핸드 · MiGCAP)');
+    const ih1 = [sq(2,"F-105G WW",2,"SEAD","ARM"), sq(2,"F-4E",2,"SEAD","CBU","CBU(맹목폭격 불가)")];
+    const ih2 = [sq(2,"F-105G WW",2,"SEAD","ARM"), sq(2,"F-4C WW",2,"SEAD","CBU")];
+    const ih3 = [sq(4,"F-111A",1,"SEAD","ARM","공개SAM만·전량투하·임의진입","F111","F-111 SEAD")];
+    const mc1 = [sq(4,"F-4D",4,"CAP","—","IFF[11.54]")];
+    const mc2 = [sq(4,"F-4D",4,"CAP","—","IFF[11.54]")];
     html += renderMission('주요','아이언 핸드 임무 1',ih1); addSquadsToOob('주요','IH1',ih1);
     html += renderMission('주요','아이언 핸드 임무 2',ih2); addSquadsToOob('주요','IH2',ih2);
     html += renderMission('주요','아이언 핸드 임무 3 (F-111)',ih3); addSquadsToOob('주요','IH3',ih3);
@@ -5649,7 +6108,14 @@ document.addEventListener('DOMContentLoaded', () => {
 
     html += renderDivider('사후 공격대 (Post-Raid)');
     html += renderNote("사후 부대 없음");
-    html += renderAmmo(["B-52D/G: 레이더 폭격", "F-111A: ARM (SEAD)", "F-105G WW / F-4C WW: ARM", "F-4E: 폭탄 또는 CBU"]);
+    html += renderAmmo([
+      "B-52D/G: 레이더 폭격 (9개 미니 공격대, 3턴 전 진입 불가, 육안 식별·비상 투하 면제)",
+      "F-111A: ARM SEAD (공개 SAM만, 전량 투하, 화살표 5헥스 임의 진입)",
+      "F-4D CAP: IFF[11.54], F-4E: CBU (맹목 폭격 불가)",
+      "F-105G WW / F-4C WW: ARM",
+      "채프 통로 6개 사전 설치 (16헥스, 시나리오 종료까지)",
+      "비컨 재밍 +1, SAM 표적 획득 -2",
+    ]);
     return html;
   }
   // ── D5 표적 데이터 ──
@@ -5681,6 +6147,72 @@ document.addEventListener('DOMContentLoaded', () => {
       '13dec_usn':  [{ name:"Yen Vien 철도 차량기지", hex:"1826", profile:"C" }, { name:"Xuan Mai 교량 (1개 경간)", hex:"2333", profile:"B" }],
       '14dec_usaf': [{ name:"Yen Vien 철도 차량기지", hex:"1826", profile:"C" }],
       '14dec_usn':  [{ name:"Van Dien 보급창", hex:"2228", profile:"C" }],
+    },
+    D7: {
+      _d10targets: true,
+      usaf: { useRoll: '_d7Roll', options: [
+        [1,1,"랑당 철도 조차장","0615","C"],
+        [3,3,"옌비엔 철도 조차장","1826","A"],
+        [4,5,"폴 두머 교량 (6개 경간)","1928","A"],
+        [7,7,"하노이 철도 조차장 및 정비소","2028","C"],
+      ]},
+      usn: { useRoll: '_d7Roll', options: [
+        [1,1,"랑당 철도 조차장","0615","C"],
+        [2,2,"답까우 철도·도로 교량 (1개 경간)","1523","B"],
+        [3,3,"옌비엔 철도 조차장","1826","A"],
+        [6,6,"짭케 도로 교량 (1개 경간)","2008","B"],
+        [8,8,"하이즈엉 철도 교량 (1개 경간)","2217","A"],
+        [9,9,"하이퐁 철도 조차장","2410","C"],
+        [10,10,"하이퐁 교량 (1개 경간)","2411","A"],
+      ]},
+    },
+    D8: {
+      _d10targets: true,
+      usaf: { useRoll: '_d8Roll', options: [
+        [1,1,"타이응우옌 철도 조차장","0728","C"],
+        [2,3,"푹옌 비행장 활주로","1529","B",{name:"푹옌 관제탑",hex:"1529",profile:"C"},{name:"푹옌 항공기 방호 격납고",hex:"1529",profile:"B"}],
+        [4,4,"카날 데 라피드 교량 (2개 경간)","1927","A"],
+        [5,5,"폴 두머 교량 (6개 경간)","1928","A"],
+        [6,6,"폴 두머 우회 도선장","1928","C"],
+      ]},
+      usn: { useRoll: '_d8Roll', options: [
+        [2,3,"푹옌 비행장 활주로","1529","B",{name:"푹옌 관제탑",hex:"1529",profile:"C"},{name:"푹옌 항공기 방호 격납고",hex:"1529",profile:"B"}],
+        [4,4,"카날 데 라피드 교량 (2개 경간)","1927","A"],
+        [5,5,"폴 두머 교량 (6개 경간)","1928","A"],
+        [6,6,"폴 두머 우회 도선장","1928","C"],
+        [7,7,"하이즈엉 교량 (1개 경간)","2117","A"],
+        [8,8,"하이즈엉 철도 교량 (1개 경간)","2217","A"],
+        [9,9,"하이퐁 조선 시설","2410","C"],
+        [10,10,"깟비 비행장 활주로","2510","B",{name:"깟비 관제탑",hex:"2510",profile:"C"},{name:"깟비 항공기 방호 격납고",hex:"2510",profile:"B"}],
+      ]},
+    },
+    D9: {
+      _d10targets: true,
+      _noRaid: true,
+      usaf: { useRoll: '_d9Roll', options: [
+        [1,4,"푹옌 비행장 활주로","1529","B"],
+        [5,6,"투이프엉 바지선 건조장","1829","C"],
+        [7,10,"호아락 비행장 활주로","2035","B"],
+      ]},
+    },
+    D13: {
+      _d10targets: true,
+      usaf: { useRoll: '_d13Roll', options: [
+        [1,2,"타이응우옌 제철소","0628","B"],
+        [3,3,"비엣찌 철도 교량 (1개 경간)","1337","A"],
+        [4,4,"박장 교량 (1개 경간)","1421","A"],
+        [5,5,"푹옌 비행장 활주로","1529","B",{name:"푹옌 관제탑",hex:"1529",profile:"C"},{name:"푹옌 항공기 방호 격납고",hex:"1529",profile:"B"}],
+        [6,6,"카날 데 라피드 우회로 (2개 경간)","1927","B"],
+        [8,8,"박마이 방공 지휘 본부","2129","A"],
+      ]},
+      usn: { useRoll: '_d13Roll', options: [
+        [4,4,"박장 교량 (1개 경간)","1421","A"],
+        [6,6,"카날 데 라피드 우회로 (2개 경간)","1927","B"],
+        [7,7,"즈엉남 POL 저장시설","1928","D"],
+        [8,8,"박마이 방공 지휘 본부","2129","A"],
+        [9,9,"하이퐁 철도·도로 교량 (1개 경간)","2411","A"],
+        [10,10,"푸리 철도 교량 (1개 경간)","3326","B",{name:"푸리 도로 교량 (1개 경간)",hex:"3326",profile:"B"},{name:"푸리 트럭 주차장",hex:"3326",profile:"C"}],
+      ]},
     }
   };
   function resolveScenarioTargets(scen, raidId) {
@@ -5694,8 +6226,13 @@ document.addEventListener('DOMContentLoaded', () => {
     const subRoll = entry.useRoll ? (window[entry.useRoll] || d10()) : d10();
     for (const opt of opts) {
       if (subRoll >= opt[0] && subRoll <= opt[1]) {
+        const targets = [{ name: opt[2], hex: opt[3], profile: opt[4] }];
+        // 추가 표적: 인덱스 5 이후 {name, hex, profile} 객체
+        for (let i = 5; i < opt.length; i++) {
+          if (opt[i] && typeof opt[i] === 'object') targets.push(opt[i]);
+        }
         return {
-          targets: [{ name: opt[2], hex: opt[3], profile: opt[4] }],
+          targets,
           diceInfo: '표적 결정 주사위: ' + subRoll + ' (' + opt[0] + '-' + opt[1] + ')'
         };
       }
@@ -5732,7 +6269,8 @@ document.addEventListener('DOMContentLoaded', () => {
             for (let i = 0; i < s.count; i++) {
                 oobForAdc.push({
                     phase: phaseMap[phase] || 'main', mission: missionName, task: s.task,
-                    aircraft: s.aircraft, size: s.size
+                    aircraft: s.aircraft, size: s.size, note: (s.diceInfo && !/^\d+\s*\[.*→/.test(s.diceInfo)) ? s.diceInfo : '',
+                    subGroup: s.subGroup || '', subGroupLabel: s.subGroupLabel || ''
                 });
             }
         });
@@ -5758,6 +6296,91 @@ document.addEventListener('DOMContentLoaded', () => {
       table = document.getElementById('table-select').value;
     }
 
+    // D7: d10 굴려 표적 결정 → 표적에 따라 편제(표 A/B) 및 변형 자동 결정
+    if (scen === 'D7') {
+      delete window._d7Roll;
+      const roll = d10(); window._d7Roll = roll;
+      // 표적별 편제 결정: 1,3=선택가능, 2,6,8,9,10=USN, 4-5,7=USAF
+      const usnOnly = [2, 6, 8, 9, 10];
+      const usafOnly = [4, 5, 7];
+      let forceType = raidId; // 사용자 선택 우선
+      if (usnOnly.includes(roll)) forceType = 'usn';
+      else if (usafOnly.includes(roll)) forceType = 'usaf';
+      else if (!forceType) forceType = 'usaf'; // 선택가능 표적에서 기본값
+      // 표/항모/변형 갱신
+      if (forceType === 'usn') {
+        document.getElementById('table-select').value = 'B';
+        table = 'B';
+        const csel = document.getElementById('carrier-select');
+        if (csel && (csel.value !== 'W' && csel.value !== 'Z')) csel.value = 'W';
+      } else {
+        document.getElementById('table-select').value = 'A';
+        table = 'A';
+      }
+      // 폴 두머 교량(4-5): 대규모 공격대
+      if (roll >= 4 && roll <= 5) {
+        variants.major = true;
+        const majEl = document.getElementById('var-major');
+        if (majEl) majEl.checked = true;
+      }
+    }
+
+    // D8: d10 굴려 표적 결정 → 표적에 따라 편제(표 A/B) 자동 결정
+    if (scen === 'D8') {
+      delete window._d8Roll;
+      const roll = d10(); window._d8Roll = roll;
+      // 표적별 편제: 1=USAF, 2-6=선택가능, 7-10=USN
+      const usnOnly = [7, 8, 9, 10];
+      const usafOnly = [1];
+      let forceType = raidId;
+      if (usnOnly.includes(roll)) forceType = 'usn';
+      else if (usafOnly.includes(roll)) forceType = 'usaf';
+      else if (!forceType) forceType = 'usaf';
+      if (forceType === 'usn') {
+        document.getElementById('table-select').value = 'B';
+        table = 'B';
+        const csel = document.getElementById('carrier-select');
+        if (csel && (csel.value !== 'X' && csel.value !== 'Z')) csel.value = 'X';
+      } else {
+        document.getElementById('table-select').value = 'A';
+        table = 'A';
+      }
+    }
+
+    // D9: d10 굴려 표적 결정 (USAF 전용, 코만도 클럽)
+    if (scen === 'D9') {
+      delete window._d9Roll;
+      const roll = d10(); window._d9Roll = roll;
+    }
+
+    // D13: d10 굴려 표적 결정 → 표적에 따라 편제(표 D/B) 자동 결정
+    if (scen === 'D13') {
+      delete window._d13Roll;
+      const roll = d10(); window._d13Roll = roll;
+      // 1-3,5=USAF, 4,6,8=선택가능, 7,9,10=USN
+      const usnOnly = [7, 9, 10];
+      const usafOnly = [1, 2, 3, 5];
+      let forceType = raidId;
+      if (usnOnly.includes(roll)) forceType = 'usn';
+      else if (usafOnly.includes(roll)) forceType = 'usaf';
+      else if (!forceType) forceType = 'usaf';
+      if (forceType === 'usn') {
+        document.getElementById('table-select').value = 'B';
+        table = 'B';
+        const csel = document.getElementById('carrier-select');
+        if (csel && (csel.value !== 'ggg' && csel.value !== 'iii')) csel.value = 'ggg';
+      } else {
+        document.getElementById('table-select').value = 'D';
+        table = 'D';
+        // 타이응우옌(1-2): 재래식 타격 변형
+        if (roll >= 1 && roll <= 2) {
+          variants.conventional = true;
+          const convEl = document.getElementById('var-conventional');
+          if (convEl) convEl.checked = true;
+        }
+      }
+    }
+
     // applyScenarioSettings가 이미 autoSet을 호출했으므로 저장된 결과 재사용
     const ssrSettings = ssrData ? ssrData.autoSet(raidId || null) : null;
 
@@ -5772,36 +6395,57 @@ document.addEventListener('DOMContentLoaded', () => {
         <div class="result-timestamp">${year}년 ${month}월 · ${tableLabels[table]}${scenLabel}</div>
       </div>`;
     const isFixed = ssrSettings && ssrSettings.variants &&
-      (ssrSettings.variants.d2fixed ||
+      (ssrSettings.variants.d2fixed || ssrSettings.variants.d6fixed ||
        ssrSettings.variants.d11fixed || ssrSettings.variants.d14fixed ||
        ssrSettings.variants.d15fixed || ssrSettings.variants.d16fixed);
 
     if (isFixed) {
       const v = ssrSettings.variants;
       if (v.d2fixed)  content = generateD2Fixed(addSquadsToOob);
+      else if (v.d6fixed) content = generateD6Fixed(v.d6cap, addSquadsToOob);
       else if (v.d11fixed) content = generateD11Fixed(addSquadsToOob);
       else if (v.d14fixed) content = generateD14Fixed(addSquadsToOob);
       else if (v.d15fixed) content = generateD15Fixed(addSquadsToOob);
       else if (v.d16fixed) content = generateD16Fixed(addSquadsToOob);
-      else if (v.b52) content = generateD10B52(dc, addSquadsToOob);
-      else if (v.mine) content = generateD10Mine(dc, addSquadsToOob);
+    } else if (scen === 'D11' && variants.d11usn3) {
+      // D11 USN: 3항모 동시 편제 생성 (해병대 재밍 미지원, 재래식 폭탄)
+      const d11Carriers = ['ddd','eee','ggg'];
+      const d11Names = { ddd:'Constellation', eee:'Coral Sea', ggg:'Kitty Hawk' };
+      const d11Delays = ['사전 전력 동시 진입', '1차+10턴 뒤 진입', '2차+10턴 뒤 진입'];
+      const d11SgKeys = ['carrier1','carrier2','carrier3'];
+      d11Carriers.forEach((cid, idx) => {
+        const cName = d11Names[cid];
+        const sgKey = d11SgKeys[idx];
+        const sgLabel = cName + '(' + cid + ')';
+        content += renderDivider(`공격대 ${idx+1} — ${cName} (${cid}) · ${d11Delays[idx]}`);
+        const mark = oobForAdc.length;
+        document.getElementById('carrier-select').value = cid;
+        content += generateB(dc, { ...variants, d11usn3: false, noMarineJam: true, conventional: true }, addSquadsToOob);
+        for (let i = mark; i < oobForAdc.length; i++) {
+          oobForAdc[i].raidNote = `USN(${cName})`;
+          oobForAdc[i].forceOobType = 'B';
+          oobForAdc[i].subGroup = sgKey;
+          oobForAdc[i].subGroupLabel = sgLabel;
+        }
+      });
+      content += renderNote("USN: 모든 비행대 재래식 폭탄 사용. 해병대 재밍 미지원. 각 공격대별 별도 표적·비행 경로.");
     } else if (scen === 'D5' && raidId === '24apr') {
       // D5 24 Apr: 3개 공격대 협동 공격
       content += renderDivider('공격대 1 — USAF 팬텀 공격대 (Hoa Lac)');
       content += generateA(dc, { ...variants, phantom: true, joint: true }, addSquadsToOob);
-      oobForAdc.forEach(s => { if (!s.raidNote) { s.raidNote = 'USAF(Hoa Lac)'; s.forceOobType = 'A'; } });
+      oobForAdc.forEach(s => { if (!s.raidNote) { s.raidNote = 'USAF(Hoa Lac)'; s.forceOobType = 'A'; s.subGroup = 'carrier1'; s.subGroupLabel = 'USAF(Hoa Lac)'; } });
 
       content += renderDivider('공격대 2 — USN 1차 (Kitty Hawk S → Kep)');
       const oobMark2 = oobForAdc.length;
       document.getElementById('carrier-select').value = 'S';
       content += generateB(dc, variants, addSquadsToOob);
-      for (let i = oobMark2; i < oobForAdc.length; i++) { oobForAdc[i].raidNote = 'USN(Kep)'; oobForAdc[i].forceOobType = 'B'; }
+      for (let i = oobMark2; i < oobForAdc.length; i++) { oobForAdc[i].raidNote = 'USN(Kep)'; oobForAdc[i].forceOobType = 'B'; oobForAdc[i].subGroup = 'carrier2'; oobForAdc[i].subGroupLabel = 'USN(Kep)'; }
 
       content += renderDivider('공격대 3 — USN 2차 (Bon Homme Richard V → Hon Gai)');
       const oobMark3 = oobForAdc.length;
       document.getElementById('carrier-select').value = 'V';
       content += generateB(dc, variants, addSquadsToOob);
-      for (let i = oobMark3; i < oobForAdc.length; i++) { oobForAdc[i].raidNote = 'USN(Hon Gai)'; oobForAdc[i].forceOobType = 'B'; }
+      for (let i = oobMark3; i < oobForAdc.length; i++) { oobForAdc[i].raidNote = 'USN(Hon Gai)'; oobForAdc[i].forceOobType = 'B'; oobForAdc[i].subGroup = 'carrier3'; oobForAdc[i].subGroupLabel = 'USN(Hon Gai)'; }
     } else if (variants.d4_dual_carrier && variants.d4_carrier2) {
       // D4 연합 항모 공격: 2개 항모 편제 동시 생성
       const carrier1Id = document.getElementById('carrier-select').value;
@@ -5813,13 +6457,13 @@ document.addEventListener('DOMContentLoaded', () => {
       content += renderDivider('항모 1 — ' + c1Name + ' (' + carrier1Id + ')');
       content += generateB(dc, variants, addSquadsToOob);
       const mark1End = oobForAdc.length;
-      oobForAdc.forEach((s, i) => { if (!s.raidNote) { s.raidNote = c1Name + '(' + carrier1Id + ')'; s.forceOobType = 'B'; } });
+      oobForAdc.forEach((s, i) => { if (!s.raidNote) { s.raidNote = c1Name + '(' + carrier1Id + ')'; s.forceOobType = 'B'; s.subGroup = 'carrier1'; s.subGroupLabel = c1Name + '(' + carrier1Id + ')'; } });
 
       content += renderDivider('항모 2 — ' + c2Name + ' (' + variants.d4_carrier2 + ')');
       const oobMark2 = oobForAdc.length;
       document.getElementById('carrier-select').value = variants.d4_carrier2;
       content += generateB(dc, variants, addSquadsToOob);
-      for (let i = oobMark2; i < oobForAdc.length; i++) { oobForAdc[i].raidNote = c2Name + '(' + variants.d4_carrier2 + ')'; oobForAdc[i].forceOobType = 'B'; }
+      for (let i = oobMark2; i < oobForAdc.length; i++) { oobForAdc[i].raidNote = c2Name + '(' + variants.d4_carrier2 + ')'; oobForAdc[i].forceOobType = 'B'; oobForAdc[i].subGroup = 'carrier2'; oobForAdc[i].subGroupLabel = c2Name + '(' + variants.d4_carrier2 + ')'; }
     } else if (table === 'A') content = generateA(dc, variants, addSquadsToOob);
     else if (table === 'B') content = generateB(dc, variants, addSquadsToOob);
     else if (table.startsWith('C')) content = generateC(table, dc, addSquadsToOob);
@@ -5845,7 +6489,7 @@ document.addEventListener('DOMContentLoaded', () => {
       });
       const ruleLines = filteredRules.map(r => `• ${typeof r === 'string' ? r : r.text}`).join('<br>');
       const hasStrikeCap = ['D4','D5','D7','D8','D9'].includes(scen);
-      const strikeCapNote = (hasStrikeCap && table === 'A')
+      const strikeCapNote = (hasStrikeCap && (table === 'A' || table.startsWith('C')))
         ? `<br><br><strong>★ 공격 임무 F-105 처리:</strong><br>` +
           `• 공격 임무 F-105D 비행대 중 <strong>1개</strong>에만 AIM-9B 탑재 → 태스크를 <strong>Strike/CAP</strong>으로 변경<br>` +
           `• 나머지 F-105D 비행대: IRM 탑재 불가` : '';
@@ -5856,6 +6500,13 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     document.getElementById('results').innerHTML = headerHtml + ssrNoteHtml + content;
+
+    // D5 29 Apr: F-105F WW 폭탄 강도 3 → 비행대 폭탄 수치 = 3 × 기체 수
+    if (variants.bombStrength3) {
+      oobForAdc.forEach(function(sd) {
+        if (sd.aircraft === 'F-105F WW') sd.bombOverride = 3;
+      });
+    }
 
     let day = null;
     if (ssrData && ssrData.raids && raidId) {
@@ -5879,8 +6530,10 @@ document.addEventListener('DOMContentLoaded', () => {
       date: dateString
     };
     // 시나리오 표적 자동 결정
-    if (scen && raidId) {
-      const targetResult = resolveScenarioTargets(scen, raidId);
+    const effectiveRaidId = (scen === 'D7' || scen === 'D8' || scen === 'D13') ? (table === 'B' ? 'usn' : 'usaf')
+      : (scen === 'D9') ? 'usaf' : raidId;
+    if (scen && effectiveRaidId) {
+      const targetResult = resolveScenarioTargets(scen, effectiveRaidId);
       if (targetResult) {
         dataForAdc.targets = targetResult.targets;
         dataForAdc.targetDiceInfo = targetResult.diceInfo;
@@ -5893,6 +6546,127 @@ document.addEventListener('DOMContentLoaded', () => {
           `<strong style="color:var(--green)">🎯 표적</strong><br>${targetsHtml}${diceNote}`
         );
       }
+    }
+    // D10: 표적 목록 표시
+    if (scen === 'D10') {
+      var d10tgts = [
+        {name:"응우옌케 POL 저장시설",hex:"1628",profile:"D",org:"USAF"},
+        {name:"자트엉 저장구역",hex:"1928",profile:"C",org:""},
+        {name:"득노이 저장구역",hex:"1728",profile:"C",org:""},
+        {name:"끼엔안 탄약 창고",hex:"2612",profile:"D",org:"USN"},
+        {name:"끼엔안 비행장 활주로",hex:"2612",profile:"B",org:""},
+        {name:"도선 POL 저장시설",hex:"2809",profile:"D",org:""},
+        {name:"끼엔안 POL 저장시설",hex:"2612",profile:"D",org:"USN (B-52)"},
+        {name:"하이퐁 POL 저장시설",hex:"2411",profile:"D",org:""},
+        {name:"하이퐁 항구 (기뢰지대)",hex:"2708·2608·2509",profile:"—",org:"USN (기뢰 부설)"},
+        {name:"박마이 저장시설",hex:"2129",profile:"C",org:"USN"},
+        {name:"반디엔 차량 저장시설",hex:"2327",profile:"C",org:""},
+        {name:"자람 POL 저장시설",hex:"1928",profile:"D",org:"USAF, USN"},
+        {name:"하노이 POL 저장시설",hex:"2129",profile:"D",org:"(B-52)"},
+        {name:"퀸로이 SAM 저장시설",hex:"2128",profile:"D",org:""},
+        {name:"호아락 비행장 활주로",hex:"2035",profile:"B",org:"USAF"},
+        {name:"선떠이 막사 및 창고",hex:"1735",profile:"D",org:""},
+        {name:"껩 비행장 활주로",hex:"1120",profile:"B",org:"USAF, USN"},
+        {name:"박장 POL 저장시설",hex:"1421",profile:"D",org:""},
+        {name:"푹옌 POL 저장시설",hex:"1529",profile:"D",org:"USAF"},
+        {name:"비엣찌 POL 저장시설",hex:"1337",profile:"D",org:""},
+        {name:"SAM 기지 ×3",hex:"DRV 배치 후 지정",profile:"?",org:"USAF, USN"},
+        {name:"짜이까 SAM 저장시설",hex:"0626",profile:"D",org:"USAF (B-52)"},
+        {name:"타이응우옌 보급 창고",hex:"0728",profile:"D",org:""},
+      ];
+      var d10Html = d10tgts.map(function(t){
+        return '<strong>' + t.name + '</strong> (' + t.hex + ', ' + t.profile + ')' + (t.org ? ' — ' + t.org : '');
+      }).join('<br>');
+      document.getElementById('results').innerHTML += renderNote(
+        '<strong style="color:var(--green)">🎯 표적 목록 (공격대별 표적 선택)</strong><br>' + d10Html
+      );
+    }
+    // D11: 표적 목록 표시 (USAF 2헥스 / USN 3헥스 선택)
+    if (scen === 'D11') {
+      var d11tgts = [
+        {name:"푹옌 비행장 활주로",hex:"1529",profile:"B",org:"USAF"},
+        {name:"푹옌 관제탑",hex:"1529",profile:"C",org:"USAF"},
+        {name:"푹옌 항공기 방호 격납고",hex:"1529",profile:"B",org:"USAF"},
+        {name:"호아락 비행장 활주로",hex:"2035",profile:"B",org:"USAF"},
+        {name:"호아락 관제탑",hex:"2035",profile:"C",org:"USAF"},
+        {name:"호아락 항공기 방호 격납고",hex:"2035",profile:"B",org:"USAF"},
+        {name:"박마이 방공 센터",hex:"2129",profile:"A",org:"USAF"},
+        {name:"폴 두머 교량 (6개 경간)",hex:"1928",profile:"A",org:"USAF"},
+        {name:"카날 데 라피드 교량 (2개 경간)",hex:"1927",profile:"A",org:"USAF"},
+        {name:"박장 교량 (1개 경간)",hex:"1421",profile:"A",org:"USAF/USN"},
+        {name:"박장 철도 조차장",hex:"1421",profile:"C",org:"USAF/USN"},
+        {name:"하노이 철도 조차장",hex:"2028",profile:"C",org:"USAF"},
+        {name:"옌비엔 철도 조차장",hex:"1826",profile:"C",org:"USAF"},
+        {name:"끼엔안 비행장 활주로",hex:"2612",profile:"B",org:"USN"},
+        {name:"끼엔안 관제탑",hex:"2612",profile:"C",org:"USN"},
+        {name:"끼엔안 항공기 방호 격납고",hex:"2612",profile:"B",org:"USN"},
+        {name:"하이퐁 철도 교량 (1개 경간)",hex:"2411",profile:"A",org:"USN"},
+        {name:"하이즈엉 교량 A (1개 경간)",hex:"2217",profile:"A",org:"USN"},
+        {name:"하이즈엉 교량 B (1개 경간)",hex:"2117",profile:"A",org:"USN"},
+        {name:"혼가이 항구",hex:"2202",profile:"C",org:"USN"},
+      ];
+      var d11Html = d11tgts.map(function(t){
+        return '<strong>' + t.name + '</strong> (' + t.hex + ', ' + t.profile + ') — ' + t.org;
+      }).join('<br>');
+      document.getElementById('results').innerHTML += renderNote(
+        '<strong style="color:var(--green)">🎯 표적 목록 (USAF: 표적 2개 선택 / USN: 표적 3개 선택)</strong><br>' + d11Html
+      );
+    }
+    // D14: 고정 표적 8개 자동 설정
+    if (scen === 'D14') {
+      dataForAdc.targets = [
+        {name:"껩 비행장 활주로",hex:"1120",profile:"B"},
+        {name:"푹옌 비행장 활주로",hex:"1529",profile:"B"},
+        {name:"킨노 저장구역 1",hex:"1628",profile:"C"},
+        {name:"킨노 저장구역 2",hex:"1628",profile:"C"},
+        {name:"킨노 저장구역 3",hex:"1628",profile:"C"},
+        {name:"옌비엔 동부 철도 조차장",hex:"1826",profile:"C"},
+        {name:"옌비엔 서부 철도 조차장",hex:"1826",profile:"C"},
+        {name:"호아락 비행장 활주로",hex:"2035",profile:"B"},
+      ];
+      var t14Html = dataForAdc.targets.map(function(t){
+        return '<strong>' + t.name + '</strong> (' + t.hex + ', 프로필 ' + t.profile + ')';
+      }).join('<br>');
+      document.getElementById('results').innerHTML += renderNote(
+        '<strong style="color:var(--green)">🎯 표적 (8개 고정 · F-111 1:1 + B-52 5헥스)</strong><br>' + t14Html
+      );
+    }
+    // D15: 고정 표적 6개 자동 설정
+    if (scen === 'D15') {
+      dataForAdc.targets = [
+        {name:"쭝꽌 철도 조차장",hex:"1726",profile:"C"},
+        {name:"득노이 저장구역",hex:"1728",profile:"C"},
+        {name:"하노이 화력발전소",hex:"1929",profile:"B"},
+        {name:"하노이 철도 조차장 및 정비소",hex:"2028",profile:"C"},
+        {name:"하노이 국제 라디오 수신 시설",hex:"2029",profile:"A"},
+        {name:"지압니 철도 조차장",hex:"2228",profile:"C"},
+      ];
+      const targetsHtml = dataForAdc.targets.map(t =>
+        '<strong>' + t.name + '</strong> (' + t.hex + ', 프로필 ' + t.profile + ')'
+      ).join('<br>');
+      document.getElementById('results').innerHTML += renderNote(
+        '<strong style="color:var(--green)">🎯 표적 (6개 고정 · 타격 A~F 1:1 배정)</strong><br>' + targetsHtml
+      );
+    }
+    // D16: 고정 표적 9개 자동 설정
+    if (scen === 'D16') {
+      dataForAdc.targets = [
+        {name:"타이응우옌 철도 조차장",hex:"0728",profile:"C"},
+        {name:"킨노 철도 조차장",hex:"1528",profile:"C"},
+        {name:"득노이 철도 조차장",hex:"1728",profile:"C"},
+        {name:"자트엉 저장구역",hex:"1928",profile:"D"},
+        {name:"자람 철도 조차장",hex:"2027",profile:"C"},
+        {name:"지압니 철도 조차장",hex:"2128",profile:"C"},
+        {name:"반디엔 트럭 정비 창고",hex:"2228",profile:"C"},
+        {name:"하이퐁 철도 측선",hex:"2410",profile:"C"},
+        {name:"하이퐁 변전소",hex:"2411",profile:"B"},
+      ];
+      const targetsHtml = dataForAdc.targets.map(t =>
+        `<strong>${t.name}</strong> (${t.hex}, 프로필 ${t.profile})`
+      ).join('<br>');
+      document.getElementById('results').innerHTML += renderNote(
+        `<strong style="color:var(--green)">🎯 표적 (9개 고정)</strong><br>${targetsHtml}`
+      );
     }
     localStorage.setItem('oobToAdcData', JSON.stringify(dataForAdc));
     document.getElementById('send-to-adc-btn').style.display = 'block';
@@ -6569,6 +7343,10 @@ document.addEventListener('DOMContentLoaded', () => {
     return null;
   }
 
+  // BVR 무기 목록
+  var BVR_WEAPONS = ['AIM-7E', 'AIM-7E-2', 'AIM-54'];
+  function isBvrWeapon(name) { return BVR_WEAPONS.indexOf(name) !== -1; }
+
   // 무기 셀에 드롭다운(보유/고갈/미탑재) 생성
   // 듀얼 모드 판별: AIM-54 + 다른 RHM이 공존하면 듀얼
   function isDualWeaponCell(weapons) {
@@ -6594,20 +7372,24 @@ document.addEventListener('DOMContentLoaded', () => {
       var wrap = document.createElement('div');
       wrap.style.cssText = 'display:flex;flex-direction:column;gap:2px';
       weapons.forEach(function(w, idx){
-        var sel = createIndividualSelect(w);
+        var el = createIndividualSelect(w);
+        // createIndividualSelect returns wrapper div for BVR weapons, select otherwise
+        var actualSel = el.tagName === 'SELECT' ? el : el.querySelector('select');
         if (isLoading && oldValues[idx] !== undefined) {
-          var found = Array.from(sel.options).some(function(o){return o.value===oldValues[idx];});
-          if (found) sel.value = oldValues[idx];
+          var found = Array.from(actualSel.options).some(function(o){return o.value===oldValues[idx];});
+          if (found) actualSel.value = oldValues[idx];
         }
-        if(sel.value==='고갈') sel.style.color='#c0392b';
-        wrap.appendChild(sel);
+        if(actualSel.value==='고갈') actualSel.style.color='#c0392b';
+        wrap.appendChild(el);
       });
       cell.appendChild(wrap);
       linkAim54Dep(wrap, weapons);
     } else {
       // ── 단일 모드: 여러 무기 중 하나만 선택 ──
+      var hasBvr = weapons.some(function(w){ return isBvrWeapon(w.name); });
       var sel = document.createElement('select');
       sel.dataset.weapons = JSON.stringify(weapons);
+      if (hasBvr) sel.dataset.bvr = '1';
       // 무기 옵션들
       weapons.forEach(function(w){
         var opt = document.createElement('option');
@@ -6643,7 +7425,18 @@ document.addEventListener('DOMContentLoaded', () => {
       // weaponName 초기값
       var initW = weapons.find(function(w){return w.name===sel.value;});
       if (initW) sel.dataset.weaponName = initW.name;
-      cell.appendChild(sel);
+      if (hasBvr) {
+        var bvrWrap = document.createElement('div');
+        bvrWrap.className = 'weapon-bvr-wrap';
+        var bvrTag = document.createElement('span');
+        bvrTag.className = 'weapon-bvr-tag';
+        bvrTag.textContent = 'BVR';
+        bvrWrap.appendChild(bvrTag);
+        bvrWrap.appendChild(sel);
+        cell.appendChild(bvrWrap);
+      } else {
+        cell.appendChild(sel);
+      }
     }
   }
 
@@ -6670,6 +7463,7 @@ document.addEventListener('DOMContentLoaded', () => {
   function createIndividualSelect(w) {
     var sel = document.createElement('select');
     sel.dataset.weaponName = w.name;
+    if (isBvrWeapon(w.name)) sel.dataset.bvr = '1';
     var opt = document.createElement('option');
     opt.value = w.name;
     opt.textContent = w.name + ' [' + w.dep + ']';
@@ -6685,6 +7479,16 @@ document.addEventListener('DOMContentLoaded', () => {
       sel.style.color = (sel.value==='고갈') ? '#c0392b' : '';
       saveToLocalStorage();
     });
+    if (isBvrWeapon(w.name)) {
+      var wrap = document.createElement('div');
+      wrap.className = 'weapon-bvr-wrap';
+      var tag = document.createElement('span');
+      tag.className = 'weapon-bvr-tag';
+      tag.textContent = 'BVR';
+      wrap.appendChild(tag);
+      wrap.appendChild(sel);
+      return wrap;
+    }
     return sel;
   }
 
@@ -6766,10 +7570,13 @@ document.addEventListener('DOMContentLoaded', () => {
           createWeaponCell(weaponCells[0], wInfo.gun, isLoading);
           createWeaponCell(weaponCells[1], wInfo.irm, isLoading);
           createWeaponCell(weaponCells[2], wInfo.rhm, isLoading);
-          // 폭탄 = per-aircraft × 기체 수
+          // 폭탄 = per-aircraft × 기체 수 (bombOverride 있으면 오버라이드)
           var bombAcCount = isDrv ? 1 : getAircraftCount(row);
+          var bombOverrideVal = row.dataset.bombOverride ? parseFloat(row.dataset.bombOverride) : 0;
           var scaledBomb = wInfo.bomb;
-          if (Array.isArray(wInfo.bomb)) {
+          if (bombOverrideVal > 0) {
+            scaledBomb = String(bombOverrideVal * bombAcCount);
+          } else if (Array.isArray(wInfo.bomb)) {
             scaledBomb = wInfo.bomb.map(function(v){ return parseFloat(v)*bombAcCount; });
           } else if (wInfo.bomb && wInfo.bomb !== '-' && !isNaN(parseFloat(wInfo.bomb))) {
             scaledBomb = String(parseFloat(wInfo.bomb) * bombAcCount);
@@ -6907,6 +7714,15 @@ document.addEventListener('DOMContentLoaded', () => {
     wrap.style.cssText = 'display:flex;flex-direction:column;gap:2px;font-size:11px';
 
     var armAllowed = isArmCbuAllowed(row);
+    var taskSel = row.querySelector('td:nth-child(2) select');
+    var currentTask = taskSel ? taskSel.value : '';
+    var isCapTask = (currentTask === 'CAP' || currentTask === 'MiGCAP');
+    // CAP/MiGCAP: ordnance(공대지 무장) 전체 숨김
+    if (isCapTask) {
+      cell.style.color = 'var(--fade)';
+      cell.textContent = '—';
+      return;
+    }
     var scenDate = getScenarioDate();
     var notesAvail = parseNotesAvailability(acData.notes);
     var ordKeys = Object.keys(acData.ordnance);
@@ -6965,15 +7781,6 @@ document.addEventListener('DOMContentLoaded', () => {
           var v = parseInt(numInp.value) || 0;
           if (v < 0) v = 0; if (v > totalVal) v = totalVal;
           numInp.value = v;
-          // Standard A/B 상호 배타
-          if (name === 'Standard A' && v > 0) {
-            var other = wrap.querySelector('input[data-ord-name="Standard B"]');
-            if (other) { other.value = '0'; }
-          }
-          if (name === 'Standard B' && v > 0) {
-            var other = wrap.querySelector('input[data-ord-name="Standard A"]');
-            if (other) { other.value = '0'; }
-          }
           applyOrdnanceRules(row); saveToLocalStorage();
         });
         line.appendChild(lbl);
@@ -7035,13 +7842,52 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     cell.appendChild(wrap);
-    // Standard A/B 상호 배타 초기화: 둘 다 있으면 A만 활성화
-    if (!isLoading) {
-      var stdA = wrap.querySelector('input[data-ord-name="Standard A"]');
-      var stdB = wrap.querySelector('input[data-ord-name="Standard B"]');
-      if (stdA && stdB && parseInt(stdA.value)>0 && parseInt(stdB.value)>0) {
-        stdB.value = '0';
+    // Standard A/B 토글: 둘 다 가용이면 이름 클릭으로 전환
+    var stdALine = null, stdBLine = null;
+    wrap.querySelectorAll('div').forEach(function(line){
+      var el = line.querySelector('[data-ord-name="Standard A"]');
+      if (el) stdALine = line;
+      var el2 = line.querySelector('[data-ord-name="Standard B"]');
+      if (el2) stdBLine = line;
+    });
+    if (stdALine && stdBLine) {
+      var stdAInp = stdALine.querySelector('input[data-ord-name="Standard A"]');
+      var stdBInp = stdBLine.querySelector('input[data-ord-name="Standard B"]');
+      var stdALbl = stdALine.querySelector('span');
+      var stdBLbl = stdBLine.querySelector('span');
+      // 클릭 가능 스타일
+      [stdALbl, stdBLbl].forEach(function(lbl){
+        if (!lbl) return;
+        lbl.style.cssText += 'cursor:pointer;text-decoration:underline dotted;text-underline-offset:2px;';
+        lbl.title = '클릭하여 전환';
+      });
+      var applyStdToggle = function(chosen, silent) {
+        if (chosen === 'A') {
+          stdALine.style.display = '';
+          stdBLine.style.display = 'none';
+          stdBInp.value = '0';
+        } else {
+          stdBLine.style.display = '';
+          stdALine.style.display = 'none';
+          stdAInp.value = '0';
+        }
+        row.dataset.stdChoice = chosen;
+        if (!silent) { applyOrdnanceRules(row); saveToLocalStorage(); }
+      };
+      stdALbl.addEventListener('click', function(){ applyStdToggle('B'); });
+      stdBLbl.addEventListener('click', function(){ applyStdToggle('A'); });
+      // 초기 상태
+      if (isLoading || hasSavedState) {
+        var savedChoice = row.dataset.stdChoice;
+        if (!savedChoice) {
+          savedChoice = (parseInt(stdBInp.value) > 0 && parseInt(stdAInp.value) === 0) ? 'B' : 'A';
+        }
+        applyStdToggle(savedChoice, true);
+      } else {
+        applyStdToggle('A', true);
       }
+    }
+    if (!isLoading) {
       applyOrdnanceRules(row);
     } else {
       // 로딩 시: CBU가 체크된 경우에만 applyCbuRule 실행
@@ -7532,12 +8378,14 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   }
   function adjustSelectWidth(sel) {
+    const opt = sel.options[sel.selectedIndex];
+    if (!opt) return;
     const tmp = document.createElement('span');
     tmp.style.cssText = 'visibility:hidden;position:absolute';
     tmp.style.fontSize = getComputedStyle(sel).fontSize;
     tmp.style.fontFamily = getComputedStyle(sel).fontFamily;
     document.body.appendChild(tmp);
-    tmp.textContent = sel.options[sel.selectedIndex].text;
+    tmp.textContent = opt.text;
     sel.style.width = `${tmp.offsetWidth + 30}px`;
     document.body.removeChild(tmp);
   }
@@ -7683,6 +8531,61 @@ document.addEventListener('DOMContentLoaded', () => {
     const ph = scenarioDisplay.getAttribute('data-placeholder');
     if (text) { scenarioDisplay.textContent = text; scenarioDisplay.classList.remove('placeholder'); }
     else { scenarioDisplay.textContent = ph; scenarioDisplay.classList.add('placeholder'); }
+    // D8/D9 SSR: MiG 패닉 추가 보정 표시/숨김
+    const isD8D9 = text && /^D[89]\b/.test(text);
+    const migD8 = document.getElementById('mig-d8-mod');
+    if (migD8) {
+      migD8.style.display = isD8D9 ? '' : 'none';
+      const cb = migD8.querySelector('input[type=checkbox]');
+      if (cb) cb.checked = isD8D9;
+      if (typeof recalcMig === 'function') recalcMig();
+    }
+    // D9 SSR: SAM 재밍 절반 보정 표시/숨김
+    const isD9 = text && /^D9\b/.test(text);
+    const samD9 = document.getElementById('sr-d9-jam-half');
+    if (samD9) {
+      samD9.style.display = isD9 ? '' : 'none';
+      const cb9 = samD9.querySelector('input[type=checkbox]');
+      if (cb9) cb9.checked = isD9;
+      if (typeof recalcSR1 === 'function') recalcSR1();
+    }
+    // D9 SSR: AAA/SAM 방어 재밍 상실 경고
+    const aaD9 = document.getElementById('flak-d9-warn');
+    if (aaD9) aaD9.style.display = isD9 ? '' : 'none';
+    const srD9 = document.getElementById('sr-d9-bomb-warn');
+    if (srD9) srD9.style.display = isD9 ? '' : 'none';
+    // D10+ SSR: B-52 MiG 패닉 면제 경고
+    const isD10plus = text && /^D1[0-6]\b/.test(text);
+    const migD10 = document.getElementById('mig-d10-b52-warn');
+    if (migD10) migD10.style.display = isD10plus ? '' : 'none';
+    // D16 SSR: SAM 표적 획득 -2
+    const isD16 = text && /^D16\b/.test(text);
+    const samD16 = document.getElementById('sr-d16-sam');
+    if (samD16) {
+      samD16.style.display = isD16 ? '' : 'none';
+      const cb16 = samD16.querySelector('input[type=checkbox]');
+      if (cb16) cb16.checked = isD16;
+      if (typeof recalcSR1 === 'function') recalcSR1();
+    }
+    // D14/D16 SSR: 비컨 재밍 +2 → +1
+    const isD14D16 = text && /^D1[46]\b/.test(text);
+    // Bot SAM 방어
+    const beaconCb = document.getElementById('bSAMBeacon');
+    if (beaconCb) {
+      beaconCb.dataset.v = isD14D16 ? '1' : '2';
+      const beaconLabel = beaconCb.parentElement.querySelector('span');
+      if (beaconLabel) beaconLabel.textContent = isD14D16 ? '비콘 재밍 (+1) — D14/D16 SSR' : '비콘 재밍 (+2)';
+    }
+    // Player Aid SAM 방어
+    const sr3Beacon = document.getElementById('sr3-beacon');
+    const sr3BeaconMv = document.getElementById('sr3-beacon-mv');
+    if (sr3Beacon) {
+      sr3Beacon.dataset.v = isD14D16 ? '1' : '2';
+      if (sr3BeaconMv) sr3BeaconMv.textContent = isD14D16 ? '+1' : '+2';
+      const sr3Label = sr3Beacon.parentElement.querySelector('span:not(.mv)');
+      if (sr3Label) sr3Label.textContent = isD14D16 ? '비콘 재밍 (D14/D16 SSR)' : '비콘 재밍';
+      if (typeof recalcSR3 === 'function') recalcSR3();
+    }
   }
   function initializeTemplates() {
     Object.keys(rowTemplateHTML).forEach(id => {
@@ -7965,7 +8868,7 @@ document.addEventListener('DOMContentLoaded', () => {
           if (sdType === 'B') return isF8 ? '탑건' : '정규군';
           return '정규군';
         case 'D9':
-          if (sdType === 'A') return isSEAD ? '베테랑' : '훈련됨';
+          if (sdType === 'A' || sdType.startsWith('C')) return isSEAD ? '베테랑' : '훈련됨';
           return '정규군';
         case 'D10': case 'D11': case 'D13':
           if (sdType === 'D') return isSEAD ? '베테랑' : '정규군';
@@ -7994,9 +8897,12 @@ document.addEventListener('DOMContentLoaded', () => {
       '공격A':'타격','공격B':'타격','공격C':'타격','공격D':'타격','공격E':'타격','공격F':'타격',
       '공격 임무 A (주요A)':'타격','공격 임무 B (주요B)':'타격',
       'F-111 폭격 임무':'타격','F-111':'타격',
-      'B-52D 폭격 임무':'타격','B-52D 폭격 임무 1':'타격','B-52D 폭격 임무 2':'타격','B-52D-1':'타격','B-52D-2':'타격','B-52D':'타격',
+      'B-52D 폭격 임무':'타격','B-52D 폭격 임무 1':'타격','B-52D 폭격 임무 1 (3기)':'타격','B-52D 폭격 임무 2':'타격','B-52D 폭격 임무 2 (2기)':'타격','B-52D-1':'타격','B-52D-2':'타격','B-52D':'타격',
       'B-52G 폭격 임무':'타격','B-52G':'타격',
       'B-52 공격 임무':'타격','공격 임무 (B-52)':'타격',
+      '미니1':'타격','미니2':'타격','미니3':'타격','미니4':'타격','미니5':'타격','미니6':'타격','미니7':'타격','미니8':'타격','미니9':'타격',
+      'F-111미니1':'타격','F-111미니2':'타격','F-111미니3':'타격','F-111미니4':'타격','F-111미니5':'타격','F-111미니6':'타격','F-111미니7':'타격','F-111미니8':'타격',
+      'B-52미니1':'타격','B-52미니2':'타격','B-52미니3':'타격','B-52미니4':'타격','B-52미니5':'타격',
       '기뢰 부설 임무':'타격',
       'CAP 임무':'MiGCAP','CAP 임무 (D12 추가)':'MiGCAP',
       '공격 임무 (볼로 작전)':'MiGCAP','공격 임무 (팬텀 공격대)':'타격','공격 임무 (길잡이)':'타격',
@@ -8046,9 +8952,13 @@ document.addEventListener('DOMContentLoaded', () => {
       if (mSel) { mSel.value = missionMap[sd.mission] || ''; if (mSel.classList.contains('fit-width')) adjustSelectWidth(mSel); }
       if (tSel) { tSel.value = taskMap[sd.task] || ''; if (tSel.classList.contains('fit-width')) adjustSelectWidth(tSel); }
       if (rInp) {
-        // 협동 공격 비고 (D5 24apr 등)
-        if (sd.raidNote) {
+        // 협동 공격 비고: subGroup 태그가 있으면 raidNote는 태그로 표시하므로 비고에 넣지 않음
+        if (sd.raidNote && !sd.subGroup) {
           rInp.value = sd.raidNote;
+        }
+        // OOB 생성 시 비고 (diceInfo → note)
+        if (sd.note) {
+          rInp.value = rInp.value ? (rInp.value + ' / ' + sd.note) : sd.note;
         }
         const subGroupMatch = sd.mission.match(/(?:^|[\s가-힣])([A-F])(?:\s*[\(\s]|$)/);
         if (subGroupMatch) {
@@ -8093,6 +9003,28 @@ document.addEventListener('DOMContentLoaded', () => {
           if (s) s.style.display = 'none'; if (r) r.style.display = 'none'; if (a) a.style.display = 'inline-block';
         }
       });
+      // Sub-group 태그 + 행 배경색
+      if (sd.subGroup) {
+        clone.setAttribute('data-sg', sd.subGroup);
+        const noteCell = clone.querySelector('td:nth-child(12)');
+        if (noteCell) {
+          const inp = noteCell.querySelector('input');
+          if (inp) {
+            const wrap = document.createElement('div');
+            wrap.className = 'sg-wrap';
+            const tag = document.createElement('span');
+            tag.className = 'sg-tag';
+            tag.textContent = sd.subGroupLabel || sd.subGroup;
+            inp.parentNode.insertBefore(wrap, inp);
+            wrap.appendChild(tag);
+            wrap.appendChild(inp);
+          }
+        }
+      }
+      // bombOverride: 폭탄 강도 오버라이드 → updateWeaponData 전에 dataset 설정
+      if (sd.bombOverride) {
+        clone.dataset.bombOverride = sd.bombOverride;
+      }
       tbody.insertBefore(clone, tbody.lastElementChild);
       addDeleteButton(clone); addRowListeners(clone);
       updateWeaponData(clone);
@@ -8101,13 +9033,204 @@ document.addEventListener('DOMContentLoaded', () => {
     });
     // ── F-105 Strike/CAP 자동 적용 (D4~D9, USAF) ──
     const scenCode2 = (oobData.scenarioName || '').match(/^(D\d+)/)?.[1] || '';
-    const hasStrikeCapRule = ['D4','D5','D7','D8','D9'].includes(scenCode2) && oobType === 'A';
+    const hasStrikeCapRule = ['D4','D5','D7','D8','D9'].includes(scenCode2) && (oobType === 'A' || oobType.startsWith('C'));
     if (hasStrikeCapRule) {
       applyF105StrikeCapRule();
     }
 
+    // ── D7: F-4D AIM-4D 자동 선택 ──
+    if (scenCode2 === 'D7') {
+      autoSelectAIM4D();
+    }
+    // ── D8/D9/D10 SSR 적용 ──
+    if (scenCode2 === 'D8') {
+      applyD8SSR(oobType);
+    }
+    if (scenCode2 === 'D9') {
+      applyD9SSR();
+    }
+    if (['D10','D11','D13','D14','D15','D16'].includes(scenCode2)) {
+      applyD10SSR(oobType, scenCode2);
+    }
+
     saveToLocalStorage();
     alert(`${squads.length}개의 편대가 ADC 생성기에 추가되었습니다.`);
+  }
+
+  // F-4D IRM을 AIM-4D로 자동 선택 (D7, D8 등)
+  function autoSelectAIM4D() {
+    document.querySelectorAll('#us-lead-table tbody tr, #us-main-table tbody tr, #us-trail-table tbody tr').forEach(function(row){
+      if (row.querySelector('.add-row')) return;
+      var acSel = row.querySelector('td:nth-child(4) select');
+      if (!acSel || acSel.value.indexOf('F-4D') < 0) return;
+      // IRM 셀의 select 찾기
+      var irmCell = row.querySelectorAll('td')[7]; // IRM은 8번째 td (index 7)
+      if (!irmCell) return;
+      var irmSel = irmCell.querySelector('select');
+      if (!irmSel) return;
+      var aim4d = Array.from(irmSel.options).find(function(o){ return o.value.indexOf('AIM-4D') >= 0; });
+      if (aim4d) irmSel.value = aim4d.value;
+    });
+  }
+
+  // D8 시나리오 특별 규칙 적용
+  function applyD8SSR(oobType) {
+    // 1) MiG 패닉 보정 -1: 체크박스 표시 + 자동 체크
+    const migD8 = document.getElementById('mig-d8-mod');
+    if (migD8) { migD8.style.display = ''; recalcMig(); }
+
+    // 1.5) F-4D AIM-4D IRM 자동 선택
+    autoSelectAIM4D();
+
+    // 2) USN Shrike 공격 수치 -1: ordnance 셀에서 Shrike 값 조정
+    if (oobType === 'B') {
+      document.querySelectorAll('#us-lead-table tbody tr, #us-main-table tbody tr, #us-trail-table tbody tr').forEach(function(row){
+        if (row.querySelector('.add-row')) return;
+        row.querySelectorAll('select[data-ord-name="Shrike"]').forEach(function(sel){
+          // 각 option value를 -1 (최소 0)
+          Array.from(sel.options).forEach(function(opt){
+            var v = parseInt(opt.value) || 0;
+            if (v > 0) {
+              var nv = Math.max(0, v - 1);
+              opt.value = String(nv);
+              var acCount = 1;
+              try { acCount = parseInt(row.querySelector('td:nth-child(3) select, td:nth-child(3) input')?.value) || 1; } catch(e){}
+              opt.textContent = 'Shrike ×' + (nv * acCount) + ' (D8 SSR -1)';
+            }
+          });
+        });
+      });
+    }
+
+    // 3) USN A-4 폭격 비행대 Walleye I 탑재 가능 표시
+    if (oobType === 'B') {
+      var a4BombCount = 0;
+      var a4BombRows = [];
+      document.querySelectorAll('#us-lead-table tbody tr, #us-main-table tbody tr, #us-trail-table tbody tr').forEach(function(row){
+        if (row.querySelector('.add-row')) return;
+        var acSel = row.querySelector('td:nth-child(4) select');
+        var taskSel = row.querySelector('td:nth-child(2) select');
+        if (!acSel || !taskSel) return;
+        var ac = acSel.value || '';
+        var task = taskSel.value || '';
+        if (ac.startsWith('A-4') && task === '폭격') {
+          a4BombCount++;
+          a4BombRows.push(row);
+        }
+      });
+      // 절반에 Walleye 마크 추가
+      var walleyeCount = Math.floor(a4BombCount / 2);
+      for (var i = 0; i < walleyeCount && i < a4BombRows.length; i++) {
+        var inp = a4BombRows[i].querySelector('td:nth-child(12) input');
+        if (inp) {
+          var cur = inp.value || '';
+          if (cur.indexOf('Walleye') < 0) {
+            inp.value = (cur ? cur + ' / ' : '') + 'Walleye I EOGB 탑재 가능';
+          }
+        }
+      }
+    }
+  }
+
+  // D9 시나리오 특별 규칙 적용
+  function applyD9SSR() {
+    // 1) MiG 패닉 -1 (D8과 공유)
+    const migD8 = document.getElementById('mig-d8-mod');
+    if (migD8) { migD8.style.display = ''; recalcMig(); }
+
+    // 2) SAM 재밍 절반 활성화
+    const samD9 = document.getElementById('sr-d9-jam-half');
+    if (samD9) {
+      samD9.style.display = '';
+      const cb = samD9.querySelector('input[type=checkbox]');
+      if (cb) cb.checked = true;
+      recalcSR1();
+    }
+
+    // 3) 폭격 시 재밍 상실 경고 표시
+    const srWarn = document.getElementById('sr-d9-bomb-warn');
+    if (srWarn) srWarn.style.display = '';
+    const flakWarn = document.getElementById('flak-d9-warn');
+    if (flakWarn) flakWarn.style.display = '';
+
+    // 4) CAP 비행대 노트에 F-4D AIM-4D + 건포드 + BVR 정보 추가
+    document.querySelectorAll('#us-lead-table tbody tr, #us-main-table tbody tr, #us-trail-table tbody tr').forEach(function(row){
+      if (row.querySelector('.add-row')) return;
+      var taskSel = row.querySelector('td:nth-child(2) select');
+      var acSel = row.querySelector('td:nth-child(4) select');
+      if (!taskSel || !acSel) return;
+      var task = taskSel.value || '';
+      if (task === 'CAP' || task === 'MiGCAP') {
+        // F-4D 강제 (D9 SSR: 모든 CAP = F-4D)
+        var hasF4D = Array.from(acSel.options).some(function(o){ return o.value === 'F-4D'; });
+        if (hasF4D) acSel.value = 'F-4D';
+        var inp = row.querySelector('td:nth-child(12) input');
+        if (inp) {
+          var cur = inp.value || '';
+          if (cur.indexOf('AIM-4D') < 0) {
+            inp.value = (cur ? cur + ' / ' : '') + 'AIM-4D IRM + 건 포드, BVR[11.54]';
+          }
+        }
+      }
+    });
+  }
+
+  // D10 시나리오 특별 규칙 적용
+  function applyD10SSR(oobType, scenCode) {
+    // 1) B-52 MiG 패닉 면제 경고 표시
+    const migD10 = document.getElementById('mig-d10-b52-warn');
+    if (migD10) migD10.style.display = '';
+
+    // 2) F-4D CAP에 IFF [11.54] 노트 추가
+    document.querySelectorAll('#us-lead-table tbody tr, #us-main-table tbody tr, #us-trail-table tbody tr').forEach(function(row){
+      if (row.querySelector('.add-row')) return;
+      var taskSel = row.querySelector('td:nth-child(2) select');
+      var acSel = row.querySelector('td:nth-child(4) select');
+      if (!taskSel || !acSel) return;
+      var task = taskSel.value || '';
+      var ac = acSel.value || '';
+      if ((task === 'CAP' || task === 'MiGCAP') && ac === 'F-4D') {
+        var inp = row.querySelector('td:nth-child(12) input');
+        if (inp) {
+          var cur = inp.value || '';
+          if (cur.indexOf('IFF') < 0) {
+            inp.value = (cur ? cur + ' / ' : '') + 'IFF 장비[11.54]';
+          }
+        }
+      }
+    });
+
+    // 3) USN 폭격 비행대 절반에 EOGB 탑재 가능 노트 (D11 제외 — 재래식 폭탄만)
+    if (oobType === 'B' && scenCode !== 'D11') {
+      var bombRows = [];
+      document.querySelectorAll('#us-lead-table tbody tr, #us-main-table tbody tr, #us-trail-table tbody tr').forEach(function(row){
+        if (row.querySelector('.add-row')) return;
+        var taskSel = row.querySelector('td:nth-child(2) select');
+        if (!taskSel) return;
+        if (taskSel.value === '폭격') bombRows.push(row);
+      });
+      var eogbCount = Math.floor(bombRows.length / 2);
+      for (var i = 0; i < eogbCount && i < bombRows.length; i++) {
+        var inp = bombRows[i].querySelector('td:nth-child(12) input');
+        if (inp) {
+          var cur = inp.value || '';
+          if (cur.indexOf('EOGB') < 0) {
+            inp.value = (cur ? cur + ' / ' : '') + 'EOGB 탑재 가능';
+          }
+        }
+      }
+    }
+
+    // 4) D16 SSR: SAM 표적 획득 -2 활성화
+    if (scenCode === 'D16') {
+      const samD16 = document.getElementById('sr-d16-sam');
+      if (samD16) {
+        samD16.style.display = '';
+        const cb = samD16.querySelector('input[type=checkbox]');
+        if (cb) cb.checked = true;
+        recalcSR1();
+      }
+    }
   }
 
   // F-105 Strike/CAP 규칙 자동 적용
@@ -8745,6 +9868,18 @@ document.addEventListener('DOMContentLoaded', () => {
     var row = getRaidRow(side);
     if (!row) return;
     var isDrv = row.closest('table').id === 'drv-table';
+    // B-52 비상 투하 면제 (D10+ SSR)
+    if (!isDrv) {
+      var scenName = document.getElementById('scenario-name-input')?.value || '';
+      var isD10plus = /^D1[0-6]\b/.test(scenName);
+      if (isD10plus) {
+        var acSel = row.querySelector('td:nth-child(4) select');
+        if (acSel && acSel.value && acSel.value.indexOf('B-52') >= 0) {
+          alert('B-52 비행대는 무장을 비상 투하하지 않습니다 (D10+ SSR)');
+          return;
+        }
+      }
+    }
     // US: .bomb-wrap in td:nth-child(10), DRV: .bomb-wrap in td:nth-child(8)
     var bombCell = row.querySelector(isDrv ? 'td:nth-child(8) .bomb-wrap' : 'td:nth-child(10) .bomb-wrap');
     if (!bombCell) return;
@@ -9206,8 +10341,14 @@ document.addEventListener('DOMContentLoaded', () => {
   function recalcSR1() {
     var defJam = parseInt(document.getElementById('sr-def-jam').value) || 0;
     var soj    = parseInt(document.getElementById('sr-soj').value)     || 0;
+    // D9 SSR: 방어 재밍 강도 절반 (소수점 내림)
+    var d9cb = document.querySelector('#sr-d9-jam-half input[type=checkbox]');
+    if (d9cb && d9cb.checked) defJam = Math.floor(defJam / 2);
     var cbMods = 0;
-    document.querySelectorAll('#sr1 input[type=checkbox]:checked').forEach(function(cb){cbMods+=parseInt(cb.dataset.v)||0;});
+    document.querySelectorAll('#sr1 input[type=checkbox]:checked').forEach(function(cb){
+      if (cb.closest('#sr-d9-jam-half')) return; // D9 절반은 위에서 별도 처리
+      cbMods+=parseInt(cb.dataset.v)||0;
+    });
     var total = -defJam - soj + cbMods;
     document.getElementById('sr1-total').textContent = sign(total);
   }
@@ -9762,6 +10903,8 @@ document.addEventListener('DOMContentLoaded', () => {
   window.generate = generate;
   window.sendToAdc = sendToAdc;
   window.printResults = printResults;
+  window.d10PlannerUpdate = d10PlannerUpdate;
+  window.d10GenerateSlot = d10GenerateSlot;
 
   // ============================================================
   // RAID 역할(공격/방어) 관리 & DOGFIGHT 동기화
@@ -10098,10 +11241,12 @@ document.addEventListener('DOMContentLoaded', () => {
       var classIdx = wClass==='Gun'?0 : wClass==='IRM'?1 : 2;
       var depleted = !isSpecificWeaponAvailable(row, classIdx, weapName);
 
+      var bvr = isBvrWeapon(weapName);
       var label = weapName + ' [CV:' + rating + ' 고갈:' + depNum + ']';
+      if (bvr) label += ' (BVR→CV:0)';
       if (depleted) label += ' (고갈)';
       var opt = document.createElement('option');
-      opt.value = JSON.stringify({name:weapName, class:wClass, rating:rating, dep:depNum, depleted:depleted});
+      opt.value = JSON.stringify({name:weapName, class:wClass, rating:rating, dep:depNum, depleted:depleted, bvr:bvr});
       opt.textContent = label;
       if (depleted) opt.style.color = '#8b1a1a';
       sel.appendChild(opt);
