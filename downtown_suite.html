@@ -3545,7 +3545,7 @@
               <label class="mod"><input type="checkbox" data-v="-6" onchange="recalcSR1()"><span>채프 회랑 내 표적</span><span class="mv n">-6</span></label>
               <label class="mod"><input type="checkbox" data-v="-5" onchange="recalcSR1()"><span>발사 후 표적 포착 (1967년~ 탐지된 표적) [15.51]</span><span class="mv n">-5</span></label>
               <label class="mod"><input type="checkbox" data-v="-3" onchange="recalcSR1()"><span>대레이더 전술 [15.35]</span><span class="mv n">-3</span></label>
-              <label class="mod"><input type="checkbox" data-v="-3" onchange="recalcSR1()"><span>신속 표적 획득 (탐지된 표적만)</span><span class="mv n">-3</span></label>
+              <label class="mod" id="sr-rapid-acq"><input type="checkbox" data-v="-3" onchange="recalcSR1()"><span>신속 표적 획득 (탐지된 표적만)</span><span class="mv n">-3</span></label>
               <label class="mod"><input type="checkbox" data-v="-1" onchange="recalcSR1()"><span>1965년 1월 ~ 1966년 6월</span><span class="mv n">-1</span></label>
               <label class="mod"><input type="checkbox" data-v="1" onchange="recalcSR1()"><span>대형 항공기 표적</span><span class="mv p">+1</span></label>
               <label class="mod" id="sr-d9-jam-half" style="display:none"><input type="checkbox" onchange="recalcSR1()" checked><span>D9 SSR: 방어 재밍 강도 절반 (자동 적용)</span><span class="mv n">½</span></label>
@@ -4949,20 +4949,17 @@ document.addEventListener('DOMContentLoaded', () => {
       name: "D7: Thick as a Brick",
       date: "1967년 8월",
       lore: '1967년 8월, 미국 국방장관 로버트 S. 맥나마라는 한때 폭격을 강력히 지지했던 매파였으나, 항공 작전이 실패하고 있으며 군은 승리하는 방법을 모른다는 확신을 갖게 되었다. 군 수뇌부는 맥나마라의 패배주의적 입장이 자신들을 망칠 것이라고 판단하고, 폭격의 강경 지지자들로 구성된 존 스테니스의 상원 소위원회에서 그를 공격했다.<br><br>스테니스 위원회의 군부 지지는 존슨 대통령으로 하여금 맥나마라를 포기하고 새로운 표적 목록을 대거 추가하는 방식으로 폭격을 확대하도록 강제했다. 롤링 선더 57 표적 목록에 추가된 46개 표적 중 30개가 도로 및 철도 교량이었다. 미군은 하노이와 하이퐁 간의 통신을 차단하고 도시 주변 제한 구역 내 교량을 공격하라는 명령을 받았다. 폴 두머 도로·철도 교량은 동구권 선박들이 물자를 하역하는 부두와 연결된 핵심 통로로서 최우선 표적이었다. 8월 11일, 미 공군은 전쟁 사상 처음으로 이 교량을 공격했다. 3개 항공단이 94톤의 폭탄을 투하하여 철도 교량 1개 구간과 도로 교량 2개 구간을 파괴했다.<br><br>베트남의 MiG 전력은 기지가 마지막으로 공격받은 6월 이후 잠잠했다. 그러나 8월 말, 새로운 슬래시 어택 전술로 무장하고 반격에 나섰다. MiG는 8월 23일 발생한 7건의 손실에 기여했으며, 미군은 이날을 "검은 수요일"이라 부르게 되었다.',
-      raids: [
-        { label: "USAF 공격대 (표 A) — 표적에 따라 자동 결정", id: "usaf" },
-        { label: "USN 공격대 (표 B) — 표적에 따라 자동 결정", id: "usn" },
-      ],
+      raids: null,
       rules: [
-        "USAF: 표 A 사용 / USN: 표 B 사용 (항모 W-Constellation 또는 Z-Coral Sea)",
+        "d10 주사위로 표적 결정 → 표적에 따라 USAF(표 A) 또는 USN(표 B) 편제 자동 결정",
+        "USN: 항모 W-Constellation 또는 Z-Coral Sea",
         "USAF: 진입 화살표 A 사용 가능",
         "F-4D는 AIM-4D IRM 탑재",
         "폴 두머 교량(d10: 4-5) 공격 시 대규모 공격대(Major Raid) 적용",
         "랑당 철도 조차장(d10: 1) 공격 시 완충 지역 VP 페널티 미적용 [9.3]",
       ],
       autoSet: (raid) => {
-        if (raid === 'usn') return { table: 'B', year: 1967, month: 8, carrierId: 'W', allowedCarriers: ['W','Z'] };
-        return { table: 'A', year: 1967, month: 8 };
+        return { table: 'A', year: 1967, month: 8, allowedCarriers: ['W','Z'] };
       },
     },
     D8: {
@@ -6443,20 +6440,17 @@ document.addEventListener('DOMContentLoaded', () => {
     },
     D7: {
       _d10targets: true,
-      usaf: { useRoll: '_d7Roll', options: [
-        [1,1,"랑당 철도 조차장","0615","C"],
-        [3,3,"옌비엔 철도 조차장","1826","A"],
-        [4,5,"폴 두머 교량 (6개 경간)","1928","A"],
-        [7,7,"하노이 철도 조차장 및 정비소","2028","C"],
-      ]},
-      usn: { useRoll: '_d7Roll', options: [
-        [1,1,"랑당 철도 조차장","0615","C"],
-        [2,2,"답까우 철도·도로 교량 (1개 경간)","1523","B"],
-        [3,3,"옌비엔 철도 조차장","1826","A"],
-        [6,6,"짭케 도로 교량 (1개 경간)","2008","B"],
-        [8,8,"하이즈엉 철도 교량 (1개 경간)","2217","A"],
-        [9,9,"하이퐁 철도 조차장","2410","C"],
-        [10,10,"하이퐁 교량 (1개 경간)","2411","A"],
+      _unified: true,
+      unified: { useRoll: '_d7Roll', options: [
+        [1,1,"랑당 철도 조차장","0615","C","both"],
+        [2,2,"답까우 철도·도로 교량 (1개 경간)","1523","B","usn"],
+        [3,3,"옌비엔 철도 조차장","1826","A","both"],
+        [4,5,"폴 두머 교량 (6개 경간)","1928","A","usaf"],
+        [6,6,"짭케 도로 교량 (1개 경간)","2008","B","usn"],
+        [7,7,"하노이 철도 조차장 및 정비소","2028","C","usaf"],
+        [8,8,"하이즈엉 철도 교량 (1개 경간)","2217","A","usn"],
+        [9,9,"하이퐁 철도 조차장","2410","C","usn"],
+        [10,10,"하이퐁 교량 (1개 경간)","2411","A","usn"],
       ]},
     },
     D8: {
@@ -6511,7 +6505,8 @@ document.addEventListener('DOMContentLoaded', () => {
   function resolveScenarioTargets(scen, raidId) {
     const scenData = SCENARIO_TARGETS[scen];
     if (!scenData || !raidId) return null;
-    const entry = scenData[raidId];
+    // unified 구조: 단일 표적 테이블에서 roll로 표적+편제 결정
+    const entry = scenData._unified ? scenData.unified : scenData[raidId];
     if (!entry) return null;
     if (Array.isArray(entry)) return { targets: entry, diceInfo: null };
     // roll — autoSet에서 이미 굴린 주사위 재활용, 없으면 새로 굴림
@@ -6520,13 +6515,23 @@ document.addEventListener('DOMContentLoaded', () => {
     for (const opt of opts) {
       if (subRoll >= opt[0] && subRoll <= opt[1]) {
         const targets = [{ name: opt[2], hex: opt[3], profile: opt[4] }];
-        // 추가 표적: 인덱스 5 이후 {name, hex, profile} 객체
-        for (let i = 5; i < opt.length; i++) {
+        // 추가 표적: 인덱스 이후 {name, hex, profile} 객체 (unified는 6부터, 일반은 5부터)
+        const extraStart = scenData._unified ? 6 : 5;
+        for (let i = extraStart; i < opt.length; i++) {
           if (opt[i] && typeof opt[i] === 'object') targets.push(opt[i]);
+        }
+        // unified: force 정보 추가 (both인 경우 실제 결정된 편제 표시)
+        let forceLabel = '';
+        if (scenData._unified && opt[5]) {
+          if (opt[5] === 'both' && window._d7Force) {
+            forceLabel = ' → ' + window._d7Force.toUpperCase();
+          } else if (opt[5] !== 'both') {
+            forceLabel = ' → ' + opt[5].toUpperCase();
+          }
         }
         return {
           targets,
-          diceInfo: '표적 결정 주사위: ' + subRoll + ' (' + opt[0] + '-' + opt[1] + ')'
+          diceInfo: '표적 결정 주사위: ' + subRoll + ' (' + opt[0] + '-' + opt[1] + ')' + forceLabel
         };
       }
     }
@@ -6579,7 +6584,7 @@ document.addEventListener('DOMContentLoaded', () => {
     };
 
     const scen = document.getElementById('scenario-select').value;
-    const raidId = document.getElementById('ssr-raid-select').value;
+    let raidId = document.getElementById('ssr-raid-select').value;
     const ssrData = scen ? SSR_DATA[scen] : null;
 
     // D1: d10 굴려 표적 결정 → SAM 기지이면 d1sam 편제 자동 적용
@@ -6622,17 +6627,24 @@ document.addEventListener('DOMContentLoaded', () => {
       table = document.getElementById('table-select').value;
     }
 
-    // D7: d10 굴려 표적 결정 → 표적에 따라 편제(표 A/B) 및 변형 자동 결정
+    // D7: d10 굴려 표적 결정 → 표적의 소속(force)에 따라 USAF/USN 편제 자동 결정
     if (scen === 'D7') {
-      delete window._d7Roll;
+      delete window._d7Roll; delete window._d7Force;
       const roll = d10(); window._d7Roll = roll;
-      // 표적별 편제 결정: 1,3=선택가능, 2,6,8,9,10=USN, 4-5,7=USAF
-      const usnOnly = [2, 6, 8, 9, 10];
-      const usafOnly = [4, 5, 7];
-      let forceType = raidId; // 사용자 선택 우선
-      if (usnOnly.includes(roll)) forceType = 'usn';
-      else if (usafOnly.includes(roll)) forceType = 'usaf';
-      else if (!forceType) forceType = 'usaf'; // 선택가능 표적에서 기본값
+      // unified 테이블에서 해당 roll의 force 읽기
+      const d7data = SCENARIO_TARGETS.D7.unified.options;
+      let force = 'usaf';
+      for (const opt of d7data) {
+        if (roll >= opt[0] && roll <= opt[1]) { force = opt[5]; break; }
+      }
+      // both인 경우 d10 홀수=USAF, 짝수=USN
+      let forceType;
+      if (force === 'both') {
+        const forceRoll = d10();
+        forceType = (forceRoll % 2 === 0) ? 'usn' : 'usaf';
+      } else {
+        forceType = force;
+      }
       // 표/항모/변형 갱신
       if (forceType === 'usn') {
         document.getElementById('table-select').value = 'B';
@@ -6643,6 +6655,9 @@ document.addEventListener('DOMContentLoaded', () => {
         document.getElementById('table-select').value = 'A';
         table = 'A';
       }
+      // raidId를 forceType으로 갱신 (이후 편제 생성에 사용)
+      raidId = forceType;
+      window._d7Force = forceType;
       // 폴 두머 교량(4-5): 대규모 공격대
       if (roll >= 4 && roll <= 5) {
         variants.major = true;
@@ -6865,7 +6880,8 @@ document.addEventListener('DOMContentLoaded', () => {
     // ── 표적 블록 생성 (사전 공격대 위) ──
     let targetBlockHtml = '';
     const effectiveRaidId = (scen === 'D1' || scen === 'D2' || scen === 'D6') ? '_default'
-      : (scen === 'D3' || scen === 'D7' || scen === 'D8' || scen === 'D13') ? (table === 'B' ? 'usn' : 'usaf')
+      : (scen === 'D7') ? 'unified'
+      : (scen === 'D3' || scen === 'D8' || scen === 'D13') ? (table === 'B' ? 'usn' : 'usaf')
       : (scen === 'D9') ? 'usaf' : raidId;
     if (scen && effectiveRaidId) {
       const targetResult = resolveScenarioTargets(scen, effectiveRaidId);
@@ -10875,6 +10891,22 @@ document.addEventListener('DOMContentLoaded', () => {
   var SR = {acqLevel: 0}; // 0=fail, 1=partial, 2=full
   
   function recalcSR1() {
+    // 미탐지 시 '신속 표적 획득' 체크박스 비활성화
+    var tgtState = document.getElementById('sr-target-state').value;
+    var rapidLabel = document.getElementById('sr-rapid-acq');
+    if (rapidLabel) {
+      var rapidCb = rapidLabel.querySelector('input[type=checkbox]');
+      if (tgtState === 'undet') {
+        rapidCb.checked = false;
+        rapidCb.disabled = true;
+        rapidLabel.style.opacity = '0.4';
+        rapidLabel.style.pointerEvents = 'none';
+      } else {
+        rapidCb.disabled = false;
+        rapidLabel.style.opacity = '';
+        rapidLabel.style.pointerEvents = '';
+      }
+    }
     var defJam = parseInt(document.getElementById('sr-def-jam').value) || 0;
     var soj    = parseInt(document.getElementById('sr-soj').value)     || 0;
     // D9 SSR: 방어 재밍 강도 절반 (소수점 내림)
