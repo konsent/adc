@@ -8880,7 +8880,8 @@ document.addEventListener('DOMContentLoaded', () => {
         trail: getTableData('us-trail-table')
       },
       drv: { table: getTableData('drv-table') },
-      activeTab: usContent.style.display === 'block' ? 'us' : 'drv'
+      activeTab: usContent.style.display === 'block' ? 'us' : 'drv',
+      oobType: document.body.dataset.oobType || ''
     };
     try { localStorage.setItem('downtownGeneratorData', JSON.stringify(data)); } catch(e) {}
   }
@@ -8889,7 +8890,10 @@ document.addEventListener('DOMContentLoaded', () => {
     const rows = table.querySelectorAll('tbody tr:not(:last-child)');
     const data = [];
     rows.forEach(row => {
-      const rowData = { cells: [], status: [], aborted: row.classList.contains('aborted'), yrack: row.dataset.yrack || '', rocket: row.dataset.rocket || '' };
+      const sgTag = row.querySelector('.sg-tag');
+      const rowData = { cells: [], status: [], aborted: row.classList.contains('aborted'), yrack: row.dataset.yrack || '', rocket: row.dataset.rocket || '',
+        sg: row.getAttribute('data-sg') || '', sgLabel: sgTag ? sgTag.textContent : '',
+        bombOverride: row.dataset.bombOverride || '', ordnanceFilter: row.dataset.ordnanceFilter || '' };
       row.querySelectorAll('td:not(:last-child)').forEach(cell => {
         const sel = cell.querySelector('select');
         const inp = cell.querySelector('input');
@@ -8973,6 +8977,7 @@ document.addEventListener('DOMContentLoaded', () => {
         restoreTable('us-trail-table', data.us.trail);
       }
       if (data.drv) restoreTable('drv-table', data.drv.table);
+      if (data.oobType) document.body.dataset.oobType = data.oobType;
       if (data.activeTab) showContent(data.activeTab);
       // 역할 복원 후 ADC 동기화
       var hasRole = raidRoles && (raidRoles.attacker || raidRoles.defender);
@@ -9078,6 +9083,23 @@ document.addEventListener('DOMContentLoaded', () => {
       clone.dataset.isLoading = 'true';
       if (rowData.yrack) clone.dataset.yrack = rowData.yrack;
       if (rowData.rocket) clone.dataset.rocket = rowData.rocket;
+      if (rowData.bombOverride) clone.dataset.bombOverride = rowData.bombOverride;
+      if (rowData.ordnanceFilter) clone.dataset.ordnanceFilter = rowData.ordnanceFilter;
+      // subGroup 태그 복원
+      if (rowData.sg) {
+        clone.setAttribute('data-sg', rowData.sg);
+        var noteCell = clone.querySelector('td:nth-child(12)');
+        if (noteCell) {
+          var noteInp = noteCell.querySelector('input');
+          if (noteInp && !noteCell.querySelector('.sg-wrap')) {
+            var wrap = document.createElement('div'); wrap.className = 'sg-wrap';
+            var tag = document.createElement('span'); tag.className = 'sg-tag';
+            tag.textContent = rowData.sgLabel || rowData.sg;
+            noteInp.parentNode.insertBefore(wrap, noteInp);
+            wrap.appendChild(tag); wrap.appendChild(noteInp);
+          }
+        }
+      }
       updateWeaponData(clone);
       if (tableId !== 'drv-table') updateOrdnanceCell(clone);
       updateCallsign(clone);
@@ -11953,20 +11975,28 @@ document.addEventListener('DOMContentLoaded', () => {
     return { type: 'text', value: v };
   }
   function _cr(row) {
-    return [
+    var r = [
       row.cells.map(_cc),
       row.status.map(st => [st.value, st.display === 'none' ? 0 : 1]),
       row.aborted ? 1 : 0
     ];
+    // OOB 메타 (있을 때만 추가)
+    if (row.sg || row.bombOverride || row.ordnanceFilter || row.yrack || row.rocket) {
+      r[3] = { sg: row.sg||'', sl: row.sgLabel||'', bo: row.bombOverride||'', of: row.ordnanceFilter||'', yr: row.yrack||'', rk: row.rocket||'' };
+    }
+    return r;
   }
   function _er(arr) {
+    var meta = arr[3] || {};
     return {
       cells: arr[0].map(_ec),
       status: arr[1].map(v => Array.isArray(v)
         ? { value: v[0], display: v[1] ? 'block' : 'none' }
         : { value: v, display: 'block' } // 하위호환: 이전 포맷
       ),
-      aborted: !!arr[2]
+      aborted: !!arr[2],
+      sg: meta.sg||'', sgLabel: meta.sl||'', bombOverride: meta.bo||'', ordnanceFilter: meta.of||'',
+      yrack: meta.yr||'', rocket: meta.rk||''
     };
   }
   function _compactRaid(d) {
@@ -11975,7 +12005,8 @@ document.addEventListener('DOMContentLoaded', () => {
       u: d.us  ? { sc: d.us.scenario||'', d: d.us.date||'', t: d.us.targets||d.us.target||'',
                    l: ct(d.us.lead), m: ct(d.us.main), r: ct(d.us.trail) } : null,
       d: d.drv ? { t: ct(d.drv.table) } : null,
-      a: d.activeTab || 'us'
+      a: d.activeTab || 'us',
+      ot: d.oobType || ''
     };
   }
   function _expandRaid(c) {
@@ -11984,7 +12015,8 @@ document.addEventListener('DOMContentLoaded', () => {
       us:  c.u ? { scenario: c.u.sc||'', date: c.u.d||'', targets: c.u.t||[],
                    lead: et(c.u.l), main: et(c.u.m), trail: et(c.u.r) } : null,
       drv: c.d ? { table: et(c.d.t) } : null,
-      activeTab: c.a || 'us'
+      activeTab: c.a || 'us',
+      oobType: c.ot || ''
     };
   }
   function _compactOob(d) {
@@ -12072,6 +12104,9 @@ document.addEventListener('DOMContentLoaded', () => {
         if (data.oob)  { localStorage.setItem('oobToAdcData', JSON.stringify(data.oob));  loaded = true; }
         if (data.raid) { localStorage.setItem('downtownGeneratorData', JSON.stringify(data.raid)); loaded = true; }
       }
+      // OOB type 복원
+      var _oobRaw = localStorage.getItem('oobToAdcData');
+      if (_oobRaw) { try { var _o = JSON.parse(_oobRaw); if (_o.type) document.body.dataset.oobType = _o.type; } catch(e){} }
       window.history.replaceState({}, '', window.location.pathname);
       if (loaded) {
         const banner = document.createElement('div');
@@ -12121,6 +12156,8 @@ document.addEventListener('DOMContentLoaded', () => {
         var data = JSON.parse(e.target.result);
         if (data.oob)  localStorage.setItem('oobToAdcData', JSON.stringify(data.oob));
         if (data.raid) localStorage.setItem('downtownGeneratorData', JSON.stringify(data.raid));
+        // OOB에서 oobType 복원 (raid에 없을 수 있으므로)
+        if (data.oob && data.oob.type) document.body.dataset.oobType = data.oob.type;
         loadFromLocalStorage();
         alert('RAID 데이터를 불러왔습니다.');
       } catch(err) {
