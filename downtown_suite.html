@@ -3783,6 +3783,12 @@
   <div class="gci-hdr-t">GCI — 지상관제</div>
   <div class="gci-hdr-s">VPAF · MiG 요격 조율 판단 보조</div>
 </div>
+<div class="bot-note" style="max-width:1000px;margin:0 auto 16px;line-height:1.65;border-left-color:var(--olive);">
+  <strong style="color:var(--khaki);font-size:12px;letter-spacing:.06em;">&#9432; 참고</strong><br>
+  GCI는 지상관제사의 전략을 시뮬레이션하기 위한 <em style="color:var(--cream)">참고 도구</em>입니다. 실제 솔로 봇 규칙에 없는 추가 요소입니다.<br>
+  전술적 판단이 필요한 경우, 현재 상황에 따라 진행한 뒤 지시 사항을 이행하면 됩니다.<br>
+  <span style="color:var(--tan);font-style:italic;margin-top:4px;display:inline-block;">— 당신이 레이더를 보고 있는 DRV 지상 관제 요원이라고 생각하고 미그기를 운용해보세요!</span>
+</div>
 
 <div class="gci-prog" id="gci-prog">
   <div class="gci-ps active" id="gci-ps0"></div>
@@ -8729,6 +8735,7 @@ document.addEventListener('DOMContentLoaded', () => {
             updateWeaponData(row);
             if (!isDrv) updateOrdnanceCell(row);
             updateCallsign(row);
+            if (!isDrv) updateRoleBtnState(row);
         }
         saveToLocalStorage();
       });
@@ -11729,6 +11736,12 @@ document.addEventListener('DOMContentLoaded', () => {
   function getTaskRoleConstraint(row) {
     const table = row.closest('table');
     if (table && table.id.startsWith('drv')) return 'both'; // DRV는 제한 없음
+    // 헬리콥터: 방어만 가능
+    const acSel = row.querySelector('td:nth-child(4) select');
+    if (acSel) {
+      const ac = acSel.value || '';
+      if (ac.includes('HH-3') || ac.includes('SH-3')) return 'def';
+    }
     const selects = row.querySelectorAll('select.fit-width');
     if (selects.length < 2) return 'both';
     const taskVal = selects[1].value; // 태스크 select
