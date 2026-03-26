@@ -2,6 +2,61 @@
     "USN": {
         "aircraft": [
             {
+                "name": "SH-3 Sea King",
+                "crew": 1,
+                "fuel": "U",
+                "bomb": "",
+                "sight": "",
+                "rwr": "",
+                "jam": "",
+                "performance": {
+                    "combat": {
+                        "clean": {
+                            "low": "1",
+                            "med": "-",
+                            "high": "-"
+                        },
+                        "laden": {
+                            "low": "-",
+                            "med": "-",
+                            "high": "-"
+                        }
+                    },
+                    "dash": {
+                        "clean": {
+                            "low": "-",
+                            "med": "-",
+                            "high": "-"
+                        },
+                        "laden": {
+                            "low": "-",
+                            "med": "-",
+                            "high": "-"
+                        }
+                    },
+                    "maneuver": {
+                        "clean": {
+                            "low": "2",
+                            "med": "-",
+                            "high": "-"
+                        },
+                        "laden": {
+                            "low": "-",
+                            "med": "-",
+                            "high": "-"
+                        }
+                    }
+                },
+                "ordnance": {},
+                "capabilities": [
+                ],
+                "air_to_air_depletion_number": {
+                },
+                "notes": [
+                    "Poor SAM defense"
+                ]
+            },
+            {
                 "name": "F-4B Phantom II",
                 "crew": 2,
                 "fuel": 5,
@@ -1340,6 +1395,61 @@
     },
     "USAF": {
         "aircraft": [
+            {
+                "name": "HH-3 Green Giant",
+                "crew": 1,
+                "fuel": "U",
+                "bomb": "",
+                "sight": "",
+                "rwr": "",
+                "jam": "",
+                "performance": {
+                    "combat": {
+                        "clean": {
+                            "low": "1",
+                            "med": "-",
+                            "high": "-"
+                        },
+                        "laden": {
+                            "low": "-",
+                            "med": "-",
+                            "high": "-"
+                        }
+                    },
+                    "dash": {
+                        "clean": {
+                            "low": "-",
+                            "med": "-",
+                            "high": "-"
+                        },
+                        "laden": {
+                            "low": "-",
+                            "med": "-",
+                            "high": "-"
+                        }
+                    },
+                    "maneuver": {
+                        "clean": {
+                            "low": "2",
+                            "med": "-",
+                            "high": "-"
+                        },
+                        "laden": {
+                            "low": "-",
+                            "med": "-",
+                            "high": "-"
+                        }
+                    }
+                },
+                "ordnance": {},
+                "capabilities": [
+                ],
+                "air_to_air_depletion_number": {
+                },
+                "notes": [
+                    "Poor SAM defense"
+                ]
+            },
             {
                 "name": "F-4C Phantom II",
                 "crew": 2,

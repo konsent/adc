@@ -633,7 +633,14 @@
     text-align: center;
   }
   .role-btn:last-child { margin-bottom: 0; }
-  .role-btn:hover { border-color: var(--khaki); color: var(--cream); }
+  .role-btn:hover:not(:disabled) { border-color: var(--khaki); color: var(--cream); }
+  .role-btn:disabled {
+    opacity: 0.25;
+    cursor: not-allowed;
+    border-color: var(--olive);
+    color: var(--fade);
+    background: rgba(30,28,15,0.3);
+  }
   .role-btn.attacker-active {
     background: rgba(26,58,90,0.6);
     border-color: #4a8ac4;
@@ -1851,7 +1858,7 @@
   #bot-gci-sub .gci-sam-opt-txt{font-size:12px;color:var(--fade2);line-height:1.5;flex:1}
   #bot-gci-sub hr.gci-div{border:none;border-top:1px solid rgba(74,74,42,.25);margin:10px 0}
   .weapon-bvr-wrap { position:relative; display:inline-block; }
-  .weapon-bvr-tag { position:absolute; top:-14px; left:50%; transform:translateX(-50%); font-family:'Oswald',sans-serif; font-size:7px; font-weight:700; letter-spacing:.08em; color:#f09090; background:rgba(208,80,80,.2); border:1px solid rgba(208,80,80,.45); padding:0 3px; line-height:12px; text-align:center; white-space:nowrap; z-index:1; }
+  .weapon-bvr-tag { position:absolute; top:-18px; left:50%; transform:translateX(-50%); font-family:'Oswald',sans-serif; font-size:7px; font-weight:700; letter-spacing:.08em; color:#f09090; background:rgba(208,80,80,.2); border:1px solid rgba(208,80,80,.45); padding:0 3px; line-height:12px; text-align:center; white-space:nowrap; z-index:1; }
 
   /* Sub-group tag (above note cell, similar to BVR tag) */
   .sg-tag { position:absolute; bottom:100%; left:50%; transform:translateX(-50%); margin-bottom:5px; font-family:'Oswald',sans-serif; font-size:7px; font-weight:700; letter-spacing:.06em; padding:0 4px; line-height:12px; white-space:nowrap; z-index:2; border-radius:1px; }
@@ -5564,7 +5571,7 @@ document.addEventListener('DOMContentLoaded', () => {
       }
       let capSqs = [];
       if (dc < ym(1967,10)) {
-        const capR = resolveCAPUSAF(dc);
+        const capR = variants.forceCapF4D ? { aircraft: 'F-4D', dice: null } : resolveCAPUSAF(dc);
         capSqs.push(sq(2, capR.aircraft, 2, "CAP", "방공", capR.dice));
       } else {
         notes.push("1967년 10월 이후: 재밍 임무 CAP 비행대 삭제됨");
@@ -5621,7 +5628,7 @@ document.addEventListener('DOMContentLoaded', () => {
       notes.push("SSR: MiGCAP 임무 전체 삭제");
     } else if (!phantom) {
       const migCount = dc < ym(1967,5) ? 1 : 2;
-      const capR = resolveCAPUSAF(dc);
+      const capR = variants.forceCapF4D ? { aircraft: 'F-4D', dice: null } : resolveCAPUSAF(dc);
       const migcapSqs = [sq(migCount, capR.aircraft, 4, "CAP", "—", capR.dice)];
       html += renderMission('주요', 'MiGCAP 임무', migcapSqs, dc < ym(1967,5) ? "1967년 5월 이전: 비행대 1개" : null);
       addSquadsToOob('주요', 'MiGCAP 임무', migcapSqs);
@@ -5840,7 +5847,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     } else if (subType === 'C_CLUB') {
       html += renderNote("코만도 클럽: 표 A 기준 주간 USAF 공격대를 먼저 생성하고, 아래 비행대를 추가합니다.");
-      html += generateA(dc, {}, addSquadsToOob);
+      html += generateA(dc, { forceCapF4D: true }, addSquadsToOob);
       html += renderDivider('추가 — 컴뱃 스카이스팟 길잡이');
       const clubSqs = [sq(1, "F-105F", 2, "Bombing", "무선 항법 폭격 / 길잡이")];
       html += renderMission('주요 추가', '공격 임무 (길잡이)', clubSqs);
@@ -5974,7 +5981,7 @@ document.addEventListener('DOMContentLoaded', () => {
       const ac = dc >= ym(1972,11) ? "A-7D" : "A-1";
       const csarSqs = [
         sq(2, ac, 2, "Rescue Support", "폭탄/CBU"),
-        sq(2, "Helicopter", 1, "Rescue Support", "—"),
+        sq(2, "HH-3", 1, "Rescue Support", "—"),
       ];
       html += renderMission('CSAR', 'USAF CSAR', csarSqs,
         dc >= ym(1972,11) ? "1972.11+: A-1 → A-7D 교체" : null);
@@ -5983,7 +5990,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     } else {
       html += renderDivider('USN CSAR 임무');
-      const csarSqs = [sq(1, "Helicopter", 1, "Rescue Support", "—")];
+      const csarSqs = [sq(1, "SH-3", 1, "Rescue Support", "—")];
       html += renderMission('CSAR', 'USN CSAR', csarSqs);
       addSquadsToOob('CSAR', 'USN CSAR', csarSqs);
       html += renderNote("공격대 이전에 육지 헥스에서 8헥스 이상 떨어진 바다 헥스에 배치<br>헬리콥터 비행대: Angel 또는 Mother 카운터");
@@ -6050,13 +6057,13 @@ document.addEventListener('DOMContentLoaded', () => {
     html += renderMission('사전', 'MiGCAP 임무', preCap); addSquadsToOob('사전','MiGCAP',preCap);
 
     html += renderDivider('주요 공격대 A (Main Raid Force A) — 별도 표적·비행 경로');
-    const mainAStrike = [sq(3,"F-4D",4,"Bombing","LGB","LGB","A","공격대 A"), sq(1,"F-4D",4,"Bombing","EOGB","EOGB","A","공격대 A"), sq(1,"F-4E",4,"CAP","—",null,"A","공격대 A")];
+    const mainAStrike = [sq(3,"F-4D",4,"Bombing","LGB",null,"A","공격대 A"), sq(1,"F-4D",4,"Bombing","EOGB",null,"A","공격대 A"), sq(1,"F-4E",4,"CAP","—",null,"A","공격대 A")];
     const mainAIH = [sq(2,"F-105G WW",2,"SEAD","ARM",null,"A","공격대 A")];
     html += renderMission('주요A', '공격 임무 A', mainAStrike); addSquadsToOob('주요','공격 임무 A',mainAStrike);
     html += renderMission('주요A', '아이언 핸드 임무 A', mainAIH); addSquadsToOob('주요','아이언 핸드 A',mainAIH);
 
     html += renderDivider('주요 공격대 B (Main Raid Force B) — A 진입 후 5턴 뒤 진입');
-    const mainBStrike = [sq(4,"F-4D",4,"Bombing","재래식 폭탄","재래식","B","공격대 B"), sq(1,"F-4E",4,"CAP","—",null,"B","공격대 B")];
+    const mainBStrike = [sq(4,"F-4D",4,"Bombing","재래식 폭탄",null,"B","공격대 B"), sq(1,"F-4E",4,"CAP","—",null,"B","공격대 B")];
     const mainBIH = [sq(2,"F-105G WW",2,"SEAD","ARM",null,"B","공격대 B")];
     html += renderMission('주요B', '공격 임무 B', mainBStrike); addSquadsToOob('주요','공격 임무 B',mainBStrike);
     html += renderMission('주요B', '아이언 핸드 임무 B', mainBIH); addSquadsToOob('주요','아이언 핸드 B',mainBIH);
@@ -6446,7 +6453,8 @@ document.addEventListener('DOMContentLoaded', () => {
             for (let i = 0; i < s.count; i++) {
                 oobForAdc.push({
                     phase: phaseMap[phase] || 'main', mission: missionName, task: s.task,
-                    aircraft: s.aircraft, size: s.size, note: (s.diceInfo && !/^\d+\s*\[.*→/.test(s.diceInfo)) ? s.diceInfo : '',
+                    aircraft: s.aircraft, size: s.size, ammo: s.ammo || '',
+                    note: (s.diceInfo && !/^\d+\s*\[.*→/.test(s.diceInfo)) ? s.diceInfo : '',
                     subGroup: s.subGroup || '', subGroupLabel: s.subGroupLabel || ''
                 });
             }
@@ -6783,6 +6791,7 @@ document.addEventListener('DOMContentLoaded', () => {
         {name:"짜이까 SAM 저장시설",hex:"0626",profile:"D",org:"USAF (B-52)"},
         {name:"타이응우옌 보급 창고",hex:"0728",profile:"D"},
       ];
+      dataForAdc.targets = _d10tgts;
       targetBlockHtml = renderTargetBlock('표적 목록 (공격대별 표적 선택)', _d10tgts);
     }
     if (scen === 'D11') {
@@ -6808,6 +6817,7 @@ document.addEventListener('DOMContentLoaded', () => {
         {name:"하이즈엉 교량 B (1개 경간)",hex:"2117",profile:"A",org:"USN"},
         {name:"혼가이 항구",hex:"2202",profile:"C",org:"USN"},
       ];
+      dataForAdc.targets = _d11tgts;
       targetBlockHtml = renderTargetBlock('표적 목록 (USAF: 2개 선택 / USN: 3개 선택)', _d11tgts);
     }
     if (scen === 'D14') {
@@ -6863,7 +6873,7 @@ document.addEventListener('DOMContentLoaded', () => {
     "MiG-19": ["Vinh Tuong","Hung Son","Manh Tung","Ngoc Tiep"],
     "MiG-21": ["Van Cuong","Van Coc","Thanh Dao","Thanh Ngan","Ngoc Ngu","Hong Nhi"]
   };
-  const CALLSIGN_DATA = { "GMT_Downtown_Callsigns": { "USAF": [ { "aircraft": "F-4 Phantom II", "callsigns": ["Buick", "Cactus", "Chevy", "Denver", "Dingus", "Dodge", "Fletch", "Gambit", "Icebag", "Locust", "Nomad", "Oyster", "Olds", "Rambler", "Tampa", "Vegas", "Waco", "Zinc"] }, { "aircraft": "F-100 Super Sabre", "callsigns": ["Apple", "Spruce"] }, { "aircraft": "F-104 Starfighter", "callsigns": ["Falstaff", "Goose", "Leopard", "Lincoln", "Zebra"] }, { "aircraft": "F-105 Thunderchief", "callsigns": ["Basco", "Bison", "Brass", "Carbine", "Dallas", "Eagle", "Kite", "Laredo", "Magnum", "Pistol"] }, { "aircraft": "F-111 Aardvark", "callsigns": ["Condor", "Crow", "Hammer", "Jackal", "Pontiac", "Raccoon", "Slam", "Snug", "Suntan", "Tonto"] }, { "aircraft": "A-7 Corsair II", "callsigns": ["DeSoto", "Highball", "Hornet", "Pepper", "Pluto", "Sapphire", "Skipjack", "Sunglass", "Termite", "Vandal"] }, { "aircraft": "B-52", "callsigns": ["Aqua", "Ash", "Azure", "Black", "Blue", "Brick", "Bronze", "Brown", "Charcoal", "Cobalt", "Copper", "Cream", "Ebony", "Ginger", "Green", "Hazel", "Ivory", "Garnet", "Gold", "Gray", "Lilac", "Magnolia", "Olive", "Opal", "Orange", "Peach", "Purple", "Quartz", "Quilt", "Rainbow", "Red", "Rose", "Ruby", "Scarlet", "Snow", "Stone", "Straw", "Tan", "Walnut", "White"] }, { "aircraft": "RF-101 Voodoo", "callsigns": ["Buckshot", "Canyon"] }, { "aircraft": "EB-66 Destroyer", "callsigns": ["Cardinal", "Merco", "Teak", "Valent", "Wandes"] } ], "USN_USMC": [ { "aircraft": "F-4 Phantom II", "callsigns": ["Bandwagon", "Black Lion", "Clubleaf", "Dakota", "Harlow", "Jingle", "Killer", "Kingfish", "Linfield", "Old Nick", "Rock River", "Rootbeer", "Shamrock", "Showtime", "Silverkite"] }, { "aircraft": "F-8 Crusader", "callsigns": ["Bobbin", "Corktip", "Falcon", "Feedbag", "Firefighter", "Milkvine", "Nickel", "Page Boy", "Sheepdog", "Superheat"] }, { "aircraft": "A-4 Skyhawk", "callsigns": ["Bronco", "Bulldog", "Clansman", "Diamond", "Dogear", "Raider", "Redcock", "Saint", "Silverfox", "Stinger", "Ubangi", "Warhorse"] }, { "aircraft": "A-6 Intruder", "callsigns": ["Arab", "Bengal", "Boomer", "Chicago", "Ghost", "Knight", "Panther", "Phoenix", "Sword", "Viceroy"] }, { "aircraft": "A-7 Corsair II", "callsigns": ["Beefeater", "Busybee", "Champ", "Chippie", "Jason", "Jury", "Mace", "Royal", "Streetcar", "Warhawk"] }, { "aircraft": "RA-5 Vigilante", "callsigns": ["Giant", "Glenrock"] }, { "aircraft": "EF-10 Skynight", "callsigns": ["Cottonpicker", "Pigment"] }, { "aircraft": "EA-1 Skyraider", "callsigns": ["Knighthawk", "Zapper"] }, { "aircraft": "EA-6 Prowler", "callsigns": ["Battery", "Lancer", "Lizard", "Scorpion"] }, { "aircraft": "EKA-3 Skywarrior", "callsigns": ["Deep Sea", "Gunpowder"] } ], "CSAR": [ { "aircraft": "A-1 Skyraider (Sandy)", "callsigns": ["Sandy-1", "Sandy-2"] }, { "aircraft": "HC-130 Hercules (King)", "callsigns": ["King"] }, { "aircraft": "HH-3/HH-53 (Jolly Green)", "callsigns": ["Jolly Green"] }, { "aircraft": "HH-2/SH-3 (Big Mother)", "callsigns": ["Big Mother", "Clementine", "Priscilla"] } ] } };
+  const CALLSIGN_DATA = { "GMT_Downtown_Callsigns": { "USAF": [ { "aircraft": "HH-3 Green Giant", "callsigns": ["Jolly 01", "Jolly 02"] },{ "aircraft": "F-4 Phantom II", "callsigns": ["Buick", "Cactus", "Chevy", "Denver", "Dingus", "Dodge", "Fletch", "Gambit", "Icebag", "Locust", "Nomad", "Oyster", "Olds", "Rambler", "Tampa", "Vegas", "Waco", "Zinc"] }, { "aircraft": "F-100 Super Sabre", "callsigns": ["Apple", "Spruce"] }, { "aircraft": "F-104 Starfighter", "callsigns": ["Falstaff", "Goose", "Leopard", "Lincoln", "Zebra"] }, { "aircraft": "F-105 Thunderchief", "callsigns": ["Basco", "Bison", "Brass", "Carbine", "Dallas", "Eagle", "Kite", "Laredo", "Magnum", "Pistol"] }, { "aircraft": "F-111 Aardvark", "callsigns": ["Condor", "Crow", "Hammer", "Jackal", "Pontiac", "Raccoon", "Slam", "Snug", "Suntan", "Tonto"] }, { "aircraft": "A-7 Corsair II", "callsigns": ["DeSoto", "Highball", "Hornet", "Pepper", "Pluto", "Sapphire", "Skipjack", "Sunglass", "Termite", "Vandal"] }, { "aircraft": "B-52", "callsigns": ["Aqua", "Ash", "Azure", "Black", "Blue", "Brick", "Bronze", "Brown", "Charcoal", "Cobalt", "Copper", "Cream", "Ebony", "Ginger", "Green", "Hazel", "Ivory", "Garnet", "Gold", "Gray", "Lilac", "Magnolia", "Olive", "Opal", "Orange", "Peach", "Purple", "Quartz", "Quilt", "Rainbow", "Red", "Rose", "Ruby", "Scarlet", "Snow", "Stone", "Straw", "Tan", "Walnut", "White"] }, { "aircraft": "RF-101 Voodoo", "callsigns": ["Buckshot", "Canyon"] }, { "aircraft": "EB-66 Destroyer", "callsigns": ["Cardinal", "Merco", "Teak", "Valent", "Wandes"] } ], "USN_USMC": [ { "aircraft": "SH-3 Sea King", "callsigns": ["Angel", "Mother"] },{ "aircraft": "F-4 Phantom II", "callsigns": ["Bandwagon", "Black Lion", "Clubleaf", "Dakota", "Harlow", "Jingle", "Killer", "Kingfish", "Linfield", "Old Nick", "Rock River", "Rootbeer", "Shamrock", "Showtime", "Silverkite"] }, { "aircraft": "F-8 Crusader", "callsigns": ["Bobbin", "Corktip", "Falcon", "Feedbag", "Firefighter", "Milkvine", "Nickel", "Page Boy", "Sheepdog", "Superheat"] }, { "aircraft": "A-4 Skyhawk", "callsigns": ["Bronco", "Bulldog", "Clansman", "Diamond", "Dogear", "Raider", "Redcock", "Saint", "Silverfox", "Stinger", "Ubangi", "Warhorse"] }, { "aircraft": "A-6 Intruder", "callsigns": ["Arab", "Bengal", "Boomer", "Chicago", "Ghost", "Knight", "Panther", "Phoenix", "Sword", "Viceroy"] }, { "aircraft": "A-7 Corsair II", "callsigns": ["Beefeater", "Busybee", "Champ", "Chippie", "Jason", "Jury", "Mace", "Royal", "Streetcar", "Warhawk"] }, { "aircraft": "RA-5 Vigilante", "callsigns": ["Giant", "Glenrock"] }, { "aircraft": "EF-10 Skynight", "callsigns": ["Cottonpicker", "Pigment"] }, { "aircraft": "EA-1 Skyraider", "callsigns": ["Knighthawk", "Zapper"] }, { "aircraft": "EA-6 Prowler", "callsigns": ["Battery", "Lancer", "Lizard", "Scorpion"] }, { "aircraft": "EKA-3 Skywarrior", "callsigns": ["Deep Sea", "Gunpowder"] } ], "CSAR": [ { "aircraft": "A-1 Skyraider (Sandy)", "callsigns": ["Sandy-1", "Sandy-2"] }, { "aircraft": "HC-130 Hercules (King)", "callsigns": ["King"] } ] } };
   // ── ADC JSON 데이터 (전역) ──
   var ADC_JSON = null;
   (function loadAdcJson(){
@@ -7001,6 +7011,8 @@ document.addEventListener('DOMContentLoaded', () => {
     "EB-66E [US]":               {faction:"USAF", name:"EB-66B/C/E"},
     "A-7D Corsair 2 [US]":       {faction:"USAF", name:"A-7D Corsair II"},
     "A-1H Skyraider [US]":       {faction:"USAF", name:"A-1H Skyraider"},
+    "HH-3 Green Giant [US]":     {faction:"USAF", name:"HH-3 Green Giant"},
+    "SH-3 Sea King [US]":        {faction:"USN",  name:"SH-3 Sea King"},
     "Canberra MK.20 [AUS]":      null,
     "Mirage IIIO(F) [AUS]":      null,
     "MiG-17F Fresco C [DRV]":    {faction:"DRV", name:"MiG-17F Fresco C"},
@@ -7744,8 +7756,11 @@ document.addEventListener('DOMContentLoaded', () => {
           // 폭탄 = per-aircraft × 기체 수 (bombOverride 있으면 오버라이드)
           var bombAcCount = isDrv ? 1 : getAircraftCount(row);
           var bombOverrideVal = row.dataset.bombOverride ? parseFloat(row.dataset.bombOverride) : 0;
+          var ordFilterW = row.dataset.ordnanceFilter || '';
           var scaledBomb = wInfo.bomb;
-          if (bombOverrideVal > 0) {
+          if (ordFilterW === 'LGB' || ordFilterW === 'EOGB') {
+            scaledBomb = '0';
+          } else if (bombOverrideVal > 0) {
             scaledBomb = String(bombOverrideVal * bombAcCount);
           } else if (Array.isArray(wInfo.bomb)) {
             scaledBomb = wInfo.bomb.map(function(v){ return parseFloat(v)*bombAcCount; });
@@ -7894,10 +7909,24 @@ document.addEventListener('DOMContentLoaded', () => {
       cell.textContent = '—';
       return;
     }
+    var isChaffTask = (currentTask === '채프 살포');
     var scenDate = getScenarioDate();
     var notesAvail = parseNotesAvailability(acData.notes);
+    var ordFilter = row.dataset.ordnanceFilter || '';
+    // 재래식 폭탄: ordnance 전체 생략
+    if (ordFilter === '재래식 폭탄') {
+      cell.style.color = 'var(--fade)';
+      cell.textContent = '—';
+      return;
+    }
     var ordKeys = Object.keys(acData.ordnance);
     ordKeys.forEach(function(name){
+      // ordnanceFilter: LGB/EOGB 지정 시 해당 무장만 허용
+      if (ordFilter === 'LGB' && name !== 'LGB') return;
+      if (ordFilter === 'EOGB' && name !== 'EOGB' && name !== 'Walleye I' && name !== 'Walleye II') return;
+      // 채프 살포: Ch.Bomb / Ch.Disp만 허용, 비채프 태스크는 채프 무장 금지
+      if (isChaffTask && name !== 'Ch.Bomb' && name !== 'Ch.Disp') return;
+      if (!isChaffTask && (name === 'Ch.Bomb' || name === 'Ch.Disp')) return;
       // ARM 무장은 아이언 핸드/SEAD만 사용 가능
       if (ARM_NAMES.indexOf(name) >= 0 && !armAllowed) return;
       // 가용 날짜 필터
@@ -7989,6 +8018,14 @@ document.addEventListener('DOMContentLoaded', () => {
       var cbuMax = document.createElement('span');
       cbuMax.textContent = '/' + numBomb;
       cbuMax.style.cssText = 'color:var(--fade);font-size:10px';
+      // CBU max/value를 실효 bomb에 맞추는 함수
+      var syncCbuMax = function() {
+        var eff = getEffectiveBomb(row);
+        cbuNum.max = String(eff);
+        cbuMax.textContent = '/' + eff;
+        if (parseInt(cbuNum.value) > eff) cbuNum.value = String(eff);
+        return eff;
+      };
       if ((isLoading || hasSavedState) && oldState['CBU'] !== undefined) {
         cbuCb.checked = !!oldState['CBU'];
         cbuNum.value = String(oldState['CBU_count'] || numBomb);
@@ -7997,7 +8034,8 @@ document.addEventListener('DOMContentLoaded', () => {
       cbuCb.addEventListener('change', function(){
         cbuNum.disabled = !cbuCb.checked;
         if (cbuCb.checked) {
-          cbuNum.value = String(numBomb);
+          var eff = syncCbuMax();
+          cbuNum.value = String(eff);
         } else {
           cbuNum.value = '0';
         }
@@ -8006,8 +8044,9 @@ document.addEventListener('DOMContentLoaded', () => {
         saveToLocalStorage();
       });
       cbuNum.addEventListener('change', function(){
+        var eff = syncCbuMax();
         var v = parseInt(cbuNum.value) || 0;
-        if (v < 0) v = 0; if (v > numBomb) v = numBomb;
+        if (v < 0) v = 0; if (v > eff) v = eff;
         cbuNum.value = v;
         applyCbuRule(row, acData);
         checkWeaponAbortCondition(row);
@@ -8045,10 +8084,12 @@ document.addEventListener('DOMContentLoaded', () => {
         if (chosen === 'A') {
           stdALine.style.display = '';
           stdBLine.style.display = 'none';
+          if (parseInt(stdAInp.value) === 0) stdAInp.value = stdAInp.max || stdAInp.value;
           stdBInp.value = '0';
         } else {
           stdBLine.style.display = '';
           stdALine.style.display = 'none';
+          if (parseInt(stdBInp.value) === 0) stdBInp.value = stdBInp.max || stdBInp.value;
           stdAInp.value = '0';
         }
         row.dataset.stdChoice = chosen;
@@ -8124,7 +8165,7 @@ document.addEventListener('DOMContentLoaded', () => {
     var cbuCb = cell.querySelector('input[data-ord-name="CBU"]');
     var cbuNum = cell.querySelector('input[data-ord-name="CBU_count"]');
     if (!cbuCb || !cbuNum) return;
-    var baseBomb = (parseFloat(acData.bomb) || 0) * getAircraftCount(row);
+    var effBomb = getEffectiveBomb(row);
     var weaponCells = getUsWeaponCells(row);
     var bombCell = weaponCells[3];
     if (!bombCell) return;
@@ -8140,7 +8181,7 @@ document.addEventListener('DOMContentLoaded', () => {
     } else {
       // CBU 비활성: CBU 활성화 전에 저장해둔 bomb 값 복원 (ordnance 규칙도 재적용)
       var restored = bombEl.dataset.preCbuBomb;
-      bombEl.value = (restored !== undefined && restored !== '') ? restored : baseBomb;
+      bombEl.value = (restored !== undefined && restored !== '') ? restored : effBomb;
       delete bombEl.dataset.preCbuBomb;
       applyOrdnanceRules(row);
     }
@@ -8162,6 +8203,29 @@ document.addEventListener('DOMContentLoaded', () => {
     var cbuNum = cell.querySelector('input[data-ord-name="CBU_count"]');
     if (cbuNum) state['CBU_count'] = parseInt(cbuNum.value) || 0;
     return state;
+  }
+
+  // ordnance 규칙 반영된 실효 bomb 값 계산 (per-total, acCount 곱한 값)
+  function getEffectiveBomb(row) {
+    var acData = getAcOrdnance(row);
+    if (!acData) return 0;
+    var baseBomb = acData.bomb;
+    if (baseBomb === '-' || baseBomb === null || baseBomb === undefined) return 0;
+    var acCount = getAircraftCount(row);
+    var total = (parseFloat(baseBomb) || 0) * acCount;
+    var state = readOrdnanceState(row);
+    var notes = acData.notes || [];
+    notes.forEach(function(note) {
+      var m;
+      m = note.match(/^If Shrike,?\s*Bomb\s*is\s*(\d+\.?\d*)/i);
+      if (m && (state['Shrike'] || 0) > 0) { total = parseFloat(m[1]) * acCount; return; }
+      m = note.match(/^If Shrike\s*is\s*(\d+),?\s*Bomb\s*is\s*(\d+\.?\d*)/i);
+      if (m && (state['Shrike'] || 0) === parseInt(m[1])) { total = parseFloat(m[2]) * acCount; }
+      m = note.match(/^If Shrike\s*is\s*(\d+)\s*and\s*Standard\s*A\s*or\s*B\s*is\s*carried,?\s*Bomb\s*is\s*(\d+\.?\d*)/i);
+      if (m && (state['Shrike'] || 0) === parseInt(m[1]) &&
+          ((state['Standard A'] || 0) > 0 || (state['Standard B'] || 0) > 0)) { total = parseFloat(m[2]) * acCount; }
+    });
+    return total;
   }
 
   // ordnance 규칙 적용 → bomb 값 재계산
@@ -8236,6 +8300,18 @@ document.addEventListener('DOMContentLoaded', () => {
           }
           bombEl.dataset.ruleMax = String(newBomb);
         }
+      }
+    }
+
+    // CBU max를 실효 bomb에 동기화
+    var ordCell = getOrdnanceCell(row);
+    if (ordCell) {
+      var _cbuNum = ordCell.querySelector('input[data-ord-name="CBU_count"]');
+      if (_cbuNum) {
+        _cbuNum.max = String(newBomb);
+        var _cbuMaxLbl = _cbuNum.nextElementSibling;
+        if (_cbuMaxLbl) _cbuMaxLbl.textContent = '/' + newBomb;
+        if (parseInt(_cbuNum.value) > newBomb) _cbuNum.value = String(newBomb);
       }
     }
 
@@ -8388,7 +8464,9 @@ document.addEventListener('DOMContentLoaded', () => {
     const usnAircraft = ['A-4','A-6','A-7A_B','A-7C_E','F-4B','F-4J','F-4N','F-8','RF-8','RA-5','EA-1','EA-6','EKA-3','EF-10'];
     const isUsnAc = usnAircraft.some(p => acName.includes(p));
     let callsignDb;
-    if (oobType.startsWith('E')) {
+    // CSAR(E_USAF/E_USN): 헬리콥터/A-1은 CSAR DB, 그 외(F-4E CAP 등)는 USAF DB
+    const isCSARAc = acName.includes('HH-3') || acName.includes('SH-3') || acName.includes('A-1');
+    if (oobType.startsWith('E') && isCSARAc) {
       callsignDb = CALLSIGN_DATA.GMT_Downtown_Callsigns.CSAR;
     } else if (oobType === 'B' || isUsnAc) {
       callsignDb = CALLSIGN_DATA.GMT_Downtown_Callsigns.USN_USMC;
@@ -8399,14 +8477,12 @@ document.addEventListener('DOMContentLoaded', () => {
     let dbKey = null;
     let options = [];
 
-    const remarksInput = row.querySelector('td:nth-child(12) input');
-    const isHeli = remarksInput && remarksInput.value.includes('헬리콥터');
-
-    if (oobType.startsWith('E') && isHeli) {
-        const jg = callsignDb.find(e => e.aircraft.includes('Jolly Green'))?.callsigns || [];
-        const bm = callsignDb.find(e => e.aircraft.includes('Big Mother'))?.callsigns || [];
-        options = [...new Set([...jg, ...bm])];
-        dbKey = 'Helicopter';
+    if (acName.includes('HH-3')) {
+        options = ['Jolly 01', 'Jolly 02'];
+        dbKey = 'HH-3';
+    } else if (acName.includes('SH-3')) {
+        options = ['Angel', 'Mother'];
+        dbKey = 'SH-3';
     }
 
     if (!dbKey) {
@@ -8421,11 +8497,11 @@ document.addEventListener('DOMContentLoaded', () => {
         else if (acName.includes('EB-66')) dbKey = "EB-66 Destroyer";
         else if (acName.includes('F-8') || acName.includes('RF-8')) dbKey = "F-8 Crusader";
         else if (acName.includes('A-4')) dbKey = "A-4 Skyhawk";
+        else if (acName.includes('EA-6B')) dbKey = "EA-6 Prowler";
         else if (acName.includes('A-6') || acName.includes('EA-6A')) dbKey = "A-6 Intruder";
         else if (acName.includes('RA-5')) dbKey = "RA-5 Vigilante";
         else if (acName.includes('EF-10')) dbKey = "EF-10 Skynight";
         else if (acName.includes('EA-1')) dbKey = "EA-1 Skyraider";
-        else if (acName.includes('EA-6B')) dbKey = "EA-6B Prowler";
         else if (acName.includes('EKA-3')) dbKey = "EKA-3 Skywarrior";
         else if (acName.includes('F-14')) dbKey = "F-14 Tomcat";
         else if (acName.includes('A-1')) dbKey = "A-1 Skyraider (Sandy)";
@@ -8436,7 +8512,7 @@ document.addEventListener('DOMContentLoaded', () => {
         options = ['Maverick', 'Iceman', 'Goose', 'Hollywood', 'Viper'];
     }
 
-    if (dbKey && dbKey !== 'Helicopter') {
+    if (dbKey && dbKey !== 'HH-3' && dbKey !== 'SH-3') {
         const entry = callsignDb.find(e => e.aircraft === dbKey);
         if (entry) options = entry.callsigns;
     }
@@ -8487,7 +8563,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
   }
-  const US_AIRCRAFT_OPTIONS = `<option value="A-1H Skyraider [US]">A-1H Skyraider</option><option value="A-4C Skyhawk [US]">A-4C Skyhawk</option><option value="A-4E_F Skyhawk [US]">A-4E_F Skyhawk</option><option value="A-6A Intruder [US]">A-6A Intruder</option><option value="A-6B Intruder [US]">A-6B Intruder</option><option value="A-6C Intruder [US]">A-6C Intruder</option><option value="A-7A_B Corsair 2 [US]">A-7A_B Corsair 2</option><option value="A-7C_E Corsair 2 [US]">A-7C_E Corsair 2</option><option value="A-7D Corsair 2 [US]">A-7D Corsair 2</option><option value="B-52D Stratofortress [US]">B-52D Stratofortress</option><option value="B-52G Stratofortress [US]">B-52G Stratofortress</option><option value="Canberra MK.20 [AUS]">Canberra MK.20</option><option value="EA-1F Electric SPAD [US]">EA-1F Electric SPAD</option><option value="EA-6A Intruder [US]">EA-6A Intruder</option><option value="EA-6B Prowler [US]">EA-6B Prowler</option><option value="EB-66B [US]">EB-66B</option><option value="EB-66C [US]">EB-66C</option><option value="EB-66E [US]">EB-66E</option><option value="EF-10B Skynight [US]">EF-10B Skynight</option><option value="EKA-3B Skywarrior [US]">EKA-3B Skywarrior</option><option value="F-100D Super Sabre [US]">F-100D Super Sabre</option><option value="F-100F Wild Weasel 1 [US]">F-100F Wild Weasel 1</option><option value="F-104C Starfighter [US]">F-104C Starfighter</option><option value="F-105D Thunderchief [US]">F-105D Thunderchief</option><option value="F-105F Thunderchief(2) [US]">F-105F Thunderchief(2)</option><option value="F-105F Thunderchief [US]">F-105F Thunderchief</option><option value="F-105F Wild Weasel 3 [US]">F-105F Wild Weasel 3</option><option value="F-105G Wild Weasel [US]">F-105G Wild Weasel</option><option value="F-105G Wild Weasel(2) [US]">F-105G Wild Weasel(2)</option><option value="F-111A Aardvark [US]">F-111A Aardvark</option><option value="F-14A Tomcat [US]">F-14A Tomcat</option><option value="F-4B Phantom 2 [US]">F-4B Phantom 2</option><option value="F-4C Phantom 2 [US]">F-4C Phantom 2</option><option value="F-4C Wild Weasel 4 [US]">F-4C Wild Weasel 4</option><option value="F-4D Phantom 2 [US]">F-4D Phantom 2</option><option value="F-4E Phantom 2 [US]">F-4E Phantom 2</option><option value="F-4J Phantom 2 [US]">F-4J Phantom 2</option><option value="F-4N Phantom 2 [US]">F-4N Phantom 2</option><option value="F-8C_D Crusader [US]">F-8C_D Crusader</option><option value="F-8E_H_J Crusader [US]">F-8E_H_J Crusader</option><option value="Mirage IIIO(F) [AUS]">Mirage IIIO(F)</option><option value="RA-5C Vigilante [US]">RA-5C Vigilante</option><option value="RF-4B Phantom 2 [US]">RF-4B Phantom 2</option><option value="RF-4C Phantom 2 [US]">RF-4C Phantom 2</option><option value="RF-8A_G Crusader [US]">RF-8A_G Crusader</option><option value="RF-101C Voodoo [US]">RF-101C Voodoo</option>`;
+  const US_AIRCRAFT_OPTIONS = `<option value="A-1H Skyraider [US]">A-1H Skyraider</option><option value="A-4C Skyhawk [US]">A-4C Skyhawk</option><option value="A-4E_F Skyhawk [US]">A-4E_F Skyhawk</option><option value="A-6A Intruder [US]">A-6A Intruder</option><option value="A-6B Intruder [US]">A-6B Intruder</option><option value="A-6C Intruder [US]">A-6C Intruder</option><option value="A-7A_B Corsair 2 [US]">A-7A_B Corsair 2</option><option value="A-7C_E Corsair 2 [US]">A-7C_E Corsair 2</option><option value="A-7D Corsair 2 [US]">A-7D Corsair 2</option><option value="B-52D Stratofortress [US]">B-52D Stratofortress</option><option value="B-52G Stratofortress [US]">B-52G Stratofortress</option><option value="Canberra MK.20 [AUS]">Canberra MK.20</option><option value="EA-1F Electric SPAD [US]">EA-1F Electric SPAD</option><option value="EA-6A Intruder [US]">EA-6A Intruder</option><option value="EA-6B Prowler [US]">EA-6B Prowler</option><option value="EB-66B [US]">EB-66B</option><option value="EB-66C [US]">EB-66C</option><option value="EB-66E [US]">EB-66E</option><option value="EF-10B Skynight [US]">EF-10B Skynight</option><option value="EKA-3B Skywarrior [US]">EKA-3B Skywarrior</option><option value="F-100D Super Sabre [US]">F-100D Super Sabre</option><option value="F-100F Wild Weasel 1 [US]">F-100F Wild Weasel 1</option><option value="F-104C Starfighter [US]">F-104C Starfighter</option><option value="F-105D Thunderchief [US]">F-105D Thunderchief</option><option value="F-105F Thunderchief(2) [US]">F-105F Thunderchief(2)</option><option value="F-105F Thunderchief [US]">F-105F Thunderchief</option><option value="F-105F Wild Weasel 3 [US]">F-105F Wild Weasel 3</option><option value="F-105G Wild Weasel [US]">F-105G Wild Weasel</option><option value="F-105G Wild Weasel(2) [US]">F-105G Wild Weasel(2)</option><option value="F-111A Aardvark [US]">F-111A Aardvark</option><option value="F-14A Tomcat [US]">F-14A Tomcat</option><option value="F-4B Phantom 2 [US]">F-4B Phantom 2</option><option value="F-4C Phantom 2 [US]">F-4C Phantom 2</option><option value="F-4C Wild Weasel 4 [US]">F-4C Wild Weasel 4</option><option value="F-4D Phantom 2 [US]">F-4D Phantom 2</option><option value="F-4E Phantom 2 [US]">F-4E Phantom 2</option><option value="F-4J Phantom 2 [US]">F-4J Phantom 2</option><option value="F-4N Phantom 2 [US]">F-4N Phantom 2</option><option value="F-8C_D Crusader [US]">F-8C_D Crusader</option><option value="F-8E_H_J Crusader [US]">F-8E_H_J Crusader</option><option value="Mirage IIIO(F) [AUS]">Mirage IIIO(F)</option><option value="RA-5C Vigilante [US]">RA-5C Vigilante</option><option value="RF-4B Phantom 2 [US]">RF-4B Phantom 2</option><option value="RF-4C Phantom 2 [US]">RF-4C Phantom 2</option><option value="RF-8A_G Crusader [US]">RF-8A_G Crusader</option><option value="RF-101C Voodoo [US]">RF-101C Voodoo</option><option value="HH-3 Green Giant [US]">HH-3 Green Giant</option><option value="SH-3 Sea King [US]">SH-3 Sea King</option>`;
   const STATUS_GRID = `<div class="status-grid">
     <div class="status-item" data-status="1"><div class="status-header"><label>#1</label></div><select><option selected></option><option>손상</option><option>무력화</option><option>격추</option></select></div>
     <div class="status-item" data-status="2"><div class="status-header"><label>#2</label><button class="status-control-btn remove-status">X</button><button class="status-control-btn add-status" style="display:none">+</button></div><select><option selected></option><option>손상</option><option>무력화</option><option>격추</option></select></div>
@@ -8640,6 +8716,8 @@ document.addEventListener('DOMContentLoaded', () => {
             updateWeaponData(row);
             updateOrdnanceCell(row); // 임무/태스크 변경 시 ordnance 재생성
         }
+        // 태스크 변경 시 역할 버튼 상태 갱신
+        if (isUsTable && ci === 1) updateRoleBtnState(row);
         saveToLocalStorage();
       });
     });
@@ -8671,6 +8749,8 @@ document.addEventListener('DOMContentLoaded', () => {
     row.querySelectorAll('.role-btn').forEach(btn => {
       btn.addEventListener('click', () => handleRoleButtonClick(btn));
     });
+    // 태스크에 따른 역할 버튼 초기 상태 설정
+    updateRoleBtnState(row);
     // 항공기 가용 기간 필터 적용
     filterAircraftOptions(row);
   }
@@ -9168,8 +9248,24 @@ document.addEventListener('DOMContentLoaded', () => {
       'F-111A':'F-111A Aardvark [US]',
       'B-52D':'B-52D Stratofortress [US]','B-52G':'B-52G Stratofortress [US]',
       'B-52':'B-52D Stratofortress [US]',
+      'HH-3':'HH-3 Green Giant [US]','SH-3':'SH-3 Sea King [US]',
     };
     const tableIdMap = { 'lead':'us-lead-table', 'main':'us-main-table', 'trail':'us-trail-table' };
+    // D14: 주력 공격대 태그별 정렬 (같은 subGroup끼리 모음)
+    if (scenCode === 'D14') {
+      squads.sort(function(a, b) {
+        // 1차: phase 순서 유지 (lead → main → trail)
+        var phaseOrder = { lead: 0, main: 1, trail: 2 };
+        var pa = phaseOrder[a.phase] || 1, pb = phaseOrder[b.phase] || 1;
+        if (pa !== pb) return pa - pb;
+        // 2차: main phase만 subGroup 정렬
+        if (a.phase === 'main' && b.phase === 'main') {
+          var sgA = a.subGroup || '\uffff', sgB = b.subGroup || '\uffff';
+          if (sgA !== sgB) return sgA < sgB ? -1 : 1;
+        }
+        return 0;
+      });
+    }
     console.log('[OOB] Total squads:', squads.length, squads.map(s=>s.phase+'/'+s.task+'/'+s.aircraft));
     squads.forEach(sd => {
       const tid = tableIdMap[sd.phase]; if (!tid) { console.warn('[OOB] Unknown phase:', sd.phase, sd); return; }
@@ -9194,17 +9290,19 @@ document.addEventListener('DOMContentLoaded', () => {
         if (sd.note) {
           rInp.value = rInp.value ? (rInp.value + ' / ' + sd.note) : sd.note;
         }
-        const subGroupMatch = sd.mission.match(/(?:^|[\s가-힣])([A-F])(?:\s*[\(\s]|$)/);
-        if (subGroupMatch) {
-          const label = subGroupMatch[1];
-          const existing = rInp.value ? rInp.value + ' ' : '';
-          rInp.value = existing + '공격대 ' + label;
+        // subGroup 태그가 없는 경우에만 공격대 라벨을 비고에 추가
+        if (!sd.subGroup) {
+          const subGroupMatch = sd.mission.match(/(?:^|[\s가-힣])([A-F])(?:\s*[\(\s]|$)/);
+          if (subGroupMatch) {
+            const label = subGroupMatch[1];
+            const existing = rInp.value ? rInp.value + ' ' : '';
+            rInp.value = existing + '공격대 ' + label;
+          }
         }
       }
       if (aSel) {
         let ac = acMap[sd.aircraft] || '';
-        if (sd.aircraft === 'Helicopter') { ac = 'A-1H Skyraider [US]'; if (rInp) rInp.value = '헬리콥터'; }
-        else if (sd.aircraft === 'A-6A/C') { if (rInp) rInp.value = (rInp.value ? rInp.value+' ' : '')+'A-6C 가능'; }
+        if (sd.aircraft === 'A-6A/C') { if (rInp) rInp.value = (rInp.value ? rInp.value+' ' : '')+'A-6C 가능'; }
         // WW 변형: 날짜에 안 맞으면 대체 변형 사용
         var wwFallbacks = {
           'F-105G Wild Weasel [US]': 'F-105G Wild Weasel(2) [US]',
@@ -9259,6 +9357,10 @@ document.addEventListener('DOMContentLoaded', () => {
       if (sd.bombOverride) {
         clone.dataset.bombOverride = sd.bombOverride;
       }
+      // ordnanceFilter: 특정 무장만 허용 (LGB, EOGB, 재래식 등)
+      if (sd.ammo === 'LGB' || sd.ammo === 'EOGB' || sd.ammo === '재래식 폭탄') {
+        clone.dataset.ordnanceFilter = sd.ammo;
+      }
       tbody.insertBefore(clone, tbody.lastElementChild);
       addDeleteButton(clone); addRowListeners(clone);
       updateWeaponData(clone);
@@ -9300,18 +9402,20 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   // F-4D IRM을 AIM-4D로 자동 선택 (D7, D8 등)
+  function autoSelectAIM4D_row(row) {
+    var acSel = row.querySelector('td:nth-child(4) select');
+    if (!acSel || acSel.value.indexOf('F-4D') < 0) return;
+    var irmCell = row.querySelectorAll('td')[7]; // IRM은 8번째 td (index 7)
+    if (!irmCell) return;
+    var irmSel = irmCell.querySelector('select');
+    if (!irmSel) return;
+    var aim4d = Array.from(irmSel.options).find(function(o){ return o.value.indexOf('AIM-4D') >= 0; });
+    if (aim4d) irmSel.value = aim4d.value;
+  }
   function autoSelectAIM4D() {
     document.querySelectorAll('#us-lead-table tbody tr, #us-main-table tbody tr, #us-trail-table tbody tr').forEach(function(row){
       if (row.querySelector('.add-row')) return;
-      var acSel = row.querySelector('td:nth-child(4) select');
-      if (!acSel || acSel.value.indexOf('F-4D') < 0) return;
-      // IRM 셀의 select 찾기
-      var irmCell = row.querySelectorAll('td')[7]; // IRM은 8번째 td (index 7)
-      if (!irmCell) return;
-      var irmSel = irmCell.querySelector('select');
-      if (!irmSel) return;
-      var aim4d = Array.from(irmSel.options).find(function(o){ return o.value.indexOf('AIM-4D') >= 0; });
-      if (aim4d) irmSel.value = aim4d.value;
+      autoSelectAIM4D_row(row);
     });
   }
 
@@ -9367,7 +9471,7 @@ document.addEventListener('DOMContentLoaded', () => {
         if (inp) {
           var cur = inp.value || '';
           if (cur.indexOf('Walleye') < 0) {
-            inp.value = (cur ? cur + ' / ' : '') + 'Walleye I EOGB 탑재 가능';
+            inp.value = (cur ? cur + ' / ' : '') + 'Walleye I 탑재 가능';
           }
         }
       }
@@ -9480,15 +9584,14 @@ document.addEventListener('DOMContentLoaded', () => {
       var task = taskSel.value || '';
       if (task === 'CAP' || task === 'MiGCAP') {
         // F-4D 강제 (D9 SSR: 모든 CAP = F-4D)
-        var hasF4D = Array.from(acSel.options).some(function(o){ return o.value === 'F-4D'; });
-        if (hasF4D) acSel.value = 'F-4D';
-        var inp = row.querySelector('td:nth-child(12) input');
-        if (inp) {
-          var cur = inp.value || '';
-          if (cur.indexOf('AIM-4D') < 0) {
-            inp.value = (cur ? cur + ' / ' : '') + 'AIM-4D IRM + 건 포드, BVR[11.54]';
-          }
+        var f4dOpt = Array.from(acSel.options).find(function(o){ return o.value.indexOf('F-4D') >= 0; });
+        if (f4dOpt && acSel.value !== f4dOpt.value) {
+          acSel.value = f4dOpt.value;
+          updateWeaponData(row);
+          updateOrdnanceCell(row);
         }
+        // AIM-4D 자동 선택
+        autoSelectAIM4D_row(row);
       }
     });
   }
@@ -9518,26 +9621,6 @@ document.addEventListener('DOMContentLoaded', () => {
       }
     });
 
-    // 3) USN 폭격 비행대 절반에 EOGB 탑재 가능 노트 (D11 제외 — 재래식 폭탄만)
-    if (oobType === 'B' && scenCode !== 'D11') {
-      var bombRows = [];
-      document.querySelectorAll('#us-lead-table tbody tr, #us-main-table tbody tr, #us-trail-table tbody tr').forEach(function(row){
-        if (row.querySelector('.add-row')) return;
-        var taskSel = row.querySelector('td:nth-child(2) select');
-        if (!taskSel) return;
-        if (taskSel.value === '폭격') bombRows.push(row);
-      });
-      var eogbCount = Math.floor(bombRows.length / 2);
-      for (var i = 0; i < eogbCount && i < bombRows.length; i++) {
-        var inp = bombRows[i].querySelector('td:nth-child(12) input');
-        if (inp) {
-          var cur = inp.value || '';
-          if (cur.indexOf('EOGB') < 0) {
-            inp.value = (cur ? cur + ' / ' : '') + 'EOGB 탑재 가능';
-          }
-        }
-      }
-    }
 
     // 4) D16 SSR: SAM 표적 획득 -2 활성화
     if (scenCode === 'D16') {
@@ -9581,6 +9664,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
         updateWeaponData(row);
         updateOrdnanceCell(row);
+        updateRoleBtnState(row);
         var irmCell = getWeaponCell(row, 1);
         if (irmCell) {
           var irmSel = irmCell.querySelector('select');
@@ -10286,6 +10370,7 @@ document.addEventListener('DOMContentLoaded', () => {
           taskSel.value = 'CAP';
           if (taskSel.classList.contains('fit-width')) adjustSelectWidth(taskSel);
           updateOrdnanceCell(row);
+          updateRoleBtnState(row);
           var rInp = row.querySelector('td:nth-child(12) input');
           if (rInp) rInp.value = (rInp.value ? rInp.value + ' ' : '') + 'AE→CAP';
           saveToLocalStorage();
@@ -10301,6 +10386,7 @@ document.addEventListener('DOMContentLoaded', () => {
           taskSel.value = 'CAP';
           if (taskSel.classList.contains('fit-width')) adjustSelectWidth(taskSel);
           updateOrdnanceCell(row);
+          updateRoleBtnState(row); // CAP 전환 → 공격 역할 허용
           var rInp = row.querySelector('td:nth-child(12) input');
           if (rInp) rInp.value = (rInp.value ? rInp.value + ' ' : '') + '타격→CAP';
           saveToLocalStorage();
@@ -11638,8 +11724,52 @@ document.addEventListener('DOMContentLoaded', () => {
     // DOGFIGHT 내 사기 판정 AV는 이미 rollMor가 직접 처리하므로 재동기화 불필요
   }
 
+  // 태스크별 공격/방어 역할 가능 여부 판정
+  // 'both' = 공격+방어 가능, 'def' = 방어만 가능
+  function getTaskRoleConstraint(row) {
+    const table = row.closest('table');
+    if (table && table.id.startsWith('drv')) return 'both'; // DRV는 제한 없음
+    const selects = row.querySelectorAll('select.fit-width');
+    if (selects.length < 2) return 'both';
+    const taskVal = selects[1].value; // 태스크 select
+    switch (taskVal) {
+      case 'CAP':
+      case '구조 지원':
+        return 'both';
+      case '폭격':
+      case 'SEAD':
+      case '정찰':
+      case '재밍':
+      case '채프 살포':
+      case '타격':   // 타격/CAP — CAP 전환 전
+        return 'def';
+      default:
+        return 'both';
+    }
+  }
+
+  // 행의 역할 버튼 활성화/비활성화 상태 갱신
+  function updateRoleBtnState(row) {
+    const constraint = getTaskRoleConstraint(row);
+    const attBtn = row.querySelector('[data-role="attacker"]');
+    if (!attBtn) return;
+    if (constraint === 'def') {
+      // 공격 버튼 비활성화
+      attBtn.disabled = true;
+      // 이미 공격자로 선택되어 있었다면 해제
+      if (raidRoles.attacker === row) {
+        raidRoles.attacker = null;
+        attBtn.classList.remove('attacker-active');
+        syncDogfightFromRaid();
+      }
+    } else {
+      attBtn.disabled = false;
+    }
+  }
+
   // 역할 버튼 클릭 처리 — 전체에서 공격 1개·방어 1개만 허용
   function handleRoleButtonClick(btn) {
+    if (btn.disabled) return;
     const role = btn.dataset.role;   // 'attacker' | 'defender'
     const side = btn.dataset.side;   // 'us' | 'drv'
     const row  = btn.closest('tr');
