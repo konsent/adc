@@ -772,6 +772,70 @@
     background: var(--cream);
   }
 
+  /* ── Solo Bot 도움말 플로팅 버튼 ── */
+  #bot-help-fab {
+    position: fixed;
+    bottom: 80px;
+    right: 20px;
+    width: 50px;
+    height: 50px;
+    background: var(--olive);
+    color: var(--tan);
+    border: 2px solid var(--tan);
+    border-radius: 50%;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    font-size: 22px;
+    font-weight: bold;
+    font-family: 'Oswald', sans-serif;
+    cursor: pointer;
+    z-index: 1001;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.4);
+    transition: all 0.2s ease-in-out;
+  }
+  #bot-help-fab:hover {
+    transform: scale(1.1);
+    background: var(--tan);
+    color: var(--ink);
+  }
+  #bot-help-fab.active {
+    background: var(--tan);
+    color: var(--ink);
+  }
+  #bot-help-tooltip {
+    position: fixed;
+    bottom: 140px;
+    right: 20px;
+    width: 340px;
+    background: rgba(22,20,10,0.97);
+    border: 1px solid var(--tan);
+    border-radius: 8px;
+    padding: 18px 20px;
+    color: var(--cream);
+    font-size: 12.5px;
+    line-height: 1.8;
+    z-index: 1002;
+    box-shadow: 0 6px 24px rgba(0,0,0,0.5);
+    display: none;
+  }
+  #bot-help-tooltip .help-title {
+    font-family: 'Oswald', sans-serif;
+    font-size: 14px;
+    color: var(--tan);
+    letter-spacing: 0.08em;
+    margin-bottom: 10px;
+    padding-bottom: 8px;
+    border-bottom: 1px solid var(--olive);
+  }
+  #bot-help-tooltip p {
+    margin: 0 0 8px;
+  }
+  #bot-help-tooltip .help-highlight {
+    color: var(--khaki);
+    font-weight: bold;
+  }
+
   #adc-viewer-panel {
     position: fixed;
     bottom: 0;
@@ -1226,7 +1290,7 @@
       padding: 10px;
       font-size: 10px;
     }
-    .page-header, .main-tab-bar, .tab-bar, .add-row, .delete-row, .view-btn, .aggress-controls, .status-control-btn, .close-btn, .modal, .generate-btn, #send-to-adc-btn, #oob-print-btn, #adc-print-btn, #adc-reset-btn, #view-all-adc-fab, #adc-viewer-panel, .av-btn, .btn, .fab {
+    .page-header, .main-tab-bar, .tab-bar, .add-row, .delete-row, .view-btn, .aggress-controls, .status-control-btn, .close-btn, .modal, .generate-btn, #send-to-adc-btn, #oob-print-btn, #adc-print-btn, #adc-reset-btn, #view-all-adc-fab, #adc-viewer-panel, #bot-help-fab, #bot-help-tooltip, .av-btn, .btn, .fab {
       display: none !important;
     }
     .panel, .step {
@@ -2287,6 +2351,16 @@
     </div>
   </div>
 
+</div>
+
+<!-- Solo Bot 도움말 플로팅 버튼 -->
+<div id="bot-help-fab" title="Solo Bot 도움말">?</div>
+<div id="bot-help-tooltip">
+  <div class="help-title">SOLO BOT 도움말</div>
+  <p><span class="help-highlight">SOLO BOT</span>은 Douglas Bush가 만든 비공식 솔로 규칙을 기반으로 합니다.</p>
+  <p>탭 우측의 <span class="help-highlight">RULES</span>를 눌러 솔로 규칙서를 읽고, 플레이 순서에 따라 솔로 봇을 사용해보세요.</p>
+  <p>솔로 규칙은 단순히 DRV 비행대의 이동뿐만 아니라 시나리오 세팅부터 비행대·SAM 유닛 활성화까지 다양한 규칙을 포함합니다.</p>
+  <p>솔로 규칙서를 따르되, 그 외 내용은 일반 규칙을 따르면 됩니다.</p>
 </div>
 
 <!-- ADC Viewer (global – visible in Raid AND Player Aid tabs) -->
@@ -4609,6 +4683,16 @@ document.addEventListener('DOMContentLoaded', () => {
     if (fab) {
       fab.style.display = 'flex';
     }
+    // Solo Bot 도움말 FAB: bot-page 탭에서만 표시
+    const helpFab = document.getElementById('bot-help-fab');
+    const helpTooltip = document.getElementById('bot-help-tooltip');
+    if (helpFab) {
+      helpFab.style.display = (targetId === 'bot-page') ? 'flex' : 'none';
+    }
+    if (helpTooltip && targetId !== 'bot-page') {
+      helpTooltip.style.display = 'none';
+      if (helpFab) helpFab.classList.remove('active');
+    }
     // 탭 전환 시 뷰어 패널 닫기
     const viewerPanel = document.getElementById('adc-viewer-panel');
     if (viewerPanel && !viewerPanel.classList.contains('hidden')) {
@@ -4622,6 +4706,19 @@ document.addEventListener('DOMContentLoaded', () => {
       showMainPage(tab.dataset.target);
     });
   });
+
+  // ── Solo Bot 도움말 FAB 토글 ──
+  (function() {
+    const helpFab = document.getElementById('bot-help-fab');
+    const helpTooltip = document.getElementById('bot-help-tooltip');
+    if (helpFab && helpTooltip) {
+      helpFab.addEventListener('click', () => {
+        const isVisible = helpTooltip.style.display === 'block';
+        helpTooltip.style.display = isVisible ? 'none' : 'block';
+        helpFab.classList.toggle('active', !isVisible);
+      });
+    }
+  })();
 
   // ============================================================
   // START: JS from oob.html
@@ -6338,6 +6435,12 @@ document.addEventListener('DOMContentLoaded', () => {
       '14dec_usaf': [{ name:"Yen Vien 철도 차량기지", hex:"1826", profile:"C" }],
       '14dec_usn':  [{ name:"Van Dien 보급창", hex:"2228", profile:"C" }],
     },
+    D6: {
+      _default: [
+        { name:"북서부 철도 (표적 A, 31헥스)", hex:"0247~1728", profile:"—" },
+        { name:"타이응우옌-껩 철도 (표적 B, 11헥스)", hex:"0627~1019", profile:"—" },
+      ],
+    },
     D7: {
       _d10targets: true,
       usaf: { useRoll: '_d7Roll', options: [
@@ -6761,7 +6864,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // ── 표적 블록 생성 (사전 공격대 위) ──
     let targetBlockHtml = '';
-    const effectiveRaidId = (scen === 'D1' || scen === 'D2') ? '_default'
+    const effectiveRaidId = (scen === 'D1' || scen === 'D2' || scen === 'D6') ? '_default'
       : (scen === 'D3' || scen === 'D7' || scen === 'D8' || scen === 'D13') ? (table === 'B' ? 'usn' : 'usaf')
       : (scen === 'D9') ? 'usaf' : raidId;
     if (scen && effectiveRaidId) {
