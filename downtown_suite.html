@@ -4937,7 +4937,7 @@ function sopNav(dir) {
   const phases = document.querySelectorAll('#sop-carousel > .sop-phase');
   if (!phases.length) return;
   phases[sopIdx].classList.remove('active');
-  sopIdx = Math.max(0, Math.min(phases.length - 1, sopIdx + dir));
+  sopIdx = (sopIdx + dir + phases.length) % phases.length;
   phases[sopIdx].classList.add('active');
   sopUpdateNav(phases.length);
 }
@@ -4950,8 +4950,8 @@ function sopGoTo(i) {
   sopUpdateNav(phases.length);
 }
 function sopUpdateNav(total) {
-  document.getElementById('sop-prev').disabled = (sopIdx === 0);
-  document.getElementById('sop-next').disabled = (sopIdx === total - 1);
+  document.getElementById('sop-prev').disabled = false;
+  document.getElementById('sop-next').disabled = false;
   document.getElementById('sop-nav-label').textContent = (sopIdx + 1) + ' / ' + total;
   document.querySelectorAll('#sop-indicators .sop-dot').forEach((d, i) => {
     d.classList.toggle('active', i === sopIdx);
