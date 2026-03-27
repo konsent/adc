@@ -5284,12 +5284,9 @@ document.addEventListener('DOMContentLoaded', () => {
       name: "D8: All Tomorrowʼs Parties",
       date: "1967년 10월",
       lore: '1967년 10월은 롤링 선더 작전에서 마지막으로 이어진 청명한 날씨의 시기였으며, 롤링 선더 57의 최전성기였다. 최근 몇 달간 하노이 교량을 포함한 많은 고가치 고정 표적들이 워싱턴의 승인을 받았다. 10월에는 특히 하노이와 하이퐁 사이의 철도를 중심으로 교통망 타격에 집중했다.<br><br>MiG는 계속해서 공격적으로 교전에 나섰고, 이에 워싱턴은 마침내 주요 공군기지인 푹옌을 포함한 MiG 비행장 공격을 승인했다. 한편 제7공군은 전투기 통제관들이 IFF 조회 정보를 활용할 수 있도록 허가하여 MiG에 대한 유도 효율을 높였다. 베트남 측의 손실은 컸지만, MiG는 미군 타격기들이 폭탄을 비상 투하하도록 강제하고 있었다.<br><br>푹옌 공격은 공군과 해군의 합동 작전이었으나, 예상치 못한 다양한 반대 세력의 저항에 부딪혔다. 제7공군 사령관 모마이어 장군은 봄에 이미 MiG가 하늘에서 몰아냈으므로 공격이 불필요하다고 주장했다. CIA는 기지에 약 200명의 소련 고문단이 있다는 이유로 반대했다. 가장 의외였던 것은 제8전술전투비행단의 전설적인 지휘관 로빈 올즈 대령이었는데, 그는 10월 2일 백악관 방문 중 기지 타격에 대한 반대 의사를 이렇게 표명했다. "나는 차라리 그들을 하늘에서 격추하고 싶습니다... 푹옌에서 날아오는 편이 낫습니다. 적어도 어디 있는지는 알 수 있으니까요."',
-      raids: [
-        { label: "USAF 공격대 (표 A) — 표적에 따라 자동 결정", id: "usaf" },
-        { label: "USN 공격대 (표 B) — 표적에 따라 자동 결정", id: "usn" },
-      ],
+      raids: null,
       rules: [
-        "USAF: 표 A 사용 / USN: 표 B 사용 (항모 X-Oriskany 또는 Z-Coral Sea)",
+        "주사위로 표적 결정 → 편제에 따라 표 A(USAF) 또는 표 B(USN) 자동 적용. 항모: X(Oriskany) 또는 Z(Coral Sea)",
         "MiG 패닉 판정[13.12] 보정 수치에서 추가 -1 차감",
         "F-4D는 AIM-4D IRM 탑재",
         "USN 폭격 A-4 비행대 절반은 Walleye I EOGB 탑재 가능",
@@ -5402,16 +5399,13 @@ document.addEventListener('DOMContentLoaded', () => {
       name: "D13: Will the Circle Be Unbroken",
       date: "1972년 6월",
       lore: '1972년 5월은 베트남 인민 공군(VPAF) 조종사들에게 하루빨리 끝나기를 바라는 달이었다. 참혹한 손실과 잇따른 오인 사격 사고로 인해 VPAF 고위 사령부는 전투기 연대장들을 소집하여 문제점을 점검하고 개선책을 논의하는 위기 대책 회의를 열지 않을 수 없었다.<br><br>논의는 엄격하고 실효적이었다. 지나치게 공격적인 지휘관과 조종사들은 통제를 받게 되었다. 패배한 조종사들을 교훈을 충분히 습득하기도 전에 다시 전투에 투입하는 관행도 조용히 폐지되었다.<br><br>1972년 6월은 맑고 화창하게 시작되었고, 증오의 대상인 양키 에어 파이러츠가 다시 날아들었으며, 러시아가 공급한 조기경보 레이더망에 대한 새로운 공격도 이어졌다. 그러나 VPAF는 이번에는 더 잘 준비되어 있었다. 로켓 방어망에 그토록 효과적이었던 USAF의 채프 비행대가 MiG로부터 집중 공격을 받았다. MiG-21이 공격의 선봉에 섰으며, 921 사오다오 연대와 927 람선 연대가 주도적인 역할을 맡았다. 921 연대의 \'아이언버드\'라는 별명을 가진 도반란 같은 조종사들은 그 여름 미군을 상대로 명성을 쌓아갔다. 그달 말, MiG-21 조종사들은 14건의 격추를 주장했지만, 미군은 그 중 7건만을 인정했다.',
-      raids: [
-        { label: "USAF 공격대 (표 D) — 표적에 따라 자동 결정", id: "usaf" },
-        { label: "USN 공격대 (표 B) — 표적에 따라 자동 결정", id: "usn" },
-      ],
+      raids: null,
       autoSet: (raid) => {
         if (raid === 'usn') return { table: 'B', year: 1972, month: 6, carrierId: 'ggg', allowedCarriers: ['ggg','iii'] };
         return { table: 'D', year: 1972, month: 6 };
       },
       rules: [
-        "USAF: 표 D 사용 / USN: 표 B 사용 (항모 ggg-Kitty Hawk 또는 iii-Saratoga)",
+        "주사위로 표적 결정 → 편제에 따라 표 D(USAF) 또는 표 B(USN) 자동 적용. 항모: ggg(Kitty Hawk) 또는 iii(Saratoga)",
         "F-4D CAP: IFF 조회 장비[11.54] 사용 가능",
         "USN 폭격 비행대 절반은 EOGB 사용 가능",
         "타이응우옌 제철소(d10: 1-2) USAF 공격 시 재래식 타격 변형 적용",
@@ -6919,13 +6913,13 @@ document.addEventListener('DOMContentLoaded', () => {
     if (scen === 'D3') {
       delete window._d3Roll;
       const roll = d10(); window._d3Roll = roll;
-      // 편제 결정: 1,3,6-7=USAF, 5,8-10=USN, 2,4=선택가능(USAF or USN)
+      // 편제 결정: 1,3,6-7=USAF, 5,8-10=USN, 2,4=공용(추가 d10: 홀수=USAF, 짝수=USN)
       const usafOnly = [1, 3, 6, 7];
       const usnOnly = [5, 8, 9, 10];
       let forceType;
       if (usnOnly.includes(roll)) forceType = 'usn';
       else if (usafOnly.includes(roll)) forceType = 'usaf';
-      else forceType = 'usaf'; // 2,4: 선택가능 → 기본 USAF
+      else forceType = (d10() % 2 === 0) ? 'usn' : 'usaf';
       if (forceType === 'usn') {
         document.getElementById('table-select').value = 'B';
         table = 'B';
@@ -6935,6 +6929,7 @@ document.addEventListener('DOMContentLoaded', () => {
         document.getElementById('table-select').value = 'A';
         table = 'A';
       }
+      raidId = forceType;
     }
 
     // D5 25/26 Apr: 매 생성 시 새로 주사위를 굴려 USAF/USN 재결정 + UI 갱신
@@ -6988,13 +6983,13 @@ document.addEventListener('DOMContentLoaded', () => {
     if (scen === 'D8') {
       delete window._d8Roll;
       const roll = d10(); window._d8Roll = roll;
-      // 표적별 편제: 1=USAF, 2-6=선택가능, 7-10=USN
+      // 표적별 편제: 1=USAF, 7-10=USN, 2-6=공용(추가 d10: 홀수=USAF, 짝수=USN)
       const usnOnly = [7, 8, 9, 10];
       const usafOnly = [1];
-      let forceType = raidId;
+      let forceType;
       if (usnOnly.includes(roll)) forceType = 'usn';
       else if (usafOnly.includes(roll)) forceType = 'usaf';
-      else if (!forceType) forceType = 'usaf';
+      else forceType = (d10() % 2 === 0) ? 'usn' : 'usaf';
       if (forceType === 'usn') {
         document.getElementById('table-select').value = 'B';
         table = 'B';
@@ -7004,6 +6999,7 @@ document.addEventListener('DOMContentLoaded', () => {
         document.getElementById('table-select').value = 'A';
         table = 'A';
       }
+      raidId = forceType;
     }
 
     // D9: d10 굴려 표적 결정 (USAF 전용, 코만도 클럽)
@@ -7016,13 +7012,13 @@ document.addEventListener('DOMContentLoaded', () => {
     if (scen === 'D13') {
       delete window._d13Roll;
       const roll = d10(); window._d13Roll = roll;
-      // 1-3,5=USAF, 4,6,8=선택가능, 7,9,10=USN
+      // 1-3,5=USAF, 7,9,10=USN, 4,6,8=공용(추가 d10: 홀수=USAF, 짝수=USN)
       const usnOnly = [7, 9, 10];
       const usafOnly = [1, 2, 3, 5];
-      let forceType = raidId;
+      let forceType;
       if (usnOnly.includes(roll)) forceType = 'usn';
       else if (usafOnly.includes(roll)) forceType = 'usaf';
-      else if (!forceType) forceType = 'usaf';
+      else forceType = (d10() % 2 === 0) ? 'usn' : 'usaf';
       if (forceType === 'usn') {
         document.getElementById('table-select').value = 'B';
         table = 'B';
@@ -7038,6 +7034,7 @@ document.addEventListener('DOMContentLoaded', () => {
           if (convEl) convEl.checked = true;
         }
       }
+      raidId = forceType;
     }
 
     // applyScenarioSettings가 이미 autoSet을 호출했으므로 저장된 결과 재사용
