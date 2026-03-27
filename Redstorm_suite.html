@@ -4453,9 +4453,18 @@ document.addEventListener('DOMContentLoaded', async () => {
 
   function matchAircraft(select, name) {
     if (!select || !name) return;
+    const norm = s => s.replace(/[/_]/g, '').toLowerCase();
     // Try exact match first
     for (let i = 0; i < select.options.length; i++) {
       if (select.options[i].textContent.includes(name)) {
+        select.selectedIndex = i;
+        return;
+      }
+    }
+    // Normalized match (/ vs _ etc.)
+    const normName = norm(name);
+    for (let i = 0; i < select.options.length; i++) {
+      if (norm(select.options[i].textContent).includes(normName)) {
         select.selectedIndex = i;
         return;
       }
