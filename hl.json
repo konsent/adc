@@ -5424,11 +5424,27 @@
     "Pilots": [
         {
             "Name": "Bug",
-            "Aircraft": "A-6"
+            "Aircraft": "A-6",
+            "Stats": {
+                "Newbie":    { "Okay": [0,2], "Shaken": [3,3], "XP": 4, "Cooldown": 0 },
+                "Green":     { "Okay": [0,3], "Shaken": [4,6], "XP": 3, "Cooldown": 0 },
+                "Average":   { "Okay": [0,6], "Shaken": [7,11], "XP": 5, "Cooldown": 0 },
+                "Skilled":   { "Okay": [0,5], "Shaken": [6,9], "XP": 7, "Cooldown": 0 },
+                "Veteran":   { "Okay": [0,5], "Shaken": [6,9], "XP": 11, "Cooldown": 0 },
+                "Ace": { "Okay": [0,5], "Shaken": [6,9], "XP": null, "Cooldown": 0 }
+            }
         },
         {
             "Name": "Shifty",
-            "Aircraft": "A-6"
+            "Aircraft": "A-6",
+            "Stats": {
+                "Newbie":    { "Okay": [0,2], "Shaken": [3,3], "XP": 5, "Cooldown": 0 },
+                "Green":     { "Okay": [0,2], "Shaken": [3,4], "XP": 7, "Cooldown": 0 },
+                "Average":   { "Okay": [0,3], "Shaken": [4,5], "XP": 5, "Cooldown": 0 },
+                "Skilled":   { "Okay": [0,3], "Shaken": [4,6], "XP": 7, "Cooldown": 0 },
+                "Veteran":   { "Okay": [0,5], "Shaken": [6,9], "XP": 6, "Cooldown": 0 },
+                "Ace": { "Okay": [0,6], "Shaken": [7,11], "XP": null, "Cooldown": 0 }
+            }
         },
         {
             "Name": "Dingo",
@@ -5456,19 +5472,51 @@
         },
         {
             "Name": "Cracken",
-            "Aircraft": "A-6"
+            "Aircraft": "A-6",
+            "Stats": {
+                "Newbie":    { "Okay": [0,2], "Shaken": [3,3], "XP": 6, "Cooldown": 0 },
+                "Green":     { "Okay": [0,3], "Shaken": [4,5], "XP": 4, "Cooldown": 0 },
+                "Average":   { "Okay": [0,3], "Shaken": [4,5], "XP": 5, "Cooldown": 0 },
+                "Skilled":   { "Okay": [0,6], "Shaken": [7,11], "XP": 7, "Cooldown": 1 },
+                "Veteran":   { "Okay": [0,6], "Shaken": [7,11], "XP": 11, "Cooldown": 0 },
+                "Ace": { "Okay": [0,7], "Shaken": [8,14], "XP": null, "Cooldown": 1 }
+            }
         },
         {
             "Name": "Chili",
-            "Aircraft": "A-6"
+            "Aircraft": "A-6",
+            "Stats": {
+                "Newbie":    { "Okay": [0,2], "Shaken": [3,4], "XP": 6, "Cooldown": 0 },
+                "Green":     { "Okay": [0,4], "Shaken": [5,7], "XP": 6, "Cooldown": 0 },
+                "Average":   { "Okay": [0,5], "Shaken": [6,9], "XP": 8, "Cooldown": 1 },
+                "Skilled":   { "Okay": [0,6], "Shaken": [7,12], "XP": 8, "Cooldown": 1 },
+                "Veteran":   { "Okay": [0,6], "Shaken": [7,12], "XP": 8, "Cooldown": 0 },
+                "Ace": { "Okay": [0,8], "Shaken": [9,16], "XP": null, "Cooldown": 1 }
+            }
         },
         {
             "Name": "Extra",
-            "Aircraft": "A-6"
+            "Aircraft": "A-6",
+            "Stats": {
+                "Newbie":    { "Okay": [0,3], "Shaken": [4,5], "XP": 6, "Cooldown": 0 },
+                "Green":     { "Okay": [0,3], "Shaken": [4,6], "XP": 7, "Cooldown": 0 },
+                "Average":   { "Okay": [0,6], "Shaken": [7,12], "XP": 7, "Cooldown": 1 },
+                "Skilled":   { "Okay": [0,8], "Shaken": [9,16], "XP": 8, "Cooldown": 1 },
+                "Veteran":   { "Okay": [0,9], "Shaken": [10,17], "XP": 9, "Cooldown": 1 },
+                "Ace": { "Okay": [0,10], "Shaken": [11,19], "XP": null, "Cooldown": 0 }
+            }
         },
         {
             "Name": "Mullet",
-            "Aircraft": "A-6"
+            "Aircraft": "A-6",
+            "Stats": {
+                "Newbie":    { "Okay": [0,3], "Shaken": [4,6], "XP": 2, "Cooldown": 0 },
+                "Green":     { "Okay": [0,4], "Shaken": [5,7], "XP": 4, "Cooldown": 0 },
+                "Average":   { "Okay": [0,4], "Shaken": [5,7], "XP": 8, "Cooldown": 1 },
+                "Skilled":   { "Okay": [0,7], "Shaken": [8,14], "XP": 8, "Cooldown": 1 },
+                "Veteran":   { "Okay": [0,6], "Shaken": [7,12], "XP": 10, "Cooldown": 0 },
+                "Ace": { "Okay": [0,8], "Shaken": [9,16], "XP": null, "Cooldown": 1 }
+            }
         },
         {
             "Name": "Hoss",
@@ -5496,11 +5544,27 @@
         },
         {
             "Name": "Psycho",
-            "Aircraft": "A-7"
+            "Aircraft": "A-7",
+            "Stats": {
+                "Newbie":    { "Okay": [0,3], "Shaken": [4,6], "XP": 2, "Cooldown": 0 },
+                "Green":     { "Okay": [0,4], "Shaken": [5,7], "XP": 3, "Cooldown": 0 },
+                "Average":   { "Okay": [0,4], "Shaken": [5,8], "XP": 7, "Cooldown": 0 },
+                "Skilled":   { "Okay": [0,6], "Shaken": [7,11], "XP": 8, "Cooldown": 0 },
+                "Veteran":   { "Okay": [0,6], "Shaken": [7,12], "XP": 9, "Cooldown": 1 },
+                "Ace": { "Okay": [0,8], "Shaken": [9,16], "XP": null, "Cooldown": 2 }
+            }
         },
         {
             "Name": "Tuna",
-            "Aircraft": "A-7"
+            "Aircraft": "A-7",
+            "Stats": {
+                "Newbie":    { "Okay": [0,4], "Shaken": [5,7], "XP": 6, "Cooldown": 1 },
+                "Green":     { "Okay": [0,4], "Shaken": [5,7], "XP": 5, "Cooldown": 1 },
+                "Average":   { "Okay": [0,3], "Shaken": [4,6], "XP": 7, "Cooldown": 2 },
+                "Skilled":   { "Okay": [0,5], "Shaken": [6,9], "XP": 6, "Cooldown": 2 },
+                "Veteran":   { "Okay": [0,4], "Shaken": [5,8], "XP": 10, "Cooldown": 2 },
+                "Ace": { "Okay": [0,5], "Shaken": [6,10], "XP": null, "Cooldown": 2 }
+            }
         },
         {
             "Name": "Wash",
@@ -5516,11 +5580,27 @@
         },
         {
             "Name": "Pluto",
-            "Aircraft": "A-7"
+            "Aircraft": "A-7",
+            "Stats": {
+                "Newbie":    { "Okay": [0,4], "Shaken": [5,7], "XP": 3, "Cooldown": 0 },
+                "Green":     { "Okay": [0,5], "Shaken": [6,9], "XP": 4, "Cooldown": 0 },
+                "Average":   { "Okay": [0,6], "Shaken": [7,11], "XP": 5, "Cooldown": 1 },
+                "Skilled":   { "Okay": [0,6], "Shaken": [7,11], "XP": 7, "Cooldown": 1 },
+                "Veteran":   { "Okay": [0,7], "Shaken": [8,13], "XP": 9, "Cooldown": 1 },
+                "Ace": { "Okay": [0,7], "Shaken": [8,14], "XP": null, "Cooldown": 1 }
+            }
         },
         {
             "Name": "Raven",
-            "Aircraft": "A-7"
+            "Aircraft": "A-7",
+            "Stats": {
+                "Newbie":    { "Okay": [0,2], "Shaken": [3,4], "XP": 2, "Cooldown": 0 },
+                "Green":     { "Okay": [0,5], "Shaken": [6,9], "XP": 2, "Cooldown": 0 },
+                "Average":   { "Okay": [0,6], "Shaken": [7,11], "XP": 2, "Cooldown": 0 },
+                "Skilled":   { "Okay": [0,8], "Shaken": [9,15], "XP": 8, "Cooldown": 0 },
+                "Veteran":   { "Okay": [0,5], "Shaken": [6,9], "XP": 9, "Cooldown": 0 },
+                "Ace": { "Okay": [0,5], "Shaken": [6,10], "XP": null, "Cooldown": 1 }
+            }
         },
         {
             "Name": "Spike",
@@ -5535,59 +5615,171 @@
             }
         }, {
             "Name": "Kong",
-            "Aircraft": "AV-8B"
+            "Aircraft": "AV-8B",
+            "Stats": {
+                "Newbie":    { "Okay": [0,2], "Shaken": [3,3], "XP": 3, "Cooldown": 0 },
+                "Green":     { "Okay": [0,3], "Shaken": [4,6], "XP": 3, "Cooldown": 0 },
+                "Average":   { "Okay": [0,3], "Shaken": [4,6], "XP": 5, "Cooldown": 1 },
+                "Skilled":   { "Okay": [0,3], "Shaken": [4,6], "XP": 7, "Cooldown": 0 },
+                "Veteran":   { "Okay": [0,5], "Shaken": [6,9], "XP": 8, "Cooldown": 0 },
+                "Ace": { "Okay": [0,7], "Shaken": [8,13], "XP": null, "Cooldown": 1 }
+            }
         },
         {
             "Name": "Tex",
-            "Aircraft": "AV-8B"
+            "Aircraft": "AV-8B",
+            "Stats": {
+                "Newbie":    { "Okay": [0,2], "Shaken": [3,4], "XP": 2, "Cooldown": 0 },
+                "Green":     { "Okay": [0,4], "Shaken": [5,7], "XP": 3, "Cooldown": 1 },
+                "Average":   { "Okay": [0,5], "Shaken": [6,10], "XP": 4, "Cooldown": 1 },
+                "Skilled":   { "Okay": [0,4], "Shaken": [5,8], "XP": 7, "Cooldown": 0 },
+                "Veteran":   { "Okay": [0,6], "Shaken": [7,12], "XP": 8, "Cooldown": 0 },
+                "Ace": { "Okay": [0,6], "Shaken": [7,12], "XP": null, "Cooldown": 0 }
+            }
         },
         {
             "Name": "Animal",
-            "Aircraft": "AV-8B"
+            "Aircraft": "AV-8B",
+            "Stats": {
+                "Newbie":    { "Okay": [0,2], "Shaken": [3,3], "XP": 3, "Cooldown": 0 },
+                "Green":     { "Okay": [0,2], "Shaken": [3,4], "XP": 4, "Cooldown": 0 },
+                "Average":   { "Okay": [0,4], "Shaken": [5,7], "XP": 6, "Cooldown": 1 },
+                "Skilled":   { "Okay": [0,6], "Shaken": [7,11], "XP": 7, "Cooldown": 0 },
+                "Veteran":   { "Okay": [0,5], "Shaken": [6,9], "XP": 12, "Cooldown": 0 },
+                "Ace": { "Okay": [0,5], "Shaken": [6,10], "XP": null, "Cooldown": 0 }
+            }
         },
         {
             "Name": "Burger",
-            "Aircraft": "AV-8B"
+            "Aircraft": "AV-8B",
+            "Stats": {
+                "Newbie":    { "Okay": [0,3], "Shaken": [4,6], "XP": 2, "Cooldown": 0 },
+                "Green":     { "Okay": [0,5], "Shaken": [6,9], "XP": 3, "Cooldown": 1 },
+                "Average":   { "Okay": [0,5], "Shaken": [6,10], "XP": 4, "Cooldown": 2 },
+                "Skilled":   { "Okay": [0,7], "Shaken": [8,14], "XP": 6, "Cooldown": 2 },
+                "Veteran":   { "Okay": [0,5], "Shaken": [6,10], "XP": 9, "Cooldown": 2 },
+                "Ace": { "Okay": [0,6], "Shaken": [7,12], "XP": null, "Cooldown": 2 }
+            }
         },
         {
             "Name": "Hammer",
-            "Aircraft": "AV-8B"
+            "Aircraft": "AV-8B",
+            "Stats": {
+                "Newbie":    { "Okay": [0,2], "Shaken": [3,4], "XP": 2, "Cooldown": 0 },
+                "Green":     { "Okay": [0,3], "Shaken": [4,6], "XP": 3, "Cooldown": 0 },
+                "Average":   { "Okay": [0,4], "Shaken": [5,7], "XP": 6, "Cooldown": 1 },
+                "Skilled":   { "Okay": [0,5], "Shaken": [6,9], "XP": 8, "Cooldown": 1 },
+                "Veteran":   { "Okay": [0,5], "Shaken": [6,10], "XP": 10, "Cooldown": 1 },
+                "Ace": { "Okay": [0,5], "Shaken": [6,10], "XP": null, "Cooldown": 1 }
+            }
         },
         {
             "Name": "Sniper",
-            "Aircraft": "AV-8B"
+            "Aircraft": "AV-8B",
+            "Stats": {
+                "Newbie":    { "Okay": [0,2], "Shaken": [3,3], "XP": 3, "Cooldown": 0 },
+                "Green":     { "Okay": [0,3], "Shaken": [4,6], "XP": 4, "Cooldown": 0 },
+                "Average":   { "Okay": [0,3], "Shaken": [4,6], "XP": 7, "Cooldown": 0 },
+                "Skilled":   { "Okay": [0,3], "Shaken": [4,6], "XP": 10, "Cooldown": 0 },
+                "Veteran":   { "Okay": [0,5], "Shaken": [6,9], "XP": 10, "Cooldown": 0 },
+                "Ace": { "Okay": [0,5], "Shaken": [6,10], "XP": null, "Cooldown": 0 }
+            }
         },
         {
             "Name": "Saw",
-            "Aircraft": "AV-8B"
+            "Aircraft": "AV-8B",
+            "Stats": {
+                "Newbie":    { "Okay": [0,2], "Shaken": [3,4], "XP": 4, "Cooldown": 0 },
+                "Green":     { "Okay": [0,3], "Shaken": [4,5], "XP": 3, "Cooldown": 0 },
+                "Average":   { "Okay": [0,3], "Shaken": [4,6], "XP": 7, "Cooldown": 0 },
+                "Skilled":   { "Okay": [0,3], "Shaken": [4,5], "XP": 9, "Cooldown": 0 },
+                "Veteran":   { "Okay": [0,4], "Shaken": [5,7], "XP": 8, "Cooldown": 0 },
+                "Ace": { "Okay": [0,4], "Shaken": [5,7], "XP": null, "Cooldown": 1 }
+            }
         },
         {
             "Name": "Big Time",
-            "Aircraft": "AV-8B"
+            "Aircraft": "AV-8B",
+            "Stats": {
+                "Newbie":    { "Okay": [0,3], "Shaken": [4,5], "XP": 5, "Cooldown": 0 },
+                "Green":     { "Okay": [0,3], "Shaken": [4,5], "XP": 7, "Cooldown": 0 },
+                "Average":   { "Okay": [0,4], "Shaken": [5,7], "XP": 9, "Cooldown": 0 },
+                "Skilled":   { "Okay": [0,5], "Shaken": [6,9], "XP": 9, "Cooldown": 0 },
+                "Veteran":   { "Okay": [0,5], "Shaken": [6,9], "XP": 8, "Cooldown": 0 },
+                "Ace": { "Okay": [0,8], "Shaken": [9,15], "XP": null, "Cooldown": 1 }
+            }
         },
         {
             "Name": "Turnip",
-            "Aircraft": "AV-8B"
+            "Aircraft": "AV-8B",
+            "Stats": {
+                "Newbie":    { "Okay": [0,2], "Shaken": [3,4], "XP": 8, "Cooldown": 0 },
+                "Green":     { "Okay": [0,5], "Shaken": [6,9], "XP": 6, "Cooldown": 0 },
+                "Average":   { "Okay": [0,5], "Shaken": [6,10], "XP": 6, "Cooldown": 0 },
+                "Skilled":   { "Okay": [0,5], "Shaken": [6,10], "XP": 8, "Cooldown": 0 },
+                "Veteran":   { "Okay": [0,6], "Shaken": [7,12], "XP": 8, "Cooldown": 0 },
+                "Ace": { "Okay": [0,7], "Shaken": [8,14], "XP": null, "Cooldown": 0 }
+            }
         },
         {
             "Name": "Dino",
-            "Aircraft": "AV-8B"
+            "Aircraft": "AV-8B",
+            "Stats": {
+                "Newbie":    { "Okay": [0,2], "Shaken": [3,4], "XP":4, "Cooldown": 0 },
+                "Green":     { "Okay": [0,4], "Shaken": [5,8], "XP": 6, "Cooldown": 0},
+                "Average":   { "Okay": [0,4], "Shaken": [5,8], "XP": 7, "Cooldown": 1 },
+                "Skilled":   { "Okay": [0,6], "Shaken": [7,12], "XP": 6, "Cooldown": 1 },
+                "Veteran":   { "Okay": [0,9], "Shaken": [10,17], "XP": 6, "Cooldown": 1 },
+                "Ace": { "Okay": [0,10], "Shaken": [11,19], "XP": null, "Cooldown": 1 }
+            }
         },
         {
             "Name": "Mystic",
-            "Aircraft": "AV-8B"
+            "Aircraft": "AV-8B",
+            "Stats": {
+                "Newbie":    { "Okay": [0,2], "Shaken": [3,4], "XP": 4, "Cooldown": 0 },
+                "Green":     { "Okay": [0,3], "Shaken": [4,6], "XP": 4, "Cooldown": 0 },
+                "Average":   { "Okay": [0,5], "Shaken": [6,10], "XP": 7, "Cooldown": 1 },
+                "Skilled":   { "Okay": [0,6], "Shaken": [7,11], "XP": 9, "Cooldown": 1 },
+                "Veteran":   { "Okay": [0,9], "Shaken": [10,18], "XP": 10, "Cooldown": 1 },
+                "Ace": { "Okay": [0,9], "Shaken": [10,18], "XP": null, "Cooldown": 1 }
+            }
         },
         {
             "Name": "Beast",
-            "Aircraft": "AV-8B"
+            "Aircraft": "AV-8B",
+            "Stats": {
+                "Newbie":    { "Okay": [0,2], "Shaken": [3,4], "XP": 4, "Cooldown": 0 },
+                "Green":     { "Okay": [0,4], "Shaken": [5,8], "XP": 4, "Cooldown": 0 },
+                "Average":   { "Okay": [0,4], "Shaken": [5,7], "XP": 8, "Cooldown": 0 },
+                "Skilled":   { "Okay": [0,5], "Shaken": [6,9], "XP": 8, "Cooldown": 0 },
+                "Veteran":   { "Okay": [0,7], "Shaken": [8,13], "XP": 9, "Cooldown": 0 },
+                "Ace": { "Okay": [0,10], "Shaken": [11,19], "XP": null, "Cooldown": 2 }
+            }
         },
         {
             "Name": "Crispy",
-            "Aircraft": "AV-8B"
+            "Aircraft": "AV-8B",
+            "Stats": {
+                "Newbie":    { "Okay": [0,3], "Shaken": [4,5], "XP": 5, "Cooldown": 0 },
+                "Green":     { "Okay": [0,4], "Shaken": [5,7], "XP": 7, "Cooldown": 0 },
+                "Average":   { "Okay": [0,5], "Shaken": [6,10], "XP": 6, "Cooldown": 0 },
+                "Skilled":   { "Okay": [0,7], "Shaken": [8,13], "XP": 5, "Cooldown": 1 },
+                "Veteran":   { "Okay": [0,6], "Shaken": [7,12], "XP": 8, "Cooldown": 0 },
+                "Ace": { "Okay": [0,8], "Shaken": [9,16], "XP": null, "Cooldown": 1 }
+            }
         },
         {
             "Name": "Rudder",
-            "Aircraft": "AV-8B"
+            "Aircraft": "AV-8B",
+            "Stats": {
+                "Newbie":    { "Okay": [0,2], "Shaken": [3,4], "XP": 2, "Cooldown": 0 },
+                "Green":     { "Okay": [0,3], "Shaken": [4,5], "XP": 2, "Cooldown": 0 },
+                "Average":   { "Okay": [0,4], "Shaken": [5,7], "XP": 6, "Cooldown": 1 },
+                "Skilled":   { "Okay": [0,4], "Shaken": [5,7], "XP": 8, "Cooldown": 0 },
+                "Veteran":   { "Okay": [0,6], "Shaken": [7,12], "XP": 8, "Cooldown": 0 },
+                "Ace": { "Okay": [0,9], "Shaken": [10,18], "XP": null, "Cooldown": 1 }
+            }
         },
         {
             "Name": "Brick",
@@ -5603,23 +5795,63 @@
         },
         {
             "Name": "Eyes",
-            "Aircraft": "E-2C"
+            "Aircraft": "E-2C",
+            "Stats": {
+                "Newbie":    { "Okay": [0,2], "Shaken": [3,3], "XP": 2, "Cooldown": 0 },
+                "Green":     { "Okay": [0,2], "Shaken": [3,4], "XP": 4, "Cooldown": 0 },
+                "Average":   { "Okay": [0,3], "Shaken": [4,5], "XP": 6, "Cooldown": 0 },
+                "Skilled":   { "Okay": [0,3], "Shaken": [4,6], "XP": 8, "Cooldown": 0 },
+                "Veteran":   { "Okay": [0,4], "Shaken": [5,7], "XP": 10, "Cooldown": 0 },
+                "Ace": { "Okay": [0,4], "Shaken": [5,8], "XP": null, "Cooldown": 0 }
+            }
         },
         {
             "Name": "Crunch",
-            "Aircraft": "EA-6B"
+            "Aircraft": "EA-6B",
+            "Stats": {
+                "Newbie":    { "Okay": [1,1], "Shaken": [2,2], "XP": 3, "Cooldown": 0 },
+                "Green":     { "Okay": [0,4], "Shaken": [5,7], "XP": 5, "Cooldown": 0 },
+                "Average":   { "Okay": [0,4], "Shaken": [5,8], "XP": 4, "Cooldown": 1 },
+                "Skilled":   { "Okay": [0,5], "Shaken": [6,9], "XP": 8, "Cooldown": 0 },
+                "Veteran":   { "Okay": [0,5], "Shaken": [6,9], "XP": 11, "Cooldown": 0 },
+                "Ace": { "Okay": [0,7], "Shaken": [8,13], "XP": null, "Cooldown": 1 }
+            }
         },
         {
             "Name": "Moon",
-            "Aircraft": "EA-6B"
+            "Aircraft": "EA-6B",
+            "Stats": {
+                "Newbie":    { "Okay": [1,2], "Shaken": [3,4], "XP": 5, "Cooldown": 0 },
+                "Green":     { "Okay": [0,3], "Shaken": [4,5], "XP": 5, "Cooldown": 0 },
+                "Average":   { "Okay": [0,3], "Shaken": [4,6], "XP": 6, "Cooldown": 0 },
+                "Skilled":   { "Okay": [0,4], "Shaken": [5,7], "XP": 12, "Cooldown": 0 },
+                "Veteran":   { "Okay": [0,4], "Shaken": [5,8], "XP": 10, "Cooldown":1 },
+                "Ace": { "Okay": [0,7], "Shaken": [8,13], "XP": null, "Cooldown": 2 }
+            }
         },
         {
             "Name": "Alpo",
-            "Aircraft": "EA-18G"
+            "Aircraft": "EA-18G",
+            "Stats": {
+                "Newbie":    { "Okay": [0,3], "Shaken": [4,5], "XP": 3, "Cooldown": 1 },
+                "Green":     { "Okay": [0,4], "Shaken": [5,8], "XP": 3, "Cooldown": 1 },
+                "Average":   { "Okay": [0,4], "Shaken": [5,7], "XP": 4, "Cooldown": 0 },
+                "Skilled":   { "Okay": [0,5], "Shaken": [6,9], "XP": 5, "Cooldown": 1 },
+                "Veteran":   { "Okay": [0,6], "Shaken": [7,11], "XP": 7, "Cooldown": 2 },
+                "Ace": { "Okay": [0,8], "Shaken": [], "XP": null, "Cooldown": 1 }
+            }
         },
         {
             "Name": "Scotty",
-            "Aircraft": "EA-18G"
+            "Aircraft": "EA-18G",
+            "Stats": {
+                "Newbie":    { "Okay": [0,3], "Shaken": [4,5], "XP": 3, "Cooldown": 0 },
+                "Green":     { "Okay": [0,3], "Shaken": [4,6], "XP": 5, "Cooldown": 0 },
+                "Average":   { "Okay": [0,4], "Shaken": [5,7], "XP": 5, "Cooldown": 0 },
+                "Skilled":   { "Okay": [0,4], "Shaken": [5,7], "XP": 9, "Cooldown": 0 },
+                "Veteran":   { "Okay": [0,6], "Shaken": [7,12], "XP": 8, "Cooldown": 0 },
+                "Ace": { "Okay": [0,9], "Shaken": [8,17], "XP": null, "Cooldown": 0 }
+            }
         },
         {
             "Name": "Maverick",
@@ -5635,7 +5867,15 @@
         },
         {
             "Name": "Bison",
-            "Aircraft": "F-14"
+            "Aircraft": "F-14",
+            "Stats": {
+                "Newbie":    { "Okay": [0,3], "Shaken": [4,5], "XP": 4, "Cooldown": 0 },
+                "Green":     { "Okay": [0,4], "Shaken": [5,7], "XP": 4, "Cooldown": 0 },
+                "Average":   { "Okay": [0,4], "Shaken": [5,7], "XP": 6, "Cooldown": 0 },
+                "Skilled":   { "Okay": [0,4], "Shaken": [5,8], "XP": 8, "Cooldown": 0 },
+                "Veteran":   { "Okay": [0,6], "Shaken": [7,11], "XP": 9, "Cooldown": 0 },
+                "Ace": { "Okay": [0,7], "Shaken": [8,13], "XP": null, "Cooldown": 0 }
+            }
         },
         {
             "Name": "Farmboy",
@@ -5651,39 +5891,75 @@
         },
         {
             "Name": "Kermit",
-            "Aircraft": "F-14"
+            "Aircraft": "F-14",
+            "Stats": {
+                "Newbie":    { "Okay": [0,2], "Shaken": [3,4], "XP": 5, "Cooldown": 0 },
+                "Green":     { "Okay": [0,4], "Shaken": [5,7], "XP": 5, "Cooldown": 0 },
+                "Average":   { "Okay": [0,4], "Shaken": [5,7], "XP": 9, "Cooldown": 0 },
+                "Skilled":   { "Okay": [0,4], "Shaken": [5,7], "XP": 8, "Cooldown": 0 },
+                "Veteran":   { "Okay": [0,5], "Shaken": [6,10], "XP": 8, "Cooldown": 1 },
+                "Ace": { "Okay": [0,6], "Shaken": [7,12], "XP": null, "Cooldown": 2 }
+            }
         },
         {
             "Name": "Ogre",
-            "Aircraft": "F-14"
+            "Aircraft": "F-14",
+            "Stats": {
+                "Newbie":    { "Okay": [0,3], "Shaken": [4,5], "XP": 4, "Cooldown": 0 },
+                "Green":     { "Okay": [0,3], "Shaken": [4,6], "XP": 6, "Cooldown": 0 },
+                "Average":   { "Okay": [0,5], "Shaken": [6,9], "XP": 7, "Cooldown": 1 },
+                "Skilled":   { "Okay": [0,6], "Shaken": [7,11], "XP": 8, "Cooldown": 1 },
+                "Veteran":   { "Okay": [0,6], "Shaken": [7,11], "XP": 10, "Cooldown": 1 },
+                "Ace": { "Okay": [0,8], "Shaken": [9,16], "XP": null, "Cooldown": 1 }
+            }
         },
         {
             "Name": "Sparky",
-            "Aircraft": "F-14"
+            "Aircraft": "F-14",
+            "Stats": {
+                "Newbie":    { "Okay": [0,3], "Shaken": [4,5], "XP": 4, "Cooldown": 0 },
+                "Green":     { "Okay": [0,3], "Shaken": [4,5], "XP": 8, "Cooldown": 0 },
+                "Average":   { "Okay": [0,4], "Shaken": [5,7], "XP": 7, "Cooldown": 0 },
+                "Skilled":   { "Okay": [0,5], "Shaken": [6,9], "XP": 8, "Cooldown": 0 },
+                "Veteran":   { "Okay": [0,5], "Shaken": [6,10], "XP": 10, "Cooldown": 1 },
+                "Ace": { "Okay": [0,5], "Shaken": [6,10], "XP": null, "Cooldown": 2 }
+            }
         },
         {
             "Name": "Teflon",
-            "Aircraft": "F-14"
+            "Aircraft": "F-14",
+            "Stats": {
+                "Newbie":    { "Okay": [0,3], "Shaken": [4,5], "XP": 6, "Cooldown": 1 },
+                "Green":     { "Okay": [0,4], "Shaken": [5,7], "XP": 3, "Cooldown": 1 },
+                "Average":   { "Okay": [0,5], "Shaken": [6,9], "XP": 7, "Cooldown": 1 },
+                "Skilled":   { "Okay": [0,5], "Shaken": [6,10], "XP": 6, "Cooldown": 1 },
+                "Veteran":   { "Okay": [0,5], "Shaken": [6,9], "XP": 10, "Cooldown": 1 },
+                "Ace": { "Okay": [0,6], "Shaken": [7,12], "XP": null, "Cooldown": 2 }
+            }
         },
         {
             "Name": "Waldo",
-            "Aircraft": "F-14"
-        },
-        {
-            "Name": "Sticky",
-            "Aircraft": "F-14"
-        },
-        {
-            "Name": "Coffee",
-            "Aircraft": "F-14"
-        },
-        {
-            "Name": "Maestro",
-            "Aircraft": "F-14"
+            "Aircraft": "F-14",
+            "Stats": {
+                "Newbie":    { "Okay": [0,2], "Shaken": [3,4], "XP": 6, "Cooldown": 0 },
+                "Green":     { "Okay": [0,3], "Shaken": [4,6], "XP": 4, "Cooldown": 0 },
+                "Average":   { "Okay": [0,3], "Shaken": [4,6], "XP": 7, "Cooldown": 0 },
+                "Skilled":   { "Okay": [0,4], "Shaken": [5,8], "XP": 7, "Cooldown": 0 },
+                "Veteran":   { "Okay": [0,5], "Shaken": [6,10], "XP": 7, "Cooldown": 1 },
+                "Ace": { "Okay": [0,6], "Shaken": [7,11], "XP": null, "Cooldown": 1 }
+            }
         },
         {
             "Name": "Bear",
-            "Aircraft": "F/A-18C"
+            "Aircraft": "F/A-18C",
+            "Stats": {
+                "Newbie":    { "Okay": [0,3], "Shaken": [4,5], "XP": 5, "Cooldown": 0 },
+                "Green":     { "Okay": [0,4], "Shaken": [5,7], "XP": 5, "Cooldown": 0 },
+                "Average":   { "Okay": [0,4], "Shaken": [5,8], "XP": 7, "Cooldown": 1 },
+                "Skilled":   { "Okay": [0,5], "Shaken": [6,10], "XP": 8, "Cooldown": 1 },
+                "Veteran":   { "Okay": [0,5], "Shaken": [6,9], "XP": 11, "Cooldown": 0 },
+                "Ace": { "Okay": [0,6], "Shaken": [7,11], "XP": null, "Cooldown": 1 }
+            }
         },
         {
             "Name": "Wolf",
@@ -5711,27 +5987,75 @@
         },
         {
             "Name": "Lightning",
-            "Aircraft": "F/A-18C"
+            "Aircraft": "F/A-18C",
+            "Stats": {
+                "Newbie":    { "Okay": [0,4], "Shaken": [5,7], "XP": 4, "Cooldown": 1},
+                "Green":     { "Okay": [0,5], "Shaken": [6,9], "XP": 4, "Cooldown": 0 },
+                "Average":   { "Okay": [0,5], "Shaken": [6,10], "XP": 6, "Cooldown": 0 },
+                "Skilled":   { "Okay": [0,6], "Shaken": [7,12], "XP": 8, "Cooldown": 0 },
+                "Veteran":   { "Okay": [0,6], "Shaken": [7,12], "XP": 12, "Cooldown": 0 },
+                "Ace": { "Okay": [0,7], "Shaken": [8,14], "XP": null, "Cooldown": 1 }
+            }
         },
         {
             "Name": "Hunter",
-            "Aircraft": "F/A-18C"
+            "Aircraft": "F/A-18C",
+            "Stats": {
+                "Newbie":    { "Okay": [0,2], "Shaken": [3,4], "XP": 2, "Cooldown": 0 },
+                "Green":     { "Okay": [0,3], "Shaken": [4,5], "XP": 6, "Cooldown": 1 },
+                "Average":   { "Okay": [0,6], "Shaken": [7,11], "XP": 5, "Cooldown": 1 },
+                "Skilled":   { "Okay": [0,6], "Shaken": [7,11], "XP": 8, "Cooldown": 1 },
+                "Veteran":   { "Okay": [0,6], "Shaken": [7,11], "XP": 12, "Cooldown": 1 },
+                "Ace": { "Okay": [0,6], "Shaken": [7,11], "XP": null, "Cooldown": 2 }
+            }
         },
         {
             "Name": "Duke",
-            "Aircraft": "F/A-18C"
+            "Aircraft": "F/A-18C",
+            "Stats": {
+                "Newbie":    { "Okay": [0,4], "Shaken": [5,7], "XP": 5, "Cooldown": 0 },
+                "Green":     { "Okay": [0,4], "Shaken": [5,8], "XP": 5, "Cooldown": 0 },
+                "Average":   { "Okay": [0,4], "Shaken": [5,8], "XP": 8, "Cooldown": 0 },
+                "Skilled":   { "Okay": [0,5], "Shaken": [6,9], "XP": 8, "Cooldown": 1 },
+                "Veteran":   { "Okay": [0,5], "Shaken": [6,9], "XP": 10, "Cooldown": 1 },
+                "Ace": { "Okay": [0,5], "Shaken": [6,10], "XP": null, "Cooldown": 2 }
+            }
         },
         {
             "Name": "Mustang",
-            "Aircraft": "F/A-18C"
+            "Aircraft": "F/A-18C",
+            "Stats": {
+                "Newbie":    { "Okay": [0,2], "Shaken": [3,4], "XP": 4, "Cooldown": 0 },
+                "Green":     { "Okay": [0,3], "Shaken": [4,6], "XP": 4, "Cooldown": 1 },
+                "Average":   { "Okay": [0,4], "Shaken": [5,7], "XP": 6, "Cooldown": 1 },
+                "Skilled":   { "Okay": [0,5], "Shaken": [6,9], "XP": 8, "Cooldown": 1 },
+                "Veteran":   { "Okay": [0,6], "Shaken": [7,11], "XP": 10, "Cooldown": 1 },
+                "Ace": { "Okay": [0,6], "Shaken": [7,12], "XP": null, "Cooldown": 2 }
+            }
         },
         {
             "Name": "Cowboy",
-            "Aircraft": "F/A-18C"
+            "Aircraft": "F/A-18C",
+            "Stats": {
+                "Newbie":    { "Okay": [0,3], "Shaken": [4,5], "XP": 3, "Cooldown": 0 },
+                "Green":     { "Okay": [0,3], "Shaken": [4,5], "XP": 6, "Cooldown": 1 },
+                "Average":   { "Okay": [0,3], "Shaken": [4,6], "XP": 7, "Cooldown": 1 },
+                "Skilled":   { "Okay": [0,5], "Shaken": [6,9], "XP": 8, "Cooldown": 1 },
+                "Veteran":   { "Okay": [0,5], "Shaken": [6,9], "XP": 8, "Cooldown": 2 },
+                "Ace": { "Okay": [0,5], "Shaken": [6,9], "XP": null, "Cooldown": 2 }
+            }
         },
         {
             "Name": "Talon",
-            "Aircraft": "F/A-18C"
+            "Aircraft": "F/A-18C",
+            "Stats": {
+                "Newbie":    { "Okay": [0,2], "Shaken": [3,3], "XP": 3, "Cooldown": 0 },
+                "Green":     { "Okay": [0,3], "Shaken": [4,6], "XP": 3, "Cooldown": 0 },
+                "Average":   { "Okay": [0,4], "Shaken": [5,7], "XP": 6, "Cooldown": 1 },
+                "Skilled":   { "Okay": [0,5], "Shaken": [6,9], "XP": 6, "Cooldown": 1 },
+                "Veteran":   { "Okay": [0,5], "Shaken": [6,9], "XP": 11, "Cooldown": 1 },
+                "Ace": { "Okay": [0,6], "Shaken": [7,12], "XP": null, "Cooldown": 1 }
+            }
         },
         {
             "Name": "Griffin",
@@ -5747,15 +6071,39 @@
         },
         {
             "Name": "Raider",
-            "Aircraft": "F/A-18C"
+            "Aircraft": "F/A-18C",
+            "Stats": {
+                "Newbie":    { "Okay": [0,2], "Shaken": [3,3], "XP": 1, "Cooldown": 0 },
+                "Green":     { "Okay": [0,2], "Shaken": [3,3], "XP": 5, "Cooldown": 0 },
+                "Average":   { "Okay": [0.3], "Shaken": [4,5], "XP": 7, "Cooldown": 0 },
+                "Skilled":   { "Okay": [0,5], "Shaken": [6,9], "XP": 6, "Cooldown": 0 },
+                "Veteran":   { "Okay": [0,5], "Shaken": [6,9], "XP": 8, "Cooldown": 0 },
+                "Ace": { "Okay": [0,5], "Shaken": [6,10], "XP": null, "Cooldown": 1 }
+            }
         },
         {
             "Name": "Banzai",
-            "Aircraft": "F/A-18C"
+            "Aircraft": "F/A-18C",
+            "Stats": {
+                "Newbie":    { "Okay": [0,3], "Shaken": [4,5], "XP": 5, "Cooldown": 0 },
+                "Green":     { "Okay": [0,3], "Shaken": [4,6], "XP": 5, "Cooldown": 1 },
+                "Average":   { "Okay": [0,3], "Shaken": [4,6], "XP": 8, "Cooldown": 0 },
+                "Skilled":   { "Okay": [0,4], "Shaken": [5,7], "XP": 10, "Cooldown": 1 },
+                "Veteran":   { "Okay": [0,4], "Shaken": [5,7], "XP": 11, "Cooldown": 1 },
+                "Ace": { "Okay": [0,6], "Shaken": [7,11], "XP": null, "Cooldown": 2 }
+            }
         },
         {
             "Name": "Blackhawk",
-            "Aircraft": "F/A-18C"
+            "Aircraft": "F/A-18C",
+            "Stats": {
+                "Newbie":    { "Okay": [0,2], "Shaken": [3,4], "XP": 6, "Cooldown": 0 },
+                "Green":     { "Okay": [0,3], "Shaken": [4,6], "XP": 4, "Cooldown": 0 },
+                "Average":   { "Okay": [0,3], "Shaken": [4,6], "XP": 6, "Cooldown": 0 },
+                "Skilled":   { "Okay": [0,4], "Shaken": [5,8], "XP": 8, "Cooldown": 1 },
+                "Veteran":   { "Okay": [0,5], "Shaken": [6,9], "XP": 8, "Cooldown": 1 },
+                "Ace": { "Okay": [0,7], "Shaken": [8,13], "XP": null, "Cooldown": 2 }
+            }
         },
         {
             "Name": "Panther",
@@ -5770,24 +6118,28 @@
             }
         },
         {
-            "Name": "Nerve",
-            "Aircraft": "F/A-18C"
-        },
-        {
-            "Name": "Taco",
-            "Aircraft": "F/A-18C"
-        },
-        {
-            "Name": "Tooth",
-            "Aircraft": "F/A-18C"
-        },
-        {
             "Name": "Shepherd",
-            "Aircraft": "F/A-18E"
+            "Aircraft": "F/A-18E",
+            "Stats": {
+                "Newbie":    { "Okay": [0,2], "Shaken": [3,4], "XP": 2, "Cooldown": 0 },
+                "Green":     { "Okay": [0,2], "Shaken": [3,4], "XP": 8, "Cooldown": 0 },
+                "Average":   { "Okay": [0,3], "Shaken": [4,5], "XP": 6, "Cooldown": 0 },
+                "Skilled":   { "Okay": [0,5], "Shaken": [6,9], "XP": 6, "Cooldown": 1 },
+                "Veteran":   { "Okay": [0,5], "Shaken": [6,10], "XP": 7, "Cooldown": 1 },
+                "Ace": { "Okay": [0,6], "Shaken": [7,11], "XP": null, "Cooldown": 2 }
+            }
         },
         {
             "Name": "Scout",
-            "Aircraft": "F/A-18E"
+            "Aircraft": "F/A-18E",
+            "Stats": {
+                "Newbie":    { "Okay": [0,2], "Shaken": [3,3], "XP": 3, "Cooldown": 0 },
+                "Green":     { "Okay": [0,2], "Shaken": [3,4], "XP": 4, "Cooldown": 1 },
+                "Average":   { "Okay": [0,4], "Shaken": [5,7], "XP": 6, "Cooldown": 1 },
+                "Skilled":   { "Okay": [0,4], "Shaken": [5,8], "XP": 8, "Cooldown": 1 },
+                "Veteran":   { "Okay": [0,4], "Shaken": [5,8], "XP": 8, "Cooldown": 2 },
+                "Ace": { "Okay": [0,4], "Shaken": [5,8], "XP": null, "Cooldown": 2 }
+            }
         },
         {
             "Name": "Caveman",
@@ -5803,27 +6155,75 @@
         },
         {
             "Name": "Tango",
-            "Aircraft": "F/A-18E"
+            "Aircraft": "F/A-18E",
+            "Stats": {
+                "Newbie":    { "Okay": [0,3], "Shaken": [4,5], "XP": 5, "Cooldown": 0 },
+                "Green":     { "Okay": [0,4], "Shaken": [5,7], "XP": 5, "Cooldown": 0 },
+                "Average":   { "Okay": [0,4], "Shaken": [5,7], "XP": 8, "Cooldown": 0 },
+                "Skilled":   { "Okay": [0,5], "Shaken": [6,10], "XP": 9, "Cooldown": 0 },
+                "Veteran":   { "Okay": [0,6], "Shaken": [7,11], "XP": 11, "Cooldown": 1 },
+                "Ace": { "Okay": [0,6], "Shaken": [7,11], "XP": null, "Cooldown": 1 }
+            }
         },
         {
             "Name": "Boston",
-            "Aircraft": "F/A-18E"
+            "Aircraft": "F/A-18E",
+            "Stats": {
+                "Newbie":    { "Okay": [0,3], "Shaken": [4,5], "XP": 5, "Cooldown": 0 },
+                "Green":     { "Okay": [0,4], "Shaken": [5,7], "XP": 5, "Cooldown": 0 },
+                "Average":   { "Okay": [0,3], "Shaken": [4,6], "XP": 8, "Cooldown": 0 },
+                "Skilled":   { "Okay": [0,4], "Shaken": [5,7], "XP": 9, "Cooldown": 0 },
+                "Veteran":   { "Okay": [0,4], "Shaken": [5,8], "XP": 9, "Cooldown": 0 },
+                "Ace": { "Okay": [0,5], "Shaken": [6,10], "XP": null, "Cooldown": 1 }
+            }
         },
         {
             "Name": "Merlin",
-            "Aircraft": "F/A-18E"
+            "Aircraft": "F/A-18E",
+            "Stats": {
+                "Newbie":    { "Okay": [0,2], "Shaken": [3,4], "XP": 4, "Cooldown": 0 },
+                "Green":     { "Okay": [0,3], "Shaken": [4,5], "XP": 4, "Cooldown": 0 },
+                "Average":   { "Okay": [0,4], "Shaken": [5,7], "XP": 7, "Cooldown": 0 },
+                "Skilled":   { "Okay": [0,6], "Shaken": [7,11], "XP": 8, "Cooldown": 0 },
+                "Veteran":   { "Okay": [0,6], "Shaken": [7,12], "XP": 10, "Cooldown": 0 },
+                "Ace": { "Okay": [0,8], "Shaken": [9,16], "XP": null, "Cooldown": 1 }
+            }
         },
         {
             "Name": "Doc",
-            "Aircraft": "F/A-18E"
+            "Aircraft": "F/A-18E",
+            "Stats": {
+                "Newbie":    { "Okay": [0,2], "Shaken": [3,4], "XP": 4, "Cooldown": 0 },
+                "Green":     { "Okay": [0,3], "Shaken": [4,5], "XP": 2, "Cooldown": 0 },
+                "Average":   { "Okay": [0,3], "Shaken": [4,5], "XP": 4, "Cooldown": 0 },
+                "Skilled":   { "Okay": [0,4], "Shaken": [5,7], "XP": 4, "Cooldown": 1 },
+                "Veteran":   { "Okay": [0,5], "Shaken": [6,10], "XP": 4, "Cooldown": 1 },
+                "Ace": { "Okay": [0,6], "Shaken": [7,12], "XP": null, "Cooldown": 2 }
+            }
         },
         {
             "Name": "Chaos",
-            "Aircraft": "F/A-18E"
+            "Aircraft": "F/A-18E",
+            "Stats": {
+                "Newbie":    { "Okay": [0,3], "Shaken": [4,5], "XP": 7, "Cooldown": 0 },
+                "Green":     { "Okay": [0,5], "Shaken": [6,9], "XP": 6, "Cooldown": 0 },
+                "Average":   { "Okay": [0,6], "Shaken": [7,11], "XP": 7, "Cooldown": 0 },
+                "Skilled":   { "Okay": [0,6], "Shaken": [7,11], "XP": 9, "Cooldown": 0 },
+                "Veteran":   { "Okay": [0,9], "Shaken": [10,17], "XP": 10, "Cooldown": 1 },
+                "Ace": { "Okay": [0,9], "Shaken": [10,18], "XP": null, "Cooldown": 1 }
+            }
         },
         {
             "Name": "Ranger",
-            "Aircraft": "F/A-18E"
+            "Aircraft": "F/A-18E",
+            "Stats": {
+                "Newbie":    { "Okay": [0,2], "Shaken": [3,4], "XP": 6, "Cooldown": 0 },
+                "Green":     { "Okay": [0,3], "Shaken": [4,5], "XP": 8, "Cooldown": 0 },
+                "Average":   { "Okay": [0,4], "Shaken": [5,7], "XP": 8, "Cooldown": 1 },
+                "Skilled":   { "Okay": [0,4], "Shaken": [5,8], "XP": 8, "Cooldown": 1 },
+                "Veteran":   { "Okay": [0,4], "Shaken": [5,8], "XP": 8, "Cooldown": 2 },
+                "Ace": { "Okay": [0,6], "Shaken": [7,11], "XP": null, "Cooldown": 2 }
+            }
         },
         {
             "Name": "Tigger",
@@ -5851,11 +6251,27 @@
         },
         {
             "Name": "Alien",
-            "Aircraft": "F/A-18E"
+            "Aircraft": "F/A-18E",
+            "Stats": {
+                "Newbie":    { "Okay": [0,3], "Shaken": [4,5], "XP": 6, "Cooldown": 0 },
+                "Green":     { "Okay": [0,3], "Shaken": [4,5], "XP": 6, "Cooldown": 0 },
+                "Average":   { "Okay": [0,3], "Shaken": [4,5], "XP": 7, "Cooldown": 0 },
+                "Skilled":   { "Okay": [0,4], "Shaken": [5,7], "XP": 9, "Cooldown": 0 },
+                "Veteran":   { "Okay": [0,5], "Shaken": [6,10], "XP": 9, "Cooldown": 0 },
+                "Ace": { "Okay": [0,5], "Shaken": [6,10], "XP": null, "Cooldown": 0 }
+            }
         },
         {
             "Name": "Bacon",
-            "Aircraft": "F/A-18F"
+            "Aircraft": "F/A-18F",
+            "Stats": {
+                "Newbie":    { "Okay": [0,3], "Shaken": [4,5], "XP": 3, "Cooldown": 0 },
+                "Green":     { "Okay": [0,4], "Shaken": [5,8], "XP": 3, "Cooldown": 0 },
+                "Average":   { "Okay": [0,6], "Shaken": [7,12], "XP": 6, "Cooldown": 1 },
+                "Skilled":   { "Okay": [0,5], "Shaken": [6,10], "XP": 8, "Cooldown": 1 },
+                "Veteran":   { "Okay": [0,5], "Shaken": [6,10], "XP": 12, "Cooldown": 1 },
+                "Ace": { "Okay": [0,7], "Shaken": [8,13], "XP": null, "Cooldown": 2 }
+            }
         },
         {
             "Name": "Gizmo",
@@ -5918,40 +6334,52 @@
             }
         },
         {
-            "Name": "Artoo",
-            "Aircraft": "MQ-47B"
-        },
-        {
-            "Name": "Nomad",
-            "Aircraft": "MQ-47B"
-        },
-        {
             "Name": "Meatball",
-            "Aircraft": "F-35A/C"
+            "Aircraft": "F-35A/C",
+            "Stats": {
+                "Newbie":    { "Okay": [0,2], "Shaken": [3,4], "XP": 4, "Cooldown": 0 },
+                "Green":     { "Okay": [0,3], "Shaken": [4,5], "XP": 4, "Cooldown": 0 },
+                "Average":   { "Okay": [0,4], "Shaken": [5,7], "XP": 6, "Cooldown": 0 },
+                "Skilled":   { "Okay": [0,4], "Shaken": [5,8], "XP": 9, "Cooldown": 0 },
+                "Veteran":   { "Okay": [0,5], "Shaken": [6,10], "XP": 10, "Cooldown": 1 },
+                "Ace": { "Okay": [0,5], "Shaken": [], "XP": null, "Cooldown": 1 }
+            }
         },
         {
             "Name": "Pyro",
-            "Aircraft": "F-35A/C"
+            "Aircraft": "F-35A/C",
+            "Stats": {
+                "Newbie":    { "Okay": [0,2], "Shaken": [3,4], "XP": 3, "Cooldown": 0 },
+                "Green":     { "Okay": [0,3], "Shaken": [4,5], "XP": 5, "Cooldown": 0 },
+                "Average":   { "Okay": [0,3], "Shaken": [4,6], "XP": 6, "Cooldown": 0 },
+                "Skilled":   { "Okay": [0,3], "Shaken": [4,6], "XP": 10, "Cooldown": 0 },
+                "Veteran":   { "Okay": [0,4], "Shaken": [5,7], "XP": 8, "Cooldown": 0 },
+                "Ace": { "Okay": [0,5], "Shaken": [6,10], "XP": null, "Cooldown": 0 }
+            }
         },
         {
             "Name": "Salsa",
-            "Aircraft": "F-35A/C"
+            "Aircraft": "F-35A/C",
+            "Stats": {
+                "Newbie":    { "Okay": [0,2], "Shaken": [3,4], "XP": 2, "Cooldown": 0 },
+                "Green":     { "Okay": [0,3], "Shaken": [4,6], "XP": 5, "Cooldown": 0 },
+                "Average":   { "Okay": [0,3], "Shaken": [4,6], "XP": 8, "Cooldown": 0 },
+                "Skilled":   { "Okay": [0,4], "Shaken": [5,8], "XP": 9, "Cooldown": 1 },
+                "Veteran":   { "Okay": [0,4], "Shaken": [5,7], "XP": 10, "Cooldown": 1 },
+                "Ace": { "Okay": [0,5], "Shaken": [6,9], "XP": null, "Cooldown": 1 }
+            }
         },
         {
             "Name": "Thor",
-            "Aircraft": "F-35A/C"
-        },
-        {
-            "Name": "Spy",
-            "Aircraft": "OV-10"
-        },
-        {
-            "Name": "Harp",
-            "Aircraft": "OV-10"
-        },
-        {
-            "Name": "Bell",
-            "Aircraft": "OV-10"
+            "Aircraft": "F-35A/C",
+            "Stats": {
+                "Newbie":    { "Okay": [0,3], "Shaken": [4,5], "XP": 2, "Cooldown": 0 },
+                "Green":     { "Okay": [0,3], "Shaken": [4,5], "XP": 4, "Cooldown": 0 },
+                "Average":   { "Okay": [0,3], "Shaken": [4,6], "XP": 10, "Cooldown": 0 },
+                "Skilled":   { "Okay": [0,3], "Shaken": [4,6], "XP": 12, "Cooldown": 0 },
+                "Veteran":   { "Okay": [0,4], "Shaken": [5,7], "XP": 12, "Cooldown": 0 },
+                "Ace": { "Okay": [0,5], "Shaken": [6,10], "XP": null, "Cooldown": 0 }
+            }
         }
     ]
 }

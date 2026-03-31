@@ -9,11 +9,41 @@ const RANK_CLASSES = {
     Skilled: 'rank-skilled', Veteran: 'rank-veteran', Ace: 'rank-ace'
 };
 
+// ─── Base Game Scenarios (filter out expansions) ───
+const BASE_SCENARIOS = [
+    'Libya 1984',
+    'WWIII North Atlantic 1980',
+    'Israel Defense',
+    'Syria 2004',
+    'Taiwan Defense 2008',
+    'North Korea 2011',
+    'Iran 2014',
+];
+
+function isBaseScenario(name) {
+    // After loadGameData, use _isBase tag; during tagging, match by name
+    return BASE_SCENARIOS.some(s => name.startsWith(s));
+}
+
+function isBase(campaign) {
+    return campaign._isBase;
+}
+
 // ─── Data Loading ───
 
 async function loadGameData() {
     const resp = await fetch('../hl.json');
     gameData = await resp.json();
+    // Tag base scenarios before renaming
+    gameData.Campaigns.forEach(c => {
+        c._isBase = isBaseScenario(c.Name);
+    });
+    // Fix scenario name: WWIII 1980 → 1986
+    gameData.Campaigns.forEach(c => {
+        if (c.Name.startsWith('WWIII North Atlantic 1980')) {
+            c.Name = c.Name.replace('1980', '1986');
+        }
+    });
     initSetupScreen();
     loadSavedCampaignList();
 }
@@ -35,8 +65,9 @@ function parseCampaign(c) {
 function initSetupScreen() {
     // Collect unique difficulties
     const diffSel = document.getElementById('difficulty-select');
+    const baseCampaigns = gameData.Campaigns.filter(c => isBase(c));
     const difficulties = [...new Map(
-        gameData.Campaigns.map(c => [c.DifficultyDescription, c.Difficulty])
+        baseCampaigns.map(c => [c.DifficultyDescription, c.Difficulty])
     )];
     diffSel.innerHTML = '<option value="">-- 선택 --</option>';
     difficulties.sort((a, b) => a[1] - b[1]).forEach(([desc]) => {
@@ -73,7 +104,7 @@ function onDifficultyChange() {
     const diff = this.value;
     if (!diff) return;
 
-    const filtered = gameData.Campaigns.filter(c => c.DifficultyDescription === diff);
+    const filtered = gameData.Campaigns.filter(c => c.DifficultyDescription === diff && isBase(c));
     const regions = [...new Set(filtered.map(c => parseCampaign(c).region))];
 
     const regionSel = document.getElementById('region-select');
@@ -94,7 +125,7 @@ function onRegionChange() {
     if (!region) return;
 
     const filtered = gameData.Campaigns.filter(c =>
-        c.DifficultyDescription === diff && parseCampaign(c).region === region
+        c.DifficultyDescription === diff && parseCampaign(c).region === region && isBase(c)
     );
     const forces = [...new Set(filtered.map(c => parseCampaign(c).force).filter(Boolean))];
 
@@ -130,6 +161,7 @@ function onForceChange() {
     if (!force) return;
 
     const found = gameData.Campaigns.find(c =>
+        isBase(c) &&
         c.DifficultyDescription === diff &&
         parseCampaign(c).region === region &&
         parseCampaign(c).force === force
