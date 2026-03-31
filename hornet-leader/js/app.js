@@ -684,21 +684,28 @@ function hasPendingSAR(m) {
 
 // ─── Campaign State ───
 
+const RANDOM_SO_BONUS = [6, 12, 18]; // Short / Medium / Long
+
 function createCampaign(scenarioIdx, lengthIdx, selectedAircraft, diffRules) {
     const scenario = gameData.Campaigns[scenarioIdx];
     const option = scenario.CampaignOptions[lengthIdx];
-    const squadron = generateSquadron(scenario, option, selectedAircraft);
+
+    // Generate squadron, re-roll if SO goes below 0
+    const baseSO = option.SOPoints;
+    const randomBonus = RANDOM_SO_BONUS[lengthIdx] || 6;
+    let squadron, aircraftSO, totalSO;
+    const maxAttempts = 100;
+    for (let attempt = 0; attempt < maxAttempts; attempt++) {
+        squadron = generateSquadron(scenario, option, selectedAircraft);
+        aircraftSO = calcSquadronSOCost(squadron, lengthIdx);
+        totalSO = baseSO - aircraftSO + randomBonus;
+        if (diffRules.reducedSOs)  totalSO -= SO_ADJUST[lengthIdx] || 6;
+        if (diffRules.increasedSOs) totalSO += SO_ADJUST[lengthIdx] || 6;
+        if (totalSO >= 0) break;
+    }
+
     const daysMatch = option.Timespan.match(/(\d+)/);
     const totalDays = daysMatch ? parseInt(daysMatch[1]) : 3;
-
-    // SO: base from scenario + aircraft cost adjustments (negative Cost = SO gain)
-    const aircraftSO = calcSquadronSOCost(squadron, lengthIdx);
-    const baseSO = option.SOPoints;
-    let totalSO = baseSO - aircraftSO;
-
-    // Difficulty SO adjustments
-    if (diffRules.reducedSOs)  totalSO -= SO_ADJUST[lengthIdx] || 6;
-    if (diffRules.increasedSOs) totalSO += SO_ADJUST[lengthIdx] || 6;
 
     const missions = [];
     for (let i = 0; i < totalDays; i++) {
@@ -1812,20 +1819,23 @@ document.addEventListener('DOMContentLoaded', () => {
         if (!campaign) return;
         const scenario = gameData.Campaigns[campaign.scenarioIdx];
         const option = scenario.CampaignOptions[campaign.lengthIdx];
-        // Preserve selected aircraft from original generation if possible
         const allowedAircraft = scenario.AvailableAircraft.filter(a => {
             const count = gameData.Pilots.filter(p => p.Aircraft === a && !EXPANSION_PILOTS.has(p.Name)).length;
             return count > 0;
         });
-        campaign.squadron = generateSquadron(scenario, option, allowedAircraft);
-        // Recalculate SO
-        const aircraftSO = calcSquadronSOCost(campaign.squadron, campaign.lengthIdx);
-        campaign.aircraftSO = aircraftSO;
-        let newTotalSO = campaign.baseSO - aircraftSO;
+        const randomBonus = RANDOM_SO_BONUS[campaign.lengthIdx] || 6;
         const dr = campaign.diffRules || {};
-        if (dr.reducedSOs) newTotalSO -= SO_ADJUST[campaign.lengthIdx] || 6;
-        if (dr.increasedSOs) newTotalSO += SO_ADJUST[campaign.lengthIdx] || 6;
-        campaign.totalSO = newTotalSO;
+        // Re-roll until SO >= 0
+        for (let attempt = 0; attempt < 100; attempt++) {
+            campaign.squadron = generateSquadron(scenario, option, allowedAircraft);
+            const aircraftSO = calcSquadronSOCost(campaign.squadron, campaign.lengthIdx);
+            campaign.aircraftSO = aircraftSO;
+            let newTotalSO = campaign.baseSO - aircraftSO + randomBonus;
+            if (dr.reducedSOs) newTotalSO -= SO_ADJUST[campaign.lengthIdx] || 6;
+            if (dr.increasedSOs) newTotalSO += SO_ADJUST[campaign.lengthIdx] || 6;
+            campaign.totalSO = newTotalSO;
+            if (newTotalSO >= 0) break;
+        }
         campaign.missions[0].startSO = campaign.totalSO;
         renderAll();
         autoSave();
