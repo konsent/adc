@@ -808,6 +808,12 @@ tr.pilot-unfit { position: relative; }
 .saved-item-detail { font-size: 0.78rem; color: #8a8880; }
 .saved-item-actions { display: flex; gap: 0.4rem; }
 
+.import-export-bar {
+    margin-top: 1rem;
+    display: flex;
+    gap: 0.5rem;
+}
+
 /* ═══ Responsive ═══ */
 @media (max-width: 700px) {
     table { font-size: 0.78rem; }

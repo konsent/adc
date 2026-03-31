@@ -1490,6 +1490,59 @@ function deleteCampaign(createdAt) {
     loadSavedCampaignList();
 }
 
+// ─── JSON Export / Import ───
+
+function exportCampaignJSON(camp) {
+    const json = JSON.stringify(camp, null, 2);
+    const blob = new Blob([json], { type: 'application/json' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    const name = (camp.scenarioName || 'campaign').replace(/[^a-zA-Z0-9가-힣]/g, '_');
+    a.href = url;
+    a.download = `hornet_leader_${name}.json`;
+    a.click();
+    URL.revokeObjectURL(url);
+}
+
+function exportAllCampaignsJSON() {
+    const saved = getSavedCampaigns();
+    if (saved.length === 0) { alert('저장된 캠페인이 없습니다.'); return; }
+    const json = JSON.stringify(saved, null, 2);
+    const blob = new Blob([json], { type: 'application/json' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = 'hornet_leader_all_campaigns.json';
+    a.click();
+    URL.revokeObjectURL(url);
+}
+
+function importCampaignsJSON(file) {
+    const reader = new FileReader();
+    reader.onload = function (e) {
+        try {
+            const data = JSON.parse(e.target.result);
+            const campaigns = Array.isArray(data) ? data : [data];
+            const saved = getSavedCampaigns();
+            let added = 0;
+            campaigns.forEach(c => {
+                if (!c.createdAt || !c.scenarioName) return;
+                c = migrateCampaign(c);
+                const idx = saved.findIndex(s => s.createdAt === c.createdAt);
+                if (idx >= 0) saved[idx] = c;
+                else saved.push(c);
+                added++;
+            });
+            localStorage.setItem(STORAGE_KEY, JSON.stringify(saved));
+            loadSavedCampaignList();
+            alert(`${added}개 캠페인을 불러왔습니다.`);
+        } catch (err) {
+            alert('JSON 파일을 읽을 수 없습니다: ' + err.message);
+        }
+    };
+    reader.readAsText(file);
+}
+
 function loadSavedCampaignList() {
     const saved = getSavedCampaigns();
     const container = document.getElementById('saved-list');
@@ -1543,6 +1596,23 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     document.getElementById('save-campaign').addEventListener('click', () => saveCampaign());
+
+    document.getElementById('export-json-btn').addEventListener('click', () => {
+        if (campaign) exportCampaignJSON(campaign);
+    });
+
+    document.getElementById('export-all-json-btn').addEventListener('click', exportAllCampaignsJSON);
+
+    document.getElementById('import-json-btn').addEventListener('click', () => {
+        document.getElementById('import-json-input').click();
+    });
+
+    document.getElementById('import-json-input').addEventListener('change', (e) => {
+        if (e.target.files[0]) {
+            importCampaignsJSON(e.target.files[0]);
+            e.target.value = '';
+        }
+    });
 
     document.getElementById('reroll-btn').addEventListener('click', () => {
         if (!campaign) return;

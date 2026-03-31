@@ -59,6 +59,11 @@
             <div id="saved-campaigns" class="saved-campaigns">
                 <h2>저장된 캠페인</h2>
                 <div id="saved-list"></div>
+                <div class="import-export-bar">
+                    <button id="import-json-btn" class="btn btn-small">JSON 불러오기</button>
+                    <button id="export-all-json-btn" class="btn btn-small">전체 JSON 내보내기</button>
+                    <input type="file" id="import-json-input" accept=".json" style="display:none">
+                </div>
             </div>
         </main>
     </div>
@@ -70,6 +75,7 @@
             <div class="header-actions">
                 <button id="back-to-setup" class="btn btn-small">새 캠페인</button>
                 <button id="save-campaign" class="btn btn-small btn-primary">저장</button>
+                <button id="export-json-btn" class="btn btn-small">JSON 내보내기</button>
             </div>
         </header>
         <main>
