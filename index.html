@@ -232,6 +232,24 @@
     .game-card.silentvictory .card-desc { color: #4a6a7a; }
     .game-card.silentvictory .card-enter { color: #5a9ab0; }
 
+    /* Hornet Leader card — carrier navy steel theme */
+    .game-card.hornetleader {
+      background: linear-gradient(160deg, #0a1210 0%, #0e1e1a 60%, #0a1210 100%);
+      border: 1px solid #1a4a3a;
+      box-shadow: 0 4px 24px rgba(0,0,0,0.5), inset 0 0 40px rgba(40,160,120,0.04);
+    }
+    .game-card.hornetleader:hover {
+      border-color: #3a8a6a;
+      box-shadow: 0 8px 40px rgba(40,160,120,0.15), inset 0 0 40px rgba(40,160,120,0.06);
+    }
+    .game-card.hornetleader .card-image::after {
+      background: linear-gradient(to top, #0a1210, transparent);
+    }
+    .game-card.hornetleader .card-era { color: #4a8a6a; }
+    .game-card.hornetleader .card-title { color: #6abf9a; }
+    .game-card.hornetleader .card-desc { color: #4a7a6a; }
+    .game-card.hornetleader .card-enter { color: #5aaf8a; }
+
     /* Footer */
     .footer {
       position: fixed;
@@ -318,6 +336,18 @@
         <div class="card-era">Pacific · 1941–1945</div>
         <div class="card-title">Silent Victory</div>
         <div class="card-desc">U.S. Submarine — 태평양 전쟁 미 잠수함 작전</div>
+        <div class="card-enter">Enter <span class="arrow">→</span></div>
+      </div>
+    </a>
+    <!-- Hornet Leader -->
+    <a class="game-card hornetleader" href="hornet-leader/index.html">
+      <div class="card-image">
+        <img src="assets/thumbnail/hl.webp" alt="Hornet Leader" />
+      </div>
+      <div class="card-body">
+        <div class="card-era">Modern · Carrier Ops</div>
+        <div class="card-title">Hornet Leader</div>
+        <div class="card-desc">Carrier Air Operations — 솔리테어 항공 작전 워게임</div>
         <div class="card-enter">Enter <span class="arrow">→</span></div>
       </div>
     </a>

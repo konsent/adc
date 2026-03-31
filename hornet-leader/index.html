@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hornet Leader - Campaign Log</title>
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+
+    <!-- Screen A: Campaign Setup -->
+    <div id="setup-screen" class="screen active">
+        <header>
+            <h1>Hornet Leader</h1>
+            <p class="subtitle">캠페인 로그 시트</p>
+        </header>
+        <main>
+            <div class="setup-form">
+                <div class="setup-row">
+                    <div class="form-group">
+                        <label for="difficulty-select">난이도</label>
+                        <select id="difficulty-select"></select>
+                    </div>
+                    <div class="form-group">
+                        <label for="region-select">시나리오</label>
+                        <select id="region-select" disabled></select>
+                    </div>
+                    <div class="form-group">
+                        <label for="force-select">소속</label>
+                        <select id="force-select" disabled></select>
+                    </div>
+                </div>
+                <div id="scenario-info" class="scenario-info hidden"></div>
+                <div class="setup-row">
+                    <div id="length-group" class="form-group hidden">
+                        <label for="length-select">캠페인 길이</label>
+                        <select id="length-select"></select>
+                    </div>
+                </div>
+                <div id="length-info" class="length-info hidden"></div>
+                <div id="difficulty-rules-group" class="form-group hidden">
+                    <label>플레이어 난이도 조정</label>
+                    <div id="difficulty-rules-area"></div>
+                </div>
+                <div id="aircraft-group" class="form-group hidden">
+                    <label>사용 기체 선택</label>
+                    <div id="aircraft-options" class="aircraft-options"></div>
+                    <button id="toggle-aircraft" class="btn btn-small" type="button">전체 선택/해제</button>
+                </div>
+                <button id="generate-btn" class="btn btn-primary hidden">비행대 생성</button>
+            </div>
+
+            <!-- Saved campaigns -->
+            <div id="saved-campaigns" class="saved-campaigns">
+                <h2>저장된 캠페인</h2>
+                <div id="saved-list"></div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Screen B: Campaign Dashboard -->
+    <div id="dashboard-screen" class="screen">
+        <header>
+            <h1 id="campaign-title">Hornet Leader</h1>
+            <div class="header-actions">
+                <button id="back-to-setup" class="btn btn-small">새 캠페인</button>
+                <button id="save-campaign" class="btn btn-small btn-primary">저장</button>
+            </div>
+        </header>
+        <main>
+            <!-- Campaign Info + Mission Log -->
+            <section class="section-campaign riveted">
+                <h2 class="section-title">캠페인</h2>
+                <div class="campaign-stats">
+                    <span class="stat-item"><strong>시나리오:</strong> <span id="summary-scenario"></span></span>
+                    <span class="stat-item"><strong>기간:</strong> <span id="summary-length"></span></span>
+                    <span id="so-display" class="so-badge">SO: 0</span>
+                    <span id="vp-display" class="vp-badge">VP: 0</span>
+                    <span class="stat-item">Okay: <span id="summary-okay" class="status-okay">0</span></span>
+                    <span class="stat-item">Shaken: <span id="summary-shaken" class="status-shaken">0</span></span>
+                    <span class="stat-item">Unfit: <span id="summary-unfit" class="status-unfit">0</span></span>
+                </div>
+                <div id="active-rules" class="active-rules"></div>
+                <div id="mission-days"></div>
+
+                <!-- Recon / Intel / Infra -->
+                <div class="track-panel">
+                    <div class="track-box track-recon">
+                        <div class="track-label">Recon</div>
+                        <input type="number" class="track-input" id="track-recon" value="0" min="0">
+                    </div>
+                    <div class="track-box track-intel">
+                        <div class="track-label">Intel</div>
+                        <input type="number" class="track-input" id="track-intel" value="0" min="0">
+                    </div>
+                    <div class="track-box track-infra">
+                        <div class="track-label">Infra</div>
+                        <input type="number" class="track-input" id="track-infra" value="0" min="0">
+                    </div>
+                </div>
+            </section>
+
+            <!-- Squadron -->
+            <section class="section-squadron riveted">
+                <div class="section-header">
+                    <h2 class="section-title">편대</h2>
+                    <button id="reroll-btn" class="btn btn-small">다시 뽑기</button>
+                </div>
+                <table id="squadron-table">
+                    <thead>
+                        <tr>
+                            <th>콜사인</th>
+                            <th>기체</th>
+                            <th>숙련도</th>
+                            <th>상태</th>
+                            <th>스트레스</th>
+                            <th>경험치</th>
+                            <th>쿨다운</th>
+                        </tr>
+                    </thead>
+                    <tbody id="squadron-body"></tbody>
+                </table>
+            </section>
+        </main>
+    </div>
+
+    <script src="js/app.js"></script>
+</body>
+</html>
