@@ -52,7 +52,18 @@
                     <div id="aircraft-options" class="aircraft-options"></div>
                     <button id="toggle-aircraft" class="btn btn-small" type="button">전체 선택/해제</button>
                 </div>
-                <button id="generate-btn" class="btn btn-primary hidden">비행대 생성</button>
+                <div id="generate-group" class="generate-group hidden">
+                    <button id="generate-btn" class="btn btn-primary">랜덤 비행대</button>
+                    <button id="manual-select-btn" class="btn btn-primary">직접 선택</button>
+                </div>
+                <div id="manual-panel" class="manual-panel hidden">
+                    <h3>조종사 직접 선택</h3>
+                    <div id="manual-slots"></div>
+                    <div class="manual-actions">
+                        <button id="manual-confirm-btn" class="btn btn-primary" disabled>확인</button>
+                        <button id="manual-cancel-btn" class="btn btn-small">취소</button>
+                    </div>
+                </div>
             </div>
 
             <!-- Saved campaigns -->

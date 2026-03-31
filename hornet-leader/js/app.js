@@ -54,7 +54,8 @@ function initSetupScreen() {
 function hideFrom(startLevel) {
     const ids = ['scenario-info', 'length-group', 'length-info', 'difficulty-rules-group', 'aircraft-group'];
     ids.forEach(id => document.getElementById(id).classList.add('hidden'));
-    document.getElementById('generate-btn').classList.add('hidden');
+    document.getElementById('generate-group').classList.add('hidden');
+    document.getElementById('manual-panel').classList.add('hidden');
     if (startLevel <= 1) {
         const r = document.getElementById('region-select');
         r.innerHTML = '<option value="">-- 선택 --</option>';
@@ -120,7 +121,8 @@ function onRegionChange() {
 function onForceChange() {
     const ids = ['scenario-info', 'length-group', 'length-info', 'difficulty-rules-group', 'aircraft-group'];
     ids.forEach(id => document.getElementById(id).classList.add('hidden'));
-    document.getElementById('generate-btn').classList.add('hidden');
+    document.getElementById('generate-group').classList.add('hidden');
+    document.getElementById('manual-panel').classList.add('hidden');
 
     const diff = document.getElementById('difficulty-select').value;
     const region = document.getElementById('region-select').value;
@@ -164,7 +166,8 @@ function showScenarioDetails(sc) {
     document.getElementById('length-group').classList.remove('hidden');
     document.getElementById('length-info').classList.add('hidden');
     document.getElementById('aircraft-group').classList.add('hidden');
-    document.getElementById('generate-btn').classList.add('hidden');
+    document.getElementById('generate-group').classList.add('hidden');
+    document.getElementById('manual-panel').classList.add('hidden');
 
     // Store selected scenario index
     lengthSel.dataset.scenarioIdx = scenarioIdx;
@@ -173,7 +176,8 @@ function showScenarioDetails(sc) {
         if (this.value === '') {
             document.getElementById('length-info').classList.add('hidden');
             document.getElementById('aircraft-group').classList.add('hidden');
-            document.getElementById('generate-btn').classList.add('hidden');
+            document.getElementById('generate-group').classList.add('hidden');
+            document.getElementById('manual-panel').classList.add('hidden');
             return;
         }
         const lengthIdx = parseInt(this.value);
@@ -190,7 +194,7 @@ function showScenarioDetails(sc) {
         populateDifficultyRules();
         document.getElementById('difficulty-rules-group').classList.remove('hidden');
         document.getElementById('aircraft-group').classList.remove('hidden');
-        document.getElementById('generate-btn').classList.remove('hidden');
+        document.getElementById('generate-group').classList.remove('hidden');
     };
 }
 
@@ -413,6 +417,182 @@ function generateSquadron(scenario, option, selectedAircraft) {
     return squadron;
 }
 
+// ─── Manual Pilot Selection ───
+
+function openManualPanel() {
+    const lengthSel = document.getElementById('length-select');
+    const scenarioIdx = parseInt(lengthSel.dataset.scenarioIdx);
+    const lengthIdx = parseInt(lengthSel.value);
+    const scenario = gameData.Campaigns[scenarioIdx];
+    const option = scenario.CampaignOptions[lengthIdx];
+    const selectedAircraft = getSelectedAircraft();
+    if (selectedAircraft.length === 0) return;
+
+    const pilotPool = gameData.Pilots.filter(p =>
+        selectedAircraft.includes(p.Aircraft) && !EXPANSION_PILOTS.has(p.Name));
+
+    const container = document.getElementById('manual-slots');
+    container.innerHTML = '';
+    // Remove previous SO info if exists
+    const oldSoInfo = document.getElementById('manual-so-info');
+    if (oldSoInfo) oldSoInfo.remove();
+
+    let slotIndex = 0;
+    option.SquadronMakeup.forEach(rank => {
+        for (let i = 0; i < rank.Count; i++) {
+            const row = document.createElement('div');
+            row.className = 'manual-slot-row';
+            const sel = document.createElement('select');
+            sel.className = 'manual-pilot-select';
+            sel.dataset.slotIndex = slotIndex;
+            sel.dataset.rank = rank.RankDescription;
+            sel.innerHTML = `<option value="">-- ${rank.RankDescription} #${i + 1} --</option>`;
+            pilotPool.forEach(p => {
+                const o = document.createElement('option');
+                o.value = p.Name;
+                const soCost = getAircraftSOCost(p.Aircraft, lengthIdx);
+                let soLabel = '';
+                if (soCost > 0) soLabel = ` [-${soCost} SO]`;
+                else if (soCost < 0) soLabel = ` [+${Math.abs(soCost)} SO]`;
+                o.textContent = `${p.Name} (${p.Aircraft})${soLabel}`;
+                o.dataset.aircraft = p.Aircraft;
+                sel.appendChild(o);
+            });
+            const rankBadge = document.createElement('span');
+            rankBadge.className = `manual-rank-badge ${RANK_CLASSES[rank.RankDescription] || ''}`;
+            rankBadge.textContent = rank.RankDescription;
+            row.appendChild(rankBadge);
+            row.appendChild(sel);
+            container.appendChild(row);
+            slotIndex++;
+        }
+    });
+
+    // SO cost display
+    const soInfo = document.createElement('div');
+    soInfo.id = 'manual-so-info';
+    soInfo.className = 'manual-so-info';
+    container.after(soInfo);
+
+    // Enforce unique selection
+    container.querySelectorAll('.manual-pilot-select').forEach(sel => {
+        sel.addEventListener('change', () => updateManualSelections());
+    });
+
+    document.getElementById('manual-panel').classList.remove('hidden');
+    document.getElementById('manual-confirm-btn').disabled = true;
+    updateManualSelections(); // initial SO display
+}
+
+function updateManualSelections() {
+    const selects = document.querySelectorAll('.manual-pilot-select');
+    const lengthIdx = parseInt(document.getElementById('length-select').value);
+    const chosen = new Set();
+    selects.forEach(s => { if (s.value) chosen.add(s.value); });
+
+    // Disable already-chosen pilots in other dropdowns
+    selects.forEach(s => {
+        Array.from(s.options).forEach(opt => {
+            if (!opt.value) return;
+            opt.disabled = opt.value !== s.value && chosen.has(opt.value);
+        });
+    });
+
+    // Calculate and display SO cost
+    let totalCost = 0;
+    selects.forEach(sel => {
+        if (!sel.value) return;
+        const pd = gameData.Pilots.find(p => p.Name === sel.value);
+        if (pd) totalCost += getAircraftSOCost(pd.Aircraft, lengthIdx);
+    });
+
+    const soInfo = document.getElementById('manual-so-info');
+    if (soInfo) {
+        if (totalCost > 0) {
+            soInfo.innerHTML = `항공기 SO 비용: <span class="so-pay">-${totalCost} SO</span>`;
+        } else if (totalCost < 0) {
+            soInfo.innerHTML = `항공기 SO 보너스: <span class="so-gain">+${Math.abs(totalCost)} SO</span>`;
+        } else {
+            soInfo.innerHTML = '항공기 SO 보정: 없음';
+        }
+    }
+
+    // Enable confirm only when all slots filled
+    const allFilled = Array.from(selects).every(s => s.value !== '');
+    document.getElementById('manual-confirm-btn').disabled = !allFilled;
+}
+
+function confirmManualSelection() {
+    const lengthSel = document.getElementById('length-select');
+    const scenarioIdx = parseInt(lengthSel.dataset.scenarioIdx);
+    const lengthIdx = parseInt(lengthSel.value);
+    const diffRules = getSelectedDifficultyRules();
+    const scenario = gameData.Campaigns[scenarioIdx];
+    const option = scenario.CampaignOptions[lengthIdx];
+
+    const selects = document.querySelectorAll('.manual-pilot-select');
+    const squadron = [];
+    selects.forEach(sel => {
+        const pilotName = sel.value;
+        const rank = sel.dataset.rank;
+        const pd = gameData.Pilots.find(p => p.Name === pilotName);
+        if (!pd) return;
+        const hasStats = !!pd.Stats;
+        const rankStats = hasStats && pd.Stats[rank] ? pd.Stats[rank] : null;
+        squadron.push({
+            name: pd.Name,
+            aircraft: pd.Aircraft,
+            rank: rank,
+            stress: 0,
+            xp: 0,
+            cooldown: rankStats ? rankStats.Cooldown : 0,
+            hasStats: hasStats
+        });
+    });
+
+    // Calculate aircraft SO cost (same rules as random generation)
+    const aircraftSO = calcSquadronSOCost(squadron, lengthIdx);
+    const daysMatch = option.Timespan.match(/(\d+)/);
+    const totalDays = daysMatch ? parseInt(daysMatch[1]) : 3;
+    const baseSO = option.SOPoints;
+    let totalSO = baseSO - aircraftSO;
+
+    if (diffRules.reducedSOs)  totalSO -= SO_ADJUST[lengthIdx] || 6;
+    if (diffRules.increasedSOs) totalSO += SO_ADJUST[lengthIdx] || 6;
+
+    const missions = [];
+    for (let i = 0; i < totalDays; i++) {
+        missions.push({
+            day: i + 1,
+            startSO: i === 0 ? totalSO : '',
+            usedSO: '',
+            targets: [{ targetNumber: '', dayNight: 'Day', vp: '', recon: '', intel: '', infra: '', baseStress: '', assignedPilots: [], result: '', resolved: false }],
+            recoveryApplied: false,
+            rnrApplied: false
+        });
+    }
+
+    campaign = {
+        scenarioIdx, lengthIdx,
+        scenarioName: scenario.Name,
+        lengthDesc: option.LengthDescription,
+        timespan: option.Timespan,
+        baseSO: baseSO,
+        aircraftSO: aircraftSO,
+        totalSO: totalSO,
+        manualSquadron: true,
+        squadron, missions,
+        tracks: { recon: 0, intel: 0, infra: 0 },
+        diffRules: diffRules || { level: 'average' },
+        createdAt: new Date().toISOString()
+    };
+
+    openAssignPanels = new Set();
+    assignStaging = {};
+    saveCampaign();
+    showDashboard();
+}
+
 // Calculate total SO adjustment from aircraft costs (negative = gain, positive = pay)
 function calcSquadronSOCost(squadron, lengthIdx) {
     let total = 0;
@@ -604,6 +784,8 @@ function showDashboard() {
     document.getElementById('dashboard-screen').classList.add('active');
     document.getElementById('campaign-title').textContent =
         `${campaign.scenarioName} - ${campaign.lengthDesc}`;
+    // Hide reroll button for manually selected squadrons
+    document.getElementById('reroll-btn').style.display = campaign.manualSquadron ? 'none' : '';
     renderAll();
 }
 
@@ -1587,6 +1769,18 @@ document.addEventListener('DOMContentLoaded', () => {
         assignStaging = {};
         saveCampaign();
         showDashboard();
+    });
+
+    document.getElementById('manual-select-btn').addEventListener('click', () => {
+        const lengthSel = document.getElementById('length-select');
+        if (!lengthSel.dataset.scenarioIdx || lengthSel.value === '') return;
+        openManualPanel();
+    });
+
+    document.getElementById('manual-confirm-btn').addEventListener('click', confirmManualSelection);
+
+    document.getElementById('manual-cancel-btn').addEventListener('click', () => {
+        document.getElementById('manual-panel').classList.add('hidden');
     });
 
     document.getElementById('back-to-setup').addEventListener('click', () => {

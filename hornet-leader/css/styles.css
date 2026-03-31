@@ -808,6 +808,75 @@ tr.pilot-unfit { position: relative; }
 .saved-item-detail { font-size: 0.78rem; color: #8a8880; }
 .saved-item-actions { display: flex; gap: 0.4rem; }
 
+/* ═══ Generate Group ═══ */
+.generate-group {
+    display: flex;
+    gap: 0.5rem;
+    margin-top: 0.5rem;
+}
+
+/* ═══ Manual Pilot Selection ═══ */
+.manual-panel {
+    margin-top: 1rem;
+    background: rgba(0,0,0,0.25);
+    border: 1px solid rgba(255,255,255,0.08);
+    border-radius: 6px;
+    padding: 1rem;
+}
+.manual-panel h3 {
+    font-family: 'Bebas Neue', sans-serif;
+    color: #d0cdc5;
+    font-size: 1rem;
+    letter-spacing: 0.08em;
+    margin-bottom: 0.8rem;
+}
+.manual-slot-row {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin-bottom: 0.4rem;
+}
+.manual-rank-badge {
+    display: inline-block;
+    min-width: 70px;
+    text-align: center;
+    font-size: 0.75rem;
+    font-weight: 600;
+    padding: 0.15em 0.5em;
+    border-radius: 3px;
+    background: rgba(255,255,255,0.06);
+    color: #c0bdb8;
+}
+.manual-pilot-select {
+    flex: 1;
+    padding: 0.3em 0.5em;
+    font-size: 0.85rem;
+    background: #2a2c28;
+    color: #c0bdb8;
+    border: 1px solid rgba(255,255,255,0.12);
+    border-radius: 4px;
+}
+.manual-pilot-select option:disabled {
+    color: #555;
+}
+.manual-actions {
+    margin-top: 0.8rem;
+    display: flex;
+    gap: 0.5rem;
+}
+.manual-actions .btn:disabled {
+    opacity: 0.4;
+    cursor: not-allowed;
+}
+.manual-so-info {
+    margin-top: 0.6rem;
+    font-size: 0.85rem;
+    color: #a0a0a0;
+    font-weight: 600;
+}
+.manual-so-info .so-pay { color: #e07050; }
+.manual-so-info .so-gain { color: #6aaa5a; }
+
 .import-export-bar {
     margin-top: 1rem;
     display: flex;
