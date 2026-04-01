@@ -471,6 +471,7 @@ select:focus, input:focus { outline: none; border-color: #8b7a2e; box-shadow: in
 }
 .tgt-field input, .tgt-field select { width: 65px; font-size: 0.85rem; padding: 0.2em 0.4em; }
 .day-actions { margin-left: auto; display: flex; gap: 0.3rem; }
+.btn-downtime { background: #5a4a1a; color: #e8c840; border-color: #8b7a2e; }
 
 /* ─── Targets ─── */
 .day-targets { padding: 0 0.8rem; }

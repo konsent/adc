@@ -605,7 +605,8 @@ function confirmManualSelection() {
             usedSO: '',
             targets: [{ targetNumber: '', dayNight: 'Day', vp: '', recon: '', intel: '', infra: '', baseStress: '', assignedPilots: [], result: '', resolved: false }],
             recoveryApplied: false,
-            rnrApplied: false
+            rnrApplied: false,
+            downTime: false
         });
     }
 
@@ -753,7 +754,8 @@ function createCampaign(scenarioIdx, lengthIdx, selectedAircraft, diffRules) {
             usedSO: '',
             targets: [{ targetNumber: '', dayNight: 'Day', vp: '', recon: '', intel: '', infra: '', baseStress: '', assignedPilots: [], result: '', resolved: false }],
             recoveryApplied: false,
-            rnrApplied: false
+            rnrApplied: false,
+            downTime: false
         });
     }
 
@@ -817,6 +819,7 @@ function migrateCampaign(c) {
         });
         if (!('recoveryApplied' in m)) m.recoveryApplied = false;
         if (!('rnrApplied' in m)) m.rnrApplied = false;
+        if (!('downTime' in m)) m.downTime = false;
     });
     if (!c.diffRules) c.diffRules = { level: 'average' };
     return c;
@@ -994,22 +997,33 @@ function renderMissions() {
     campaign.missions.forEach((m, dayIdx) => {
         const allResolved = m.targets.every(t => t.resolved);
         const div = document.createElement('div');
-        div.className = 'mission-day' + (allResolved && m.recoveryApplied ? ' resolved' : '');
+        div.className = 'mission-day' + ((allResolved && m.recoveryApplied) || m.downTime ? ' resolved' : '');
 
         // Header
         const header = document.createElement('div');
         header.className = 'day-header';
         header.innerHTML = `
-            <span class="day-num">${m.day}일차</span>
+            <span class="day-num">${m.day}일차${m.downTime ? ' (Down Time)' : ''}</span>
             <div class="tgt-field"><span class="tgt-field-label">시작 SO</span>
-                <input type="number" value="${m.startSO}" data-day="${dayIdx}" data-field="startSO" ${m.recoveryApplied ? 'readonly' : ''}></div>
+                <input type="number" value="${m.startSO}" data-day="${dayIdx}" data-field="startSO" ${m.recoveryApplied || m.downTime ? 'readonly' : ''}></div>
             <div class="tgt-field"><span class="tgt-field-label">사용 SO</span>
-                <input type="number" value="${m.usedSO}" data-day="${dayIdx}" data-field="usedSO"></div>
+                <input type="number" value="${m.usedSO}" data-day="${dayIdx}" data-field="usedSO" ${m.downTime ? 'readonly' : ''}></div>
             <div class="day-actions">
-                <button class="btn btn-small" data-day="${dayIdx}" data-action="add-target">+ 표적</button>
+                ${!m.downTime ? `<button class="btn btn-small" data-day="${dayIdx}" data-action="add-target">+ 표적</button>` : ''}
+                ${!m.downTime && !m.recoveryApplied && !allResolved ? `<button class="btn btn-small btn-downtime" data-day="${dayIdx}" data-action="down-time">Down Time</button>` : ''}
             </div>
         `;
         div.appendChild(header);
+
+        // Down Time: skip targets, show badge
+        if (m.downTime) {
+            const dtDiv = document.createElement('div');
+            dtDiv.className = 'day-resolve';
+            dtDiv.innerHTML = `<span class="day-resolved-badge">Down Time — 전체 휴식 (Recon/Intel/Infra -1)</span>`;
+            div.appendChild(dtDiv);
+            container.appendChild(div);
+            return;
+        }
 
         // All deployed pilots across all targets this day (for disable check)
         const dayDeployed = getDayDeployedSet(m);
@@ -1320,6 +1334,8 @@ function attachMissionEvents(container) {
         el.addEventListener('click', onApplyRecovery));
     container.querySelectorAll('[data-action="apply-rnr"]').forEach(el =>
         el.addEventListener('click', onApplyRnR));
+    container.querySelectorAll('[data-action="down-time"]').forEach(el =>
+        el.addEventListener('click', onDownTime));
     container.querySelectorAll('[data-action="sar-roll"]').forEach(el =>
         el.addEventListener('click', onSarRoll));
 }
@@ -1517,6 +1533,36 @@ function onApplyRnR(e) {
     });
 
     m.rnrApplied = true;
+    renderAll();
+    autoSave();
+}
+
+function onDownTime(e) {
+    const dayIdx = parseInt(e.target.dataset.day);
+    const m = campaign.missions[dayIdx];
+    if (m.downTime || m.recoveryApplied) return;
+
+    // 페널티: Recon, Intel, Infra 각 -1
+    campaign.tracks.recon = Math.max(0, (campaign.tracks.recon || 0) - 1);
+    campaign.tracks.intel = Math.max(0, (campaign.tracks.intel || 0) - 1);
+    campaign.tracks.infra = Math.max(0, (campaign.tracks.infra || 0) - 1);
+
+    // 전 파일럿 휴식: Cool + 2 스트레스 회복
+    campaign.squadron.forEach(pilot => {
+        if (pilot.shotDown) return;
+        pilot.stress = Math.max(0, pilot.stress - (pilot.cooldown + 2));
+    });
+
+    // SO 이월
+    const startSO = parseFloat(m.startSO) || 0;
+    const usedSO = parseFloat(m.usedSO) || 0;
+    const nextDayIdx = dayIdx + 1;
+    if (nextDayIdx < campaign.missions.length) {
+        campaign.missions[nextDayIdx].startSO = startSO - usedSO;
+    }
+
+    m.downTime = true;
+    m.recoveryApplied = true;
     renderAll();
     autoSave();
 }
