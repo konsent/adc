@@ -107,9 +107,6 @@
                     <span class="stat-item"><strong>기간:</strong> <span id="summary-length"></span></span>
                     <span id="so-display" class="so-badge">SO: 0</span>
                     <span id="vp-display" class="vp-badge">VP: 0</span>
-                    <span class="stat-item">Okay: <span id="summary-okay" class="status-okay">0</span></span>
-                    <span class="stat-item">Shaken: <span id="summary-shaken" class="status-shaken">0</span></span>
-                    <span class="stat-item">Unfit: <span id="summary-unfit" class="status-unfit">0</span></span>
                 </div>
                 <div id="active-rules" class="active-rules"></div>
                 <div id="mission-days"></div>
@@ -153,6 +150,40 @@
                 </table>
             </section>
         </main>
+    </div>
+
+    <!-- Trait Tooltip -->
+    <div id="trait-tooltip"></div>
+
+    <!-- Overkill Modal -->
+    <div id="overkill-modal" class="draw-modal-overlay" style="display:none">
+        <div class="overkill-modal">
+            <div id="overkill-modal-body" class="overkill-modal-body"></div>
+            <div id="overkill-modal-actions" class="overkill-modal-actions"></div>
+        </div>
+    </div>
+
+    <!-- Campaign Fail Modal -->
+    <div id="campaign-fail-modal" class="draw-modal-overlay" style="display:none">
+        <div class="fail-modal">
+            <div id="fail-modal-body" class="fail-modal-body"></div>
+            <div class="fail-modal-actions">
+                <button class="btn btn-small" onclick="closeCampaignFailModal()">확인</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Target Draw Modal -->
+    <div id="target-draw-modal" class="draw-modal-overlay" style="display:none">
+        <div class="draw-modal">
+            <div class="draw-modal-header">
+                <h3>표적 카드 뽑기</h3>
+                <span id="draw-recon-info" class="draw-recon-info"></span>
+                <button id="draw-modal-close" class="draw-modal-close">&times;</button>
+            </div>
+            <div id="draw-cards-container" class="draw-cards-container"></div>
+            <div id="draw-actions" class="draw-actions"></div>
+        </div>
     </div>
 
     <script src="js/app.js"></script>

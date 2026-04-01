@@ -731,6 +731,32 @@ function createEmptyTarget() {
     return { targetNumber: '', dayNight: 'Day', vp: '', recon: '', intel: '', infra: '', baseStress: '', assignedPilots: [], result: '', resolved: false };
 }
 
+function createTargetWithNumber(targetNumber, scenarioIdx) {
+    const t = createEmptyTarget();
+    t.targetNumber = String(targetNumber);
+    const entry = getTargetEntry(targetNumber);
+    if (entry && entry.destroyedRewards) {
+        const r = entry.destroyedRewards;
+        t.vp = r.vp || 0;
+        t.recon = r.recon || 0;
+        t.intel = r.intel || 0;
+        t.infra = r.infra || 0;
+    }
+    // Band-based stress
+    const scenario = gameData.Campaigns[scenarioIdx];
+    const targets = scenario.Targets;
+    if (targets && targets.length && typeof targets[0] === 'object' && targets[0].Band) {
+        const num = String(targetNumber);
+        for (const band of targets) {
+            if (band.TargetNumbers.map(String).includes(num)) {
+                t.baseStress = band.Stress;
+                break;
+            }
+        }
+    }
+    return t;
+}
+
 function isUSMC(campaignOrName) {
     const name = typeof campaignOrName === 'string'
         ? campaignOrName
@@ -750,13 +776,19 @@ function buildCampaign(scenarioIdx, lengthIdx, squadron, diffRules, opts = {}) {
     const daysMatch = option.Timespan.match(/(\d+)/);
     const totalDays = daysMatch ? parseInt(daysMatch[1]) : 3;
 
+    // startInPlay: pre-fill day 1 with starting targets
+    const startInPlay = (scenario.SpecialRules && scenario.SpecialRules.startInPlay) || [];
+    const day1Targets = startInPlay.length > 0
+        ? startInPlay.map(n => createTargetWithNumber(n, scenarioIdx))
+        : [createEmptyTarget()];
+
     const missions = [];
     for (let i = 0; i < totalDays; i++) {
         missions.push({
             day: i + 1,
             startSO: i === 0 ? totalSO : '',
             usedSO: '',
-            targets: [createEmptyTarget()],
+            targets: i === 0 ? day1Targets : [createEmptyTarget()],
             recoveryApplied: false,
             rnrApplied: false,
             downTime: false
@@ -854,7 +886,7 @@ function showDashboard() {
     document.getElementById('setup-screen').classList.remove('active');
     document.getElementById('dashboard-screen').classList.add('active');
     document.getElementById('campaign-title').textContent =
-        `${campaign.scenarioName} - ${campaign.lengthDesc}`;
+        `${campaign.scenarioName} - ${campaign.lengthDesc}${campaign.campaignFailed ? ' [캠페인 패배]' : ''}`;
     // Hide reroll button for manually selected squadrons or if any mission is resolved
     const anyResolved = campaign.missions.some(m => m.targets.some(t => t.resolved) || m.downTime);
     document.getElementById('reroll-btn').style.display = (campaign.manualSquadron || anyResolved) ? 'none' : '';
@@ -1041,6 +1073,30 @@ function getTargetBandInfo(targetNumber) {
     return null;
 }
 
+function getInfraHitsModifier() {
+    if (!campaign || !gameData) return 0;
+    const scenario = gameData.Campaigns[campaign.scenarioIdx];
+    if (!scenario || !scenario.Infra) return 0;
+    const infraTrack = (campaign.tracks && campaign.tracks.infra) || 0;
+    const infraArr = scenario.Infra;
+    if (infraTrack >= infraArr.length) return infraArr[infraArr.length - 1];
+    return infraArr[infraTrack];
+}
+
+function getTargetHits(targetNumber) {
+    const entry = getTargetEntry(targetNumber);
+    if (!entry || !entry.hits) return null;
+    const baseHits = parseInt(entry.hits) || 0;
+    const modifier = getInfraHitsModifier();
+    return Math.max(1, baseHits + modifier);
+}
+
+function getSpecialRules() {
+    if (!campaign || !gameData) return {};
+    const scenario = gameData.Campaigns[campaign.scenarioIdx];
+    return (scenario && scenario.SpecialRules) || {};
+}
+
 function getScenarioTargetNumbers() {
     if (!campaign || !gameData) return [];
     const scenario = gameData.Campaigns[campaign.scenarioIdx];
@@ -1189,14 +1245,17 @@ function renderMissions() {
         // Header
         const header = document.createElement('div');
         header.className = 'day-header';
+        const rules = getSpecialRules();
+        const freeSO = rules.freeSOPerDay || 0;
         header.innerHTML = `
             <span class="day-num">${m.day}일차${m.downTime ? ' (Down Time)' : ''}</span>
             <div class="tgt-field"><span class="tgt-field-label">시작 SO</span>
                 <input type="number" value="${m.startSO}" data-day="${dayIdx}" data-field="startSO" ${m.recoveryApplied || m.downTime ? 'readonly' : ''}></div>
             <div class="tgt-field"><span class="tgt-field-label">사용 SO</span>
                 <input type="number" value="${m.usedSO}" data-day="${dayIdx}" data-field="usedSO" ${m.downTime ? 'readonly' : ''}></div>
+            ${freeSO ? `<span class="free-so-badge" title="매 작전일 특수 무장 ${freeSO} SO 무료">무료 SO ${freeSO}</span>` : ''}
             <div class="day-actions">
-                ${!m.downTime && m.targets.length < 2 ? `<button class="btn btn-small" data-day="${dayIdx}" data-action="add-target">+ 표적</button>` : ''}
+                ${!m.downTime && !allResolved ? `<button class="btn btn-small" data-day="${dayIdx}" data-action="add-target">표적 뽑기</button>` : ''}
                 ${!m.downTime && !m.recoveryApplied && !allResolved ? `<button class="btn btn-small btn-downtime" data-day="${dayIdx}" data-action="down-time">Down Time</button>` : ''}
             </div>
         `;
@@ -1220,6 +1279,9 @@ function renderMissions() {
         targetsDiv.className = 'day-targets';
 
         m.targets.forEach((t, tIdx) => {
+            // Hide target block if no target number selected yet
+            if (!t.targetNumber) return;
+
             const key = panelKey(dayIdx, tIdx);
             const pilots = t.assignedPilots || [];
 
@@ -1230,10 +1292,12 @@ function renderMissions() {
             // Target header row
             const campDetail = getTargetCampaignDetails(t.targetNumber);
             const wpLabel = campDetail ? `<span class="wp-badge">WP ${campDetail.wp}</span>` : '';
+            const hits = getTargetHits(t.targetNumber);
+            const hitsLabel = hits != null ? `<span class="hits-badge">Hits ${hits}</span>` : '';
             const row = document.createElement('div');
             row.className = 'target-row';
             row.innerHTML = `
-                <span class="target-label">${tIdx === 0 ? '주 표적' : '부 표적'}</span>
+                <span class="target-label">${tIdx === 0 ? '주 표적' : '부 표적'}${wpLabel}${hitsLabel}</span>
                 <div class="tgt-field"><span class="tgt-field-label">번호</span>${buildTargetNumberField(t.targetNumber, dayIdx, tIdx)}</div>
                 <div class="tgt-field"><span class="tgt-field-label">시간</span><select data-day="${dayIdx}" data-tidx="${tIdx}" data-tfield="dayNight">
                     <option value="Day"${t.dayNight === 'Day' ? ' selected' : ''}>주간</option>
@@ -1241,6 +1305,15 @@ function renderMissions() {
                 </select></div>
                 <div class="tgt-field"><span class="tgt-field-label">타겟ST</span><input type="number" value="${t.baseStress || ''}"
                     data-day="${dayIdx}" data-tidx="${tIdx}" data-tfield="baseStress"></div>
+                ${!t.resolved ? `<button class="btn btn-small" data-day="${dayIdx}" data-tidx="${tIdx}" data-action="toggle-assign">배치</button>` : ''}
+                ${tIdx > 0 && !t.resolved ? `<button class="target-remove" data-day="${dayIdx}" data-tidx="${tIdx}">x</button>` : ''}
+            `;
+            tBlock.appendChild(row);
+
+            // Reward row (VP, Recon, Intel, Infra)
+            const rewardRow = document.createElement('div');
+            rewardRow.className = 'target-reward-row';
+            rewardRow.innerHTML = `
                 <div class="tgt-field"><span class="tgt-field-label">VP</span><input type="number" value="${t.vp || ''}"
                     data-day="${dayIdx}" data-tidx="${tIdx}" data-tfield="vp" min="0"></div>
                 <div class="tgt-field"><span class="tgt-field-label">Recon</span><input type="number" value="${t.recon || ''}"
@@ -1249,10 +1322,8 @@ function renderMissions() {
                     data-day="${dayIdx}" data-tidx="${tIdx}" data-tfield="intel" min="0"></div>
                 <div class="tgt-field"><span class="tgt-field-label">Infra</span><input type="number" value="${t.infra || ''}"
                     data-day="${dayIdx}" data-tidx="${tIdx}" data-tfield="infra" min="0"></div>
-                ${!t.resolved ? `<button class="btn btn-small" data-day="${dayIdx}" data-tidx="${tIdx}" data-action="toggle-assign">배치</button>` : ''}
-                ${tIdx > 0 && !t.resolved ? `<button class="target-remove" data-day="${dayIdx}" data-tidx="${tIdx}">x</button>` : ''}
             `;
-            tBlock.appendChild(row);
+            tBlock.appendChild(rewardRow);
 
             // Target traits tags
             const targetEntry = getTargetEntry(t.targetNumber);
@@ -1571,11 +1642,321 @@ function onDayFieldChange(e) {
     autoSave();
 }
 
+// ─── Target Draw Modal ───
+
+function getReconDrawCount() {
+    if (!campaign || !gameData) return 3;
+    const scenario = gameData.Campaigns[campaign.scenarioIdx];
+    if (!scenario || !scenario.Recon) return 3;
+    const reconTrack = (campaign.tracks && campaign.tracks.recon) || 0;
+    const arr = scenario.Recon;
+    if (reconTrack >= arr.length) return arr[arr.length - 1];
+    return arr[reconTrack];
+}
+
+function getAvailableTargetPool(dayIdx) {
+    const targetNumbers = getUnlockedTargetNumbers();
+    const destroyed = getDestroyedTargets();
+    const dayUsed = getDayUsedTargets(dayIdx, -1);
+    return targetNumbers
+        .map(String)
+        .filter(n => !destroyed.has(n) && !dayUsed.has(n));
+}
+
+function openTargetDrawModal(dayIdx) {
+    const drawCount = getReconDrawCount();
+    const pool = getAvailableTargetPool(dayIdx);
+
+    // Shuffle pool (Fisher-Yates)
+    const shuffled = [...pool];
+    for (let i = shuffled.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
+    }
+
+    // Draw cards sequentially, stop on Scramble
+    const drawnCards = [];
+    let scrambleIdx = -1;
+    for (let i = 0; i < Math.min(drawCount, shuffled.length); i++) {
+        const num = shuffled[i];
+        const entry = getTargetEntry(num);
+        drawnCards.push({ num, entry });
+        if (entry && entry.traits && entry.traits.includes('Scramble')) {
+            scrambleIdx = i;
+            break;
+        }
+    }
+
+    // State
+    const state = {
+        dayIdx,
+        drawnCards,
+        scrambleIdx,
+        selectedPrimary: scrambleIdx >= 0 ? scrambleIdx : -1,
+        selectedSecondary: -1
+    };
+
+    renderDrawModal(state);
+}
+
+function renderDrawModal(state) {
+    const overlay = document.getElementById('target-draw-modal');
+    const container = document.getElementById('draw-cards-container');
+    const actions = document.getElementById('draw-actions');
+    const reconInfo = document.getElementById('draw-recon-info');
+
+    const drawCount = getReconDrawCount();
+    reconInfo.textContent = `Recon ${(campaign.tracks && campaign.tracks.recon) || 0} → ${drawCount}장 뽑기`;
+
+    container.innerHTML = '';
+
+    state.drawnCards.forEach((card, idx) => {
+        const entry = card.entry;
+        const traits = entry ? (entry.traits || '') : '';
+        const traitList = traits.split(',').map(t => t.trim()).filter(Boolean);
+        const isScramble = state.scrambleIdx === idx;
+        const isPrimary = state.selectedPrimary === idx;
+        const isSecondary = state.selectedSecondary === idx;
+        const hasSecondary = traitList.includes('Secondary');
+        const hits = getTargetHits(card.num);
+        const bandInfo = getTargetBandInfo(card.num);
+
+        const div = document.createElement('div');
+        div.className = 'draw-card'
+            + (isScramble ? ' scramble-forced' : '')
+            + (isPrimary ? ' selected-primary' : '')
+            + (isSecondary ? ' selected-secondary' : '');
+
+        div.innerHTML = `
+            <div class="draw-card-header">
+                <span class="draw-card-num">#${card.num}</span>
+                <span class="draw-card-name">${entry ? entry.targetName : '?'}</span>
+                ${hits != null ? `<span class="draw-card-hits">Hits ${hits}</span>` : ''}
+                ${bandInfo ? `<span class="wp-badge">WP ${bandInfo.WP}</span>` : ''}
+            </div>
+            <div class="draw-card-detail">
+                <span>기체: ${entry ? entry.aircraftCount : '?'}</span>
+                <span>Sites: ${entry ? `접근 ${entry.sites.approach} / 중심 ${entry.sites.center}` : '?'}</span>
+                <span>Bandits: ${entry ? `접근 ${entry.bandits.approach} / 중심 ${entry.bandits.center}` : '?'}</span>
+                ${entry && entry.nighttimeMission === 'true' ? '<span style="color:#8090c0">야간 가능</span>' : ''}
+            </div>
+            <div class="draw-card-traits">
+                ${traitList.map(t => `<span class="target-trait-tag">${t}</span>`).join('')}
+            </div>
+            ${isScramble ? '<div class="draw-card-label scramble">SCRAMBLE — 이 표적을 반드시 주표적으로 선택</div>' : ''}
+            ${isPrimary && !isScramble ? '<div class="draw-card-label primary">주 표적 선택됨</div>' : ''}
+            ${isSecondary ? '<div class="draw-card-label secondary">부 표적 선택됨</div>' : ''}
+        `;
+
+        div.addEventListener('click', () => {
+            if (isScramble) return; // Scramble card is locked as primary
+
+            if (state.scrambleIdx >= 0) {
+                // Scramble active: can only pick secondary from Secondary cards
+                if (hasSecondary && idx !== state.scrambleIdx) {
+                    state.selectedSecondary = state.selectedSecondary === idx ? -1 : idx;
+                }
+            } else {
+                // Normal: click to set primary, shift+click or second click for secondary
+                if (state.selectedPrimary === idx) {
+                    // Deselect primary
+                    state.selectedPrimary = -1;
+                } else if (state.selectedPrimary < 0) {
+                    state.selectedPrimary = idx;
+                } else {
+                    // Primary already set → toggle secondary (only if Secondary keyword)
+                    if (hasSecondary) {
+                        state.selectedSecondary = state.selectedSecondary === idx ? -1 : idx;
+                    } else {
+                        // Switch primary
+                        state.selectedPrimary = idx;
+                        if (state.selectedSecondary === idx) state.selectedSecondary = -1;
+                    }
+                }
+            }
+            renderDrawModal(state);
+        });
+
+        container.appendChild(div);
+    });
+
+    if (state.scrambleIdx >= 0 && state.scrambleIdx < state.drawnCards.length - 1) {
+        // Scramble stopped drawing early
+        const remaining = getReconDrawCount() - state.drawnCards.length;
+        if (remaining > 0) {
+            const stopDiv = document.createElement('div');
+            stopDiv.className = 'draw-card-stopped';
+            stopDiv.textContent = `Scramble로 카드 뽑기 중단 (${remaining}장 남음)`;
+            container.appendChild(stopDiv);
+        }
+    }
+
+    // Actions
+    actions.innerHTML = '';
+    const confirmBtn = document.createElement('button');
+    confirmBtn.className = 'btn btn-small btn-primary';
+    confirmBtn.textContent = '확인';
+    confirmBtn.disabled = state.selectedPrimary < 0;
+    confirmBtn.addEventListener('click', () => {
+        applyDrawSelection(state);
+    });
+
+    const cancelBtn = document.createElement('button');
+    cancelBtn.className = 'btn btn-small';
+    cancelBtn.textContent = '취소';
+    cancelBtn.addEventListener('click', closeDrawModal);
+
+    actions.appendChild(cancelBtn);
+    actions.appendChild(confirmBtn);
+
+    overlay.style.display = 'flex';
+
+    // Close button
+    document.getElementById('draw-modal-close').onclick = closeDrawModal;
+}
+
+function applyDrawSelection(state) {
+    const dayIdx = state.dayIdx;
+    const m = campaign.missions[dayIdx];
+    const primaryCard = state.drawnCards[state.selectedPrimary];
+
+    // Set primary target
+    const primaryTarget = m.targets[0];
+    fillTargetFromCard(primaryTarget, primaryCard.num);
+
+    // Set secondary target
+    if (state.selectedSecondary >= 0) {
+        const secCard = state.drawnCards[state.selectedSecondary];
+        if (m.targets.length < 2) {
+            m.targets.push(createEmptyTarget());
+        }
+        fillTargetFromCard(m.targets[1], secCard.num);
+    }
+
+    closeDrawModal();
+    renderMissions();
+    updateBadges();
+    autoSave();
+}
+
+function fillTargetFromCard(t, targetNumber) {
+    t.targetNumber = String(targetNumber);
+    const entry = getTargetEntry(targetNumber);
+    if (entry && entry.destroyedRewards) {
+        const r = entry.destroyedRewards;
+        t.vp = r.vp || 0;
+        t.recon = r.recon || 0;
+        t.intel = r.intel || 0;
+        t.infra = r.infra || 0;
+    }
+    const campDetail = getTargetCampaignDetails(targetNumber);
+    if (campDetail) {
+        t.baseStress = campDetail.baseStress;
+    }
+}
+
+function closeDrawModal() {
+    document.getElementById('target-draw-modal').style.display = 'none';
+}
+
+// Close modal on overlay click
+document.addEventListener('click', e => {
+    if (e.target.id === 'target-draw-modal') closeDrawModal();
+    if (e.target.id === 'campaign-fail-modal') closeCampaignFailModal();
+    if (e.target.id === 'overkill-modal') closeOverkillModal();
+});
+
+// ─── Trait Tooltip (JS-based) ───
+(function() {
+    const tip = document.getElementById('trait-tooltip');
+    document.addEventListener('mouseover', e => {
+        const tag = e.target.closest('.target-trait-tag[data-tooltip], .draw-card-traits .target-trait-tag[data-tooltip]');
+        if (!tag) return;
+        tip.textContent = tag.dataset.tooltip;
+        tip.style.display = 'block';
+        const rect = tag.getBoundingClientRect();
+        let left = rect.left;
+        let top = rect.bottom + 6;
+        // Prevent right overflow
+        tip.style.left = '0'; tip.style.top = '0';
+        const tipW = tip.offsetWidth;
+        if (left + tipW > window.innerWidth - 8) left = window.innerWidth - tipW - 8;
+        if (left < 4) left = 4;
+        // Prevent bottom overflow — show above
+        if (top + tip.offsetHeight > window.innerHeight - 8) top = rect.top - tip.offsetHeight - 6;
+        tip.style.left = left + 'px';
+        tip.style.top = top + 'px';
+    });
+    document.addEventListener('mouseout', e => {
+        const tag = e.target.closest('.target-trait-tag[data-tooltip]');
+        if (tag) tip.style.display = 'none';
+    });
+})();
+
+// ─── Overkill Modal ───
+
+function showOverkillModal(dayIdx, tIdx, ok) {
+    const overlay = document.getElementById('overkill-modal');
+    const body = document.getElementById('overkill-modal-body');
+    const infraMod = getInfraHitsModifier();
+    const effectiveThreshold = Math.max(1, ok.threshold + infraMod);
+
+    body.innerHTML = `
+        <h3>Overkill 확인</h3>
+        <p>공격 히트 합계가 <strong>${effectiveThreshold}</strong> 이상인가요?</p>
+        <p class="overkill-bonus">달성 시 보너스: <strong>+${ok.bonusVP} VP</strong></p>
+    `;
+
+    const actions = document.getElementById('overkill-modal-actions');
+    actions.innerHTML = '';
+
+    const yesBtn = document.createElement('button');
+    yesBtn.className = 'btn btn-small btn-primary';
+    yesBtn.textContent = `달성 (+${ok.bonusVP} VP)`;
+    yesBtn.addEventListener('click', () => {
+        campaign.missions[dayIdx].targets[tIdx].overkillVP = ok.bonusVP;
+        closeOverkillModal();
+        resolveTarget(dayIdx, tIdx);
+    });
+
+    const noBtn = document.createElement('button');
+    noBtn.className = 'btn btn-small';
+    noBtn.textContent = '미달성';
+    noBtn.addEventListener('click', () => {
+        closeOverkillModal();
+        resolveTarget(dayIdx, tIdx);
+    });
+
+    actions.appendChild(noBtn);
+    actions.appendChild(yesBtn);
+    overlay.style.display = 'flex';
+}
+
+function closeOverkillModal() {
+    document.getElementById('overkill-modal').style.display = 'none';
+}
+
+// ─── Campaign Fail Modal ───
+
+function showCampaignFailModal(failCount, maxFails, lengthKey) {
+    const overlay = document.getElementById('campaign-fail-modal');
+    const body = document.getElementById('fail-modal-body');
+    body.innerHTML = `
+        <div class="fail-modal-icon">&#9888;</div>
+        <h3>캠페인 패배</h3>
+        <p><strong>${lengthKey}</strong> 캠페인에서 <strong>${failCount}/${maxFails}</strong>번 표적 파괴에 실패하여 캠페인이 즉시 종료됩니다.</p>
+        <p class="fail-modal-sub">더 이상 작전을 진행할 수 없습니다.</p>
+    `;
+    overlay.style.display = 'flex';
+}
+
+function closeCampaignFailModal() {
+    document.getElementById('campaign-fail-modal').style.display = 'none';
+}
+
 function onAddTarget(e) {
     const dayIdx = parseInt(e.target.dataset.day);
-    campaign.missions[dayIdx].targets.push(createEmptyTarget());
-    renderMissions();
-    autoSave();
+    openTargetDrawModal(dayIdx);
 }
 
 function onRemoveTarget(e) {
@@ -1715,9 +2096,46 @@ function onSelectResult(e) {
     autoSave();
 }
 
+function parseOverkill(targetNumber) {
+    const entry = getTargetEntry(targetNumber);
+    if (!entry) return null;
+    const baseHits = parseInt(entry.hits) || 0;
+
+    // Format 1: "overkill" field like "+10 BONUS: +1VP"
+    if (entry.overkill) {
+        const m = entry.overkill.match(/\+(\d+)\s*BONUS.*?\+(\d+)\s*VP/i);
+        if (m) return { threshold: baseHits + parseInt(m[1]), bonusVP: parseInt(m[2]) };
+    }
+
+    // Format 2: traits — many variants:
+    //   "Overkill: 17+, gain 1VP"
+    //   "OVERKILL 13+: Gain +1VP"
+    //   "OVERKILL BONUS: 14+, Gain +1VP"
+    //   "OVERKILL +14: Gain +1VP"
+    //   "OVERKILL 18+: Gain +1 VP"
+    //   "OVERKILL 10+: Gain +1 VP"
+    if (entry.traits) {
+        const t = entry.traits;
+        // Extract threshold number and bonus VP from any OVERKILL variant
+        const m = t.match(/OVERKILL[\s:]*(?:BONUS[\s:]*)?[+]?(\d+)\+?.*?(?:Gain\s*)?[+]?(\d+)\s*VP/i);
+        if (m) return { threshold: parseInt(m[1]), bonusVP: parseInt(m[2]) };
+    }
+    return null;
+}
+
 function onResolveTarget(e) {
     const dayIdx = parseInt(e.target.dataset.day);
     const tIdx = parseInt(e.target.dataset.tidx);
+    const t = campaign.missions[dayIdx].targets[tIdx];
+
+    // Check Overkill before resolving
+    if (t.result === 'Destroyed') {
+        const ok = parseOverkill(t.targetNumber);
+        if (ok) {
+            showOverkillModal(dayIdx, tIdx, ok);
+            return;
+        }
+    }
     resolveTarget(dayIdx, tIdx);
 }
 
@@ -1929,6 +2347,26 @@ function resolveTarget(dayIdx, tIdx) {
     }
 
     t.resolved = true;
+
+    // Check failCondition (e.g. Israel Defense)
+    const fcRules = getSpecialRules();
+    if (fcRules.failCondition && fcRules.failCondition.maxUndestroyedByLength) {
+        const lengthKey = campaign.lengthDesc; // "Short", "Medium", "Long"
+        const maxFails = fcRules.failCondition.maxUndestroyedByLength[lengthKey];
+        if (maxFails != null) {
+            let failCount = 0;
+            campaign.missions.forEach(m => {
+                m.targets.forEach(tgt => {
+                    if (tgt.resolved && tgt.result !== 'Destroyed' && tgt.targetNumber) failCount++;
+                });
+            });
+            if (failCount >= maxFails) {
+                campaign.campaignFailed = true;
+                setTimeout(() => showCampaignFailModal(failCount, maxFails, lengthKey), 100);
+            }
+        }
+    }
+
     renderAll();
     autoSave();
 }
@@ -1974,6 +2412,7 @@ function renderTracks() {
         input.onchange = () => {
             campaign.tracks[type] = Math.max(0, parseInt(input.value) || 0);
             input.value = campaign.tracks[type];
+            if (type === 'infra') renderMissions();
             autoSave();
         };
     });
@@ -1994,14 +2433,21 @@ function updateBadges() {
 
     // VP: sum of destroyed targets' VP - penalties
     let totalVP = 0;
+    let bonusVP = 0;
+    let overkillVP = 0;
+    const rules = getSpecialRules();
+    const bonusVPSet = new Set((rules.bonusVPTargets || []).map(String));
     campaign.missions.forEach(m => {
         m.targets.forEach(t => {
             if (t.resolved && t.result === 'Destroyed') {
                 const v = parseInt(t.vp) || 0;
                 totalVP += v;
+                if (bonusVPSet.has(String(t.targetNumber))) bonusVP += 1;
+                if (t.overkillVP) overkillVP += t.overkillVP;
             }
         });
     });
+    totalVP += bonusVP + overkillVP;
 
     // Penalty: -1 VP per destroyed aircraft
     const vpPenalty = campaign.vpPenalty || 0;
@@ -2014,7 +2460,7 @@ function updateBadges() {
     totalVP = Math.max(0, totalVP - vpPenalty - miaPenalty);
     document.getElementById('vp-display').textContent = `VP: ${totalVP}`;
     document.getElementById('vp-display').title =
-        `표적 VP: ${totalVP + vpPenalty + miaPenalty} | 격추: -${vpPenalty} | MIA: -${miaPenalty}`;
+        `표적 VP: ${totalVP + vpPenalty + miaPenalty - bonusVP - overkillVP}${bonusVP ? ` | 보너스: +${bonusVP}` : ''}${overkillVP ? ` | Overkill: +${overkillVP}` : ''} | 격추: -${vpPenalty} | MIA: -${miaPenalty}`;
 }
 
 // ─── Summary ───
@@ -2024,18 +2470,6 @@ function renderSummary() {
     document.getElementById('summary-scenario').textContent = campaign.scenarioName;
     document.getElementById('summary-length').textContent =
         `${campaign.lengthDesc} (${campaign.timespan})`;
-
-    let okay = 0, shaken = 0, unfit = 0;
-    campaign.squadron.forEach(p => {
-        if (p.shotDown) { unfit++; return; }
-        const s = getStatus(p);
-        if (s === 'Okay') okay++;
-        else if (s === 'Shaken') shaken++;
-        else unfit++;
-    });
-    document.getElementById('summary-okay').textContent = okay;
-    document.getElementById('summary-shaken').textContent = shaken;
-    document.getElementById('summary-unfit').textContent = unfit;
 
     // Active difficulty rules badges
     const rulesDiv = document.getElementById('active-rules');
@@ -2073,6 +2507,51 @@ function renderSummary() {
         b.className = 'rule-badge rule-badge-info';
         b.textContent = 'Large Deck';
         b.title = '대형 갑판 해군 기체 사용, 표적당 기체 수 -1';
+        rulesDiv.appendChild(b);
+    }
+
+    // Scenario special rules badges
+    const sr = getSpecialRules();
+    if (sr.freeSOPerDay) {
+        const b = document.createElement('span');
+        b.className = 'rule-badge rule-badge-advantage';
+        b.textContent = `무료 SO ${sr.freeSOPerDay}/일`;
+        b.title = `매 작전일마다 특수 무장 ${sr.freeSOPerDay} SO 무료`;
+        rulesDiv.appendChild(b);
+    }
+    if (sr.jdamCost) {
+        const b = document.createElement('span');
+        b.className = 'rule-badge rule-badge-info';
+        b.textContent = `JDAM ${sr.jdamCost} SO`;
+        b.title = `JDAM SO 비용 = ${sr.jdamCost} SO` + (sr.jdamFixedOnly ? '. JDAM은 오직 Fixed 키워드 표적과 사이트에만 사용 가능' : '');
+        rulesDiv.appendChild(b);
+    }
+    if (sr.harpoonFleetOnly) {
+        const b = document.createElement('span');
+        b.className = 'rule-badge rule-badge-disadvantage';
+        b.textContent = 'Harpoon: Fleet만';
+        b.title = 'AGM-84 Harpoon은 Fleet 표적에만 사용 가능';
+        rulesDiv.appendChild(b);
+    }
+    if (sr.bonusVPTargets && sr.bonusVPTargets.length) {
+        const b = document.createElement('span');
+        b.className = 'rule-badge rule-badge-advantage';
+        b.textContent = `보너스 VP 표적`;
+        b.title = `${sr.bonusVPTargets.join(', ')}번 표적 파괴 시 VP +1 추가`;
+        rulesDiv.appendChild(b);
+    }
+    if (sr.startInPlay && sr.startInPlay.length) {
+        const b = document.createElement('span');
+        b.className = 'rule-badge rule-badge-info';
+        b.textContent = `시작 표적: ${sr.startInPlay.join(', ')}`;
+        b.title = `${sr.startInPlay.join(', ')}번 표적은 플레이 상태로 게임 시작`;
+        rulesDiv.appendChild(b);
+    }
+    if (sr.failCondition) {
+        const b = document.createElement('span');
+        b.className = 'rule-badge rule-badge-disadvantage';
+        b.textContent = '특수 패배조건';
+        b.title = sr.failCondition.description;
         rulesDiv.appendChild(b);
     }
 }

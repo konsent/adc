@@ -466,7 +466,7 @@ select:focus, input:focus { outline: none; border-color: #8b7a2e; box-shadow: in
 
 .day-header {
     display: flex;
-    align-items: flex-end;
+    align-items: center;
     gap: 0.6rem;
     padding: 0.5rem 0.8rem;
     background: linear-gradient(180deg, #4e514a, #45483f);
@@ -484,32 +484,51 @@ select:focus, input:focus { outline: none; border-color: #8b7a2e; box-shadow: in
 }
 
 /* ─── Field label+input ─── */
-.tgt-field { display: flex; flex-direction: column; gap: 1px; }
+.tgt-field { display: flex; flex-direction: column; gap: 2px; }
 .tgt-field-label {
     font-family: 'Barlow Condensed', sans-serif;
-    font-size: 0.62rem;
-    color: #8a8880;
+    font-size: 0.6rem;
+    color: #7a7870;
     text-transform: uppercase;
     letter-spacing: 0.08em;
     line-height: 1;
-    margin-bottom: 3px;
 }
-.tgt-field input, .tgt-field select { width: 65px; font-size: 0.85rem; padding: 0.2em 0.4em; }
-.tgt-field select[data-tfield="targetNumber"] { width: 110px; }
+.tgt-field input, .tgt-field select {
+    width: 60px;
+    font-size: 0.82rem;
+    padding: 0.2em 0.35em;
+    background: #2a2d26;
+    border: 1px solid #4a4e42;
+    border-radius: 3px;
+    color: #d0cca0;
+}
+.tgt-field input:focus, .tgt-field select:focus {
+    border-color: #8a8e70;
+    outline: none;
+}
+.tgt-field select[data-tfield="targetNumber"] { width: 100px; }
 .day-actions { margin-left: auto; display: flex; gap: 0.3rem; }
 .btn-downtime { background: #5a4a1a; color: #e8c840; border-color: #8b7a2e; }
 
 /* ─── Targets ─── */
-.day-targets { padding: 0 0.8rem; }
+.day-targets { padding: 0.2rem 0.8rem 0.4rem; }
 .target-row {
     display: flex;
-    align-items: flex-end;
-    gap: 0.5rem;
-    padding: 0.4rem 0;
-    border-bottom: 1px solid #43463f;
+    align-items: center;
+    gap: 0.6rem;
+    padding: 0.5rem 0 0.25rem;
     font-size: 0.85rem;
     flex-wrap: wrap;
 }
+.target-reward-row {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.1rem 0 0.4rem 0.5rem;
+    font-size: 0.8rem;
+    flex-wrap: wrap;
+}
+.target-reward-row .tgt-field input { width: 45px; font-size: 0.8rem; }
 .wp-badge {
     font-size: 0.72rem;
     font-weight: 700;
@@ -521,21 +540,46 @@ select:focus, input:focus { outline: none; border-color: #8b7a2e; box-shadow: in
     align-self: center;
     white-space: nowrap;
 }
+.free-so-badge {
+    font-size: 0.72rem;
+    font-weight: 700;
+    color: #50c878;
+    background: rgba(50,140,80,0.2);
+    border: 1px solid #328c50;
+    border-radius: 3px;
+    padding: 0.1rem 0.4rem;
+    align-self: center;
+    white-space: nowrap;
+}
+.hits-badge {
+    font-size: 0.72rem;
+    font-weight: 700;
+    color: #e06050;
+    background: rgba(180,60,50,0.2);
+    border: 1px solid #a04030;
+    border-radius: 3px;
+    padding: 0.1rem 0.4rem;
+    margin-left: 0.3rem;
+    align-self: center;
+    white-space: nowrap;
+}
 .target-label {
     font-family: 'Barlow Condensed', sans-serif;
     color: #c8b040;
     font-size: 0.82rem;
     font-weight: 700;
     min-width: 3em;
-    padding-bottom: 0.2em;
     text-transform: uppercase;
+    display: flex;
+    align-items: center;
+    gap: 0.35rem;
 }
 
 .target-traits {
     display: flex;
     flex-wrap: wrap;
-    gap: 0.3rem;
-    padding: 0.2rem 0 0.35rem;
+    gap: 0.25rem;
+    padding: 0.15rem 0 0.3rem 0.5rem;
 }
 .target-trait-tag {
     font-size: 0.72rem;
@@ -556,14 +600,10 @@ select:focus, input:focus { outline: none; border-color: #8b7a2e; box-shadow: in
     background: #3e4139;
     color: #d0ccb8;
 }
-.target-trait-tag[data-tooltip]:hover::after {
-    content: attr(data-tooltip);
-    position: absolute;
-    left: 0;
-    top: calc(100% + 6px);
-    z-index: 100;
-    width: max-content;
-    max-width: 320px;
+#trait-tooltip {
+    position: fixed;
+    z-index: 9999;
+    max-width: min(320px, 90vw);
     white-space: normal;
     font-size: 0.75rem;
     font-weight: 400;
@@ -575,18 +615,23 @@ select:focus, input:focus { outline: none; border-color: #8b7a2e; box-shadow: in
     color: #d0cec4;
     box-shadow: 0 4px 12px rgba(0,0,0,0.5);
     pointer-events: none;
+    display: none;
 }
 
-.target-block { margin-bottom: 0.3rem; padding-bottom: 0.3rem; border-bottom: 1px solid #43463f; }
-.target-block:last-child { border-bottom: none; }
+.target-block {
+    margin-bottom: 0.15rem;
+    padding: 0.1rem 0.4rem 0.2rem;
+    border-radius: 4px;
+    background: rgba(50,53,46,0.4);
+}
+.target-block + .target-block { margin-top: 0.4rem; }
 .target-block.target-resolved { opacity: 0.55; }
 
 .target-resolve {
     display: flex;
     gap: 0.3rem;
-    padding: 0.3rem 0 0.3rem 2rem;
+    padding: 0.3rem 0 0.3rem 0.5rem;
     align-items: center;
-    margin-left: 1rem;
 }
 .target-remove {
     font-size: 0.7rem;
@@ -601,10 +646,10 @@ select:focus, input:focus { outline: none; border-color: #8b7a2e; box-shadow: in
 
 /* ─── Assigned Pilots ─── */
 .target-pilots {
-    padding: 0 0.8rem 0 2rem;
+    padding: 0.1rem 0.6rem 0.1rem 0.6rem;
     border-left: 2px solid #8b7a2e;
-    margin-left: 1rem;
-    margin-bottom: 0.3rem;
+    margin-left: 0.5rem;
+    margin-bottom: 0.2rem;
 }
 .assigned-pilot-row {
     display: flex;
@@ -1066,3 +1111,174 @@ tr.pilot-unfit { position: relative; }
     background: rgba(58, 74, 46, 0.3);
     border-left: 2px solid #506a3a;
 }
+
+/* ─── Overkill Modal ─── */
+.overkill-modal {
+    background: #2a2d26;
+    border: 2px solid #e8c840;
+    border-radius: 8px;
+    width: min(90vw, 380px);
+    padding: 1.5rem;
+    text-align: center;
+    box-shadow: 0 8px 32px rgba(0,0,0,0.6);
+}
+.overkill-modal h3 {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 1.4rem;
+    color: #e8c840;
+    margin: 0 0 0.6rem;
+}
+.overkill-modal p {
+    color: #d0cca0;
+    font-size: 0.9rem;
+    margin: 0.3rem 0;
+}
+.overkill-bonus {
+    color: #50c878 !important;
+    font-size: 0.95rem !important;
+    margin-top: 0.5rem !important;
+}
+.overkill-modal-actions {
+    display: flex; gap: 0.5rem; justify-content: center;
+    margin-top: 1.2rem;
+}
+.overkill-modal-actions .btn { min-width: 6rem; }
+
+/* ─── Campaign Fail Modal ─── */
+.fail-modal {
+    background: #2a2d26;
+    border: 2px solid #a04030;
+    border-radius: 8px;
+    width: min(90vw, 420px);
+    padding: 1.5rem;
+    text-align: center;
+    box-shadow: 0 8px 32px rgba(0,0,0,0.6);
+}
+.fail-modal-icon {
+    font-size: 3rem;
+    color: #e06050;
+    margin-bottom: 0.5rem;
+}
+.fail-modal h3 {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 1.6rem;
+    color: #e06050;
+    margin: 0 0 0.8rem;
+}
+.fail-modal p {
+    color: #d0cca0;
+    font-size: 0.9rem;
+    margin: 0.3rem 0;
+}
+.fail-modal-sub {
+    color: #8a8e7a !important;
+    font-size: 0.8rem !important;
+    margin-top: 0.6rem !important;
+}
+.fail-modal-actions {
+    margin-top: 1rem;
+}
+
+/* ─── Target Draw Modal ─── */
+.draw-modal-overlay {
+    position: fixed; inset: 0;
+    background: rgba(0,0,0,0.7);
+    z-index: 1000;
+    display: flex; align-items: center; justify-content: center;
+}
+.draw-modal {
+    background: #2a2d26;
+    border: 2px solid #5a5e50;
+    border-radius: 8px;
+    width: min(95vw, 640px);
+    max-height: 85vh;
+    display: flex; flex-direction: column;
+    box-shadow: 0 8px 32px rgba(0,0,0,0.6);
+}
+.draw-modal-header {
+    display: flex; align-items: center; gap: 0.8rem;
+    padding: 0.8rem 1rem;
+    border-bottom: 1px solid #43463f;
+}
+.draw-modal-header h3 {
+    margin: 0; font-family: 'Bebas Neue', sans-serif;
+    font-size: 1.3rem; color: #d0c890; flex: 1;
+}
+.draw-recon-info {
+    font-size: 0.8rem; color: #a0a890;
+}
+.draw-modal-close {
+    background: none; border: none; color: #888;
+    font-size: 1.5rem; cursor: pointer; padding: 0 0.3rem;
+}
+.draw-modal-close:hover { color: #fff; }
+.draw-cards-container {
+    flex: 1; overflow-y: auto; padding: 0.6rem 1rem;
+    display: flex; flex-direction: column; gap: 0.5rem;
+}
+.draw-card {
+    background: #353830;
+    border: 1px solid #4a4e42;
+    border-radius: 6px;
+    padding: 0.6rem 0.8rem;
+    cursor: pointer;
+    transition: border-color 0.15s, background 0.15s;
+}
+.draw-card:hover { border-color: #8a8e70; }
+.draw-card.selected-primary {
+    border-color: #e8c840;
+    background: rgba(232,200,64,0.1);
+}
+.draw-card.selected-secondary {
+    border-color: #60a0e0;
+    background: rgba(96,160,224,0.1);
+}
+.draw-card.scramble-forced {
+    border-color: #e06050;
+    background: rgba(224,96,80,0.12);
+}
+.draw-card-header {
+    display: flex; align-items: center; gap: 0.6rem;
+    margin-bottom: 0.3rem;
+}
+.draw-card-num {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 1.1rem; color: #e8c840;
+    min-width: 2rem;
+}
+.draw-card-name {
+    font-weight: 600; color: #d0cca0; font-size: 0.9rem; flex: 1;
+}
+.draw-card-hits {
+    font-size: 0.75rem; color: #e06050; font-weight: 700;
+}
+.draw-card-detail {
+    display: flex; flex-wrap: wrap; gap: 0.3rem 0.8rem;
+    font-size: 0.78rem; color: #9a9e8a;
+    margin-bottom: 0.3rem;
+}
+.draw-card-detail span { white-space: nowrap; }
+.draw-card-traits {
+    display: flex; flex-wrap: wrap; gap: 0.25rem;
+}
+.draw-card-traits .target-trait-tag {
+    font-size: 0.72rem;
+}
+.draw-card-label {
+    font-size: 0.68rem; font-weight: 700; text-align: center;
+    margin-top: 0.3rem;
+}
+.draw-card-label.primary { color: #e8c840; }
+.draw-card-label.secondary { color: #60a0e0; }
+.draw-card-label.scramble { color: #e06050; }
+.draw-card-stopped {
+    text-align: center;
+    font-size: 0.8rem; color: #e06050; font-weight: 600;
+    padding: 0.4rem; border-top: 1px dashed #5a3030;
+}
+.draw-actions {
+    display: flex; gap: 0.5rem; justify-content: flex-end;
+    padding: 0.6rem 1rem;
+    border-top: 1px solid #43463f;
+}
+.draw-actions .btn { min-width: 5rem; }

@@ -1903,26 +1903,97 @@
                 }
             ],
             "Targets": [
-                2,
+                {
+                    "Band": 1,
+                    "WP": 0,
+                    "Stress": 1,
+                    "TargetNumbers": [
+                        13,
+                        19,
+                        46,
+                        56,
+                        60
+                    ]
+                },
+                {
+                    "Band": 2,
+                    "WP": -1,
+                    "Stress": 2,
+                    "TargetNumbers": [
+                        4,
+                        43,
+                        47,
+                        49,
+                        54,
+                        55
+                    ]
+                },
+                {
+                    "Band": 3,
+                    "WP": -2,
+                    "Stress": 2,
+                    "TargetNumbers": [
+                        2,
+                        7,
+                        29,
+                        30,
+                        42
+                    ]
+                },
+                {
+                    "Band": 4,
+                    "WP": -3,
+                    "Stress": 3,
+                    "TargetNumbers": [
+                        9,
+                        41,
+                        48,
+                        53
+                    ]
+                },
+                {
+                    "Band": 5,
+                    "WP": -4,
+                    "Stress": 3,
+                    "BonusXP": 1,
+                    "TargetNumbers": [
+                        15,
+                        21,
+                        31
+                    ]
+                }
+            ],
+            "SpecialRules": {
+                "freeSOPerDay": 4,
+                "jdamCost": 12,
+                "jdamFixedOnly": true,
+                "startInPlay": [
+                    2,
+                    47,
+                    56
+                ]
+            },
+            "Recon": [
+                3,
+                3,
                 4,
-                7,
-                9,
-                13,
-                15,
-                19,
-                21,
-                29,
-                30,
-                31,
-                41,
-                42,
-                43,
-                46,
-                47,
-                48,
-                49,
-                53,
-                54
+                4,
+                4,
+                5,
+                5,
+                5,
+                6
+            ],
+            "Infra": [
+                0,
+                0,
+                0,
+                -1,
+                -1,
+                -2,
+                -2,
+                -3,
+                -3
             ]
         },
         {
@@ -2042,26 +2113,97 @@
                 }
             ],
             "Targets": [
-                2,
+                {
+                    "Band": 1,
+                    "WP": 0,
+                    "Stress": 1,
+                    "TargetNumbers": [
+                        13,
+                        19,
+                        46,
+                        56,
+                        60
+                    ]
+                },
+                {
+                    "Band": 2,
+                    "WP": -1,
+                    "Stress": 2,
+                    "TargetNumbers": [
+                        4,
+                        43,
+                        47,
+                        49,
+                        54,
+                        55
+                    ]
+                },
+                {
+                    "Band": 3,
+                    "WP": -2,
+                    "Stress": 2,
+                    "TargetNumbers": [
+                        2,
+                        7,
+                        29,
+                        30,
+                        42
+                    ]
+                },
+                {
+                    "Band": 4,
+                    "WP": -3,
+                    "Stress": 3,
+                    "TargetNumbers": [
+                        9,
+                        41,
+                        48,
+                        53
+                    ]
+                },
+                {
+                    "Band": 5,
+                    "WP": -4,
+                    "Stress": 3,
+                    "BonusXP": 1,
+                    "TargetNumbers": [
+                        15,
+                        21,
+                        31
+                    ]
+                }
+            ],
+            "SpecialRules": {
+                "freeSOPerDay": 4,
+                "jdamCost": 12,
+                "jdamFixedOnly": true,
+                "startInPlay": [
+                    2,
+                    47,
+                    56
+                ]
+            },
+            "Recon": [
+                3,
+                3,
                 4,
-                7,
-                9,
-                13,
-                15,
-                19,
-                21,
-                29,
-                30,
-                31,
-                41,
-                42,
-                43,
-                46,
-                47,
-                48,
-                49,
-                53,
-                54
+                4,
+                4,
+                5,
+                5,
+                5,
+                6
+            ],
+            "Infra": [
+                0,
+                0,
+                0,
+                -1,
+                -1,
+                -2,
+                -2,
+                -3,
+                -3
             ]
         },
         {
@@ -2185,26 +2327,93 @@
                 }
             ],
             "Targets": [
-                1,
-                2,
+                {
+                    "Band": 1,
+                    "WP": -1,
+                    "Stress": 1,
+                    "TargetNumbers": [
+                        27,
+                        29,
+                        33,
+                        35,
+                        37,
+                        56,
+                        59,
+                        60
+                    ]
+                },
+                {
+                    "Band": 2,
+                    "WP": -2,
+                    "Stress": 2,
+                    "TargetNumbers": [
+                        4,
+                        9,
+                        16,
+                        19,
+                        20,
+                        25,
+                        32,
+                        34
+                    ]
+                },
+                {
+                    "Band": 3,
+                    "WP": -3,
+                    "Stress": 2,
+                    "TargetNumbers": [
+                        2,
+                        15,
+                        24,
+                        42,
+                        47,
+                        51,
+                        57
+                    ]
+                },
+                {
+                    "Band": 4,
+                    "WP": -4,
+                    "Stress": 3,
+                    "BonusXP": 1,
+                    "TargetNumbers": [
+                        1,
+                        14,
+                        23,
+                        28
+                    ]
+                }
+            ],
+            "SpecialRules": {
+                "freeSOPerDay": 6,
+                "jdamCost": 12,
+                "jdamFixedOnly": true,
+                "startInPlay": [
+                    27,
+                    47
+                ]
+            },
+            "Recon": [
+                3,
+                3,
+                3,
                 4,
-                9,
-                14,
-                15,
-                16,
-                19,
-                20,
-                23,
-                24,
-                25,
-                27,
-                28,
-                29,
-                32,
-                33,
-                34,
-                35,
-                37
+                4,
+                4,
+                5,
+                5,
+                6
+            ],
+            "Infra": [
+                0,
+                0,
+                0,
+                0,
+                -1,
+                -1,
+                -1,
+                -2,
+                -2
             ]
         },
         {
@@ -2324,26 +2533,93 @@
                 }
             ],
             "Targets": [
-                1,
-                2,
+                {
+                    "Band": 1,
+                    "WP": -1,
+                    "Stress": 1,
+                    "TargetNumbers": [
+                        27,
+                        29,
+                        33,
+                        35,
+                        37,
+                        56,
+                        59,
+                        60
+                    ]
+                },
+                {
+                    "Band": 2,
+                    "WP": -2,
+                    "Stress": 2,
+                    "TargetNumbers": [
+                        4,
+                        9,
+                        16,
+                        19,
+                        20,
+                        25,
+                        32,
+                        34
+                    ]
+                },
+                {
+                    "Band": 3,
+                    "WP": -3,
+                    "Stress": 2,
+                    "TargetNumbers": [
+                        2,
+                        15,
+                        24,
+                        42,
+                        47,
+                        51,
+                        57
+                    ]
+                },
+                {
+                    "Band": 4,
+                    "WP": -4,
+                    "Stress": 3,
+                    "BonusXP": 1,
+                    "TargetNumbers": [
+                        1,
+                        14,
+                        23,
+                        28
+                    ]
+                }
+            ],
+            "SpecialRules": {
+                "freeSOPerDay": 6,
+                "jdamCost": 12,
+                "jdamFixedOnly": true,
+                "startInPlay": [
+                    27,
+                    47
+                ]
+            },
+            "Recon": [
+                3,
+                3,
+                3,
                 4,
-                9,
-                14,
-                15,
-                16,
-                19,
-                20,
-                23,
-                24,
-                25,
-                27,
-                28,
-                29,
-                32,
-                33,
-                34,
-                35,
-                37
+                4,
+                4,
+                5,
+                5,
+                6
+            ],
+            "Infra": [
+                0,
+                0,
+                0,
+                0,
+                -1,
+                -1,
+                -1,
+                -2,
+                -2
             ]
         },
         {
@@ -2513,13 +2789,47 @@
                     "Band": 4,
                     "WP": -4,
                     "Stress": 3,
+                    "BonusXP": 1,
                     "TargetNumbers": [
-                        8,
                         6,
+                        8,
                         23,
                         50
                     ]
                 }
+            ],
+            "SpecialRules": {
+                "freeSOPerDay": 6,
+                "jdamCost": 12,
+                "bonusVPTargets": [
+                    38,
+                    41,
+                    40,
+                    55,
+                    59
+                ]
+            },
+            "Recon": [
+                3,
+                3,
+                4,
+                4,
+                4,
+                5,
+                5,
+                5,
+                6
+            ],
+            "Infra": [
+                0,
+                0,
+                -1,
+                -1,
+                -1,
+                -2,
+                -2,
+                -2,
+                -3
             ]
         },
         {
@@ -2686,13 +2996,47 @@
                     "Band": 4,
                     "WP": -4,
                     "Stress": 3,
+                    "BonusXP": 1,
                     "TargetNumbers": [
-                        3,
                         6,
+                        8,
                         23,
                         50
                     ]
                 }
+            ],
+            "SpecialRules": {
+                "freeSOPerDay": 6,
+                "jdamCost": 12,
+                "bonusVPTargets": [
+                    38,
+                    41,
+                    40,
+                    55,
+                    59
+                ]
+            },
+            "Recon": [
+                3,
+                3,
+                4,
+                4,
+                4,
+                5,
+                5,
+                5,
+                6
+            ],
+            "Infra": [
+                0,
+                0,
+                -1,
+                -1,
+                -1,
+                -2,
+                -2,
+                -2,
+                -3
             ]
         },
         {
@@ -2811,26 +3155,86 @@
                 }
             ],
             "Targets": [
-                1,
+                {
+                    "Band": 1,
+                    "WP": 0,
+                    "Stress": 1,
+                    "TargetNumbers": [
+                        8,
+                        27,
+                        37,
+                        39,
+                        43,
+                        45,
+                        59
+                    ]
+                },
+                {
+                    "Band": 2,
+                    "WP": -1,
+                    "Stress": 2,
+                    "TargetNumbers": [
+                        3,
+                        10,
+                        20,
+                        51
+                    ]
+                },
+                {
+                    "Band": 3,
+                    "WP": -2,
+                    "Stress": 2,
+                    "TargetNumbers": [
+                        1,
+                        14,
+                        30,
+                        58
+                    ]
+                },
+                {
+                    "Band": 4,
+                    "WP": -3,
+                    "Stress": 3,
+                    "TargetNumbers": [
+                        12,
+                        25,
+                        41
+                    ]
+                },
+                {
+                    "Band": 5,
+                    "WP": -4,
+                    "Stress": 3,
+                    "BonusXP": 1,
+                    "TargetNumbers": [
+                        15,
+                        31,
+                        49
+                    ]
+                }
+            ],
+            "SpecialRules": {},
+            "Recon": [
+                2,
+                2,
+                2,
                 3,
-                8,
-                10,
-                12,
-                14,
-                15,
-                20,
-                25,
-                27,
-                30,
-                31,
-                37,
-                39,
-                41,
-                43,
-                45,
-                49,
-                51,
-                58
+                3,
+                3,
+                3,
+                4,
+                4
+            ],
+            "Infra": [
+                0,
+                0,
+                0,
+                0,
+                -1,
+                -1,
+                -1,
+                -1,
+                -2
             ]
         },
         {
@@ -2951,26 +3355,86 @@
                 }
             ],
             "Targets": [
-                1,
+                {
+                    "Band": 1,
+                    "WP": 0,
+                    "Stress": 1,
+                    "TargetNumbers": [
+                        8,
+                        27,
+                        37,
+                        39,
+                        43,
+                        45,
+                        59
+                    ]
+                },
+                {
+                    "Band": 2,
+                    "WP": -1,
+                    "Stress": 2,
+                    "TargetNumbers": [
+                        3,
+                        10,
+                        20,
+                        51
+                    ]
+                },
+                {
+                    "Band": 3,
+                    "WP": -2,
+                    "Stress": 2,
+                    "TargetNumbers": [
+                        1,
+                        14,
+                        30,
+                        58
+                    ]
+                },
+                {
+                    "Band": 4,
+                    "WP": -3,
+                    "Stress": 3,
+                    "TargetNumbers": [
+                        12,
+                        25,
+                        41
+                    ]
+                },
+                {
+                    "Band": 5,
+                    "WP": -4,
+                    "Stress": 3,
+                    "BonusXP": 1,
+                    "TargetNumbers": [
+                        15,
+                        31,
+                        49
+                    ]
+                }
+            ],
+            "SpecialRules": {},
+            "Recon": [
+                2,
+                2,
+                2,
                 3,
-                8,
-                10,
-                12,
-                14,
-                15,
-                20,
-                25,
-                27,
-                30,
-                31,
-                37,
-                39,
-                41,
-                43,
-                45,
-                49,
-                51,
-                58
+                3,
+                3,
+                3,
+                4,
+                4
+            ],
+            "Infra": [
+                0,
+                0,
+                0,
+                0,
+                -1,
+                -1,
+                -1,
+                -1,
+                -2
             ]
         },
         {
@@ -3658,26 +4122,97 @@
                 }
             ],
             "Targets": [
-                1,
+                {
+                    "Band": 1,
+                    "WP": 0,
+                    "Stress": 1,
+                    "TargetNumbers": [
+                        1,
+                        30,
+                        37,
+                        60
+                    ]
+                },
+                {
+                    "Band": 2,
+                    "WP": -1,
+                    "Stress": 2,
+                    "TargetNumbers": [
+                        6,
+                        16,
+                        22,
+                        33
+                    ]
+                },
+                {
+                    "Band": 3,
+                    "WP": -2,
+                    "Stress": 2,
+                    "TargetNumbers": [
+                        7,
+                        9,
+                        10,
+                        11,
+                        13,
+                        20,
+                        26,
+                        28,
+                        45
+                    ]
+                },
+                {
+                    "Band": 4,
+                    "WP": -3,
+                    "Stress": 3,
+                    "TargetNumbers": [
+                        19,
+                        21,
+                        38,
+                        44,
+                        48,
+                        55,
+                        56
+                    ]
+                },
+                {
+                    "Band": 5,
+                    "WP": -4,
+                    "Stress": 4,
+                    "BonusXP": 1,
+                    "TargetNumbers": [
+                        3,
+                        8,
+                        14,
+                        18,
+                        32
+                    ]
+                }
+            ],
+            "SpecialRules": {
+                "freeSOPerDay": 6,
+                "jdamCost": 12
+            },
+            "Recon": [
+                2,
+                2,
                 3,
-                6,
-                7,
-                8,
-                9,
-                10,
-                11,
-                13,
-                14,
-                16,
-                18,
-                19,
-                20,
-                21,
-                22,
-                26,
-                28,
-                30,
-                32
+                3,
+                3,
+                3,
+                4,
+                4,
+                4
+            ],
+            "Infra": [
+                0,
+                0,
+                0,
+                -1,
+                -1,
+                -1,
+                -1,
+                -2,
+                -2
             ]
         },
         {
@@ -3797,26 +4332,97 @@
                 }
             ],
             "Targets": [
-                1,
+                {
+                    "Band": 1,
+                    "WP": 0,
+                    "Stress": 1,
+                    "TargetNumbers": [
+                        1,
+                        30,
+                        37,
+                        60
+                    ]
+                },
+                {
+                    "Band": 2,
+                    "WP": -1,
+                    "Stress": 2,
+                    "TargetNumbers": [
+                        6,
+                        16,
+                        22,
+                        33
+                    ]
+                },
+                {
+                    "Band": 3,
+                    "WP": -2,
+                    "Stress": 2,
+                    "TargetNumbers": [
+                        7,
+                        9,
+                        10,
+                        11,
+                        13,
+                        20,
+                        26,
+                        28,
+                        45
+                    ]
+                },
+                {
+                    "Band": 4,
+                    "WP": -3,
+                    "Stress": 3,
+                    "TargetNumbers": [
+                        19,
+                        21,
+                        38,
+                        44,
+                        48,
+                        55,
+                        56
+                    ]
+                },
+                {
+                    "Band": 5,
+                    "WP": -4,
+                    "Stress": 4,
+                    "BonusXP": 1,
+                    "TargetNumbers": [
+                        3,
+                        8,
+                        14,
+                        18,
+                        32
+                    ]
+                }
+            ],
+            "SpecialRules": {
+                "freeSOPerDay": 6,
+                "jdamCost": 12
+            },
+            "Recon": [
+                2,
+                2,
                 3,
-                6,
-                7,
-                8,
-                9,
-                10,
-                11,
-                13,
-                14,
-                16,
-                18,
-                19,
-                20,
-                21,
-                22,
-                26,
-                28,
-                30,
-                32
+                3,
+                3,
+                3,
+                4,
+                4,
+                4
+            ],
+            "Infra": [
+                0,
+                0,
+                0,
+                -1,
+                -1,
+                -1,
+                -1,
+                -2,
+                -2
             ]
         },
         {
@@ -3942,26 +4548,87 @@
                 }
             ],
             "Targets": [
+                {
+                    "Band": 1,
+                    "WP": 0,
+                    "Stress": 1,
+                    "TargetNumbers": [
+                        5,
+                        37,
+                        39,
+                        40,
+                        43,
+                        59,
+                        60
+                    ]
+                },
+                {
+                    "Band": 2,
+                    "WP": -1,
+                    "Stress": 2,
+                    "TargetNumbers": [
+                        3,
+                        6,
+                        8,
+                        10,
+                        11,
+                        12,
+                        13,
+                        17,
+                        22,
+                        26,
+                        44,
+                        45,
+                        51,
+                        58
+                    ]
+                },
+                {
+                    "Band": 3,
+                    "WP": -2,
+                    "Stress": 3,
+                    "TargetNumbers": [
+                        2,
+                        18,
+                        31,
+                        50
+                    ]
+                }
+            ],
+            "SpecialRules": {
+                "freeSOPerDay": 4,
+                "jdamCost": 12,
+                "jdamFixedOnly": true,
+                "failCondition": {
+                    "description": "Short에서 1번, Medium에서 2번, Long에서 3번 표적을 파괴하지 못한 경우 캠페인 바로 종료",
+                    "maxUndestroyedByLength": {
+                        "Short": 1,
+                        "Medium": 2,
+                        "Long": 3
+                    }
+                }
+            },
+            "Recon": [
                 2,
                 3,
-                5,
-                6,
-                8,
-                10,
-                11,
-                12,
-                13,
-                17,
-                18,
-                22,
-                26,
-                31,
-                37,
-                39,
-                40,
-                43,
-                44,
-                45
+                3,
+                3,
+                3,
+                4,
+                4,
+                4,
+                4
+            ],
+            "Infra": [
+                0,
+                0,
+                0,
+                0,
+                -1,
+                -1,
+                -1,
+                -1,
+                -2
             ]
         },
         {
@@ -4081,26 +4748,87 @@
                 }
             ],
             "Targets": [
+                {
+                    "Band": 1,
+                    "WP": 0,
+                    "Stress": 1,
+                    "TargetNumbers": [
+                        5,
+                        37,
+                        39,
+                        40,
+                        43,
+                        59,
+                        60
+                    ]
+                },
+                {
+                    "Band": 2,
+                    "WP": -1,
+                    "Stress": 2,
+                    "TargetNumbers": [
+                        3,
+                        6,
+                        8,
+                        10,
+                        11,
+                        12,
+                        13,
+                        17,
+                        22,
+                        26,
+                        44,
+                        45,
+                        51,
+                        58
+                    ]
+                },
+                {
+                    "Band": 3,
+                    "WP": -2,
+                    "Stress": 3,
+                    "TargetNumbers": [
+                        2,
+                        18,
+                        31,
+                        50
+                    ]
+                }
+            ],
+            "SpecialRules": {
+                "freeSOPerDay": 4,
+                "jdamCost": 12,
+                "jdamFixedOnly": true,
+                "failCondition": {
+                    "description": "Short에서 1번, Medium에서 2번, Long에서 3번 표적을 파괴하지 못한 경우 캠페인 바로 종료",
+                    "maxUndestroyedByLength": {
+                        "Short": 1,
+                        "Medium": 2,
+                        "Long": 3
+                    }
+                }
+            },
+            "Recon": [
                 2,
                 3,
-                5,
-                6,
-                8,
-                10,
-                11,
-                12,
-                13,
-                17,
-                18,
-                22,
-                26,
-                31,
-                37,
-                39,
-                40,
-                43,
-                44,
-                45
+                3,
+                3,
+                3,
+                4,
+                4,
+                4,
+                4
+            ],
+            "Infra": [
+                0,
+                0,
+                0,
+                0,
+                -1,
+                -1,
+                -1,
+                -1,
+                -2
             ]
         },
         {
@@ -4728,6 +5456,95 @@
                         }
                     ]
                 }
+            ],
+            "Targets": [
+                {
+                    "Band": 1,
+                    "WP": 0,
+                    "Stress": 1,
+                    "TargetNumbers": [
+                        34,
+                        35,
+                        58,
+                        59,
+                        60
+                    ]
+                },
+                {
+                    "Band": 2,
+                    "WP": -1,
+                    "Stress": 2,
+                    "TargetNumbers": [
+                        6,
+                        13,
+                        19,
+                        33,
+                        37,
+                        51
+                    ]
+                },
+                {
+                    "Band": 3,
+                    "WP": -2,
+                    "Stress": 3,
+                    "TargetNumbers": [
+                        2,
+                        27,
+                        46,
+                        52,
+                        57
+                    ]
+                },
+                {
+                    "Band": 4,
+                    "WP": -3,
+                    "Stress": 3,
+                    "TargetNumbers": [
+                        4,
+                        7,
+                        16,
+                        36,
+                        42
+                    ]
+                },
+                {
+                    "Band": 5,
+                    "WP": -4,
+                    "Stress": 4,
+                    "BonusXP": 1,
+                    "TargetNumbers": [
+                        9,
+                        24,
+                        26,
+                        47,
+                        50
+                    ]
+                }
+            ],
+            "SpecialRules": {
+                "harpoonFleetOnly": true
+            },
+            "Recon": [
+                3,
+                3,
+                3,
+                4,
+                4,
+                4,
+                5,
+                5,
+                6
+            ],
+            "Infra": [
+                1,
+                1,
+                0,
+                0,
+                0,
+                -1,
+                -1,
+                -1,
+                -2
             ]
         },
         {
@@ -4840,6 +5657,95 @@
                         }
                     ]
                 }
+            ],
+            "Targets": [
+                {
+                    "Band": 1,
+                    "WP": 0,
+                    "Stress": 1,
+                    "TargetNumbers": [
+                        34,
+                        35,
+                        58,
+                        59,
+                        60
+                    ]
+                },
+                {
+                    "Band": 2,
+                    "WP": -1,
+                    "Stress": 2,
+                    "TargetNumbers": [
+                        6,
+                        13,
+                        19,
+                        33,
+                        37,
+                        51
+                    ]
+                },
+                {
+                    "Band": 3,
+                    "WP": -2,
+                    "Stress": 3,
+                    "TargetNumbers": [
+                        2,
+                        27,
+                        46,
+                        52,
+                        57
+                    ]
+                },
+                {
+                    "Band": 4,
+                    "WP": -3,
+                    "Stress": 3,
+                    "TargetNumbers": [
+                        4,
+                        7,
+                        16,
+                        36,
+                        42
+                    ]
+                },
+                {
+                    "Band": 5,
+                    "WP": -4,
+                    "Stress": 4,
+                    "BonusXP": 1,
+                    "TargetNumbers": [
+                        9,
+                        24,
+                        26,
+                        47,
+                        50
+                    ]
+                }
+            ],
+            "SpecialRules": {
+                "harpoonFleetOnly": true
+            },
+            "Recon": [
+                3,
+                3,
+                3,
+                4,
+                4,
+                4,
+                5,
+                5,
+                6
+            ],
+            "Infra": [
+                1,
+                1,
+                0,
+                0,
+                0,
+                -1,
+                -1,
+                -1,
+                -2
             ]
         },
         {
