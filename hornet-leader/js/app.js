@@ -155,10 +155,7 @@ function onRegionChange() {
 }
 
 function onForceChange() {
-    const ids = ['scenario-info', 'length-group', 'length-info', 'difficulty-rules-group', 'aircraft-group'];
-    ids.forEach(id => document.getElementById(id).classList.add('hidden'));
-    document.getElementById('generate-group').classList.add('hidden');
-    document.getElementById('manual-panel').classList.add('hidden');
+    hideFrom(3);
 
     const diff = document.getElementById('difficulty-select').value;
     const region = document.getElementById('region-select').value;
@@ -211,10 +208,8 @@ function showScenarioDetails(sc) {
 
     lengthSel.onchange = function() {
         if (this.value === '') {
-            document.getElementById('length-info').classList.add('hidden');
-            document.getElementById('aircraft-group').classList.add('hidden');
-            document.getElementById('generate-group').classList.add('hidden');
-            document.getElementById('manual-panel').classList.add('hidden');
+            hideFrom(3);
+            document.getElementById('length-group').classList.remove('hidden');
             return;
         }
         const lengthIdx = parseInt(this.value);
@@ -247,12 +242,7 @@ function populateAircraftOptions(scenario, lengthIdx) {
         if (pilotCount === 0) return; // skip aircraft with no base-game pilots
         const soCost = getAircraftSOCost(designation, lengthIdx);
 
-        let soHtml = '';
-        if (soCost > 0) {
-            soHtml = `<span class="aircraft-so-cost so-pay">-${soCost}</span>`;
-        } else if (soCost < 0) {
-            soHtml = `<span class="aircraft-so-cost so-gain">+${Math.abs(soCost)}</span>`;
-        }
+        const soHtml = formatSOCost(soCost);
 
         const tr = document.createElement('tr');
         tr.innerHTML = `
@@ -405,6 +395,16 @@ function getSelectedDifficultyRules() {
 
 // ─── SO Helpers ───
 
+function formatSOCost(cost, mode = 'html') {
+    if (cost === 0) return '';
+    if (mode === 'label') {
+        return cost > 0 ? ` [-${cost} SO]` : ` [+${Math.abs(cost)} SO]`;
+    }
+    return cost > 0
+        ? `<span class="aircraft-so-cost so-pay">-${cost}</span>`
+        : `<span class="aircraft-so-cost so-gain">+${Math.abs(cost)}</span>`;
+}
+
 // Get aircraft SO cost for a given campaign length index (0=short,1=medium,2=long)
 function getAircraftSOCost(aircraftDesignation, lengthIdx) {
     const acType = gameData.AircraftTypes.find(a => a.Designation === aircraftDesignation);
@@ -488,10 +488,7 @@ function openManualPanel() {
                 const o = document.createElement('option');
                 o.value = p.Name;
                 const soCost = getAircraftSOCost(p.Aircraft, lengthIdx);
-                let soLabel = '';
-                if (soCost > 0) soLabel = ` [-${soCost} SO]`;
-                else if (soCost < 0) soLabel = ` [+${Math.abs(soCost)} SO]`;
-                o.textContent = `${p.Name} (${p.Aircraft})${soLabel}`;
+                o.textContent = `${p.Name} (${p.Aircraft})${formatSOCost(soCost, 'label')}`;
                 o.dataset.aircraft = p.Aircraft;
                 sel.appendChild(o);
             });
@@ -545,12 +542,11 @@ function updateManualSelections() {
 
     const soInfo = document.getElementById('manual-so-info');
     if (soInfo) {
-        if (totalCost > 0) {
-            soInfo.innerHTML = `항공기 SO 비용: <span class="so-pay">-${totalCost} SO</span>`;
-        } else if (totalCost < 0) {
-            soInfo.innerHTML = `항공기 SO 보너스: <span class="so-gain">+${Math.abs(totalCost)} SO</span>`;
-        } else {
+        if (totalCost === 0) {
             soInfo.innerHTML = '항공기 SO 보정: 없음';
+        } else {
+            const label = totalCost > 0 ? '비용' : '보너스';
+            soInfo.innerHTML = `항공기 SO ${label}: <span class="${totalCost > 0 ? 'so-pay' : 'so-gain'}">${totalCost > 0 ? '-' : '+'}${Math.abs(totalCost)} SO</span>`;
         }
     }
 
@@ -587,46 +583,9 @@ function confirmManualSelection() {
         });
     });
 
-    // Calculate aircraft SO cost (same rules as random generation)
-    const aircraftSO = calcSquadronSOCost(squadron, lengthIdx);
-    const daysMatch = option.Timespan.match(/(\d+)/);
-    const totalDays = daysMatch ? parseInt(daysMatch[1]) : 3;
-    const baseSO = option.SOPoints;
-    let totalSO = baseSO - aircraftSO;
+    campaign = buildCampaign(scenarioIdx, lengthIdx, squadron, diffRules, { extra: { manualSquadron: true } });
 
-    if (diffRules.reducedSOs)  totalSO -= SO_ADJUST[lengthIdx] || 6;
-    if (diffRules.increasedSOs) totalSO += SO_ADJUST[lengthIdx] || 6;
-
-    const missions = [];
-    for (let i = 0; i < totalDays; i++) {
-        missions.push({
-            day: i + 1,
-            startSO: i === 0 ? totalSO : '',
-            usedSO: '',
-            targets: [{ targetNumber: '', dayNight: 'Day', vp: '', recon: '', intel: '', infra: '', baseStress: '', assignedPilots: [], result: '', resolved: false }],
-            recoveryApplied: false,
-            rnrApplied: false,
-            downTime: false
-        });
-    }
-
-    campaign = {
-        scenarioIdx, lengthIdx,
-        scenarioName: scenario.Name,
-        lengthDesc: option.LengthDescription,
-        timespan: option.Timespan,
-        baseSO: baseSO,
-        aircraftSO: aircraftSO,
-        totalSO: totalSO,
-        manualSquadron: true,
-        squadron, missions,
-        tracks: { recon: 0, intel: 0, infra: 0 },
-        diffRules: diffRules || { level: 'average' },
-        createdAt: new Date().toISOString()
-    };
-
-    openAssignPanels = new Set();
-    assignStaging = {};
+    resetAssignState();
     saveCampaign();
     showDashboard();
 }
@@ -642,28 +601,30 @@ function calcSquadronSOCost(squadron, lengthIdx) {
 
 // ─── Pilot Helpers ───
 
-function getStatus(pilot) {
-    if (!pilot.hasStats) return 'Okay';
+function getPilotRankStats(pilot) {
+    if (!pilot.hasStats) return null;
     const pd = gameData.Pilots.find(p => p.Name === pilot.name);
-    if (!pd || !pd.Stats || !pd.Stats[pilot.rank]) return 'Okay';
-    const s = pd.Stats[pilot.rank];
+    if (!pd || !pd.Stats || !pd.Stats[pilot.rank]) return null;
+    return { pd, stats: pd.Stats[pilot.rank] };
+}
+
+function getStatus(pilot) {
+    const rs = getPilotRankStats(pilot);
+    if (!rs) return 'Okay';
+    const s = rs.stats;
     if (pilot.stress >= s.Okay[0] && pilot.stress <= s.Okay[1]) return 'Okay';
     if (pilot.stress >= s.Shaken[0] && pilot.stress <= s.Shaken[1]) return 'Shaken';
     return 'Unfit';
 }
 
 function getXpToPromote(pilot) {
-    if (!pilot.hasStats) return null;
-    const pd = gameData.Pilots.find(p => p.Name === pilot.name);
-    if (!pd || !pd.Stats || !pd.Stats[pilot.rank]) return null;
-    return pd.Stats[pilot.rank].XP;
+    const rs = getPilotRankStats(pilot);
+    return rs ? rs.stats.XP : null;
 }
 
 function getMaxStress(pilot) {
-    if (!pilot.hasStats) return '?';
-    const pd = gameData.Pilots.find(p => p.Name === pilot.name);
-    if (!pd || !pd.Stats || !pd.Stats[pilot.rank]) return '?';
-    return pd.Stats[pilot.rank].Shaken[1];
+    const rs = getPilotRankStats(pilot);
+    return rs ? rs.stats.Shaken[1] : '?';
 }
 
 function getNextRank(rank) {
@@ -675,9 +636,8 @@ function getNextRank(rank) {
 function updatePilotForRank(pilot, resetStress) {
     const pd = gameData.Pilots.find(p => p.Name === pilot.name);
     pilot.hasStats = !!(pd && pd.Stats);
-    if (pd && pd.Stats && pd.Stats[pilot.rank]) {
-        pilot.cooldown = pd.Stats[pilot.rank].Cooldown;
-    }
+    const rs = getPilotRankStats(pilot);
+    if (rs) pilot.cooldown = rs.stats.Cooldown;
     if (resetStress) {
         pilot.stress = 0;
         pilot.xp = 0;
@@ -694,6 +654,14 @@ function promoteIfReady(pilot) {
             pilot.xp = 0;
         }
     }
+}
+
+function recoverPilots(filter) {
+    campaign.squadron.forEach((pilot, idx) => {
+        if (pilot.shotDown) return;
+        if (filter && !filter(pilot, idx)) return;
+        pilot.stress = Math.max(0, pilot.stress - (pilot.cooldown + 2));
+    });
 }
 
 // Collect all assigned pilot indices across all targets in a day
@@ -723,25 +691,24 @@ function hasPendingSAR(m) {
 
 // ─── Campaign State ───
 
+function applySOAdjust(totalSO, diffRules, lengthIdx) {
+    if (diffRules.reducedSOs)  totalSO -= SO_ADJUST[lengthIdx] || 6;
+    if (diffRules.increasedSOs) totalSO += SO_ADJUST[lengthIdx] || 6;
+    return totalSO;
+}
+
+function createEmptyTarget() {
+    return { targetNumber: '', dayNight: 'Day', vp: '', recon: '', intel: '', infra: '', baseStress: '', assignedPilots: [], result: '', resolved: false };
+}
+
 const RANDOM_SO_BONUS = [6, 12, 18]; // Short / Medium / Long
 
-function createCampaign(scenarioIdx, lengthIdx, selectedAircraft, diffRules) {
+function buildCampaign(scenarioIdx, lengthIdx, squadron, diffRules, opts = {}) {
     const scenario = gameData.Campaigns[scenarioIdx];
     const option = scenario.CampaignOptions[lengthIdx];
-
-    // Generate squadron, re-roll if SO goes below 0
+    const aircraftSO = calcSquadronSOCost(squadron, lengthIdx);
     const baseSO = option.SOPoints;
-    const randomBonus = RANDOM_SO_BONUS[lengthIdx] || 6;
-    let squadron, aircraftSO, totalSO;
-    const maxAttempts = 100;
-    for (let attempt = 0; attempt < maxAttempts; attempt++) {
-        squadron = generateSquadron(scenario, option, selectedAircraft);
-        aircraftSO = calcSquadronSOCost(squadron, lengthIdx);
-        totalSO = baseSO - aircraftSO + randomBonus;
-        if (diffRules.reducedSOs)  totalSO -= SO_ADJUST[lengthIdx] || 6;
-        if (diffRules.increasedSOs) totalSO += SO_ADJUST[lengthIdx] || 6;
-        if (totalSO >= 0) break;
-    }
+    const totalSO = applySOAdjust(baseSO - aircraftSO + (opts.soBonus || 0), diffRules, lengthIdx);
 
     const daysMatch = option.Timespan.match(/(\d+)/);
     const totalDays = daysMatch ? parseInt(daysMatch[1]) : 3;
@@ -752,26 +719,41 @@ function createCampaign(scenarioIdx, lengthIdx, selectedAircraft, diffRules) {
             day: i + 1,
             startSO: i === 0 ? totalSO : '',
             usedSO: '',
-            targets: [{ targetNumber: '', dayNight: 'Day', vp: '', recon: '', intel: '', infra: '', baseStress: '', assignedPilots: [], result: '', resolved: false }],
+            targets: [createEmptyTarget()],
             recoveryApplied: false,
             rnrApplied: false,
             downTime: false
         });
     }
 
-    campaign = {
+    return {
         scenarioIdx, lengthIdx,
         scenarioName: scenario.Name,
         lengthDesc: option.LengthDescription,
         timespan: option.Timespan,
-        baseSO: baseSO,
-        aircraftSO: aircraftSO,
-        totalSO: totalSO,
+        baseSO, aircraftSO, totalSO,
         squadron, missions,
         tracks: { recon: 0, intel: 0, infra: 0 },
         diffRules: diffRules || { level: 'average' },
+        ...opts.extra,
         createdAt: new Date().toISOString()
     };
+}
+
+function createCampaign(scenarioIdx, lengthIdx, selectedAircraft, diffRules) {
+    const scenario = gameData.Campaigns[scenarioIdx];
+    const option = scenario.CampaignOptions[lengthIdx];
+    const randomBonus = RANDOM_SO_BONUS[lengthIdx] || 6;
+
+    let bestSquadron;
+    for (let attempt = 0; attempt < 100; attempt++) {
+        bestSquadron = generateSquadron(scenario, option, selectedAircraft);
+        const aircraftSO = calcSquadronSOCost(bestSquadron, lengthIdx);
+        const totalSO = applySOAdjust(option.SOPoints - aircraftSO + randomBonus, diffRules, lengthIdx);
+        if (totalSO >= 0) break;
+    }
+
+    campaign = buildCampaign(scenarioIdx, lengthIdx, bestSquadron, diffRules, { soBonus: randomBonus });
     return campaign;
 }
 
@@ -832,8 +814,9 @@ function showDashboard() {
     document.getElementById('dashboard-screen').classList.add('active');
     document.getElementById('campaign-title').textContent =
         `${campaign.scenarioName} - ${campaign.lengthDesc}`;
-    // Hide reroll button for manually selected squadrons
-    document.getElementById('reroll-btn').style.display = campaign.manualSquadron ? 'none' : '';
+    // Hide reroll button for manually selected squadrons or if any mission is resolved
+    const anyResolved = campaign.missions.some(m => m.targets.some(t => t.resolved) || m.downTime);
+    document.getElementById('reroll-btn').style.display = (campaign.manualSquadron || anyResolved) ? 'none' : '';
     renderAll();
 }
 
@@ -934,6 +917,37 @@ function cycleRank(idx) {
 let openAssignPanels = new Set();
 let assignStaging = {};
 
+function resetAssignState() {
+    openAssignPanels = new Set();
+    assignStaging = {};
+}
+
+// ─── Trait Tooltips ───
+const TRAIT_TOOLTIPS = [
+    { match: 'Bandit',        tip: '표적 지역 상공의 턴이 시작할 때마다, 지정된 수의 적기 카운터를 뽑아 중앙 구역에 배치합니다.' },
+    { match: 'Dispersed',     tip: '각 AtG 카운터는 표적에 최대 1회의 명중만 가할 수 있습니다.' },
+    { match: 'Fixed',         tip: 'JDAM 무장은 1999~2008 기간에는 고정 표적에만 공격할 수 있습니다.' },
+    { match: 'Friendly Fire', tip: '표적 지역 상공에서 소모한 AtG 카운터 중 명중/제압에 실패한 카운터마다, 공격한 조종사에게 스트레스 1을 가합니다.' },
+    { match: 'Hardened',      tip: 'AtG 카운터가 표적에 가한 명중에서 1을 뺍니다.' },
+    { match: 'Improvement',   tip: '표적 카드를 뽑을 때 활성화됩니다. 파괴될 때까지 효과가 적용되며, 선택하지 않아도 카드를 버리지 않습니다. 파괴될 때까지 임무 선택에 계속 사용 가능합니다.' },
+    { match: 'OVERKILL',      tip: '표적에 지정된 수의 명중을 가하면 적혀있는 보너스를 얻습니다.' },
+    { match: 'Overkill',      tip: '표적에 지정된 수의 명중을 가하면 적혀있는 보너스를 얻습니다.' },
+    { match: 'Objective',     tip: '지정된 카운터를 중앙 구역에 배치합니다. 표적을 파괴하려면 이 카운터들을 파괴해야 합니다. 중앙 구역의 다른 카운터들은 파괴할 필요 없습니다.' },
+    { match: 'Penalty',       tip: '이 카드를 임무로 선택하고 표적을 파괴하지 못하면 적혀 있는 패널티를 받습니다. "캠페인 종료" 패널티 시 형편없는(Dismal) 평가로 캠페인이 종료됩니다.' },
+    { match: 'Scramble',      tip: '이 카드를 한 장이라도 뽑으면 즉시 표적 카드 뽑기를 중단합니다. 이 카드를 그 날의 주요 임무로 반드시 선택해야 합니다.' },
+    { match: 'Secondary',     tip: '주요 임무와 동시에 보조 임무를 수행할 수 있습니다. 한 조종사는 주요 또는 보조 중 하나만 수행 가능합니다. 주요 임무 해결 후 보조 표적의 사이트를 결정합니다.' },
+    { match: 'Small',         tip: '표적에 대한 모든 AtG 주사위 굴림에서 1을 뺍니다.' },
+    { match: 'Soft',          tip: '일부 무장은 취약 표적을 공격할 때 보너스를 받습니다.' },
+    { match: 'Stress',        tip: '임무 종료 시, 임무를 수행한 각 조종사에게 적혀 있는 수치만큼 스트레스 포인트를 더하거나 뺍니다.' },
+    { match: 'Vehicle',       tip: '일부 무장은 차량 표적을 공격할 때 보너스를 받습니다.' },
+    { match: 'VP',            tip: '표적을 파괴하면, 일반 효과 외 적혀 있는 보너스를 받습니다.' },
+];
+
+function getTraitTooltip(trait) {
+    const entry = TRAIT_TOOLTIPS.find(t => trait.includes(t.match));
+    return entry ? entry.tip : '';
+}
+
 function panelKey(dayIdx, tIdx) { return `${dayIdx}-${tIdx}`; }
 
 function getTargetEntry(targetNumber) {
@@ -948,13 +962,49 @@ function getTargetAircraftCount(targetNumber) {
 }
 
 function getTargetCampaignDetails(targetNumber) {
+    if (!targetNumber || !campaign) return null;
+    // First try band-based data from hl.json
+    const bandInfo = getTargetBandInfo(targetNumber);
+    // Then try per-card campaignDetails from hl_target.json
     const entry = getTargetEntry(targetNumber);
-    if (!entry || !entry.campaignDetails || !campaign) return null;
-    const scenarioName = campaign.scenarioName || '';
-    for (const key of Object.keys(entry.campaignDetails)) {
-        if (scenarioName.includes(key)) return entry.campaignDetails[key];
+    const cardDetail = (() => {
+        if (!entry || !entry.campaignDetails) return null;
+        const scenarioName = campaign.scenarioName || '';
+        for (const key of Object.keys(entry.campaignDetails)) {
+            if (scenarioName.includes(key)) return entry.campaignDetails[key];
+        }
+        return null;
+    })();
+    if (!bandInfo && !cardDetail) return null;
+    // Band info takes priority (scenario-specific), card detail as fallback
+    return {
+        wp: bandInfo ? bandInfo.WP : (cardDetail ? cardDetail.wp : null),
+        baseStress: bandInfo ? bandInfo.Stress : (cardDetail ? cardDetail.baseStress : null),
+        bonusXP: bandInfo ? (bandInfo.BonusXP || 0) : 0
+    };
+}
+
+function getTargetBandInfo(targetNumber) {
+    if (!campaign || !gameData) return null;
+    const scenario = gameData.Campaigns[campaign.scenarioIdx];
+    const targets = scenario.Targets;
+    if (!targets || !targets.length || typeof targets[0] !== 'object' || !targets[0].Band) return null;
+    const num = String(targetNumber);
+    for (const band of targets) {
+        if (band.TargetNumbers.map(String).includes(num)) return band;
     }
     return null;
+}
+
+function getScenarioTargetNumbers() {
+    if (!campaign || !gameData) return [];
+    const scenario = gameData.Campaigns[campaign.scenarioIdx];
+    const targets = scenario.Targets;
+    if (!targets || !targets.length) return [];
+    if (typeof targets[0] === 'object' && targets[0].Band) {
+        return targets.flatMap(band => band.TargetNumbers);
+    }
+    return targets;
 }
 
 function isE2C(pilot) {
@@ -975,11 +1025,10 @@ function getDestroyedTargets() {
 }
 
 function buildTargetNumberField(currentValue, dayIdx, tIdx) {
-    const scenario = gameData.Campaigns[campaign.scenarioIdx];
-    const targets = scenario.Targets;
-    if (targets && targets.length > 0) {
+    const targetNumbers = getScenarioTargetNumbers();
+    if (targetNumbers.length > 0) {
         const destroyed = getDestroyedTargets();
-        const options = targets.map(n => {
+        const options = targetNumbers.map(n => {
             const isDestroyed = destroyed.has(String(n)) && String(n) !== String(currentValue);
             return isDestroyed ? '' :
                 `<option value="${n}"${String(n) === String(currentValue) ? ' selected' : ''}>${n}</option>`;
@@ -1067,6 +1116,23 @@ function renderMissions() {
             `;
             tBlock.appendChild(row);
 
+            // Target traits tags
+            const targetEntry = getTargetEntry(t.targetNumber);
+            if (targetEntry && targetEntry.traits) {
+                const traitsDiv = document.createElement('div');
+                traitsDiv.className = 'target-traits';
+                targetEntry.traits.split(',').forEach(trait => {
+                    const text = trait.trim();
+                    const tip = getTraitTooltip(text);
+                    const tag = document.createElement('span');
+                    tag.className = 'target-trait-tag' + (tip ? ' has-tooltip' : '');
+                    tag.textContent = text;
+                    if (tip) tag.dataset.tooltip = tip;
+                    traitsDiv.appendChild(tag);
+                });
+                tBlock.appendChild(traitsDiv);
+            }
+
             // Assigned pilots for this target
             if (pilots.length > 0) {
                 const pilotsDiv = document.createElement('div');
@@ -1085,9 +1151,9 @@ function renderMissions() {
                         <span class="ap-stress-section">
                             <span class="ap-stress-label">스트레스</span>
                             <span class="ap-stress-mission">
-                                ${t.resolved ? `+${mStress}` : `
+                                ${t.resolved ? `${mStress >= 0 ? '+' : ''}${mStress}` : `
                                 <button class="arrow-btn arrow-down ap-arrow" data-day="${dayIdx}" data-tidx="${tIdx}" data-apidx="${apIdx}" data-action="ms-down">&#9660;</button>
-                                <span class="ap-ms-val">+${mStress}</span>
+                                <span class="ap-ms-val">${mStress >= 0 ? '+' : ''}${mStress}</span>
                                 <button class="arrow-btn arrow-up ap-arrow" data-day="${dayIdx}" data-tidx="${tIdx}" data-apidx="${apIdx}" data-action="ms-up">&#9650;</button>
                                 `}
                             </span>
@@ -1369,7 +1435,7 @@ function onDayFieldChange(e) {
 
 function onAddTarget(e) {
     const dayIdx = parseInt(e.target.dataset.day);
-    campaign.missions[dayIdx].targets.push({ targetNumber: '', dayNight: 'Day', vp: '', recon: '', intel: '', infra: '', baseStress: '', assignedPilots: [], result: '', resolved: false });
+    campaign.missions[dayIdx].targets.push(createEmptyTarget());
     renderMissions();
     autoSave();
 }
@@ -1389,9 +1455,8 @@ function onTargetFieldChange(e) {
     t[e.target.dataset.tfield] = e.target.value;
 
     // Auto-fill destroyedRewards and campaign details when target number changes
-    if (e.target.dataset.tfield === 'targetNumber' && targetData) {
-        const num = e.target.value.replace(/^0+/, '');
-        const entry = targetData.find(d => d.cardNumber.replace(/^0+/, '') === num);
+    if (e.target.dataset.tfield === 'targetNumber') {
+        const entry = getTargetEntry(e.target.value);
         if (entry && entry.destroyedRewards) {
             const r = entry.destroyedRewards;
             t.vp = r.vp || 0;
@@ -1403,6 +1468,11 @@ function onTargetFieldChange(e) {
         if (campDetail) {
             t.baseStress = campDetail.baseStress;
         }
+        // Update trait stress for already-assigned pilots
+        const newTraitStress = parseTraitStress(e.target.value);
+        (t.assignedPilots || []).forEach(ap => {
+            ap.missionStress = newTraitStress;
+        });
         renderMissions();
     }
     updateBadges();
@@ -1446,7 +1516,8 @@ function onConfirmAssign(e) {
         if (target.assignedPilots.some(ap => ap.pilotIdx === pIdx)) return;
         const pilot = campaign.squadron[pIdx];
         if (!isE2C(pilot) && nonE2CCount >= acLimit) return;
-        target.assignedPilots.push({ pilotIdx: pIdx, shotDown: false, missionStress: 0, missionXp: 0 });
+        const traitStress = parseTraitStress(target.targetNumber);
+        target.assignedPilots.push({ pilotIdx: pIdx, shotDown: false, missionStress: traitStress, missionXp: 0 });
         if (!isE2C(pilot)) nonE2CCount++;
     });
 
@@ -1485,7 +1556,7 @@ function onMissionPilotArrow(e) {
             ap.missionStress = (ap.missionStress || 0) + 1;
             break;
         case 'ms-down':
-            ap.missionStress = Math.max(0, (ap.missionStress || 0) - 1);
+            ap.missionStress = (ap.missionStress || 0) - 1;
             break;
         case 'xp-up':
             ap.missionXp = (ap.missionXp || 0) + 1;
@@ -1526,11 +1597,7 @@ function onApplyRnR(e) {
     const currentUsed = inputEl ? (parseFloat(inputEl.value) || 0) : (parseFloat(m.usedSO) || 0);
     m.usedSO = currentUsed + 9;
 
-    // 모든 파일럿: Cool + 2 만큼 스트레스 회복
-    campaign.squadron.forEach(pilot => {
-        if (pilot.shotDown) return;
-        pilot.stress = Math.max(0, pilot.stress - (pilot.cooldown + 2));
-    });
+    recoverPilots();
 
     m.rnrApplied = true;
     renderAll();
@@ -1547,11 +1614,7 @@ function onDownTime(e) {
     campaign.tracks.intel = Math.max(0, (campaign.tracks.intel || 0) - 1);
     campaign.tracks.infra = Math.max(0, (campaign.tracks.infra || 0) - 1);
 
-    // 전 파일럿 휴식: Cool + 2 스트레스 회복
-    campaign.squadron.forEach(pilot => {
-        if (pilot.shotDown) return;
-        pilot.stress = Math.max(0, pilot.stress - (pilot.cooldown + 2));
-    });
+    recoverPilots();
 
     // SO 이월
     const startSO = parseFloat(m.startSO) || 0;
@@ -1627,6 +1690,19 @@ function onSarRoll(e) {
 // XP: all pilots (including shot down) get +1 XP base
 //     + bonus +1 if Destroyed AND no shot down
 //     + manual missionXp adjustment
+function parseTraitStress(targetNumber) {
+    const entry = getTargetEntry(targetNumber);
+    if (!entry || !entry.traits) return 0;
+    const match = entry.traits.match(/Stress:\s*([+-]?\d+)/);
+    return match ? parseInt(match[1]) : 0;
+}
+
+function parseTargetBonus(targetNumber) {
+    const entry = getTargetEntry(targetNumber);
+    if (!entry) return null;
+    return { bonus: entry.bonus || null, penalty: entry.penalty || null };
+}
+
 function resolveTarget(dayIdx, tIdx) {
     const t = campaign.missions[dayIdx].targets[tIdx];
     if (t.resolved || !t.result) return;
@@ -1640,6 +1716,13 @@ function resolveTarget(dayIdx, tIdx) {
     let stressMod = 0;
     if (dr.extraStress) stressMod += 1;
     if (dr.lessStress) stressMod -= 1;
+
+    // Band-level bonus XP (e.g. Band 5 of Libya 2011)
+    const bandInfo = getTargetBandInfo(t.targetNumber);
+    const bandBonusXP = bandInfo ? (bandInfo.BonusXP || 0) : 0;
+
+    // Target card bonus/penalty
+    const bp = parseTargetBonus(t.targetNumber);
 
     pilots.forEach(ap => {
         const pilot = campaign.squadron[ap.pilotIdx];
@@ -1658,6 +1741,15 @@ function resolveTarget(dayIdx, tIdx) {
             if (t.result === 'Destroyed' && !hasShotDown) {
                 xpGain += 1;
             }
+            // Bonus XP from band (applied on destroy only)
+            if (t.result === 'Destroyed') {
+                xpGain += bandBonusXP;
+            }
+            // Bonus XP from target card (e.g. "Pilots gain +1 Experience Point.")
+            if (t.result === 'Destroyed' && bp && bp.bonus) {
+                const xpMatch = bp.bonus.match(/Pilots gain \+(\d+) Experience/i);
+                if (xpMatch) xpGain += parseInt(xpMatch[1]);
+            }
             xpGain += (ap.missionXp || 0);
             pilot.xp += xpGain;
             promoteIfReady(pilot);
@@ -1672,6 +1764,23 @@ function resolveTarget(dayIdx, tIdx) {
         campaign.tracks.recon = Math.max(0, (campaign.tracks.recon || 0) + recon);
         campaign.tracks.intel = Math.max(0, (campaign.tracks.intel || 0) + intel);
         campaign.tracks.infra = Math.max(0, (campaign.tracks.infra || 0) + infra);
+
+        // Bonus: SO points from target card
+        if (bp && bp.bonus) {
+            const soMatch = bp.bonus.match(/Gain (\d+) (?:SO )?Special Option Points/i);
+            if (soMatch) {
+                campaign.totalSO += parseInt(soMatch[1]);
+                campaign.missions[dayIdx].startSO = '';  // recalc display
+            }
+        }
+
+        // Penalty: Lose VP from target card
+        if (bp && bp.penalty) {
+            const vpMatch = bp.penalty.match(/Lose (\d+) VP/i);
+            if (vpMatch) {
+                campaign.vpPenalty = (campaign.vpPenalty || 0) + parseInt(vpMatch[1]);
+            }
+        }
     }
 
     // VP penalty for destroyed aircraft
@@ -1696,12 +1805,9 @@ function applyEndOfDayRecovery(dayIdx) {
 
     const assignedIndices = getDayDeployedSet(m);
 
-    campaign.squadron.forEach((pilot, idx) => {
-        if (assignedIndices.has(idx)) return;
-        const status = getStatus(pilot);
-        if (status === 'Unfit') return;
-        pilot.stress = Math.max(0, pilot.stress - (pilot.cooldown + 2));
-    });
+    recoverPilots((pilot, idx) =>
+        !assignedIndices.has(idx) && getStatus(pilot) !== 'Unfit'
+    );
 
     // SO carry-over to next day
     const startSO = parseFloat(m.startSO) || 0;
@@ -1847,8 +1953,7 @@ function loadCampaign(createdAt) {
     const found = saved.find(c => c.createdAt === createdAt);
     if (found) {
         campaign = migrateCampaign(found);
-        openAssignPanels = new Set();
-        assignStaging = {};
+        resetAssignState();
         showDashboard();
     }
 }
@@ -1952,8 +2057,7 @@ document.addEventListener('DOMContentLoaded', () => {
         if (selectedAircraft.length === 0) return;
         const diffRules = getSelectedDifficultyRules();
         createCampaign(parseInt(scenarioIdx), parseInt(lengthIdx), selectedAircraft, diffRules);
-        openAssignPanels = new Set();
-        assignStaging = {};
+        resetAssignState();
         saveCampaign();
         showDashboard();
     });
@@ -2010,9 +2114,7 @@ document.addEventListener('DOMContentLoaded', () => {
             campaign.squadron = generateSquadron(scenario, option, allowedAircraft);
             const aircraftSO = calcSquadronSOCost(campaign.squadron, campaign.lengthIdx);
             campaign.aircraftSO = aircraftSO;
-            let newTotalSO = campaign.baseSO - aircraftSO + randomBonus;
-            if (dr.reducedSOs) newTotalSO -= SO_ADJUST[campaign.lengthIdx] || 6;
-            if (dr.increasedSOs) newTotalSO += SO_ADJUST[campaign.lengthIdx] || 6;
+            const newTotalSO = applySOAdjust(campaign.baseSO - aircraftSO + randomBonus, dr, campaign.lengthIdx);
             campaign.totalSO = newTotalSO;
             if (newTotalSO >= 0) break;
         }

@@ -505,6 +505,52 @@ select:focus, input:focus { outline: none; border-color: #8b7a2e; box-shadow: in
     text-transform: uppercase;
 }
 
+.target-traits {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.3rem;
+    padding: 0.2rem 0 0.35rem;
+}
+.target-trait-tag {
+    font-size: 0.72rem;
+    font-weight: 600;
+    padding: 0.1rem 0.45rem;
+    border-radius: 2px;
+    background: #33362f;
+    border: 1px solid #555850;
+    color: #a8a498;
+    white-space: nowrap;
+    position: relative;
+}
+.target-trait-tag.has-tooltip {
+    cursor: help;
+    border-bottom-style: dashed;
+}
+.target-trait-tag.has-tooltip:hover {
+    background: #3e4139;
+    color: #d0ccb8;
+}
+.target-trait-tag[data-tooltip]:hover::after {
+    content: attr(data-tooltip);
+    position: absolute;
+    left: 0;
+    top: calc(100% + 6px);
+    z-index: 100;
+    width: max-content;
+    max-width: 320px;
+    white-space: normal;
+    font-size: 0.75rem;
+    font-weight: 400;
+    line-height: 1.45;
+    padding: 0.5rem 0.7rem;
+    border-radius: 4px;
+    background: #1a1c18;
+    border: 1px solid #5a5d55;
+    color: #d0cec4;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.5);
+    pointer-events: none;
+}
+
 .target-block { margin-bottom: 0.3rem; padding-bottom: 0.3rem; border-bottom: 1px solid #43463f; }
 .target-block:last-child { border-bottom: none; }
 .target-block.target-resolved { opacity: 0.55; }
