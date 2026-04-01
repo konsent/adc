@@ -1369,50 +1369,32 @@ function renderMissions() {
             const tBlock = document.createElement('div');
             tBlock.className = 'target-block' + (t.resolved ? ' target-resolved' : '');
 
-            // Target header row
+            // ── Target Card Layout ──
             const campDetail = getTargetCampaignDetails(t.targetNumber);
             const wpPenalty = getImprovementWPPenalty();
             const effectiveWP = campDetail ? campDetail.wp - wpPenalty : null;
             const wpLabel = effectiveWP != null ? `<span class="wp-badge">WP ${effectiveWP}</span>` : '';
             const hits = getTargetHits(t.targetNumber);
-            const hitsLabel = hits != null ? `<span class="hits-badge">Hits ${hits}</span>` : '';
             const targetEntry = getTargetEntry(t.targetNumber);
             const targetName = targetEntry ? targetEntry.targetName : '';
-            const row = document.createElement('div');
-            row.className = 'target-row';
-            row.innerHTML = `
-                <span class="target-label">${tIdx === 0 ? '주 표적' : '부 표적'}${wpLabel}${hitsLabel}</span>
-                <span class="target-number-name">#${t.targetNumber} ${targetName}</span>
-                <div class="tgt-field"><span class="tgt-field-label">시간</span><select data-day="${dayIdx}" data-tidx="${tIdx}" data-tfield="dayNight">
-                    <option value="Day"${t.dayNight === 'Day' ? ' selected' : ''}>주간</option>
-                    <option value="Night"${t.dayNight === 'Night' ? ' selected' : ''}>야간</option>
-                </select></div>
-                <div class="tgt-field"><span class="tgt-field-label">타겟ST</span><input type="number" value="${t.baseStress || ''}"
-                    data-day="${dayIdx}" data-tidx="${tIdx}" data-tfield="baseStress"></div>
-                ${!t.resolved ? `<button class="btn btn-small" data-day="${dayIdx}" data-tidx="${tIdx}" data-action="toggle-assign">배치</button>` : ''}
-                ${tIdx > 0 && !t.resolved ? `<button class="target-remove" data-day="${dayIdx}" data-tidx="${tIdx}">x</button>` : ''}
-            `;
-            tBlock.appendChild(row);
 
-            // Reward row (VP, Recon, Intel, Infra)
-            const rewardRow = document.createElement('div');
-            rewardRow.className = 'target-reward-row';
-            rewardRow.innerHTML = `
-                <div class="tgt-field"><span class="tgt-field-label">VP</span><input type="number" value="${t.vp || ''}"
-                    data-day="${dayIdx}" data-tidx="${tIdx}" data-tfield="vp" min="0"></div>
-                <div class="tgt-field"><span class="tgt-field-label">Recon</span><input type="number" value="${t.recon || ''}"
-                    data-day="${dayIdx}" data-tidx="${tIdx}" data-tfield="recon" min="0"></div>
-                <div class="tgt-field"><span class="tgt-field-label">Intel</span><input type="number" value="${t.intel || ''}"
-                    data-day="${dayIdx}" data-tidx="${tIdx}" data-tfield="intel" min="0"></div>
-                <div class="tgt-field"><span class="tgt-field-label">Infra</span><input type="number" value="${t.infra || ''}"
-                    data-day="${dayIdx}" data-tidx="${tIdx}" data-tfield="infra" min="0"></div>
+            // 1) Header bar: 주/부 표적 label + target name + number
+            const header = document.createElement('div');
+            header.className = 'tc-header';
+            header.innerHTML = `
+                <span class="tc-type">${tIdx === 0 ? '주 표적' : '부 표적'}</span>
+                <span class="tc-title">#${t.targetNumber} ${targetName}</span>
+                <span class="tc-header-actions">
+                    ${!t.resolved ? `<button class="btn btn-small" data-day="${dayIdx}" data-tidx="${tIdx}" data-action="toggle-assign">배치</button>` : ''}
+                    ${tIdx > 0 && !t.resolved ? `<button class="target-remove" data-day="${dayIdx}" data-tidx="${tIdx}">x</button>` : ''}
+                </span>
             `;
-            tBlock.appendChild(rewardRow);
+            tBlock.appendChild(header);
 
-            // Target traits tags
+            // 2) Traits row
             if (targetEntry && targetEntry.traits) {
                 const traitsDiv = document.createElement('div');
-                traitsDiv.className = 'target-traits';
+                traitsDiv.className = 'tc-traits';
                 targetEntry.traits.split(',').forEach(trait => {
                     const text = trait.trim();
                     const tip = getTraitTooltip(text);
@@ -1424,6 +1406,53 @@ function renderMissions() {
                 });
                 tBlock.appendChild(traitsDiv);
             }
+
+            // 3) Stats grid: Day/Night, Stress, WP, Hits
+            const statsRow = document.createElement('div');
+            statsRow.className = 'tc-stats';
+            const isNight = t.dayNight === 'Night';
+            const canNight = targetEntry && targetEntry.nighttimeMission === 'true';
+            statsRow.innerHTML = `
+                <div class="tc-daynight ${isNight ? 'night' : 'day'}${canNight ? '' : ' no-night'}" data-day="${dayIdx}" data-tidx="${tIdx}" data-tfield="dayNight">
+                    ${isNight ? '야간 작전' : '주간 작전'}
+                </div>
+                <div class="tc-stat-box">
+                    <span class="tc-stat-label">기본 ST</span>
+                    <span class="tc-stat-value">${t.baseStress || '—'}</span>
+                </div>
+                <div class="tc-stat-box tc-stat-wp">
+                    <span class="tc-stat-label">WP</span>
+                    <span class="tc-stat-value">${effectiveWP != null ? effectiveWP : '—'}</span>
+                </div>
+                <div class="tc-stat-box tc-stat-hits">
+                    <span class="tc-stat-label">명중</span>
+                    <span class="tc-stat-value">${hits != null ? hits : '—'}</span>
+                </div>
+            `;
+            tBlock.appendChild(statsRow);
+
+            // 4) Reward boxes: VP, Recon, Intel, Infra
+            const rewardRow = document.createElement('div');
+            rewardRow.className = 'tc-rewards';
+            rewardRow.innerHTML = `
+                <div class="tc-reward-box tc-reward-vp">
+                    <span class="tc-reward-label">VP</span>
+                    <span class="tc-reward-value">${t.vp || 0}</span>
+                </div>
+                <div class="tc-reward-box tc-reward-recon">
+                    <span class="tc-reward-label">Recon</span>
+                    <span class="tc-reward-value">${t.recon || 0}</span>
+                </div>
+                <div class="tc-reward-box tc-reward-intel">
+                    <span class="tc-reward-label">Intel</span>
+                    <span class="tc-reward-value">${t.intel || 0}</span>
+                </div>
+                <div class="tc-reward-box tc-reward-infra">
+                    <span class="tc-reward-label">Infra</span>
+                    <span class="tc-reward-value">${t.infra || 0}</span>
+                </div>
+            `;
+            tBlock.appendChild(rewardRow);
 
             // Assigned pilots for this target
             if (pilots.length > 0) {
@@ -1673,6 +1702,8 @@ function attachMissionEvents(container) {
         el.addEventListener('click', onRemoveTarget));
     container.querySelectorAll('.day-targets input[data-tfield], .day-targets select[data-tfield]').forEach(el =>
         el.addEventListener('change', onTargetFieldChange));
+    container.querySelectorAll('.tc-daynight').forEach(el =>
+        el.addEventListener('click', onToggleDayNight));
     container.querySelectorAll('.assign-panel input[type="checkbox"]').forEach(el =>
         el.addEventListener('change', onStagePilot));
     container.querySelectorAll('[data-action="confirm-assign"]').forEach(el =>
@@ -2188,6 +2219,16 @@ function onRemoveTarget(e) {
     autoSave();
 }
 
+function onToggleDayNight(e) {
+    if (e.target.classList.contains('no-night')) return;
+    const dayIdx = parseInt(e.target.dataset.day);
+    const tIdx = parseInt(e.target.dataset.tidx);
+    const t = campaign.missions[dayIdx].targets[tIdx];
+    t.dayNight = t.dayNight === 'Night' ? 'Day' : 'Night';
+    renderMissions();
+    autoSave();
+}
+
 function onTargetFieldChange(e) {
     const dayIdx = parseInt(e.target.dataset.day);
     const tIdx = parseInt(e.target.dataset.tidx);
@@ -2546,6 +2587,14 @@ function resolveTarget(dayIdx, tIdx) {
         campaign.tracks.intel = Math.max(0, (campaign.tracks.intel || 0) + intel);
         campaign.tracks.infra = Math.max(0, (campaign.tracks.infra || 0) + infra);
 
+        // Night mission bonus: aircraft count as SO
+        if (t.dayNight === 'Night') {
+            const nightEntry = getTargetEntry(t.targetNumber);
+            if (nightEntry && nightEntry.aircraftCount) {
+                campaign.totalSO += nightEntry.aircraftCount;
+            }
+        }
+
         // Bonus: SO points from target card
         if (bp && bp.bonus) {
             const soMatch = bp.bonus.match(/Gain (\d+) (?:SO )?Special Option Points/i);
@@ -2734,6 +2783,13 @@ function updateBadges() {
     document.getElementById('vp-display').textContent = `VP: ${totalVP}`;
     document.getElementById('vp-display').title =
         `표적 VP: ${totalVP + vpPenalty + miaPenalty - bonusVP - overkillVP}${bonusVP ? ` | 보너스: +${bonusVP}` : ''}${overkillVP ? ` | Overkill: +${overkillVP}` : ''} | 격추: -${vpPenalty} | MIA: -${miaPenalty}`;
+
+    // Update VP track box
+    const vpTrack = document.getElementById('track-vp');
+    if (vpTrack) {
+        vpTrack.textContent = totalVP;
+        vpTrack.title = document.getElementById('vp-display').title;
+    }
 }
 
 // ─── Summary ───
