@@ -78,9 +78,25 @@ function recoverPilots(squadron, filter) {
     });
 }
 
+function isUSMC(campaignOrName) {
+    const name = typeof campaignOrName === 'string'
+        ? campaignOrName
+        : (campaignOrName.scenarioName || campaignOrName.Name || '');
+    return name.includes('(USMC)');
+}
+
+function getBandStatus(bands, destroyed) {
+    return bands.map(band => {
+        const total = band.TargetNumbers.length;
+        const destroyedCount = band.TargetNumbers.filter(n => destroyed.has(String(n))).length;
+        const secured = destroyedCount >= Math.ceil(total / 2);
+        return { band: band.Band, secured, destroyedCount, total, targetNumbers: band.TargetNumbers };
+    });
+}
+
 export {
     RANKS, SO_ADJUST,
     parseCampaign, formatSOCost, applySOAdjust, createEmptyTarget,
     getNextRank, getPilotRankStats, getStatus, getXpToPromote, getMaxStress,
-    recoverPilots
+    recoverPilots, isUSMC, getBandStatus
 };

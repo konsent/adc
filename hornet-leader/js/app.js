@@ -88,7 +88,7 @@ function initSetupScreen() {
 }
 
 function hideFrom(startLevel) {
-    const ids = ['scenario-info', 'length-group', 'length-info', 'difficulty-rules-group', 'aircraft-group'];
+    const ids = ['scenario-info', 'length-group', 'length-info', 'difficulty-rules-group', 'usmc-options-group', 'aircraft-group'];
     ids.forEach(id => document.getElementById(id).classList.add('hidden'));
     document.getElementById('generate-group').classList.add('hidden');
     document.getElementById('manual-panel').classList.add('hidden');
@@ -227,7 +227,36 @@ function showScenarioDetails(sc) {
         document.getElementById('difficulty-rules-group').classList.remove('hidden');
         document.getElementById('aircraft-group').classList.remove('hidden');
         document.getElementById('generate-group').classList.remove('hidden');
+
+        // USMC options
+        const usmcGroup = document.getElementById('usmc-options-group');
+        const ldmCheckbox = document.getElementById('large-deck-marine');
+        if (isUSMC(sc)) {
+            usmcGroup.classList.remove('hidden');
+            ldmCheckbox.checked = false;
+            ldmCheckbox.onchange = () => {
+                if (ldmCheckbox.checked) {
+                    const usnMatch = getMatchingUSNCampaign(sc);
+                    if (usnMatch) {
+                        populateAircraftOptions(usnMatch, lengthIdx);
+                    }
+                } else {
+                    populateAircraftOptions(sc, lengthIdx);
+                }
+            };
+        } else {
+            usmcGroup.classList.add('hidden');
+            ldmCheckbox.checked = false;
+        }
     };
+}
+
+function getMatchingUSNCampaign(usmcScenario) {
+    const { region } = parseCampaign(usmcScenario);
+    return gameData.Campaigns.find(c => {
+        const p = parseCampaign(c);
+        return p.region === region && p.force === 'USN' && c.DifficultyDescription === usmcScenario.DifficultyDescription;
+    });
 }
 
 function populateAircraftOptions(scenario, lengthIdx) {
@@ -583,7 +612,8 @@ function confirmManualSelection() {
         });
     });
 
-    campaign = buildCampaign(scenarioIdx, lengthIdx, squadron, diffRules, { extra: { manualSquadron: true } });
+    const largeDeckMarine = document.getElementById('large-deck-marine')?.checked || false;
+    campaign = buildCampaign(scenarioIdx, lengthIdx, squadron, diffRules, { extra: { manualSquadron: true, largeDeckMarine } });
 
     resetAssignState();
     saveCampaign();
@@ -701,6 +731,13 @@ function createEmptyTarget() {
     return { targetNumber: '', dayNight: 'Day', vp: '', recon: '', intel: '', infra: '', baseStress: '', assignedPilots: [], result: '', resolved: false };
 }
 
+function isUSMC(campaignOrName) {
+    const name = typeof campaignOrName === 'string'
+        ? campaignOrName
+        : (campaignOrName.scenarioName || campaignOrName.Name || '');
+    return name.includes('(USMC)');
+}
+
 const RANDOM_SO_BONUS = [6, 12, 18]; // Short / Medium / Long
 
 function buildCampaign(scenarioIdx, lengthIdx, squadron, diffRules, opts = {}) {
@@ -735,12 +772,14 @@ function buildCampaign(scenarioIdx, lengthIdx, squadron, diffRules, opts = {}) {
         squadron, missions,
         tracks: { recon: 0, intel: 0, infra: 0 },
         diffRules: diffRules || { level: 'average' },
+        isUSMC: parseCampaign(scenario).force === 'USMC',
+        largeDeckMarine: false,
         ...opts.extra,
         createdAt: new Date().toISOString()
     };
 }
 
-function createCampaign(scenarioIdx, lengthIdx, selectedAircraft, diffRules) {
+function createCampaign(scenarioIdx, lengthIdx, selectedAircraft, diffRules, extraOpts = {}) {
     const scenario = gameData.Campaigns[scenarioIdx];
     const option = scenario.CampaignOptions[lengthIdx];
     const randomBonus = RANDOM_SO_BONUS[lengthIdx] || 6;
@@ -753,7 +792,7 @@ function createCampaign(scenarioIdx, lengthIdx, selectedAircraft, diffRules) {
         if (totalSO >= 0) break;
     }
 
-    campaign = buildCampaign(scenarioIdx, lengthIdx, bestSquadron, diffRules, { soBonus: randomBonus });
+    campaign = buildCampaign(scenarioIdx, lengthIdx, bestSquadron, diffRules, { soBonus: randomBonus, extra: extraOpts });
     return campaign;
 }
 
@@ -804,6 +843,8 @@ function migrateCampaign(c) {
         if (!('downTime' in m)) m.downTime = false;
     });
     if (!c.diffRules) c.diffRules = { level: 'average' };
+    if (!('isUSMC' in c)) c.isUSMC = (c.scenarioName || '').includes('(USMC)');
+    if (!('largeDeckMarine' in c)) c.largeDeckMarine = false;
     return c;
 }
 
@@ -958,7 +999,11 @@ function getTargetEntry(targetNumber) {
 
 function getTargetAircraftCount(targetNumber) {
     const entry = getTargetEntry(targetNumber);
-    return entry ? entry.aircraftCount : Infinity;
+    let count = entry ? entry.aircraftCount : Infinity;
+    if (campaign && campaign.largeDeckMarine && count !== Infinity) {
+        count = Math.max(1, count - 1);
+    }
+    return count;
 }
 
 function getTargetCampaignDetails(targetNumber) {
@@ -1007,6 +1052,49 @@ function getScenarioTargetNumbers() {
     return targets;
 }
 
+function getScenarioBands() {
+    if (!campaign || !gameData) return [];
+    const scenario = gameData.Campaigns[campaign.scenarioIdx];
+    const targets = scenario.Targets;
+    if (!targets || !targets.length) return [];
+    if (typeof targets[0] === 'object' && targets[0].Band) {
+        return targets.sort((a, b) => a.Band - b.Band);
+    }
+    return [];
+}
+
+function getBandStatusForCampaign() {
+    const bands = getScenarioBands();
+    if (!bands.length) return [];
+    const destroyed = getDestroyedTargets();
+    return bands.map(band => {
+        const total = band.TargetNumbers.length;
+        const destroyedCount = band.TargetNumbers.filter(n => destroyed.has(String(n))).length;
+        const secured = destroyedCount >= Math.ceil(total / 2);
+        return { band: band.Band, secured, destroyedCount, total, targetNumbers: band.TargetNumbers };
+    });
+}
+
+function getUnlockedTargetNumbers() {
+    if (!campaign || !campaign.isUSMC) return getScenarioTargetNumbers();
+    const bandStatus = getBandStatusForCampaign();
+    if (!bandStatus.length) return getScenarioTargetNumbers();
+
+    const unlocked = [];
+    for (let i = 0; i < bandStatus.length; i++) {
+        if (i === 0) {
+            // Band 1 is always unlocked
+            unlocked.push(...bandStatus[i].targetNumbers);
+        } else if (bandStatus[i - 1].secured) {
+            // Unlock if previous band is secured
+            unlocked.push(...bandStatus[i].targetNumbers);
+        } else {
+            break;
+        }
+    }
+    return unlocked;
+}
+
 function isE2C(pilot) {
     return pilot && pilot.aircraft === 'E-2C';
 }
@@ -1024,14 +1112,29 @@ function getDestroyedTargets() {
     return destroyed;
 }
 
+function getDayUsedTargets(dayIdx, excludeTIdx) {
+    const used = new Set();
+    if (!campaign) return used;
+    const m = campaign.missions[dayIdx];
+    if (!m) return used;
+    m.targets.forEach((t, i) => {
+        if (i !== excludeTIdx && t.targetNumber) {
+            used.add(String(t.targetNumber));
+        }
+    });
+    return used;
+}
+
 function buildTargetNumberField(currentValue, dayIdx, tIdx) {
-    const targetNumbers = getScenarioTargetNumbers();
+    const targetNumbers = getUnlockedTargetNumbers();
     if (targetNumbers.length > 0) {
         const destroyed = getDestroyedTargets();
+        const dayUsed = getDayUsedTargets(dayIdx, tIdx);
         const options = targetNumbers.map(n => {
-            const isDestroyed = destroyed.has(String(n)) && String(n) !== String(currentValue);
-            return isDestroyed ? '' :
-                `<option value="${n}"${String(n) === String(currentValue) ? ' selected' : ''}>${n}</option>`;
+            const ns = String(n);
+            const isCurrent = ns === String(currentValue);
+            if ((destroyed.has(ns) || dayUsed.has(ns)) && !isCurrent) return '';
+            return `<option value="${n}"${isCurrent ? ' selected' : ''}>${n}</option>`;
         }).join('');
         return `<select data-day="${dayIdx}" data-tidx="${tIdx}" data-tfield="targetNumber">
             <option value="">--</option>${options}</select>`;
@@ -1039,9 +1142,43 @@ function buildTargetNumberField(currentValue, dayIdx, tIdx) {
     return `<input type="text" value="${currentValue}" data-day="${dayIdx}" data-tidx="${tIdx}" data-tfield="targetNumber">`;
 }
 
+function renderBandProgress() {
+    const container = document.getElementById('mission-days');
+    if (!campaign || !campaign.isUSMC) return;
+    const bandStatus = getBandStatusForCampaign();
+    if (!bandStatus.length) return;
+
+    const div = document.createElement('div');
+    div.className = 'band-progress';
+    div.innerHTML = '<span class="band-progress-label">구역 진행</span>';
+    bandStatus.forEach((bs, i) => {
+        const isUnlocked = i === 0 || bandStatus[i - 1].secured;
+        let statusClass, statusText;
+        if (bs.secured) {
+            statusClass = 'band-secured';
+            statusText = '확보';
+        } else if (isUnlocked) {
+            statusClass = 'band-active';
+            statusText = '작전중';
+        } else {
+            statusClass = 'band-locked';
+            statusText = '잠김';
+        }
+        const badge = document.createElement('span');
+        badge.className = `band-badge ${statusClass}`;
+        const needed = Math.ceil(bs.total / 2);
+        badge.innerHTML = `Band ${bs.band} <small>${bs.destroyedCount}/${bs.total}</small> <em>${statusText}</em>`;
+        badge.title = `필요 파괴 수: ${needed} / ${bs.total}`;
+        div.appendChild(badge);
+    });
+    container.appendChild(div);
+}
+
 function renderMissions() {
     const container = document.getElementById('mission-days');
     container.innerHTML = '';
+
+    renderBandProgress();
 
     campaign.missions.forEach((m, dayIdx) => {
         const allResolved = m.targets.every(t => t.resolved);
@@ -1058,7 +1195,7 @@ function renderMissions() {
             <div class="tgt-field"><span class="tgt-field-label">사용 SO</span>
                 <input type="number" value="${m.usedSO}" data-day="${dayIdx}" data-field="usedSO" ${m.downTime ? 'readonly' : ''}></div>
             <div class="day-actions">
-                ${!m.downTime ? `<button class="btn btn-small" data-day="${dayIdx}" data-action="add-target">+ 표적</button>` : ''}
+                ${!m.downTime && m.targets.length < 2 ? `<button class="btn btn-small" data-day="${dayIdx}" data-action="add-target">+ 표적</button>` : ''}
                 ${!m.downTime && !m.recoveryApplied && !allResolved ? `<button class="btn btn-small btn-downtime" data-day="${dayIdx}" data-action="down-time">Down Time</button>` : ''}
             </div>
         `;
@@ -1146,7 +1283,7 @@ function renderMissions() {
                     prow.className = 'assigned-pilot-row' + (ap.shotDown ? ' shot-down' : '');
                     prow.innerHTML = `
                         <span class="ap-name">${pilot.name}</span>
-                        <span class="ap-aircraft">${pilot.aircraft}</span>
+                        <span class="ap-aircraft">${pilot.aircraft}</span>${campaign.isUSMC && pilot.aircraft === 'AV-8B' ? '<span class="noe-badge" title="Nap of the Earth: 저고도 비행 시 Damaged → Stress로 처리 (이벤트 제외)">NoE</span>' : ''}
                         ${wpLabel}
                         <span class="ap-stress-section">
                             <span class="ap-stress-label">스트레스</span>
@@ -1923,6 +2060,20 @@ function renderSummary() {
             rulesDiv.appendChild(b);
         }
     });
+    if (campaign.isUSMC) {
+        const b = document.createElement('span');
+        b.className = 'rule-badge rule-badge-info';
+        b.textContent = 'USMC';
+        b.title = '해병대 캠페인 — 점진적 타겟 덱';
+        rulesDiv.appendChild(b);
+    }
+    if (campaign.largeDeckMarine) {
+        const b = document.createElement('span');
+        b.className = 'rule-badge rule-badge-info';
+        b.textContent = 'Large Deck';
+        b.title = '대형 갑판 해군 기체 사용, 표적당 기체 수 -1';
+        rulesDiv.appendChild(b);
+    }
 }
 
 // ─── Save / Load ───
@@ -2056,7 +2207,8 @@ document.addEventListener('DOMContentLoaded', () => {
         const selectedAircraft = getSelectedAircraft();
         if (selectedAircraft.length === 0) return;
         const diffRules = getSelectedDifficultyRules();
-        createCampaign(parseInt(scenarioIdx), parseInt(lengthIdx), selectedAircraft, diffRules);
+        const largeDeckMarine = document.getElementById('large-deck-marine')?.checked || false;
+        createCampaign(parseInt(scenarioIdx), parseInt(lengthIdx), selectedAircraft, diffRules, { largeDeckMarine });
         resetAssignState();
         saveCampaign();
         showDashboard();
