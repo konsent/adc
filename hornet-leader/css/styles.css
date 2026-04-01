@@ -483,6 +483,17 @@ select:focus, input:focus { outline: none; border-color: #8b7a2e; box-shadow: in
     font-size: 0.85rem;
     flex-wrap: wrap;
 }
+.wp-badge {
+    font-size: 0.72rem;
+    font-weight: 700;
+    color: #e8c840;
+    background: rgba(139,122,46,0.2);
+    border: 1px solid #8b7a2e;
+    border-radius: 3px;
+    padding: 0.1rem 0.4rem;
+    align-self: center;
+    white-space: nowrap;
+}
 .target-label {
     font-family: 'Barlow Condensed', sans-serif;
     color: #c8b040;
@@ -581,6 +592,7 @@ select:focus, input:focus { outline: none; border-color: #8b7a2e; box-shadow: in
 .assign-row-deployed td:last-child { color: #c8b040; font-style: italic; }
 .assign-row-selected td { background: rgba(139,122,46,0.08); }
 .assign-table tr:hover td { background: rgba(139,122,46,0.1); }
+.assign-limit-info { font-size: 0.75rem; color: #c8b040; padding: 0.3rem 0; font-weight: 600; }
 .assign-btn-row { display: flex; gap: 0.4rem; padding: 0.5rem 0; justify-content: flex-end; }
 
 /* ─── Day Resolve ─── */

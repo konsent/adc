@@ -1,6 +1,7 @@
 // Hornet Leader Campaign Log App
 
 let gameData = null;
+let targetData = null;
 let campaign = null;
 
 const RANKS = ['Newbie', 'Green', 'Average', 'Skilled', 'Veteran', 'Ace'];
@@ -32,8 +33,12 @@ function isBase(campaign) {
 // ─── Data Loading ───
 
 async function loadGameData() {
-    const resp = await fetch('../hl.json');
+    const [resp, tResp] = await Promise.all([
+        fetch('../hl.json'),
+        fetch('../hl_target.json')
+    ]);
     gameData = await resp.json();
+    targetData = await tResp.json();
     // Tag base scenarios before renaming
     gameData.Campaigns.forEach(c => {
         c._isBase = isBaseScenario(c.Name);
@@ -684,7 +689,8 @@ function promoteIfReady(pilot) {
         const nextRank = getNextRank(pilot.rank);
         if (nextRank) {
             pilot.rank = nextRank;
-            updatePilotForRank(pilot, true);
+            updatePilotForRank(pilot, false);
+            pilot.xp = 0;
         }
     }
 }
@@ -927,6 +933,60 @@ let assignStaging = {};
 
 function panelKey(dayIdx, tIdx) { return `${dayIdx}-${tIdx}`; }
 
+function getTargetEntry(targetNumber) {
+    if (!targetData || !targetNumber) return null;
+    const num = String(targetNumber).replace(/^0+/, '');
+    return targetData.find(d => d.cardNumber.replace(/^0+/, '') === num) || null;
+}
+
+function getTargetAircraftCount(targetNumber) {
+    const entry = getTargetEntry(targetNumber);
+    return entry ? entry.aircraftCount : Infinity;
+}
+
+function getTargetCampaignDetails(targetNumber) {
+    const entry = getTargetEntry(targetNumber);
+    if (!entry || !entry.campaignDetails || !campaign) return null;
+    const scenarioName = campaign.scenarioName || '';
+    for (const key of Object.keys(entry.campaignDetails)) {
+        if (scenarioName.includes(key)) return entry.campaignDetails[key];
+    }
+    return null;
+}
+
+function isE2C(pilot) {
+    return pilot && pilot.aircraft === 'E-2C';
+}
+
+function getDestroyedTargets() {
+    const destroyed = new Set();
+    if (!campaign) return destroyed;
+    campaign.missions.forEach(m => {
+        (m.targets || []).forEach(t => {
+            if (t.resolved && t.result === 'Destroyed' && t.targetNumber) {
+                destroyed.add(String(t.targetNumber));
+            }
+        });
+    });
+    return destroyed;
+}
+
+function buildTargetNumberField(currentValue, dayIdx, tIdx) {
+    const scenario = gameData.Campaigns[campaign.scenarioIdx];
+    const targets = scenario.Targets;
+    if (targets && targets.length > 0) {
+        const destroyed = getDestroyedTargets();
+        const options = targets.map(n => {
+            const isDestroyed = destroyed.has(String(n)) && String(n) !== String(currentValue);
+            return isDestroyed ? '' :
+                `<option value="${n}"${String(n) === String(currentValue) ? ' selected' : ''}>${n}</option>`;
+        }).join('');
+        return `<select data-day="${dayIdx}" data-tidx="${tIdx}" data-tfield="targetNumber">
+            <option value="">--</option>${options}</select>`;
+    }
+    return `<input type="text" value="${currentValue}" data-day="${dayIdx}" data-tidx="${tIdx}" data-tfield="targetNumber">`;
+}
+
 function renderMissions() {
     const container = document.getElementById('mission-days');
     container.innerHTML = '';
@@ -967,12 +1027,13 @@ function renderMissions() {
             tBlock.className = 'target-block' + (t.resolved ? ' target-resolved' : '');
 
             // Target header row
+            const campDetail = getTargetCampaignDetails(t.targetNumber);
+            const wpLabel = campDetail ? `<span class="wp-badge">WP ${campDetail.wp}</span>` : '';
             const row = document.createElement('div');
             row.className = 'target-row';
             row.innerHTML = `
                 <span class="target-label">${tIdx === 0 ? '주 표적' : '부 표적'}</span>
-                <div class="tgt-field"><span class="tgt-field-label">번호</span><input type="text" value="${t.targetNumber}"
-                    data-day="${dayIdx}" data-tidx="${tIdx}" data-tfield="targetNumber"></div>
+                <div class="tgt-field"><span class="tgt-field-label">번호</span>${buildTargetNumberField(t.targetNumber, dayIdx, tIdx)}</div>
                 <div class="tgt-field"><span class="tgt-field-label">시간</span><select data-day="${dayIdx}" data-tidx="${tIdx}" data-tfield="dayNight">
                     <option value="Day"${t.dayNight === 'Day' ? ' selected' : ''}>주간</option>
                     <option value="Night"${t.dayNight === 'Night' ? ' selected' : ''}>야간</option>
@@ -1006,6 +1067,7 @@ function renderMissions() {
                     prow.innerHTML = `
                         <span class="ap-name">${pilot.name}</span>
                         <span class="ap-aircraft">${pilot.aircraft}</span>
+                        ${wpLabel}
                         <span class="ap-stress-section">
                             <span class="ap-stress-label">스트레스</span>
                             <span class="ap-stress-mission">
@@ -1043,8 +1105,21 @@ function renderMissions() {
                 if (!assignStaging[key]) assignStaging[key] = new Set();
                 const staged = assignStaging[key];
 
+                // Aircraft count limit (E-2C exempt)
+                const acLimit = getTargetAircraftCount(t.targetNumber);
+                const existingNonE2C = (t.assignedPilots || []).filter(ap => !isE2C(campaign.squadron[ap.pilotIdx])).length;
+                const stagedNonE2C = [...staged].filter(pIdx => !isE2C(campaign.squadron[pIdx])).length;
+                const nonE2CCount = existingNonE2C + stagedNonE2C;
+                const limitReached = nonE2CCount >= acLimit;
+
                 const panel = document.createElement('div');
                 panel.className = 'assign-panel';
+                if (acLimit !== Infinity) {
+                    const limitInfo = document.createElement('div');
+                    limitInfo.className = 'assign-limit-info';
+                    limitInfo.textContent = `투입 가능: ${nonE2CCount} / ${acLimit} (E-2C 제외)`;
+                    panel.appendChild(limitInfo);
+                }
                 const tbl = document.createElement('table');
                 tbl.className = 'assign-table';
                 tbl.innerHTML = `<thead><tr>
@@ -1057,7 +1132,9 @@ function renderMissions() {
                     const isDeployed = dayDeployed.has(pIdx);
                     const isStaged = staged.has(pIdx);
                     const maxStress = getMaxStress(pilot);
-                    const canSelect = !isDeployed && !(isDisabled && !isStaged);
+                    const isE2CPilot = isE2C(pilot);
+                    const atLimit = limitReached && !isE2CPilot && !isStaged;
+                    const canSelect = !isDeployed && !(isDisabled && !isStaged) && !atLimit;
 
                     const tr = document.createElement('tr');
                     if (isDeployed) tr.classList.add('assign-row-deployed');
@@ -1292,7 +1369,26 @@ function onRemoveTarget(e) {
 function onTargetFieldChange(e) {
     const dayIdx = parseInt(e.target.dataset.day);
     const tIdx = parseInt(e.target.dataset.tidx);
-    campaign.missions[dayIdx].targets[tIdx][e.target.dataset.tfield] = e.target.value;
+    const t = campaign.missions[dayIdx].targets[tIdx];
+    t[e.target.dataset.tfield] = e.target.value;
+
+    // Auto-fill destroyedRewards and campaign details when target number changes
+    if (e.target.dataset.tfield === 'targetNumber' && targetData) {
+        const num = e.target.value.replace(/^0+/, '');
+        const entry = targetData.find(d => d.cardNumber.replace(/^0+/, '') === num);
+        if (entry && entry.destroyedRewards) {
+            const r = entry.destroyedRewards;
+            t.vp = r.vp || 0;
+            t.recon = r.recon || 0;
+            t.intel = r.intel || 0;
+            t.infra = r.infra || 0;
+        }
+        const campDetail = getTargetCampaignDetails(e.target.value);
+        if (campDetail) {
+            t.baseStress = campDetail.baseStress;
+        }
+        renderMissions();
+    }
     updateBadges();
     autoSave();
 }
@@ -1327,10 +1423,15 @@ function onConfirmAssign(e) {
     const target = campaign.missions[dayIdx].targets[tIdx];
     const staged = assignStaging[key] || new Set();
 
+    const acLimit = getTargetAircraftCount(target.targetNumber);
+    let nonE2CCount = target.assignedPilots.filter(ap => !isE2C(campaign.squadron[ap.pilotIdx])).length;
+
     staged.forEach(pIdx => {
-        if (!target.assignedPilots.some(ap => ap.pilotIdx === pIdx)) {
-            target.assignedPilots.push({ pilotIdx: pIdx, shotDown: false, missionStress: 0, missionXp: 0 });
-        }
+        if (target.assignedPilots.some(ap => ap.pilotIdx === pIdx)) return;
+        const pilot = campaign.squadron[pIdx];
+        if (!isE2C(pilot) && nonE2CCount >= acLimit) return;
+        target.assignedPilots.push({ pilotIdx: pIdx, shotDown: false, missionStress: 0, missionXp: 0 });
+        if (!isE2C(pilot)) nonE2CCount++;
     });
 
     openAssignPanels.delete(key);
@@ -1404,8 +1505,9 @@ function onApplyRnR(e) {
     const m = campaign.missions[dayIdx];
     if (m.rnrApplied) return;
 
-    // SO 9 차감
-    const currentUsed = parseFloat(m.usedSO) || 0;
+    // SO 9 차감: DOM의 최신 입력값 반영 후 추가
+    const inputEl = document.querySelector(`input[data-day="${dayIdx}"][data-field="usedSO"]`);
+    const currentUsed = inputEl ? (parseFloat(inputEl.value) || 0) : (parseFloat(m.usedSO) || 0);
     m.usedSO = currentUsed + 9;
 
     // 모든 파일럿: Cool + 2 만큼 스트레스 회복

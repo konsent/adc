@@ -1,0 +1,1558 @@
+[
+  {
+    "cardNumber": "01",
+    "targetName": "Minor Airfield",
+    "aircraftCount": 4,
+    "sites": {
+      "approach": 1,
+      "center": 2
+    },
+    "bandits": {
+      "approach": 1,
+      "center": 1
+    },
+    "hits": "7",
+    "destroyedRewards": {
+      "vp": 2,
+      "intel": 0,
+      "infra": 2,
+      "recon": 1
+    },
+    "traits": "Secondary, 1 Bandit, Fixed",
+    "improvement": "All Targets get +1 Center Bandit draw.",
+    "campaigns": "Libya 1984, Iraq 1991, Taiwan Defense 2008, North Korea 2011, Iran 2014, Libya 2011, North Korea 2013, Egypt Defense 2015",
+    "campaignDetails": {
+      "Iran 2014": {
+        "baseStress": 1,
+        "wp": -1
+      }
+    }
+  },
+  {
+    "cardNumber": "02",
+    "targetName": "Minor Airfield",
+    "aircraftCount": 4,
+    "nighttimeMission": "true",
+    "sites": {
+      "approach": 1,
+      "center": 2
+    },
+    "bandits": {
+      "approach": 1,
+      "center": 2
+    },
+    "hits": "6",
+    "destroyedRewards": {
+      "vp": 2,
+      "intel": 1,
+      "infra": 0,
+      "recon": 2
+    },
+    "traits": "Secondary, 1 Bandit, Fixed",
+    "improvement": "All Targets get +1 Center Bandit draw.",
+    "campaigns": "WWIII North Atlantic 1986, Israel Defense 2001, Syria 2004, Taiwan Defense 2008, Libya 2011, North Korea 2013, Iran 2014, Egypt Defense 2015, Syria 2015",
+    "campaignDetails": {
+      "Iran 2014": {
+        "baseStress": 2,
+        "wp": -2
+      }
+    }
+  },
+  {
+    "cardNumber": "03",
+    "targetName": "Major Airfield",
+    "aircraftCount": 7,
+    "nighttimeMission": "true",
+    "sites": {
+      "approach": 2,
+      "center": 3
+    },
+    "bandits": {
+      "approach": 2,
+      "center": 3
+    },
+    "hits": "14",
+    "destroyedRewards": {
+      "vp": 4,
+      "intel": 2,
+      "infra": 0,
+      "recon": 2
+    },
+    "traits": "1 Bandit, Fixed",
+    "improvement": "All Targets get +2 Center Bandit draws.",
+    "campaigns": "Libya 1984, Israel Defense 2001, Libya 2011, North Korea 2011, Egypt Defense 2015",
+    "campaignDetails": {}
+  },
+  {
+    "cardNumber": "04",
+    "targetName": "Major Airfield",
+    "aircraftCount": 7,
+    "sites": {
+      "approach": 3,
+      "center": 2
+    },
+    "bandits": {
+      "approach": 1,
+      "center": 6
+    },
+    "hits": "11",
+    "destroyedRewards": {
+      "vp": 4,
+      "intel": 0,
+      "infra": 2,
+      "recon": 2
+    },
+    "traits": "1 Bandit, Fixed",
+    "improvement": "All Targets get +2 Center Bandit draws.",
+    "campaigns": "WWIII North Atlantic 1986, Syria 2004, Taiwan Defense 2008, Libya 2011, North Korea 2013, Syria 2015",
+    "campaignDetails": {}
+  },
+  {
+    "cardNumber": "05",
+    "targetName": "POL Storage",
+    "aircraftCount": 3,
+    "sites": {
+      "approach": 1,
+      "center": 2
+    },
+    "bandits": {
+      "approach": 0,
+      "center": 1
+    },
+    "hits": "9",
+    "destroyedRewards": {
+      "vp": 1,
+      "intel": 0,
+      "infra": 1,
+      "recon": 1
+    },
+    "traits": "Secondary, Stress: -1, Fixed",
+    "improvement": "Move the Infra counter 1 to the left at the end of each Day.",
+    "campaigns": "Iraq 1991, Israel Defense 2001, Iran 2014, Egypt Defense 2015, Syria 2015",
+    "campaignDetails": {
+      "Iran 2014": {
+        "baseStress": 2,
+        "wp": -2
+      }
+    }
+  },
+  {
+    "cardNumber": "06",
+    "targetName": "AAA Sites",
+    "aircraftCount": 3,
+    "sites": {
+      "approach": 1,
+      "center": 2
+    },
+    "bandits": {
+      "approach": 0,
+      "center": 1
+    },
+    "destroyedRewards": {
+      "vp": 2,
+      "intel": 2,
+      "infra": 0,
+      "recon": 0
+    },
+    "traits": "Secondary, Stress: +1, Fixed",
+    "objective": "2 S-60s, 3 Zu-23-4s, and 2 Zu-23-2s",
+    "campaigns": "WWIII North Atlantic 1986, Iraq 1991, Israel Defense 2001, North Korea 2011, North Korea 2013, Iran 2014, Egypt Defense 2015",
+    "campaignDetails": {
+      "Iran 2014": {
+        "baseStress": 3,
+        "wp": -4
+      }
+    }
+  },
+  {
+    "cardNumber": "07",
+    "targetName": "AAA Sites",
+    "aircraftCount": 3,
+    "sites": {
+      "approach": 1,
+      "center": 3
+    },
+    "bandits": {
+      "approach": 0,
+      "center": 2
+    },
+    "destroyedRewards": {
+      "vp": 2,
+      "intel": 2,
+      "infra": 0,
+      "recon": 0
+    },
+    "traits": "Secondary, Stress +1, Vehicle",
+    "objective": "2 S-60s, 2 M1939s, and 1 KS-19",
+    "campaigns": "WWIII North Atlantic 1986, Syria 2004, Libya 2011, North Korea 2011, Syria 2015",
+    "campaignDetails": {}
+  },
+  {
+    "cardNumber": "08",
+    "targetName": "SAM Sites",
+    "aircraftCount": 4,
+    "sites": {
+      "approach": 1,
+      "center": 2
+    },
+    "bandits": {
+      "approach": 2,
+      "center": 0
+    },
+    "hits": "4",
+    "destroyedRewards": {
+      "vp": 2,
+      "intel": 0,
+      "infra": 2,
+      "recon": 2
+    },
+    "traits": "Secondary, Stress +2, Fixed, Vehicle",
+    "objective": "3 SA-10s",
+    "campaigns": "Libya 1984, Iraq 1991, Israel Defense 2001, Libya 2011, North Korea 2011, Iran 2014",
+    "campaignDetails": {
+      "Iran 2014": {
+        "baseStress": 3,
+        "wp": -4
+      }
+    }
+  },
+  {
+    "cardNumber": "09",
+    "targetName": "SAM Trap",
+    "aircraftCount": 4,
+    "sites": {
+      "approach": 1,
+      "center": 2
+    },
+    "bandits": {
+      "approach": 0,
+      "center": 2
+    },
+    "hits": "6",
+    "destroyedRewards": {
+      "vp": 3,
+      "intel": 1,
+      "infra": 2,
+      "recon": 0
+    },
+    "traits": "Secondary, +2 Stress, Fixed",
+    "objective": "2 SA-8As, 1 SA-6, 2 SA-13s",
+    "campaigns": "WWIII North Atlantic 1986, Syria 2004, Libya 2011, North Korea 2011, North Korea 2013, Egypt Defense 2015, Syria 2015",
+    "campaignDetails": {}
+  },
+  {
+    "cardNumber": "10",
+    "targetName": "Enemy Troops",
+    "aircraftCount": 3,
+    "sites": {
+      "approach": 1,
+      "center": 2
+    },
+    "bandits": {
+      "approach": 1,
+      "center": 1
+    },
+    "destroyedRewards": {
+      "vp": 1,
+      "intel": 0,
+      "infra": 1,
+      "recon": 0
+    },
+    "hits": "5",
+    "traits": "Secondary, Stress -1, Dispersed, Soft",
+    "campaigns": "Libya 1984, Iraq 1991, Israel Defense 2001, Libya 2011, North Korea 2011, North Korea 2013, Syria 2015",
+    "campaignDetails": {}
+  },
+  {
+    "cardNumber": "11",
+    "targetName": "Enemy Troops",
+    "aircraftCount": 5,
+    "sites": {
+      "approach": 1,
+      "center": 2
+    },
+    "bandits": {
+      "approach": 2,
+      "center": 2
+    },
+    "destroyedRewards": {
+      "vp": 2,
+      "intel": 2,
+      "infra": 0,
+      "recon": 0
+    },
+    "hits": "13",
+    "traits": "Secondary, Stress -1, Dispersed, Soft",
+    "campaigns": "Israel Defense 2001, Libya 2011, North Korea 2011, North Korea 2013, Iran 2014, Egypt Defense 2015, Syria 2015",
+    "campaignDetails": {
+      "Iran 2014": {
+        "baseStress": 2,
+        "wp": -2
+      }
+    }
+  },
+  {
+    "cardNumber": "12",
+    "targetName": "Enemy Tanks",
+    "aircraftCount": 5,
+    "sites": {
+      "approach": 1,
+      "center": 2
+    },
+    "bandits": {
+      "approach": 2,
+      "center": 2
+    },
+    "destroyedRewards": {
+      "vp": 3,
+      "intel": 2,
+      "infra": 0,
+      "recon": 1
+    },
+    "hits": "8",
+    "traits": "Dispersed, Vehicle",
+    "penalty": "Lose 1 VP.",
+    "campaigns": "Libya 1984, Iraq 1991, Israel Defense 2001, North Korea 2013, Iran 2014, Syria 2015",
+    "campaignDetails": {
+      "Iran 2014": {
+        "baseStress": 2,
+        "wp": -3
+      }
+    }
+  },
+  {
+    "cardNumber": "13",
+    "targetName": "Enemy Tanks",
+    "aircraftCount": 5,
+    "sites": {
+      "approach": 1,
+      "center": 3
+    },
+    "bandits": {
+      "approach": 1,
+      "center": 3
+    },
+    "destroyedRewards": {
+      "vp": 3,
+      "intel": 1,
+      "infra": 0,
+      "recon": 2
+    },
+    "hits": "8",
+    "traits": "Dispersed, Vehicle",
+    "penalty": "Lose 1 VP.",
+    "campaigns": "WWIII North Atlantic 1986, Israel Defense 2001, Syria 2004, Libya 2011, North Korea 2011, North Korea 2013, Egypt 2015, Syria 2015",
+    "campaignDetails": {}
+  },
+  {
+    "cardNumber": "14",
+    "targetName": "Minor Bridge",
+    "aircraftCount": 3,
+    "nighttimeMission": "true",
+    "sites": {
+      "approach": 1,
+      "center": 2
+    },
+    "bandits": {
+      "approach": 0,
+      "center": 1
+    },
+    "destroyedRewards": {
+      "vp": 2,
+      "intel": 0,
+      "infra": 1,
+      "recon": 0
+    },
+    "hits": "5",
+    "traits": "Secondary, Small, Fixed",
+    "campaigns": "Libya 1984, Taiwan Defense 2008, North Korea 2011",
+    "campaignDetails": {}
+  },
+  {
+    "cardNumber": "15",
+    "targetName": "Cement Factory",
+    "aircraftCount": 4,
+    "nighttimeMission": "true",
+    "sites": {
+      "approach": 2,
+      "center": 3
+    },
+    "bandits": {
+      "approach": 1,
+      "center": 1
+    },
+    "destroyedRewards": {
+      "vp": 2,
+      "intel": 0,
+      "infra": 2,
+      "recon": 0
+    },
+    "hits": "7",
+    "traits": "Secondary, Fixed",
+    "overkill": "+10 BONUS: +1VP",
+    "campaigns": "Libya 1984, Syria 2004, Taiwan Defense 2008, North Korea 2013",
+    "campaignDetails": {}
+  },
+  {
+    "cardNumber": "16",
+    "targetName": "Rail Line",
+    "aircraftCount": 4,
+    "sites": {
+      "approach": 0,
+      "center": 3
+    },
+    "bandits": {
+      "approach": 2,
+      "center": 1
+    },
+    "destroyedRewards": {
+      "vp": 2,
+      "intel": 0,
+      "infra": 1,
+      "recon": 0
+    },
+    "hits": "6",
+    "traits": "Secondary, Stress -1, Small, Fixed",
+    "campaigns": "WWIII North Atlantic 1986, Taiwan Defense 2008, North Korea 2011, Iran 2014, Egypt Defense 2015",
+    "campaignDetails": {
+      "Iran 2014": {
+        "baseStress": 2,
+        "wp": -3
+      }
+    }
+  },
+  {
+    "cardNumber": "17",
+    "targetName": "Barracks",
+    "aircraftCount": 5,
+    "sites": {
+      "approach": 1,
+      "center": 4
+    },
+    "bandits": {
+      "approach": 2,
+      "center": 2
+    },
+    "destroyedRewards": {
+      "vp": 4,
+      "intel": 1,
+      "infra": 0,
+      "recon": 1
+    },
+    "hits": "13",
+    "traits": "Secondary, Soft, Fixed",
+    "improvement": "“Tanks” and “Troops” require 2 extra hits to destroy.",
+    "campaigns": "Iraq 1991, Israel Defense 2001, North Korea 2013",
+    "campaignDetails": {}
+  },
+  {
+    "cardNumber": "18",
+    "targetName": "Barracks",
+    "aircraftCount": 5,
+    "sites": {
+      "approach": 2,
+      "center": 2
+    },
+    "bandits": {
+      "approach": 2,
+      "center": 3
+    },
+    "destroyedRewards": {
+      "vp": 3,
+      "intel": 0,
+      "infra": 2,
+      "recon": 1
+    },
+    "hits": "12",
+    "traits": "Soft, Fixed",
+    "improvement": "“Tanks” and “Troops” require 3 extra hits to destroy.",
+    "campaigns": "Israel Defense 2001, North Korea 2011, North Korea 2013, Egypt Defense 2015",
+    "campaignDetails": {
+      "Iran 2014": {
+        "baseStress": 1,
+        "wp": -1
+      }
+    }
+  },
+  {
+    "cardNumber": "19",
+    "targetName": "Port",
+    "aircraftCount": 7,
+    "nighttimeMission": "true",
+    "sites": {
+      "approach": 2,
+      "center": 4
+    },
+    "bandits": {
+      "approach": 2,
+      "center": 2
+    },
+    "destroyedRewards": {
+      "vp": 4,
+      "intel": 0,
+      "infra": 2,
+      "recon": 2
+    },
+    "hits": "19",
+    "traits": "Stress +1, Fixed",
+    "bonus": "Discard 2 Improvement Cards.",
+    "campaigns": "WWIII North Atlantic 1986, Syria 2004, Taiwan Defense 2008, North Korea 2011, North Korea 2013, Egypt 2015",
+    "campaignDetails": {}
+  },
+  {
+    "cardNumber": "20",
+    "targetName": "Radar Installation",
+    "aircraftCount": 5,
+    "sites": {
+      "approach": 2,
+      "center": 3
+    },
+    "bandits": {
+      "approach": 2,
+      "center": 2
+    },
+    "destroyedRewards": {
+      "vp": 2,
+      "intel": 1,
+      "infra": 0,
+      "recon": 2
+    },
+    "hits": "7",
+    "traits": "Fixed, AGM-88s can inflict up to three hits on the target",
+    "campaigns": "Libya 1984, Iraq 1991, Israel Defense 2001, Taiwan Defense 2008, North Korea 2011, North Korea 2013, Egypt Defense 2015, Syria 2015",
+    "campaignDetails": {}
+  },
+  {
+    "cardNumber": "21",
+    "targetName": "Convoy",
+    "aircraftCount": 3,
+    "sites": {
+      "approach": 1,
+      "center": 1
+    },
+    "bandits": {
+      "approach": 1,
+      "center": 0
+    },
+    "destroyedRewards": {
+      "vp": 1,
+      "intel": 0,
+      "infra": 0,
+      "recon": 0
+    },
+    "hits": "5",
+    "traits": "Secondary, Stress -1, Dispersed, Vehicle",
+    "bonus": "Discard 1 Improvement Card.",
+    "campaigns": "Iraq 1991, Syria 2004, Libya 2011, North Korea 2011, Egypt Defense 2015",
+    "campaignDetails": {}
+  },
+  {
+    "cardNumber": "22",
+    "targetName": "Convoy",
+    "aircraftCount": 4,
+    "sites": {
+      "approach": 1,
+      "center": 2
+    },
+    "bandits": {
+      "approach": 1,
+      "center": 2
+    },
+    "destroyedRewards": {
+      "vp": 2,
+      "intel": 0,
+      "infra": 1,
+      "recon": 0
+    },
+    "hits": "6",
+    "traits": "Secondary, Stress -1, Dispersed, Vehicle",
+    "bonus": "Discard 1 Improvement Card.",
+    "campaigns": "Israel Defense 2001, Libya 2011, North Korea 2011, North Korea 2013, Iran 2014, Syria 2015",
+    "campaignDetails": {
+      "Iran 2014": {
+        "baseStress": 2,
+        "wp": -3
+      }
+    }
+  },
+  {
+    "cardNumber": "23",
+    "targetName": "Steel Works",
+    "aircraftCount": 6,
+    "sites": {
+      "approach": 2,
+      "center": 4
+    },
+    "bandits": {
+      "approach": 2,
+      "center": 2
+    },
+    "destroyedRewards": {
+      "vp": 3,
+      "intel": 0,
+      "infra": 2,
+      "recon": 1
+    },
+    "hits": "13",
+    "traits": "Fixed, Overkill: 17+, gain 1VP",
+    "campaigns": "Taiwan Defense 2008, Iran 2014, Egypt Defense 2015",
+    "campaignDetails": {
+      "Iran 2014": {
+        "baseStress": 3,
+        "wp": -4
+      }
+    }
+  },
+  {
+    "cardNumber": "24",
+    "targetName": "Railyard",
+    "aircraftCount": 7,
+    "nighttimeMission": "true",
+    "sites": {
+      "approach": 2,
+      "center": 5
+    },
+    "bandits": {
+      "approach": 2,
+      "center": 5
+    },
+    "destroyedRewards": {
+      "vp": 3,
+      "intel": 0,
+      "infra": 2,
+      "recon": 1
+    },
+    "hits": "16",
+    "traits": "Fixed",
+    "bonus": "Discard 2 Improvement Cards.",
+    "campaigns": "WWIII North Atlantic 1986, Taiwan Defense 2008, Iran 2014",
+    "campaignDetails": {
+      "Iran 2014": {
+        "baseStress": 2,
+        "wp": -3
+      }
+    }
+  },
+  {
+    "cardNumber": "25",
+    "targetName": "Supply Depot",
+    "aircraftCount": 5,
+    "nighttimeMission": "true",
+    "sites": {
+      "approach": 2,
+      "center": 3
+    },
+    "bandits": {
+      "approach": 2,
+      "center": 1
+    },
+    "destroyedRewards": {
+      "vp": 2,
+      "intel": 1,
+      "infra": 0,
+      "recon": 1
+    },
+    "hits": "10",
+    "traits": "Fixed",
+    "bonus": "Discard 1 Improvement Card.",
+    "campaigns": "Libya 1984, Iraq 1991, Syria 2004, Taiwan Defense 2008, North Korea 2013, Syria 2015",
+    "campaignDetails": {}
+  },
+  {
+    "cardNumber": "26",
+    "targetName": "Supply Depot",
+    "aircraftCount": 4,
+    "nighttimeMission": "true",
+    "sites": {
+      "approach": 1,
+      "center": 1
+    },
+    "bandits": {
+      "approach": 1,
+      "center": 1
+    },
+    "destroyedRewards": {
+      "vp": 2,
+      "intel": 0,
+      "infra": 1,
+      "recon": 0
+    },
+    "hits": "11",
+    "traits": "Fixed",
+    "bonus": "Discard 1 Improvement Card.",
+    "campaigns": "WWIII North Atlantic 1986, Israel Defense 2001, North Korea 2011, Syria 2015",
+    "campaignDetails": {}
+  },
+  {
+    "cardNumber": "27",
+    "targetName": "Naval Base",
+    "aircraftCount": 6,
+    "nighttimeMission": "true",
+    "sites": {
+      "approach": 1,
+      "center": 3
+    },
+    "bandits": {
+      "approach": 2,
+      "center": 2
+    },
+    "destroyedRewards": {
+      "vp": 4,
+      "intel": 2,
+      "infra": 0,
+      "recon": 2
+    },
+    "hits": "16",
+    "traits": "Fixed, Stress +1",
+    "improvement": "“Fleets” require an extra 4 Hits to Destroy.",
+    "campaigns": "Libya 1984, WWIII North Atlantic 1986, Taiwan Defense 2008, North Korea 2013, Egypt Defense 2015",
+    "campaignDetails": {}
+  },
+  {
+    "cardNumber": "28",
+    "targetName": "Major Bridge",
+    "aircraftCount": 6,
+    "sites": {
+      "approach": 1,
+      "center": 6
+    },
+    "bandits": {
+      "approach": 1,
+      "center": 2
+    },
+    "destroyedRewards": {
+      "vp": 4,
+      "intel": 0,
+      "infra": 2,
+      "recon": 0
+    },
+    "hits": "6",
+    "traits": "Fixed, Small, Hardened",
+    "campaigns": "Taiwan Defense 2008, North Korea 2011, Iran 2014",
+    "campaignDetails": {
+      "Iran 2014": {
+        "baseStress": 2,
+        "wp": -3
+      }
+    }
+  },
+  {
+    "cardNumber": "29",
+    "targetName": "Power Plant",
+    "aircraftCount": 6,
+    "sites": {
+      "approach": 2,
+      "center": 6
+    },
+    "bandits": {
+      "approach": 2,
+      "center": 2
+    },
+    "destroyedRewards": {
+      "vp": 3,
+      "intel": 0,
+      "infra": 3,
+      "recon": 0
+    },
+    "hits": "10",
+    "traits": "Fixed, OVERKILL 13+: Gain +1VP",
+    "campaigns": "Iraq 1991, Syria 2004, Taiwan Defense 2008, Iran 2014, Egypt Defense 2015, Syria 2015",
+    "campaignDetails": {
+      "Iran 2014": {
+        "baseStress": 2,
+        "wp": -3
+      }
+    }
+  },
+  {
+    "cardNumber": "30",
+    "targetName": "Search and Rescue",
+    "aircraftCount": 3,
+    "sites": {
+      "approach": 0,
+      "center": 1
+    },
+    "bandits": {
+      "approach": 0,
+      "center": 1
+    },
+    "destroyedRewards": {
+      "vp": 2,
+      "intel": 0,
+      "infra": 0,
+      "recon": 2
+    },
+    "objective": "3 Infantry, 1 Sa-7, 1 Sa-14, and 2 S-60s",
+    "traits": "Fixed, Scramble, Friendly Fire",
+    "campaigns": "Libya 1984, Syria 2004, Libya 2011, North Korea 2011, Syria 2015",
+    "campaignDetails": {}
+  },
+  {
+    "cardNumber": "31",
+    "targetName": "Weapon Factory",
+    "aircraftCount": 7,
+    "sites": {
+      "approach": 2,
+      "center": 5
+    },
+    "bandits": {
+      "approach": 2,
+      "center": 4
+    },
+    "destroyedRewards": {
+      "vp": 4,
+      "intel": 0,
+      "infra": 2,
+      "recon": 2
+    },
+    "hits": "14",
+    "traits": "Fixed",
+    "improvement": "Move the Intel counter 1 to the left at the end of each Day.",
+    "campaigns": "Libya 1984, Iraq 1991, Israel Defense 2001, Syria 2004",
+    "campaignDetails": {}
+  },
+  {
+    "cardNumber": "32",
+    "targetName": "Government Building",
+    "aircraftCount": 6,
+    "sites": {
+      "approach": 2,
+      "center": 3
+    },
+    "bandits": {
+      "approach": 2,
+      "center": 4
+    },
+    "destroyedRewards": {
+      "vp": 4,
+      "intel": 2,
+      "infra": 0,
+      "recon": 0
+    },
+    "hits": "10",
+    "traits": "Fixed, OVERKILL BONUS: 14+, Gain +1VP",
+    "campaigns": "Iraq 1991, Taiwan Defense 2008, North Korea 2011, Egypt Defense 2015, Syria 2015",
+    "campaignDetails": {}
+  },
+  {
+    "cardNumber": "33",
+    "targetName": "ASW Fleet",
+    "aircraftCount": 4,
+    "sites": {
+      "approach": 1,
+      "center": 2
+    },
+    "bandits": {
+      "approach": 1,
+      "center": 2
+    },
+    "destroyedRewards": {
+      "vp": 2,
+      "intel": 2,
+      "infra": 0,
+      "recon": 1
+    },
+    "hits": "9",
+    "traits": "Vehicle",
+    "improvement": "Increase the Weight Point penalty of all Targets by 1.",
+    "campaigns": "WWIII North Atlantic 1986, Taiwan Defense 2008, North Korea 2011",
+    "campaignDetails": {}
+  },
+  {
+    "cardNumber": "34",
+    "targetName": "Surface Fleet",
+    "aircraftCount": 6,
+    "sites": {
+      "approach": 2,
+      "center": 3
+    },
+    "bandits": {
+      "approach": 2,
+      "center": 3
+    },
+    "destroyedRewards": {
+      "vp": 4,
+      "intel": 2,
+      "infra": 0,
+      "recon": 2
+    },
+    "hits": "12",
+    "traits": "Stress +1, Vehicle",
+    "improvement": "Increase the Weight Point penalty of all Targets by 1.",
+    "campaigns": "WWIII North Atlantic 1986, Taiwan Defense 2008",
+    "campaignDetails": {}
+  },
+  {
+    "cardNumber": "35",
+    "targetName": "Carrier Fleet",
+    "aircraftCount": 8,
+    "sites": {
+      "approach": 3,
+      "center": 3
+    },
+    "bandits": {
+      "approach": 2,
+      "center": 4
+    },
+    "destroyedRewards": {
+      "vp": 5,
+      "intel": 3,
+      "infra": 0,
+      "recon": 3
+    },
+    "hits": "16",
+    "traits": "Stress +2, 1 Bandit, Vehicle",
+    "improvement": "Increase the Weight Point penalty of all Targets by 1.",
+    "campaigns": "WWIII North Atlantic 1986, Taiwan Defense 2008",
+    "campaignDetails": {}
+  },
+  {
+    "cardNumber": "36",
+    "targetName": "Supply Fleet",
+    "aircraftCount": 5,
+    "sites": {
+      "approach": 2,
+      "center": 2
+    },
+    "bandits": {
+      "approach": 2,
+      "center": 2
+    },
+    "destroyedRewards": {
+      "vp": 3,
+      "intel": 1,
+      "infra": 2,
+      "recon": 0
+    },
+    "hits": "9",
+    "traits": "Vehicle",
+    "penalty": "Increase all Campaign counters by 1 to the left.",
+    "campaigns": "WWIII North Atlantic 1986, North Korea 2013, Egypt Defense 2015",
+    "campaignDetails": {}
+  },
+  {
+    "cardNumber": "37",
+    "targetName": "Missile Boat Fleet",
+    "aircraftCount": 5,
+    "sites": {
+      "approach": 1,
+      "center": 3
+    },
+    "bandits": {
+      "approach": 1,
+      "center": 3
+    },
+    "destroyedRewards": {
+      "vp": 3,
+      "intel": 0,
+      "infra": 1,
+      "recon": 2
+    },
+    "hits": "4",
+    "traits": "Scramble, Small, Dispersed, Vehicle",
+    "improvement": "Increase the Weight Point penalty of all Targets by 1.",
+    "campaigns": "Libya 1984, WWIII North Atlantic 1986, Israel Defense 2001, Taiwan Defense 2008, Libya 2011, North Korea 2011, North Korea 2013, Iran 2014, Egypt Defense 2015, Syria 2015",
+    "campaignDetails": {
+      "Iran 2014": {
+        "baseStress": 1,
+        "wp": -1
+      }
+    }
+  },
+  {
+    "cardNumber": "38",
+    "targetName": "Nuclear Power Plant",
+    "aircraftCount": 6,
+    "nighttimeMission": "true",
+    "sites": {
+      "approach": 1,
+      "center": 2
+    },
+    "bandits": {
+      "approach": 2,
+      "center": 2
+    },
+    "destroyedRewards": {
+      "vp": 5,
+      "intel": 2,
+      "infra": 2,
+      "recon": 0
+    },
+    "hits": "8",
+    "traits": "Stress +3, Hardened, Fixed",
+    "campaigns": "North Korea 2011, North Korea 2013, Iran 2014",
+    "campaignDetails": {
+      "Iran 2014": {
+        "baseStress": 2,
+        "wp": -2
+      }
+    }
+  },
+  {
+    "cardNumber": "39",
+    "targetName": "Crude Oil Port",
+    "aircraftCount": 6,
+    "nighttimeMission": "true",
+    "sites": {
+      "approach": 1,
+      "center": 2
+    },
+    "bandits": {
+      "approach": 2,
+      "center": 2
+    },
+    "destroyedRewards": {
+      "vp": 3,
+      "intel": 2,
+      "infra": 1,
+      "recon": 0
+    },
+    "hits": "10",
+    "traits": "Fixed, OVERKILL 20+: Gain +1VP",
+    "campaigns": "Libya 1984, Israel Defense 2001, Iran 2014, Egypt Defense 2015, Syria 2015",
+    "campaignDetails": {
+      "Iran 2014": {
+        "baseStress": 1,
+        "wp": -1
+      }
+    }
+  },
+  {
+    "cardNumber": "40",
+    "targetName": "Electronics Factory",
+    "aircraftCount": 3,
+    "nighttimeMission": "true",
+    "sites": {
+      "approach": 2,
+      "center": 1
+    },
+    "bandits": {
+      "approach": 3,
+      "center": 1
+    },
+    "destroyedRewards": {
+      "vp": 1,
+      "intel": 0,
+      "infra": 1,
+      "recon": 0
+    },
+    "hits": "6",
+    "traits": "Secondary, Fixed",
+    "bonus": "Discard 1 Improvement card.",
+    "campaigns": "Iraq 1991, Israel Defense 2001, Iran 2014",
+    "campaignDetails": {
+      "Iran 2014": {
+        "baseStress": 2,
+        "wp": -2
+      }
+    }
+  },
+  {
+    "cardNumber": "41",
+    "targetName": "Heavy Industry",
+    "aircraftCount": 4,
+    "nighttimeMission": "true",
+    "sites": {
+      "approach": 1,
+      "center": 2
+    },
+    "bandits": {
+      "approach": 1,
+      "center": 2
+    },
+    "destroyedRewards": {
+      "vp": 2,
+      "intel": 1,
+      "infra": 2,
+      "recon": 0
+    },
+    "hits": "9",
+    "traits": "Secondary, Fixed",
+    "improvement": "All Targets require 1 extra Hit to destroy",
+    "campaigns": "Libya 1984, Syria 2004, Iran 2014",
+    "campaignDetails": {
+      "Iran 2014": {
+        "baseStress": 2,
+        "wp": -2
+      }
+    }
+  },
+  {
+    "cardNumber": "42",
+    "targetName": "Vehicle Production",
+    "aircraftCount": 6,
+    "nighttimeMission": "true",
+    "sites": {
+      "approach": 1,
+      "center": 2
+    },
+    "bandits": {
+      "approach": 1,
+      "center": 2
+    },
+    "destroyedRewards": {
+      "vp": 2,
+      "intel": 1,
+      "infra": 0,
+      "recon": 1
+    },
+    "hits": "12",
+    "traits": "Fixed",
+    "bonus": "Discard 1 Improvement card.",
+    "campaigns": "WWIII North Atlantic 1986, Syria 2004, Taiwan Defense 2008, Egypt Defense 2015",
+    "campaignDetails": {}
+  },
+  {
+    "cardNumber": "43",
+    "targetName": "Government Building",
+    "aircraftCount": 7,
+    "sites": {
+      "approach": 2,
+      "center": 6
+    },
+    "bandits": {
+      "approach": 2,
+      "center": 4
+    },
+    "destroyedRewards": {
+      "vp": 4,
+      "intel": 1,
+      "infra": 0,
+      "recon": 2
+    },
+    "hits": "11",
+    "traits": "Fixed, OVERKILL +14: Gain +1VP",
+    "campaigns": "Libya 1984, Israel Defense 2001, Syria 2004, Libya 2011",
+    "campaignDetails": {}
+  },
+  {
+    "cardNumber": "44",
+    "targetName": "Close Air Support",
+    "aircraftCount": 5,
+    "sites": {
+      "approach": 1,
+      "center": 1
+    },
+    "bandits": {
+      "approach": 0,
+      "center": 2
+    },
+    "destroyedRewards": {
+      "vp": 4,
+      "intel": 1,
+      "infra": 0,
+      "recon": 2
+    },
+    "hits": "5",
+    "traits": "Scramble, Stress +1, Friendly Fire, Dispersed",
+    "campaigns": "Iraq 1991, Israel Defense 2001, Libya 2011, North Korea 2011",
+    "campaignDetails": {}
+  },
+  {
+    "cardNumber": "45",
+    "targetName": "Close Air Support",
+    "aircraftCount": 5,
+    "sites": {
+      "approach": 1,
+      "center": 5
+    },
+    "bandits": {
+      "approach": 1,
+      "center": 2
+    },
+    "destroyedRewards": {
+      "vp": 3,
+      "intel": 2,
+      "infra": 2,
+      "recon": 0
+    },
+    "hits": "7",
+    "traits": "Stress +1, Friendly Fire, Soft, Dispersed",
+    "campaigns": "Libya 1984, Israel Defense 2001, Libya 2011, North Korea 2011, Egypt Defense 2015, Syria 2015",
+    "campaignDetails": {}
+  },
+  {
+    "cardNumber": "46",
+    "targetName": "Close Air Support",
+    "aircraftCount": 4,
+    "sites": {
+      "approach": 1,
+      "center": 2
+    },
+    "bandits": {
+      "approach": 1,
+      "center": 1
+    },
+    "destroyedRewards": {
+      "vp": 3,
+      "intel": 0,
+      "infra": 0,
+      "recon": 2
+    },
+    "hits": "8",
+    "traits": "Secondary, Friendly Fire, Dispersed, Soft",
+    "campaigns": "WWIII North Atlantic 1986, Syria 2004, Libya 2011, Iran 2014",
+    "campaignDetails": {
+      "Iran 2014": {
+        "baseStress": 1,
+        "wp": -1
+      }
+    }
+  },
+  {
+    "cardNumber": "47",
+    "targetName": "Central Command",
+    "aircraftCount": 6,
+    "sites": {
+      "approach": 2,
+      "center": 2
+    },
+    "bandits": {
+      "approach": 2,
+      "center": 5
+    },
+    "destroyedRewards": {
+      "vp": 3,
+      "intel": 2,
+      "infra": 0,
+      "recon": 2
+    },
+    "hits": "9",
+    "traits": "Fixed",
+    "improvement": "Move to any 1 Campaign counter 1 to the left at the end of each Day.",
+    "campaigns": "WWIII North Atlantic 1986, Iraq 1991, Syria 2004, Taiwan Defense 2008, North Korea 2013, Syria 2015",
+    "campaignDetails": {}
+  },
+  {
+    "cardNumber": "48",
+    "targetName": "Laboratory",
+    "aircraftCount": 5,
+    "sites": {
+      "approach": 1,
+      "center": 4
+    },
+    "bandits": {
+      "approach": 1,
+      "center": 3
+    },
+    "destroyedRewards": {
+      "vp": 3,
+      "intel": 0,
+      "infra": 2,
+      "recon": 0
+    },
+    "hits": "9",
+    "traits": "Stress +1, Fixed",
+    "bonus": "Pilots gain +1 Experience Point.",
+    "campaigns": "Iraq 1991, Syria 2004, North Korea 2011",
+    "campaignDetails": {}
+  },
+  {
+    "cardNumber": "49",
+    "targetName": "Laboratory",
+    "aircraftCount": 4,
+    "sites": {
+      "approach": 1,
+      "center": 1
+    },
+    "bandits": {
+      "approach": 1,
+      "center": 0
+    },
+    "destroyedRewards": {
+      "vp": 3,
+      "intel": 2,
+      "infra": 0,
+      "recon": 0
+    },
+    "hits": "12",
+    "traits": "Secondary, Stress +2, Fixed",
+    "bonus": "Pilots gain +1 Experience Point.",
+    "campaigns": "Libya 1984, Syria 2004, Iran 2014",
+    "campaignDetails": {
+      "Iran 2014": {
+        "baseStress": 2,
+        "wp": -2
+      }
+    }
+  },
+  {
+    "cardNumber": "50",
+    "targetName": "Government Building",
+    "aircraftCount": 8,
+    "sites": {
+      "approach": 3,
+      "center": 5
+    },
+    "bandits": {
+      "approach": 2,
+      "center": 5
+    },
+    "destroyedRewards": {
+      "vp": 4,
+      "intel": 2,
+      "infra": 0,
+      "recon": 2
+    },
+    "hits": "14",
+    "traits": "Fixed, OVERKILL 18+: Gain +1 VP",
+    "campaigns": "WWIII North Atlantic 1986, Israel Defense 2001, Iran 2014",
+    "campaignDetails": {
+      "Iran 2014": {
+        "baseStress": 3,
+        "wp": -4
+      }
+    }
+  },
+  {
+    "cardNumber": "51",
+    "targetName": "Oil Storage",
+    "aircraftCount": 4,
+    "sites": {
+      "approach": 2,
+      "center": 1
+    },
+    "bandits": {
+      "approach": 2,
+      "center": 1
+    },
+    "destroyedRewards": {
+      "vp": 2,
+      "intel": 0,
+      "infra": 2,
+      "recon": 0
+    },
+    "hits": "7",
+    "traits": "Secondary, Fixed, OVERKILL 10+: Gain +1 VP",
+    "campaigns": "Libya 1984, WWIII North Atlantic 1986, Israel Defense 2001, Taiwan Defense 2008, Egypt Defense 2015",
+    "campaignDetails": {}
+  },
+  {
+    "cardNumber": "52",
+    "targetName": "Attack Fleet",
+    "aircraftCount": 8,
+    "sites": {
+      "approach": 3,
+      "center": 3
+    },
+    "bandits": {
+      "approach": 3,
+      "center": 3
+    },
+    "destroyedRewards": {
+      "vp": 6,
+      "intel": 1,
+      "infra": 0,
+      "recon": 2
+    },
+    "hits": "15",
+    "traits": "1 Bandit, Vehicle",
+    "improvement": "Move the Recon counter 1 to the left at the end of each Day.",
+    "campaigns": "WWIII North Atlantic 1986",
+    "campaignDetails": {}
+  },
+  {
+    "cardNumber": "53",
+    "targetName": "Command Post",
+    "aircraftCount": 5,
+    "sites": {
+      "approach": 2,
+      "center": 3
+    },
+    "bandits": {
+      "approach": 2,
+      "center": 2
+    },
+    "destroyedRewards": {
+      "vp": 2,
+      "intel": 2,
+      "infra": 0,
+      "recon": 0
+    },
+    "hits": "8",
+    "traits": "Fixed",
+    "bonus": "Gain 3 SO Special Option Points.",
+    "campaigns": "Iraq 1991, Syria 2004, Libya 2011, North Korea 2013, Syria 2015",
+    "campaignDetails": {}
+  },
+  {
+    "cardNumber": "54",
+    "targetName": "Command Post",
+    "aircraftCount": 6,
+    "sites": {
+      "approach": 2,
+      "center": 2
+    },
+    "bandits": {
+      "approach": 2,
+      "center": 3
+    },
+    "destroyedRewards": {
+      "vp": 3,
+      "intel": 0,
+      "infra": 2,
+      "recon": 0
+    },
+    "hits": "13",
+    "traits": "Fixed",
+    "bonus": "Gain 4 Special Option Points.",
+    "campaigns": "Syria 2004, Libya 2011, Iran 2014",
+    "campaignDetails": {
+      "Iran 2014": {
+        "baseStress": 2,
+        "wp": -3
+      }
+    }
+  },
+  {
+    "cardNumber": "55",
+    "targetName": "Underground Complex",
+    "aircraftCount": 6,
+    "sites": {
+      "approach": 1,
+      "center": 2
+    },
+    "bandits": {
+      "approach": 1,
+      "center": 2
+    },
+    "destroyedRewards": {
+      "vp": 3,
+      "intel": 1,
+      "infra": 2,
+      "recon": 0
+    },
+    "hits": "11",
+    "traits": "Small, Hardened, Fixed",
+    "campaigns": "Syria 2004, North Korea 2011, North Korea 2013, Iran 2014",
+    "campaignDetails": {
+      "Iran 2014": {
+        "baseStress": 2,
+        "wp": -2
+      }
+    }
+  },
+  {
+    "cardNumber": "56",
+    "targetName": "SCUD Launchers",
+    "aircraftCount": 4,
+    "sites": {
+      "approach": 1,
+      "center": 2
+    },
+    "bandits": {
+      "approach": 1,
+      "center": 2
+    },
+    "destroyedRewards": {
+      "vp": 2,
+      "intel": 1,
+      "infra": 0,
+      "recon": 2
+    },
+    "hits": "6",
+    "traits": "Secondary, Dispersed, Vehicle",
+    "improvement": "At the end of each Day, lose 1 VP.",
+    "campaigns": "Iraq 1991, Israel Defense 2001, Syria 2004, Taiwan Defense 2008, North Korea 2011, North Korea 2013, Egypt Defense 2015",
+    "campaignDetails": {}
+  },
+  {
+    "cardNumber": "57",
+    "targetName": "Fighter Sweep",
+    "aircraftCount": 3,
+    "sites": {
+      "approach": 0,
+      "center": 0
+    },
+    "bandits": {
+      "approach": 0,
+      "center": 0
+    },
+    "destroyedRewards": {
+      "vp": 2,
+      "intel": 0,
+      "infra": 0,
+      "recon": 1
+    },
+    "traits": "Secondary",
+    "objective": "3 MiG-21s, 3 MiG-23s, and 2 MiG-25s",
+    "campaigns": "WWIII North Atlantic 1986, Iraq 1991, Taiwan Defense 2008, North Korea 2013, Egypt Defense 2015, Syria 2015",
+    "campaignDetails": {}
+  },
+  {
+    "cardNumber": "58",
+    "targetName": "Fighter Sweep",
+    "aircraftCount": 3,
+    "sites": {
+      "approach": 0,
+      "center": 1
+    },
+    "bandits": {
+      "approach": 0,
+      "center": 0
+    },
+    "destroyedRewards": {
+      "vp": 2,
+      "intel": 1,
+      "infra": 0,
+      "recon": 0
+    },
+    "traits": "Secondary",
+    "objective": "4 MiG-23s and 3 MiG-25s",
+    "campaigns": "Libya 1984, WWIII North Atlantic 1986, Israel Defense 2001",
+    "campaignDetails": {}
+  },
+  {
+    "cardNumber": "59",
+    "targetName": "Carrier Defense",
+    "aircraftCount": 4,
+    "sites": {
+      "approach": 0,
+      "center": 0
+    },
+    "bandits": {
+      "approach": 1,
+      "center": 3
+    },
+    "destroyedRewards": {
+      "vp": 3,
+      "intel": 0,
+      "infra": 1,
+      "recon": 1
+    },
+    "traits": "Scramble",
+    "objective": "6 Su-7s",
+    "penalty": "If more than 1 Su-7 is not destroyed, end campaign.",
+    "campaigns": "Libya 1984, WWIII North Atlantic 1986, Israel Defense 2001, Taiwan Defense 2008, North Korea 2013, Iran 2014, Egypt Defense 2015, Syria 2015",
+    "campaignDetails": {
+      "Iran 2014": {
+        "baseStress": 1,
+        "wp": -1
+      }
+    }
+  },
+  {
+    "cardNumber": "60",
+    "targetName": "Carrier Defense",
+    "aircraftCount": 5,
+    "sites": {
+      "approach": 0,
+      "center": 0
+    },
+    "bandits": {
+      "approach": 2,
+      "center": 1
+    },
+    "destroyedRewards": {
+      "vp": 4,
+      "intel": 1,
+      "infra": 1,
+      "recon": 0
+    },
+    "traits": "Scramble",
+    "objective": "8 Su-24s",
+    "penalty": "If more than 1 Su-24 is not destroyed, end campaign.",
+    "campaigns": "WWIII North Atlantic 1986, Israel Defense 2001, Syria 2004, Taiwan Defense 2008, Libya 2011, North Korea 2011",
+    "campaignDetails": {}
+  }
+]
