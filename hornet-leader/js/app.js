@@ -1134,7 +1134,8 @@ function buildTargetNumberField(currentValue, dayIdx, tIdx) {
             const ns = String(n);
             const isCurrent = ns === String(currentValue);
             if ((destroyed.has(ns) || dayUsed.has(ns)) && !isCurrent) return '';
-            return `<option value="${n}"${isCurrent ? ' selected' : ''}>${n}</option>`;
+            const bandLabel = campaign.isUSMC ? (() => { const bi = getTargetBandInfo(ns); return bi ? ` [${bi.Band}구간]` : ''; })() : '';
+            return `<option value="${n}"${isCurrent ? ' selected' : ''}>${n}${bandLabel}</option>`;
         }).join('');
         return `<select data-day="${dayIdx}" data-tidx="${tIdx}" data-tfield="targetNumber">
             <option value="">--</option>${options}</select>`;
