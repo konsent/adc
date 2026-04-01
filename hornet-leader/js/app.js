@@ -795,6 +795,9 @@ function buildCampaign(scenarioIdx, lengthIdx, squadron, diffRules, opts = {}) {
         });
     }
 
+    // Improvements start empty — cards become active when drawn but not destroyed
+    const improvements = [];
+
     return {
         scenarioIdx, lengthIdx,
         scenarioName: scenario.Name,
@@ -803,6 +806,7 @@ function buildCampaign(scenarioIdx, lengthIdx, squadron, diffRules, opts = {}) {
         baseSO, aircraftSO, totalSO,
         squadron, missions,
         tracks: { recon: 0, intel: 0, infra: 0 },
+        improvements,
         diffRules: diffRules || { level: 'average' },
         isUSMC: parseCampaign(scenario).force === 'USMC',
         largeDeckMarine: false,
@@ -877,6 +881,7 @@ function migrateCampaign(c) {
     if (!c.diffRules) c.diffRules = { level: 'average' };
     if (!('isUSMC' in c)) c.isUSMC = (c.scenarioName || '').includes('(USMC)');
     if (!('largeDeckMarine' in c)) c.largeDeckMarine = false;
+    if (!c.improvements) c.improvements = [];
     return c;
 }
 
@@ -899,6 +904,7 @@ function renderAll() {
     renderSummary();
     updateBadges();
     renderTracks();
+    renderImprovements();
 }
 
 // ─── Squadron Rendering ───
@@ -1088,7 +1094,81 @@ function getTargetHits(targetNumber) {
     if (!entry || !entry.hits) return null;
     const baseHits = parseInt(entry.hits) || 0;
     const modifier = getInfraHitsModifier();
-    return Math.max(1, baseHits + modifier);
+    const impExtra = getImprovementExtraHits(targetNumber);
+    return Math.max(1, baseHits + modifier + impExtra);
+}
+
+// ─── Improvement Effects ───
+
+function getActiveImprovements() {
+    if (!campaign || !campaign.improvements) return [];
+    return campaign.improvements.filter(i => i.active);
+}
+
+function getImprovementWPPenalty() {
+    return getActiveImprovements().filter(i =>
+        /Increase the Weight Point penalty/i.test(i.text)
+    ).length;
+}
+
+function getImprovementExtraHits(targetNumber) {
+    const entry = getTargetEntry(targetNumber);
+    if (!entry) return 0;
+    const name = (entry.targetName || '').toLowerCase();
+    let extra = 0;
+    getActiveImprovements().forEach(imp => {
+        // "All Targets require 1 extra Hit to destroy"
+        if (/All Targets require (\d+) extra Hit/i.test(imp.text)) {
+            extra += parseInt(imp.text.match(/(\d+) extra Hit/i)[1]);
+        }
+        // "Tanks" and "Troops" require N extra hits
+        if (/Tanks.*Troops.*require (\d+) extra hit/i.test(imp.text)) {
+            if (name.includes('tank') || name.includes('troop')) {
+                extra += parseInt(imp.text.match(/require (\d+) extra hit/i)[1]);
+            }
+        }
+        // "Fleets" require an extra N Hits
+        if (/Fleets.*require.*extra (\d+) Hit/i.test(imp.text)) {
+            if (name.includes('fleet')) {
+                extra += parseInt(imp.text.match(/extra (\d+) Hit/i)[1]);
+            }
+        }
+    });
+    return extra;
+}
+
+function applyDailyImprovementEffects() {
+    if (!campaign || !campaign.improvements) return;
+    const active = getActiveImprovements();
+    active.forEach(imp => {
+        const t = imp.text;
+        // Move Infra counter 1 to the left
+        if (/Move the Infra counter 1 to the left/i.test(t)) {
+            campaign.tracks.infra = Math.max(0, campaign.tracks.infra - 1);
+        }
+        // Move Intel counter 1 to the left
+        if (/Move the Intel counter 1 to the left/i.test(t)) {
+            campaign.tracks.intel = Math.max(0, campaign.tracks.intel - 1);
+        }
+        // Move Recon counter 1 to the left
+        if (/Move the Recon counter 1 to the left/i.test(t)) {
+            campaign.tracks.recon = Math.max(0, campaign.tracks.recon - 1);
+        }
+        // Move any 1 Campaign counter 1 to the left (auto: pick lowest non-zero)
+        if (/Move to any 1 Campaign counter 1 to the left/i.test(t)) {
+            const types = ['recon', 'intel', 'infra'];
+            // Pick the one with highest value to minimize harm
+            const sorted = types.filter(k => campaign.tracks[k] > 0).sort((a, b) => campaign.tracks[b] - campaign.tracks[a]);
+            if (sorted.length > 0) {
+                campaign.tracks[sorted[0]] = Math.max(0, campaign.tracks[sorted[0]] - 1);
+            }
+        }
+        // Lose 1 VP at end of each day
+        if (/lose (\d+) VP/i.test(t)) {
+            const vpLoss = parseInt(t.match(/lose (\d+) VP/i)[1]);
+            campaign.vpPenalty = (campaign.vpPenalty || 0) + vpLoss;
+        }
+    });
 }
 
 function getSpecialRules() {
@@ -1291,14 +1371,18 @@ function renderMissions() {
 
             // Target header row
             const campDetail = getTargetCampaignDetails(t.targetNumber);
-            const wpLabel = campDetail ? `<span class="wp-badge">WP ${campDetail.wp}</span>` : '';
+            const wpPenalty = getImprovementWPPenalty();
+            const effectiveWP = campDetail ? campDetail.wp - wpPenalty : null;
+            const wpLabel = effectiveWP != null ? `<span class="wp-badge">WP ${effectiveWP}</span>` : '';
             const hits = getTargetHits(t.targetNumber);
             const hitsLabel = hits != null ? `<span class="hits-badge">Hits ${hits}</span>` : '';
+            const targetEntry = getTargetEntry(t.targetNumber);
+            const targetName = targetEntry ? targetEntry.targetName : '';
             const row = document.createElement('div');
             row.className = 'target-row';
             row.innerHTML = `
                 <span class="target-label">${tIdx === 0 ? '주 표적' : '부 표적'}${wpLabel}${hitsLabel}</span>
-                <div class="tgt-field"><span class="tgt-field-label">번호</span>${buildTargetNumberField(t.targetNumber, dayIdx, tIdx)}</div>
+                <span class="target-number-name">#${t.targetNumber} ${targetName}</span>
                 <div class="tgt-field"><span class="tgt-field-label">시간</span><select data-day="${dayIdx}" data-tidx="${tIdx}" data-tfield="dayNight">
                     <option value="Day"${t.dayNight === 'Day' ? ' selected' : ''}>주간</option>
                     <option value="Night"${t.dayNight === 'Night' ? ' selected' : ''}>야간</option>
@@ -1326,7 +1410,6 @@ function renderMissions() {
             tBlock.appendChild(rewardRow);
 
             // Target traits tags
-            const targetEntry = getTargetEntry(t.targetNumber);
             if (targetEntry && targetEntry.traits) {
                 const traitsDiv = document.createElement('div');
                 traitsDiv.className = 'target-traits';
@@ -1687,13 +1770,24 @@ function openTargetDrawModal(dayIdx) {
         }
     }
 
+    // Collect active improvement cards not in drawn cards and not destroyed/day-used
+    const destroyed = getDestroyedTargets();
+    const dayUsed = getDayUsedTargets(dayIdx, -1);
+    const drawnNums = new Set(drawnCards.map(c => c.num));
+    const impCards = (campaign.improvements || [])
+        .filter(i => i.active && !drawnNums.has(i.cardNumber) && !destroyed.has(i.cardNumber) && !dayUsed.has(i.cardNumber))
+        .map(i => ({ num: i.cardNumber, entry: getTargetEntry(i.cardNumber), isImprovement: true }));
+
     // State
     const state = {
         dayIdx,
         drawnCards,
+        impCards,
         scrambleIdx,
         selectedPrimary: scrambleIdx >= 0 ? scrambleIdx : -1,
-        selectedSecondary: -1
+        selectedSecondary: -1,
+        selectedPrimarySource: scrambleIdx >= 0 ? 'drawn' : null,
+        selectedSecondarySource: null
     };
 
     renderDrawModal(state);
@@ -1710,29 +1804,37 @@ function renderDrawModal(state) {
 
     container.innerHTML = '';
 
-    state.drawnCards.forEach((card, idx) => {
+    function isPrimary(source, idx) {
+        return state.selectedPrimarySource === source && state.selectedPrimary === idx;
+    }
+    function isSecondarySelected(source, idx) {
+        return state.selectedSecondarySource === source && state.selectedSecondary === idx;
+    }
+
+    function renderCard(card, idx, source) {
         const entry = card.entry;
         const traits = entry ? (entry.traits || '') : '';
         const traitList = traits.split(',').map(t => t.trim()).filter(Boolean);
-        const isScramble = state.scrambleIdx === idx;
-        const isPrimary = state.selectedPrimary === idx;
-        const isSecondary = state.selectedSecondary === idx;
+        const isScramble = source === 'drawn' && state.scrambleIdx === idx;
+        const isPri = isPrimary(source, idx);
+        const isSec = isSecondarySelected(source, idx);
         const hasSecondary = traitList.includes('Secondary');
         const hits = getTargetHits(card.num);
         const bandInfo = getTargetBandInfo(card.num);
+        const wpPen = getImprovementWPPenalty();
 
         const div = document.createElement('div');
         div.className = 'draw-card'
             + (isScramble ? ' scramble-forced' : '')
-            + (isPrimary ? ' selected-primary' : '')
-            + (isSecondary ? ' selected-secondary' : '');
+            + (isPri ? ' selected-primary' : '')
+            + (isSec ? ' selected-secondary' : '');
 
         div.innerHTML = `
             <div class="draw-card-header">
                 <span class="draw-card-num">#${card.num}</span>
                 <span class="draw-card-name">${entry ? entry.targetName : '?'}</span>
                 ${hits != null ? `<span class="draw-card-hits">Hits ${hits}</span>` : ''}
-                ${bandInfo ? `<span class="wp-badge">WP ${bandInfo.WP}</span>` : ''}
+                ${bandInfo ? `<span class="wp-badge">WP ${bandInfo.WP - wpPen}</span>` : ''}
             </div>
             <div class="draw-card-detail">
                 <span>기체: ${entry ? entry.aircraftCount : '?'}</span>
@@ -1743,45 +1845,27 @@ function renderDrawModal(state) {
             <div class="draw-card-traits">
                 ${traitList.map(t => `<span class="target-trait-tag">${t}</span>`).join('')}
             </div>
+            ${entry && entry.improvement ? `<div class="draw-card-improvement">${entry.improvement}</div>` : ''}
             ${isScramble ? '<div class="draw-card-label scramble">SCRAMBLE — 이 표적을 반드시 주표적으로 선택</div>' : ''}
-            ${isPrimary && !isScramble ? '<div class="draw-card-label primary">주 표적 선택됨</div>' : ''}
-            ${isSecondary ? '<div class="draw-card-label secondary">부 표적 선택됨</div>' : ''}
+            ${isPri && !isScramble ? '<div class="draw-card-label primary">주 표적 선택됨</div>' : ''}
+            ${isSec ? '<div class="draw-card-label secondary">부 표적 선택됨</div>' : ''}
         `;
 
         div.addEventListener('click', () => {
-            if (isScramble) return; // Scramble card is locked as primary
-
-            if (state.scrambleIdx >= 0) {
-                // Scramble active: can only pick secondary from Secondary cards
-                if (hasSecondary && idx !== state.scrambleIdx) {
-                    state.selectedSecondary = state.selectedSecondary === idx ? -1 : idx;
-                }
-            } else {
-                // Normal: click to set primary, shift+click or second click for secondary
-                if (state.selectedPrimary === idx) {
-                    // Deselect primary
-                    state.selectedPrimary = -1;
-                } else if (state.selectedPrimary < 0) {
-                    state.selectedPrimary = idx;
-                } else {
-                    // Primary already set → toggle secondary (only if Secondary keyword)
-                    if (hasSecondary) {
-                        state.selectedSecondary = state.selectedSecondary === idx ? -1 : idx;
-                    } else {
-                        // Switch primary
-                        state.selectedPrimary = idx;
-                        if (state.selectedSecondary === idx) state.selectedSecondary = -1;
-                    }
-                }
-            }
+            if (isScramble) return;
+            handleCardClick(state, source, idx, hasSecondary);
             renderDrawModal(state);
         });
 
-        container.appendChild(div);
+        return div;
+    }
+
+    // Drawn cards
+    state.drawnCards.forEach((card, idx) => {
+        container.appendChild(renderCard(card, idx, 'drawn'));
     });
 
-    if (state.scrambleIdx >= 0 && state.scrambleIdx < state.drawnCards.length - 1) {
-        // Scramble stopped drawing early
+    if (state.scrambleIdx >= 0) {
         const remaining = getReconDrawCount() - state.drawnCards.length;
         if (remaining > 0) {
             const stopDiv = document.createElement('div');
@@ -1791,15 +1875,26 @@ function renderDrawModal(state) {
         }
     }
 
+    // Improvement cards section
+    if (state.impCards && state.impCards.length > 0) {
+        const divider = document.createElement('div');
+        divider.className = 'draw-section-divider';
+        divider.textContent = 'Improvement 카드 (미파괴)';
+        container.appendChild(divider);
+
+        state.impCards.forEach((card, idx) => {
+            container.appendChild(renderCard(card, idx, 'imp'));
+        });
+    }
+
     // Actions
     actions.innerHTML = '';
+    const hasPrimary = state.selectedPrimary >= 0 && state.selectedPrimarySource;
     const confirmBtn = document.createElement('button');
     confirmBtn.className = 'btn btn-small btn-primary';
     confirmBtn.textContent = '확인';
-    confirmBtn.disabled = state.selectedPrimary < 0;
-    confirmBtn.addEventListener('click', () => {
-        applyDrawSelection(state);
-    });
+    confirmBtn.disabled = !hasPrimary;
+    confirmBtn.addEventListener('click', () => applyDrawSelection(state));
 
     const cancelBtn = document.createElement('button');
     cancelBtn.className = 'btn btn-small';
@@ -1810,28 +1905,86 @@ function renderDrawModal(state) {
     actions.appendChild(confirmBtn);
 
     overlay.style.display = 'flex';
-
-    // Close button
     document.getElementById('draw-modal-close').onclick = closeDrawModal;
+}
+
+function handleCardClick(state, source, idx, hasSecondary) {
+    const isPri = state.selectedPrimarySource === source && state.selectedPrimary === idx;
+    const isSec = state.selectedSecondarySource === source && state.selectedSecondary === idx;
+
+    if (state.scrambleIdx >= 0) {
+        // Scramble: primary is locked, only secondary from Secondary cards
+        if (hasSecondary && !(source === 'drawn' && idx === state.scrambleIdx)) {
+            if (isSec) {
+                state.selectedSecondary = -1; state.selectedSecondarySource = null;
+            } else {
+                state.selectedSecondary = idx; state.selectedSecondarySource = source;
+            }
+        }
+        return;
+    }
+
+    if (isPri) {
+        // Deselect primary
+        state.selectedPrimary = -1; state.selectedPrimarySource = null;
+    } else if (!state.selectedPrimarySource) {
+        // No primary yet → set primary
+        state.selectedPrimary = idx; state.selectedPrimarySource = source;
+    } else {
+        // Primary exists → toggle secondary if Secondary keyword, else switch primary
+        if (hasSecondary) {
+            if (isSec) {
+                state.selectedSecondary = -1; state.selectedSecondarySource = null;
+            } else {
+                state.selectedSecondary = idx; state.selectedSecondarySource = source;
+            }
+        } else {
+            state.selectedPrimary = idx; state.selectedPrimarySource = source;
+            if (state.selectedSecondarySource === source && state.selectedSecondary === idx) {
+                state.selectedSecondary = -1; state.selectedSecondarySource = null;
+            }
+        }
+    }
 }
 
 function applyDrawSelection(state) {
     const dayIdx = state.dayIdx;
     const m = campaign.missions[dayIdx];
-    const primaryCard = state.drawnCards[state.selectedPrimary];
+    const cardList = { drawn: state.drawnCards, imp: state.impCards || [] };
+
+    const primaryCard = cardList[state.selectedPrimarySource][state.selectedPrimary];
 
     // Set primary target
     const primaryTarget = m.targets[0];
     fillTargetFromCard(primaryTarget, primaryCard.num);
 
     // Set secondary target
-    if (state.selectedSecondary >= 0) {
-        const secCard = state.drawnCards[state.selectedSecondary];
+    if (state.selectedSecondary >= 0 && state.selectedSecondarySource) {
+        const secCard = cardList[state.selectedSecondarySource][state.selectedSecondary];
         if (m.targets.length < 2) {
             m.targets.push(createEmptyTarget());
         }
         fillTargetFromCard(m.targets[1], secCard.num);
     }
+
+    // Register drawn improvement cards as active (if not already registered)
+    const selectedNums = new Set([primaryCard.num]);
+    if (state.selectedSecondary >= 0 && state.selectedSecondarySource) {
+        selectedNums.add(cardList[state.selectedSecondarySource][state.selectedSecondary].num);
+    }
+    state.drawnCards.forEach(card => {
+        const entry = card.entry;
+        if (entry && entry.improvement) {
+            const already = campaign.improvements.find(i => i.cardNumber === card.num);
+            if (!already) {
+                campaign.improvements.push({
+                    cardNumber: card.num,
+                    text: entry.improvement,
+                    active: true
+                });
+            }
+        }
+    });
 
     closeDrawModal();
     renderMissions();
@@ -1864,6 +2017,7 @@ document.addEventListener('click', e => {
     if (e.target.id === 'target-draw-modal') closeDrawModal();
     if (e.target.id === 'campaign-fail-modal') closeCampaignFailModal();
     if (e.target.id === 'overkill-modal') closeOverkillModal();
+    if (e.target.id === 'discard-imp-modal') closeDiscardImpModal();
 });
 
 // ─── Trait Tooltip (JS-based) ───
@@ -1934,6 +2088,73 @@ function showOverkillModal(dayIdx, tIdx, ok) {
 
 function closeOverkillModal() {
     document.getElementById('overkill-modal').style.display = 'none';
+}
+
+// ─── Discard Improvement Modal ───
+
+function showDiscardImprovementModal(discardCount) {
+    const overlay = document.getElementById('discard-imp-modal');
+    const container = document.getElementById('discard-imp-cards');
+    const actions = document.getElementById('discard-imp-actions');
+    const info = document.getElementById('discard-imp-info');
+
+    const activeImps = (campaign.improvements || []).filter(i => i.active);
+    const maxSelect = Math.min(discardCount, activeImps.length);
+    const selected = new Set();
+
+    info.textContent = `${maxSelect}장의 Improvement 카드를 제거할 수 있습니다.`;
+
+    function render() {
+        container.innerHTML = '';
+        activeImps.forEach((imp, idx) => {
+            const entry = getTargetEntry(imp.cardNumber);
+            const div = document.createElement('div');
+            div.className = 'discard-imp-card' + (selected.has(idx) ? ' selected' : '');
+            div.innerHTML = `
+                <span class="discard-imp-num">#${imp.cardNumber}</span>
+                <span class="discard-imp-name">${entry ? entry.targetName : '?'}</span>
+                <span class="discard-imp-text">${imp.text}</span>
+            `;
+            div.addEventListener('click', () => {
+                if (selected.has(idx)) {
+                    selected.delete(idx);
+                } else if (selected.size < maxSelect) {
+                    selected.add(idx);
+                }
+                render();
+            });
+            container.appendChild(div);
+        });
+
+        actions.innerHTML = '';
+        const confirmBtn = document.createElement('button');
+        confirmBtn.className = 'btn btn-small btn-primary';
+        confirmBtn.textContent = `제거 (${selected.size}/${maxSelect})`;
+        confirmBtn.addEventListener('click', () => {
+            const activeArr = activeImps;
+            selected.forEach(idx => { activeArr[idx].active = false; });
+            closeDiscardImpModal();
+            renderAll();
+            autoSave();
+        });
+
+        const skipBtn = document.createElement('button');
+        skipBtn.className = 'btn btn-small';
+        skipBtn.textContent = '건너뛰기';
+        skipBtn.addEventListener('click', () => {
+            closeDiscardImpModal();
+        });
+
+        actions.appendChild(skipBtn);
+        actions.appendChild(confirmBtn);
+    }
+
+    render();
+    overlay.style.display = 'flex';
+}
+
+function closeDiscardImpModal() {
+    document.getElementById('discard-imp-modal').style.display = 'none';
 }
 
 // ─── Campaign Fail Modal ───
@@ -2182,6 +2403,10 @@ function onDownTime(e) {
 
     m.downTime = true;
     m.recoveryApplied = true;
+
+    // Apply daily improvement effects (track decay, VP loss)
+    applyDailyImprovementEffects();
+
     renderAll();
     autoSave();
 }
@@ -2348,10 +2573,16 @@ function resolveTarget(dayIdx, tIdx) {
 
     t.resolved = true;
 
+    // Deactivate improvement if this target had one
+    if (t.result === 'Destroyed' && campaign.improvements) {
+        const imp = campaign.improvements.find(i => i.cardNumber === String(t.targetNumber) && i.active);
+        if (imp) imp.active = false;
+    }
+
     // Check failCondition (e.g. Israel Defense)
     const fcRules = getSpecialRules();
     if (fcRules.failCondition && fcRules.failCondition.maxUndestroyedByLength) {
-        const lengthKey = campaign.lengthDesc; // "Short", "Medium", "Long"
+        const lengthKey = campaign.lengthDesc;
         const maxFails = fcRules.failCondition.maxUndestroyedByLength[lengthKey];
         if (maxFails != null) {
             let failCount = 0;
@@ -2363,6 +2594,18 @@ function resolveTarget(dayIdx, tIdx) {
             if (failCount >= maxFails) {
                 campaign.campaignFailed = true;
                 setTimeout(() => showCampaignFailModal(failCount, maxFails, lengthKey), 100);
+            }
+        }
+    }
+
+    // Check Discard Improvement bonus
+    if (t.result === 'Destroyed' && bp && bp.bonus) {
+        const discardMatch = bp.bonus.match(/Discard (\d+) Improvement/i);
+        if (discardMatch) {
+            const discardCount = parseInt(discardMatch[1]);
+            const activeImps = (campaign.improvements || []).filter(i => i.active);
+            if (activeImps.length > 0) {
+                setTimeout(() => showDiscardImprovementModal(discardCount), 150);
             }
         }
     }
@@ -2394,6 +2637,9 @@ function applyEndOfDayRecovery(dayIdx) {
         campaign.missions[nextDayIdx].startSO = remainingSO;
     }
 
+    // Apply daily improvement effects (track decay, VP loss)
+    applyDailyImprovementEffects();
+
     m.recoveryApplied = true;
     renderAll();
     autoSave();
@@ -2415,6 +2661,33 @@ function renderTracks() {
             if (type === 'infra') renderMissions();
             autoSave();
         };
+    });
+}
+
+function renderImprovements() {
+    const panel = document.getElementById('improvements-panel');
+    const list = document.getElementById('improvements-list');
+    if (!campaign || !campaign.improvements || !campaign.improvements.length) {
+        panel.style.display = 'none';
+        return;
+    }
+    const active = campaign.improvements.filter(i => i.active);
+    if (!active.length) {
+        panel.style.display = 'none';
+        return;
+    }
+    panel.style.display = '';
+    list.innerHTML = '';
+    active.forEach(imp => {
+        const entry = getTargetEntry(imp.cardNumber);
+        const div = document.createElement('div');
+        div.className = 'imp-item';
+        div.innerHTML = `
+            <span class="imp-item-num">#${imp.cardNumber}</span>
+            <span class="imp-item-name">${entry ? entry.targetName : '?'}</span>
+            <span class="imp-item-text">${imp.text}</span>
+        `;
+        list.appendChild(div);
     });
 }
 
@@ -2719,6 +2992,13 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     document.getElementById('export-all-json-btn').addEventListener('click', exportAllCampaignsJSON);
+
+    document.getElementById('full-reset-btn').addEventListener('click', () => {
+        if (confirm('모든 저장된 캠페인 데이터를 삭제하고 완전히 초기화합니다. 계속하시겠습니까?')) {
+            localStorage.clear();
+            location.reload();
+        }
+    });
 
     document.getElementById('import-json-btn').addEventListener('click', () => {
         document.getElementById('import-json-input').click();

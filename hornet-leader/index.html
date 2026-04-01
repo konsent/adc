@@ -96,6 +96,7 @@
                 <button id="back-to-setup" class="btn btn-small">새 캠페인</button>
                 <button id="save-campaign" class="btn btn-small btn-primary">저장</button>
                 <button id="export-json-btn" class="btn btn-small">JSON 내보내기</button>
+                <button id="full-reset-btn" class="btn btn-small btn-danger">초기화</button>
             </div>
         </header>
         <main>
@@ -125,6 +126,11 @@
                         <div class="track-label">Infra</div>
                         <input type="number" class="track-input" id="track-infra" value="0" min="0">
                     </div>
+                </div>
+                <!-- Active Improvements -->
+                <div id="improvements-panel" class="improvements-panel" style="display:none">
+                    <div class="improvements-header">Active Improvements</div>
+                    <div id="improvements-list" class="improvements-list"></div>
                 </div>
             </section>
 
@@ -160,6 +166,18 @@
         <div class="overkill-modal">
             <div id="overkill-modal-body" class="overkill-modal-body"></div>
             <div id="overkill-modal-actions" class="overkill-modal-actions"></div>
+        </div>
+    </div>
+
+    <!-- Discard Improvement Modal -->
+    <div id="discard-imp-modal" class="draw-modal-overlay" style="display:none">
+        <div class="discard-imp-modal">
+            <div class="discard-imp-header">
+                <h3>Improvement 카드 제거</h3>
+                <span id="discard-imp-info" class="discard-imp-info"></span>
+            </div>
+            <div id="discard-imp-cards" class="discard-imp-cards"></div>
+            <div id="discard-imp-actions" class="discard-imp-actions"></div>
         </div>
     </div>
 

@@ -19,7 +19,7 @@
       "recon": 1
     },
     "traits": "Secondary, 1 Bandit, Fixed",
-    "improvement": "All Targets get +1 Center Bandit draw.",
+    "improvement": "모든 표적은 중앙 구역 적 전투기 카운터를 1개 더 뽑습니다.",
     "campaigns": "Libya 1984, Iraq 1991, Taiwan Defense 2008, North Korea 2011, Iran 2014, Libya 2011, North Korea 2013, Egypt Defense 2015",
     "campaignDetails": {
       "Iran 2014": {
@@ -49,7 +49,7 @@
       "recon": 2
     },
     "traits": "Secondary, 1 Bandit, Fixed",
-    "improvement": "All Targets get +1 Center Bandit draw.",
+    "improvement": "모든 표적은 중앙 구역 적 전투기 카운터를 1개 더 뽑습니다.",
     "campaigns": "WWIII North Atlantic 1986, Israel Defense 2001, Syria 2004, Taiwan Defense 2008, Libya 2011, North Korea 2013, Iran 2014, Egypt Defense 2015, Syria 2015",
     "campaignDetails": {
       "Iran 2014": {
@@ -79,7 +79,7 @@
       "recon": 2
     },
     "traits": "1 Bandit, Fixed",
-    "improvement": "All Targets get +2 Center Bandit draws.",
+    "improvement": "모든 표적은 중앙 구역 적 전투기 카운터를 2개 더 뽑습니다.",
     "campaigns": "Libya 1984, Israel Defense 2001, Libya 2011, North Korea 2011, Egypt Defense 2015",
     "campaignDetails": {}
   },
@@ -103,7 +103,7 @@
       "recon": 2
     },
     "traits": "1 Bandit, Fixed",
-    "improvement": "All Targets get +2 Center Bandit draws.",
+    "improvement": "모든 표적은 중앙 구역 적 전투기 카운터를 2개 더 뽑습니다.",
     "campaigns": "WWIII North Atlantic 1986, Syria 2004, Taiwan Defense 2008, Libya 2011, North Korea 2013, Syria 2015",
     "campaignDetails": {}
   },
@@ -127,7 +127,7 @@
       "recon": 1
     },
     "traits": "Secondary, Stress: -1, Fixed",
-    "improvement": "Move the Infra counter 1 to the left at the end of each Day.",
+    "improvement": "각 작전일 종료 시, Infra 카운터를 왼쪽으로 1칸 이동시킵니다.",
     "campaigns": "Iraq 1991, Israel Defense 2001, Iran 2014, Egypt Defense 2015, Syria 2015",
     "campaignDetails": {
       "Iran 2014": {
@@ -441,7 +441,7 @@
     },
     "hits": "13",
     "traits": "Secondary, Soft, Fixed",
-    "improvement": "“Tanks” and “Troops” require 2 extra hits to destroy.",
+    "improvement": "“Tanks” 및 “Troops” 키워드 표적을 파괴하려면 2개의 추가 명중이 필요합니다.",
     "campaigns": "Iraq 1991, Israel Defense 2001, North Korea 2013",
     "campaignDetails": {}
   },
@@ -465,7 +465,7 @@
     },
     "hits": "12",
     "traits": "Soft, Fixed",
-    "improvement": "“Tanks” and “Troops” require 3 extra hits to destroy.",
+    "improvement": "“Tanks” 및 “Troops” 키워드 표적을 파괴하려면 3개의 추가 명중이 필요합니다.",
     "campaigns": "Israel Defense 2001, North Korea 2011, North Korea 2013, Egypt Defense 2015",
     "campaignDetails": {
       "Iran 2014": {
@@ -704,7 +704,7 @@
     },
     "hits": "16",
     "traits": "Fixed, Stress: +1",
-    "improvement": "“Fleets” require an extra 4 Hits to Destroy.",
+    "improvement": "“Fleets” 키워드 표적을 파괴하려면 4개의 추가 명중이 필요합니다.",
     "campaigns": "Libya 1984, WWIII North Atlantic 1986, Taiwan Defense 2008, North Korea 2013, Egypt Defense 2015",
     "campaignDetails": {}
   },
@@ -807,7 +807,7 @@
     },
     "hits": "14",
     "traits": "Fixed",
-    "improvement": "Move the Intel counter 1 to the left at the end of each Day.",
+    "improvement": "각 작전일 종료 시, Intel 카운터를 왼쪽으로 1칸 이동시킵니다.",
     "campaigns": "Libya 1984, Iraq 1991, Israel Defense 2001, Syria 2004",
     "campaignDetails": {}
   },
@@ -854,7 +854,7 @@
     },
     "hits": "9",
     "traits": "Vehicle",
-    "improvement": "Increase the Weight Point penalty of all Targets by 1.",
+    "improvement": "모든 표적의 WP 페널티가 1만큼 늘어납니다.",
     "campaigns": "WWIII North Atlantic 1986, Taiwan Defense 2008, North Korea 2011",
     "campaignDetails": {}
   },
@@ -878,7 +878,7 @@
     },
     "hits": "12",
     "traits": "Stress: +1, Vehicle",
-    "improvement": "Increase the Weight Point penalty of all Targets by 1.",
+    "improvement": "모든 표적의 WP 페널티가 1만큼 늘어납니다.",
     "campaigns": "WWIII North Atlantic 1986, Taiwan Defense 2008",
     "campaignDetails": {}
   },
@@ -902,7 +902,7 @@
     },
     "hits": "16",
     "traits": "Stress: +2, 1 Bandit, Vehicle",
-    "improvement": "Increase the Weight Point penalty of all Targets by 1.",
+    "improvement": "모든 표적의 WP 페널티가 1만큼 늘어납니다.",
     "campaigns": "WWIII North Atlantic 1986, Taiwan Defense 2008",
     "campaignDetails": {}
   },
@@ -950,7 +950,7 @@
     },
     "hits": "4",
     "traits": "Scramble, Small, Dispersed, Vehicle",
-    "improvement": "Increase the Weight Point penalty of all Targets by 1.",
+    "improvement": "모든 표적의 WP 페널티가 1만큼 늘어납니다.",
     "campaigns": "Libya 1984, WWIII North Atlantic 1986, Israel Defense 2001, Taiwan Defense 2008, Libya 2011, North Korea 2011, North Korea 2013, Iran 2014, Egypt Defense 2015, Syria 2015",
     "campaignDetails": {
       "Iran 2014": {
@@ -1068,7 +1068,7 @@
     },
     "hits": "9",
     "traits": "Secondary, Fixed",
-    "improvement": "All Targets require 1 extra Hit to destroy",
+    "improvement": "모든 표적을 파괴할 때 필요한 추가 명중이 1만큼 늘어납니다.",
     "campaigns": "Libya 1984, Syria 2004, Iran 2014",
     "campaignDetails": {
       "Iran 2014": {
@@ -1219,7 +1219,7 @@
     },
     "hits": "9",
     "traits": "Fixed",
-    "improvement": "Move to any 1 Campaign counter 1 to the left at the end of each Day.",
+    "improvement": "작전 일 종료 시, 아무 캠페인 카운터를 왼쪽으로 1칸 이동시킵니다.",
     "campaigns": "WWIII North Atlantic 1986, Iraq 1991, Syria 2004, Taiwan Defense 2008, North Korea 2013, Syria 2015",
     "campaignDetails": {}
   },
@@ -1347,7 +1347,7 @@
     },
     "hits": "15",
     "traits": "1 Bandit, Vehicle",
-    "improvement": "Move the Recon counter 1 to the left at the end of each Day.",
+    "improvement": "각 작전일 종료 시, Recon 카운터를 왼쪽으로 1칸 이동시킵니다.",
     "campaigns": "WWIII North Atlantic 1986",
     "campaignDetails": {}
   },
@@ -1452,7 +1452,7 @@
     },
     "hits": "6",
     "traits": "Secondary, Dispersed, Vehicle",
-    "improvement": "At the end of each Day, lose 1 VP.",
+    "improvement": "각 작전일 종료 시, 1 VP를 잃습니다.",
     "campaigns": "Iraq 1991, Israel Defense 2001, Syria 2004, Taiwan Defense 2008, North Korea 2011, North Korea 2013, Egypt Defense 2015",
     "campaignDetails": {}
   },

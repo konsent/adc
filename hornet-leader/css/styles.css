@@ -563,6 +563,11 @@ select:focus, input:focus { outline: none; border-color: #8b7a2e; box-shadow: in
     align-self: center;
     white-space: nowrap;
 }
+.target-number-name {
+    font-size: 0.82rem;
+    color: #d0cca0;
+    font-weight: 600;
+}
 .target-label {
     font-family: 'Barlow Condensed', sans-serif;
     color: #c8b040;
@@ -1144,6 +1149,95 @@ tr.pilot-unfit { position: relative; }
 }
 .overkill-modal-actions .btn { min-width: 6rem; }
 
+/* ─── Improvements Panel ─── */
+.improvements-panel {
+    margin-top: 0.6rem;
+    border-top: 1px solid #43463f;
+    padding-top: 0.5rem;
+}
+.improvements-header {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 1rem;
+    color: #c06050;
+    letter-spacing: 0.05em;
+    margin-bottom: 0.3rem;
+}
+.improvements-list {
+    display: flex; flex-direction: column; gap: 0.2rem;
+}
+.imp-item {
+    display: flex; align-items: center; gap: 0.5rem;
+    font-size: 0.78rem;
+    padding: 0.25rem 0.4rem;
+    background: rgba(180,60,50,0.08);
+    border-left: 2px solid #a04030;
+    border-radius: 2px;
+}
+.imp-item-num {
+    font-family: 'Bebas Neue', sans-serif;
+    color: #e8c840; min-width: 1.8rem;
+}
+.imp-item-name {
+    font-weight: 600; color: #d0cca0; min-width: 5rem;
+}
+.imp-item-text {
+    color: #b0a890; flex: 1;
+}
+
+/* ─── Discard Improvement Modal ─── */
+.discard-imp-modal {
+    background: #2a2d26;
+    border: 2px solid #5a5e50;
+    border-radius: 8px;
+    width: min(95vw, 520px);
+    max-height: 80vh;
+    display: flex; flex-direction: column;
+    box-shadow: 0 8px 32px rgba(0,0,0,0.6);
+}
+.discard-imp-header {
+    display: flex; align-items: center; gap: 0.8rem;
+    padding: 0.8rem 1rem;
+    border-bottom: 1px solid #43463f;
+}
+.discard-imp-header h3 {
+    margin: 0; font-family: 'Bebas Neue', sans-serif;
+    font-size: 1.2rem; color: #d0c890; flex: 1;
+}
+.discard-imp-info { font-size: 0.8rem; color: #a0a890; }
+.discard-imp-cards {
+    flex: 1; overflow-y: auto; padding: 0.6rem 1rem;
+    display: flex; flex-direction: column; gap: 0.4rem;
+}
+.discard-imp-card {
+    display: flex; align-items: center; gap: 0.6rem;
+    background: #353830;
+    border: 1px solid #4a4e42;
+    border-radius: 5px;
+    padding: 0.5rem 0.7rem;
+    cursor: pointer;
+    transition: border-color 0.15s, background 0.15s;
+}
+.discard-imp-card:hover { border-color: #8a8e70; }
+.discard-imp-card.selected {
+    border-color: #e06050;
+    background: rgba(224,96,80,0.12);
+}
+.discard-imp-num {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 1rem; color: #e8c840; min-width: 2rem;
+}
+.discard-imp-name {
+    font-weight: 600; color: #d0cca0; font-size: 0.85rem; min-width: 6rem;
+}
+.discard-imp-text {
+    font-size: 0.78rem; color: #a0a890; flex: 1;
+}
+.discard-imp-actions {
+    display: flex; gap: 0.5rem; justify-content: flex-end;
+    padding: 0.6rem 1rem;
+    border-top: 1px solid #43463f;
+}
+
 /* ─── Campaign Fail Modal ─── */
 .fail-modal {
     background: #2a2d26;
@@ -1263,6 +1357,26 @@ tr.pilot-unfit { position: relative; }
 }
 .draw-card-traits .target-trait-tag {
     font-size: 0.72rem;
+}
+.draw-section-divider {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 0.78rem;
+    font-weight: 700;
+    color: #c06050;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    padding: 0.5rem 0 0.2rem;
+    margin-top: 0.3rem;
+    border-top: 1px dashed #5a3030;
+}
+.draw-card-improvement {
+    font-size: 0.72rem;
+    color: #c06050;
+    background: rgba(180,60,50,0.1);
+    border-left: 2px solid #a04030;
+    padding: 0.2rem 0.5rem;
+    margin-top: 0.2rem;
+    border-radius: 2px;
 }
 .draw-card-label {
     font-size: 0.68rem; font-weight: 700; text-align: center;
