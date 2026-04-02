@@ -12,6 +12,7 @@ const RANK_CLASSES = {
 
 // ─── Base Game Scenarios (filter out expansions) ───
 const BASE_SCENARIOS = [
+    'Iraq 1991',
     'Libya 1984',
     'WWIII North Atlantic 1986',
     'Israel Defense',

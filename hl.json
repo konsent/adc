@@ -349,7 +349,35 @@
                         }
                     ]
                 }
-            ]
+            ],
+            "Targets": [
+                {
+                    "Band": 1,
+                    "WP": 0,
+                    "Stress": 1,
+                    "TargetNumbers": [10, 20, 53, 56, 57]
+                },
+                {
+                    "Band": 2,
+                    "WP": -1,
+                    "Stress": 2,
+                    "TargetNumbers": [1, 5, 6, 8, 12, 44]
+                },
+                {
+                    "Band": 3,
+                    "WP": -2,
+                    "Stress": 2,
+                    "TargetNumbers": [17, 29, 32, 47, 48]
+                },
+                {
+                    "Band": 4,
+                    "WP": -3,
+                    "Stress": 3,
+                    "TargetNumbers": [21, 31, 25, 40]
+                }
+            ],
+            "Recon": [3, 3, 3, 4, 4, 4, 4, 5, 5],
+            "Infra": [0, 0, -1, -1, -1, -1, -2, -2, -3]
         },
         {
             "Name": "Iraq 1991 (USMC)",
@@ -462,7 +490,35 @@
                         }
                     ]
                 }
-            ]
+            ],
+            "Targets": [
+                {
+                    "Band": 1,
+                    "WP": 0,
+                    "Stress": 1,
+                    "TargetNumbers": [10, 20, 53, 56, 57]
+                },
+                {
+                    "Band": 2,
+                    "WP": -1,
+                    "Stress": 2,
+                    "TargetNumbers": [1, 5, 6, 8, 12, 44]
+                },
+                {
+                    "Band": 3,
+                    "WP": -2,
+                    "Stress": 2,
+                    "TargetNumbers": [17, 29, 32, 47, 48]
+                },
+                {
+                    "Band": 4,
+                    "WP": -3,
+                    "Stress": 3,
+                    "TargetNumbers": [21, 31, 25, 40]
+                }
+            ],
+            "Recon": [3, 3, 3, 4, 4, 4, 4, 5, 5],
+            "Infra": [0, 0, -1, -1, -1, -1, -2, -2, -3]
         },
         {
             "Name": "Egyptian Defense 2015 (USN)",
@@ -12786,6 +12842,29 @@
         }
     ],
     "VictoryConditions": {
+        "Iraq 1991": {
+            "Short": [
+                { "min": 10, "rank": "Great" },
+                { "min": 7, "rank": "Good" },
+                { "min": 5, "rank": "Adequate" },
+                { "min": 4, "rank": "Poor" },
+                { "min": null, "rank": "Dismal" }
+            ],
+            "Medium": [
+                { "min": 19, "rank": "Great" },
+                { "min": 14, "rank": "Good" },
+                { "min": 10, "rank": "Adequate" },
+                { "min": 7, "rank": "Poor" },
+                { "min": null, "rank": "Dismal" }
+            ],
+            "Long": [
+                { "min": 29, "rank": "Great" },
+                { "min": 21, "rank": "Good" },
+                { "min": 15, "rank": "Adequate" },
+                { "min": 11, "rank": "Poor" },
+                { "min": null, "rank": "Dismal" }
+            ]
+        },
         "Israel Defense": {
             "Short": [
                 {
