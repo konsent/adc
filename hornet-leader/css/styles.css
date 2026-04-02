@@ -985,8 +985,91 @@ tr.pilot-unfit { position: relative; }
     margin-bottom: 0.4rem;
 }
 .sar-pilot-name { font-weight: 700; color: #d0cdc5; margin-bottom: 0.3rem; font-size: 0.85rem; }
-.sar-fields { display: flex; align-items: flex-end; gap: 0.6rem; flex-wrap: wrap; }
-.sar-fields .tgt-field input, .sar-fields .tgt-field select { width: 80px; }
+.sar-fields {
+    display: flex;
+    align-items: stretch;
+    gap: 0.4rem;
+    flex-wrap: wrap;
+}
+
+/* ─── SAR unified box ─── */
+.sar-box {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 7rem;
+    padding: 0.35rem 0.6rem;
+    background: #282b24;
+    border: 1px solid #43463f;
+    border-radius: 4px;
+}
+.sar-box-label {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 0.6rem;
+    color: #7a7870;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    margin-bottom: 0.15rem;
+    text-align: center;
+    white-space: nowrap;
+}
+.sar-box-value {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 1.1rem;
+    color: #d0cca0;
+    line-height: 1;
+    white-space: nowrap;
+}
+
+/* Location: clickable, color by state */
+.sar-box[data-role="loc"] {
+    cursor: pointer;
+    user-select: none;
+    transition: border-color 0.15s;
+}
+.sar-box[data-role="loc"]:hover { filter: brightness(1.15); }
+.sar-box.loc-target  { border-color: #4a8a4a; }
+.sar-box.loc-target  .sar-box-label { color: #4a8a4a; }
+.sar-box.loc-target  .sar-box-value { color: #6aaa5a; }
+.sar-box.loc-approach { border-color: #8b7a2e; }
+.sar-box.loc-approach .sar-box-label { color: #8b7a2e; }
+.sar-box.loc-approach .sar-box-value { color: #e8c840; }
+.sar-box.loc-return  { border-color: #3a6090; }
+.sar-box.loc-return  .sar-box-label { color: #3a6090; }
+.sar-box.loc-return  .sar-box-value { color: #60a0e0; }
+
+/* WP penalty: red accent */
+.sar-box-wp { border-color: #6a3030; }
+.sar-box-wp .sar-box-label { color: #c06050; }
+.sar-box-wp .sar-box-value { color: #e06050; }
+
+/* AtG: stepper */
+.sar-box-stepper {
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+}
+.sar-step-btn {
+    background: none;
+    border: 1px solid #43463f;
+    border-radius: 3px;
+    color: #8a8e7a;
+    font-size: 0.6rem;
+    padding: 0.1rem 0.3rem;
+    cursor: pointer;
+    line-height: 1;
+}
+.sar-step-btn:hover { color: #d0cca0; border-color: #8a8e70; }
+
+/* AtG: tooltip on label only */
+.sar-box-atg .sar-box-label[data-tooltip] {
+    cursor: help;
+    border-bottom: 1px dashed #7a7870;
+}
+
+/* SAR roll button alignment */
+.sar-roll-btn { align-self: center; }
 .sar-done-row { padding: 0.3rem 0; font-size: 0.82rem; border-bottom: 1px solid #453838; }
 .sar-result-label { font-weight: 700; }
 .sar-quick { color: #6aaa5a; }
@@ -1224,6 +1307,141 @@ tr.pilot-unfit { position: relative; }
     margin-top: 1.2rem;
 }
 .overkill-modal-actions .btn { min-width: 6rem; }
+
+/* ─── Debriefing Modal ─── */
+.debrief-modal {
+    background: #2a2d26;
+    border: 2px solid #6a6d60;
+    border-radius: 8px;
+    width: min(95vw, 480px);
+    max-height: 85vh;
+    overflow-y: auto;
+    box-shadow: 0 8px 32px rgba(0,0,0,0.7);
+    cursor: pointer;
+}
+.debrief-header {
+    text-align: center;
+    padding: 1.2rem 1rem 0.6rem;
+    border-bottom: 1px solid #43463f;
+}
+.debrief-header h2 {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 1.8rem;
+    color: #e8c840;
+    margin: 0 0 0.2rem;
+    letter-spacing: 0.05em;
+}
+.debrief-header .debrief-sub {
+    font-size: 0.8rem;
+    color: #8a8e7a;
+}
+.debrief-targets {
+    padding: 0.8rem 1rem;
+}
+.debrief-target {
+    margin-bottom: 0.6rem;
+    padding-bottom: 0.6rem;
+    border-bottom: 1px solid #3a3d35;
+}
+.debrief-target:last-child { border-bottom: none; margin-bottom: 0; }
+.debrief-target-header {
+    display: flex; align-items: center; gap: 0.5rem;
+    margin-bottom: 0.3rem;
+}
+.debrief-target-type {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 0.68rem; font-weight: 700;
+    color: #1a1c18; background: #c8b040;
+    padding: 0.05rem 0.4rem; border-radius: 2px;
+    text-transform: uppercase;
+}
+.debrief-target-name {
+    font-weight: 600; color: #d0cca0; font-size: 0.9rem;
+}
+.debrief-result {
+    font-size: 0.82rem; font-weight: 700;
+    padding: 0.1rem 0.5rem; border-radius: 3px;
+    margin-left: auto;
+}
+.debrief-result.destroyed { color: #5cb85c; background: rgba(92,184,92,0.12); }
+.debrief-result.damaged { color: #e8c840; background: rgba(232,200,64,0.12); }
+.debrief-result.failed { color: #c06050; background: rgba(192,96,80,0.12); }
+.debrief-pilots {
+    padding-left: 0.5rem;
+    font-size: 0.8rem;
+    color: #a0a890;
+}
+.debrief-pilot-line {
+    padding: 0.1rem 0;
+}
+.debrief-pilot-line.shot-down { color: #c06050; }
+.debrief-pilot-line.rescued { color: #e8c840; }
+.debrief-summary {
+    padding: 0.8rem 1rem;
+    border-top: 1px solid #43463f;
+    display: flex; gap: 1rem; justify-content: center;
+}
+.debrief-stat {
+    text-align: center;
+}
+.debrief-stat-label {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 0.6rem; color: #7a7870;
+    text-transform: uppercase;
+}
+.debrief-stat-value {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 1.4rem; line-height: 1;
+}
+.debrief-stat-vp .debrief-stat-value { color: #e8c840; }
+.debrief-stat-destroyed .debrief-stat-value { color: #5cb85c; }
+.debrief-stat-shotdown .debrief-stat-value { color: #c06050; }
+.debrief-imp-section {
+    padding: 0.5rem 1rem;
+    border-top: 1px solid #43463f;
+}
+.debrief-imp-title {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 0.72rem; font-weight: 700;
+    color: #c06050; text-transform: uppercase;
+    letter-spacing: 0.04em; margin-bottom: 0.3rem;
+}
+.debrief-imp-line {
+    font-size: 0.78rem; color: #a0a890;
+    padding: 0.1rem 0;
+}
+.debrief-imp-num { color: #e8c840; font-weight: 700; }
+.debrief-imp-text { color: #c06050; }
+.debrief-hint {
+    text-align: center;
+    font-size: 0.7rem;
+    color: #5a5e50;
+    padding: 0.5rem;
+}
+
+/* ─── Collapsed Mission Day ─── */
+.mission-day.collapsed .day-targets,
+.mission-day.collapsed .day-resolve,
+.mission-day.collapsed .target-resolve,
+.mission-day.collapsed .target-pilots,
+.mission-day.collapsed .assign-panel,
+.mission-day.collapsed .day-resolved-badge-wrap,
+.mission-day.collapsed .sar-section {
+    display: none;
+}
+.mission-day.collapsed .day-header {
+    cursor: pointer;
+    opacity: 0.7;
+}
+.mission-day.collapsed .day-header:hover {
+    opacity: 1;
+}
+.day-collapse-indicator {
+    font-size: 0.7rem;
+    color: #8a8e7a;
+    margin-left: auto;
+    padding: 0 0.3rem;
+}
 
 /* ─── Improvements Panel ─── */
 .improvements-panel {

@@ -877,6 +877,7 @@ function migrateCampaign(c) {
         if (!('recoveryApplied' in m)) m.recoveryApplied = false;
         if (!('rnrApplied' in m)) m.rnrApplied = false;
         if (!('downTime' in m)) m.downTime = false;
+        if (!('collapsed' in m)) m.collapsed = false;
     });
     if (!c.diffRules) c.diffRules = { level: 'average' };
     if (!('isUSMC' in c)) c.isUSMC = (c.scenarioName || '').includes('(USMC)');
@@ -1319,8 +1320,10 @@ function renderMissions() {
 
     campaign.missions.forEach((m, dayIdx) => {
         const allResolved = m.targets.every(t => t.resolved);
+        const isComplete = (allResolved && m.recoveryApplied) || m.downTime;
+        const isCollapsed = m.collapsed && isComplete;
         const div = document.createElement('div');
-        div.className = 'mission-day' + ((allResolved && m.recoveryApplied) || m.downTime ? ' resolved' : '');
+        div.className = 'mission-day' + (isComplete ? ' resolved' : '') + (isCollapsed ? ' collapsed' : '');
 
         // Header
         const header = document.createElement('div');
@@ -1338,7 +1341,16 @@ function renderMissions() {
                 ${!m.downTime && !allResolved ? `<button class="btn btn-small" data-day="${dayIdx}" data-action="add-target">표적 뽑기</button>` : ''}
                 ${!m.downTime && !m.recoveryApplied && !allResolved ? `<button class="btn btn-small btn-downtime" data-day="${dayIdx}" data-action="down-time">Down Time</button>` : ''}
             </div>
+            ${isComplete ? `<span class="day-collapse-indicator">${isCollapsed ? '▶ 펼치기' : '▼ 접기'}</span>` : ''}
         `;
+        if (isComplete) {
+            header.addEventListener('click', e => {
+                if (e.target.closest('input, button, select')) return;
+                m.collapsed = !m.collapsed;
+                renderMissions();
+                autoSave();
+            });
+        }
         div.appendChild(header);
 
         // Down Time: skip targets, show badge
@@ -1554,6 +1566,17 @@ function renderMissions() {
                         <td>${pilot.stress}/${maxStress}</td>
                         <td class="status-${statusClass}">${isDeployed ? '투입됨' : status}</td>
                     `;
+                    // Row click toggles checkbox
+                    tr.style.cursor = canSelect ? 'pointer' : 'default';
+                    tr.addEventListener('click', e => {
+                        if (e.target.tagName === 'INPUT') return; // let checkbox handle itself
+                        const cb = tr.querySelector('input[type="checkbox"]');
+                        if (cb && !cb.disabled) {
+                            cb.checked = !cb.checked;
+                            cb.dispatchEvent(new Event('change', { bubbles: true }));
+                        }
+                    });
+
                     tbody2.appendChild(tr);
                 });
                 tbl.appendChild(tbody2);
@@ -1636,28 +1659,43 @@ function renderMissions() {
 
                 // Pending SAR
                 sarPilots.forEach(({ ap, apIdx, tIdx, pilot }) => {
+                    // Auto-calculate WP penalty from target's band WP
+                    const sarTarget = campaign.missions[dayIdx].targets[tIdx];
+                    const sarCampDetail = getTargetCampaignDetails(sarTarget.targetNumber);
+                    const sarWpPenalty = sarCampDetail ? Math.abs(sarCampDetail.wp) + getImprovementWPPenalty() : 0;
+
                     const sarDiv = document.createElement('div');
                     sarDiv.className = 'sar-pilot-panel';
+
+                    // Location toggle state
+                    const locOptions = [
+                        { value: 0, label: '표적 상공', cls: 'loc-target' },
+                        { value: 2, label: '진입 구간 (+2)', cls: 'loc-approach' },
+                        { value: 1, label: '귀환 구간 (+1)', cls: 'loc-return' }
+                    ];
+                    const curLoc = ap._sarLocation || 0;
+                    const locObj = locOptions.find(o => o.value === curLoc) || locOptions[0];
+
                     sarDiv.innerHTML = `
                         <div class="sar-pilot-name">${pilot.name} (${pilot.aircraft})</div>
                         <div class="sar-fields">
-                            <div class="tgt-field">
-                                <span class="tgt-field-label">격추 위치</span>
-                                <select class="sar-input" data-day="${dayIdx}" data-tidx="${tIdx}" data-apidx="${apIdx}" data-sarfield="location">
-                                    <option value="0">표적 상공</option>
-                                    <option value="2">진입 구간 (+2)</option>
-                                    <option value="1">귀환 구간 (+1)</option>
-                                </select>
+                            <div class="sar-box ${locObj.cls}" data-day="${dayIdx}" data-tidx="${tIdx}" data-apidx="${apIdx}" data-loc="${curLoc}" data-role="loc">
+                                <span class="sar-box-label">격추 위치</span>
+                                <span class="sar-box-value">${locObj.label}</span>
                             </div>
-                            <div class="tgt-field">
-                                <span class="tgt-field-label">WP 페널티</span>
-                                <input type="number" class="sar-input" value="0" data-day="${dayIdx}" data-tidx="${tIdx}" data-apidx="${apIdx}" data-sarfield="wpPenalty">
+                            <div class="sar-box sar-box-wp">
+                                <span class="sar-box-label">WP 페널티</span>
+                                <span class="sar-box-value">-${sarWpPenalty}</span>
                             </div>
-                            <div class="tgt-field">
-                                <span class="tgt-field-label">AtG WP</span>
-                                <input type="number" class="sar-input" value="0" data-day="${dayIdx}" data-tidx="${tIdx}" data-apidx="${apIdx}" data-sarfield="atgWp">
+                            <div class="sar-box sar-box-atg">
+                                <span class="sar-box-label" data-tooltip="구조 작업을 지원하기 위해 현재 임무 수행 중인 다른 기체가 가진 공대지(AtG) 무장을 버릴 수 있습니다. 소모한 무장의 WP 1점당 주사위 결과에 +1을 더합니다.">공대지 무장 투하</span>
+                                <span class="sar-box-stepper">
+                                    <button class="sar-step-btn" data-day="${dayIdx}" data-tidx="${tIdx}" data-apidx="${apIdx}" data-step="-1">&#9660;</button>
+                                    <span class="sar-box-value sar-atg-val" data-day="${dayIdx}" data-tidx="${tIdx}" data-apidx="${apIdx}">${ap._sarAtgWp || 0}</span>
+                                    <button class="sar-step-btn" data-day="${dayIdx}" data-tidx="${tIdx}" data-apidx="${apIdx}" data-step="1">&#9650;</button>
+                                </span>
                             </div>
-                            <button class="btn btn-small btn-primary" data-day="${dayIdx}" data-tidx="${tIdx}" data-apidx="${apIdx}" data-action="sar-roll">SAR 판정</button>
+                            <button class="btn btn-small btn-primary sar-roll-btn" data-day="${dayIdx}" data-tidx="${tIdx}" data-apidx="${apIdx}" data-action="sar-roll" data-wp-penalty="${sarWpPenalty}">SAR 판정</button>
                         </div>
                     `;
                     sarSection.appendChild(sarDiv);
@@ -1727,6 +1765,10 @@ function attachMissionEvents(container) {
         el.addEventListener('click', onDownTime));
     container.querySelectorAll('[data-action="sar-roll"]').forEach(el =>
         el.addEventListener('click', onSarRoll));
+    container.querySelectorAll('.sar-box[data-role="loc"]').forEach(el =>
+        el.addEventListener('click', onToggleSarLocation));
+    container.querySelectorAll('.sar-step-btn').forEach(el =>
+        el.addEventListener('click', onSarAtgStep));
 }
 
 function getResultLabel(result) {
@@ -2055,7 +2097,7 @@ document.addEventListener('click', e => {
 (function() {
     const tip = document.getElementById('trait-tooltip');
     document.addEventListener('mouseover', e => {
-        const tag = e.target.closest('.target-trait-tag[data-tooltip], .draw-card-traits .target-trait-tag[data-tooltip]');
+        const tag = e.target.closest('[data-tooltip]');
         if (!tag) return;
         tip.textContent = tag.dataset.tooltip;
         tip.style.display = 'block';
@@ -2073,10 +2115,118 @@ document.addEventListener('click', e => {
         tip.style.top = top + 'px';
     });
     document.addEventListener('mouseout', e => {
-        const tag = e.target.closest('.target-trait-tag[data-tooltip]');
+        const tag = e.target.closest('[data-tooltip]');
         if (tag) tip.style.display = 'none';
     });
 })();
+
+// ─── Debriefing Modal ───
+
+function showDebriefModal(dayIdx) {
+    const m = campaign.missions[dayIdx];
+    const overlay = document.getElementById('debrief-modal');
+    const body = document.getElementById('debrief-modal-body');
+
+    // Build target summaries
+    let targetsHTML = '';
+    let dayVP = 0;
+    let destroyedCount = 0;
+    let shotDownCount = 0;
+
+    if (m.downTime) {
+        targetsHTML = '<div class="debrief-pilots" style="text-align:center;padding:0.5rem">전체 휴식 — 작전 없음</div>';
+    } else {
+        m.targets.forEach((t, tIdx) => {
+            if (!t.targetNumber) return;
+            const entry = getTargetEntry(t.targetNumber);
+            const targetName = entry ? entry.targetName : '?';
+            const resultClass = t.result === 'Destroyed' ? 'destroyed' : t.result === 'Damaged' ? 'damaged' : 'failed';
+            const resultLabel = t.result === 'Destroyed' ? '파괴 성공' : t.result === 'Damaged' ? '표적 피해' : '타격 실패';
+
+            if (t.result === 'Destroyed') {
+                dayVP += parseInt(t.vp) || 0;
+                if (t.overkillVP) dayVP += t.overkillVP;
+                destroyedCount++;
+            }
+
+            let pilotsHTML = '';
+            (t.assignedPilots || []).forEach(ap => {
+                const pilot = campaign.squadron[ap.pilotIdx];
+                if (!pilot) return;
+                if (ap.shotDown) {
+                    shotDownCount++;
+                    const sarLabel = ap.sarResult === 'quick' ? '신속 회복' : ap.sarResult === 'fire' ? '포화 속 구조' : ap.sarResult === 'mia' ? 'MIA' : 'SAR 대기';
+                    pilotsHTML += `<div class="debrief-pilot-line shot-down">${pilot.name} (${pilot.aircraft}) — 격추 → ${sarLabel}</div>`;
+                } else {
+                    pilotsHTML += `<div class="debrief-pilot-line">${pilot.name} (${pilot.aircraft}) — 작전 수행</div>`;
+                }
+            });
+
+            targetsHTML += `
+                <div class="debrief-target">
+                    <div class="debrief-target-header">
+                        <span class="debrief-target-type">${tIdx === 0 ? '주 표적' : '부 표적'}</span>
+                        <span class="debrief-target-name">#${t.targetNumber} ${targetName}</span>
+                        <span class="debrief-result ${resultClass}">${resultLabel}</span>
+                    </div>
+                    <div class="debrief-pilots">${pilotsHTML}</div>
+                </div>
+            `;
+        });
+    }
+
+    // Active improvements summary
+    const activeImps = (campaign.improvements || []).filter(i => i.active);
+    let impHTML = '';
+    if (activeImps.length > 0) {
+        impHTML = `
+            <div class="debrief-imp-section">
+                <div class="debrief-imp-title">Active Improvements (${activeImps.length})</div>
+                ${activeImps.map(imp => {
+                    const entry = getTargetEntry(imp.cardNumber);
+                    return `<div class="debrief-imp-line"><span class="debrief-imp-num">#${imp.cardNumber}</span> ${entry ? entry.targetName : '?'} — <span class="debrief-imp-text">${imp.text}</span></div>`;
+                }).join('')}
+            </div>
+        `;
+    }
+
+    body.innerHTML = `
+        <div class="debrief-header">
+            <h2>${m.day}일차 작전 완료</h2>
+            <div class="debrief-sub">${m.downTime ? 'Down Time' : (t => t === 'Night' ? '야간 작전' : '주간 작전')(m.targets[0]?.dayNight || 'Day')}</div>
+        </div>
+        <div class="debrief-targets">${targetsHTML}</div>
+        ${impHTML}
+        <div class="debrief-summary">
+            <div class="debrief-stat debrief-stat-vp">
+                <div class="debrief-stat-label">금일 VP</div>
+                <div class="debrief-stat-value">${dayVP}</div>
+            </div>
+            <div class="debrief-stat debrief-stat-destroyed">
+                <div class="debrief-stat-label">파괴</div>
+                <div class="debrief-stat-value">${destroyedCount}</div>
+            </div>
+            <div class="debrief-stat debrief-stat-shotdown">
+                <div class="debrief-stat-label">격추</div>
+                <div class="debrief-stat-value">${shotDownCount}</div>
+            </div>
+        </div>
+        <div class="debrief-hint">아무 곳이나 클릭하면 닫힙니다</div>
+    `;
+
+    overlay.style.display = 'flex';
+
+    // Close on any click → collapse the day
+    const closeHandler = () => {
+        overlay.style.display = 'none';
+        overlay.removeEventListener('click', closeHandler);
+        m.collapsed = true;
+        renderAll();
+        autoSave();
+    };
+    // Delay to prevent immediate close from the button click
+    setTimeout(() => overlay.addEventListener('click', closeHandler), 100);
+}
 
 // ─── Overkill Modal ───
 
@@ -2448,11 +2598,37 @@ function onDownTime(e) {
     // Apply daily improvement effects (track decay, VP loss)
     applyDailyImprovementEffects();
 
+    showDebriefModal(dayIdx);
+
     renderAll();
     autoSave();
 }
 
 // ─── SAR Logic ───
+
+function onSarAtgStep(e) {
+    const btn = e.target;
+    const dayIdx = parseInt(btn.dataset.day);
+    const tIdx = parseInt(btn.dataset.tidx);
+    const apIdx = parseInt(btn.dataset.apidx);
+    const step = parseInt(btn.dataset.step);
+    const ap = campaign.missions[dayIdx].targets[tIdx].assignedPilots[apIdx];
+    ap._sarAtgWp = Math.max(0, (ap._sarAtgWp || 0) + step);
+    renderMissions();
+}
+
+function onToggleSarLocation(e) {
+    const box = e.target.closest('.sar-box[data-role="loc"]');
+    if (!box) return;
+    const dayIdx = parseInt(box.dataset.day);
+    const tIdx = parseInt(box.dataset.tidx);
+    const apIdx = parseInt(box.dataset.apidx);
+    const ap = campaign.missions[dayIdx].targets[tIdx].assignedPilots[apIdx];
+    const cycle = { 0: 2, 2: 1, 1: 0 };
+    const cur = ap._sarLocation || 0;
+    ap._sarLocation = cycle[cur] != null ? cycle[cur] : 0;
+    renderMissions();
+}
 
 function onSarRoll(e) {
     const dayIdx = parseInt(e.target.dataset.day);
@@ -2461,17 +2637,10 @@ function onSarRoll(e) {
     const ap = campaign.missions[dayIdx].targets[tIdx].assignedPilots[apIdx];
     const pilot = campaign.squadron[ap.pilotIdx];
 
-    // Read modifier inputs from the SAR panel
-    const panel = e.target.closest('.sar-pilot-panel');
-    const inputs = panel.querySelectorAll('.sar-input');
-    let location = 0, wpPenalty = 0, atgWp = 0;
-    inputs.forEach(inp => {
-        const field = inp.dataset.sarfield;
-        const val = parseInt(inp.value) || 0;
-        if (field === 'location') location = val;
-        else if (field === 'wpPenalty') wpPenalty = val;
-        else if (field === 'atgWp') atgWp = val;
-    });
+    // Read modifiers
+    const location = ap._sarLocation || 0;
+    const wpPenalty = parseInt(e.target.dataset.wpPenalty) || 0;
+    const atgWp = ap._sarAtgWp || 0;
 
     // Roll d10 (1-10)
     const roll = Math.floor(Math.random() * 10) + 1;
@@ -2690,6 +2859,10 @@ function applyEndOfDayRecovery(dayIdx) {
     applyDailyImprovementEffects();
 
     m.recoveryApplied = true;
+
+    // Show debriefing modal, then collapse day
+    showDebriefModal(dayIdx);
+
     renderAll();
     autoSave();
 }
