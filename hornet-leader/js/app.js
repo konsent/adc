@@ -941,7 +941,77 @@ function renderAll() {
 
 // ─── Squadron Rendering ───
 
+// ─── Carrier Board Slot Definitions (% coordinates) ───
+const CARRIER_SLOTS = {
+    marine1: { top: 24.5, left: 2.5, w: 5.5, h: 12.5 },
+    marine2: { top: 17.0, left: 9.2, w: 5.5, h: 12.5 },
+    marine3: { top: 12.0, left: 16.1, w: 5.5, h: 12.5 },
+    marine4: { top: 11.5, left: 23.0, w: 5.5, h: 12.5 },
+    marine5: { top: 11.5, left: 30.0, w: 5.5, h: 12.5 },
+};
+
+// ─── DEV: Carrier click coordinate helper (remove later) ───
+(function() {
+    const board = document.getElementById('carrier-board');
+    if (!board) return;
+    const tooltip = document.createElement('div');
+    tooltip.style.cssText = 'position:fixed;padding:4px 8px;background:rgba(0,0,0,0.85);color:#0f0;font:12px monospace;pointer-events:none;z-index:9999;display:none;border-radius:3px;';
+    document.body.appendChild(tooltip);
+
+    board.addEventListener('mousemove', e => {
+        const img = board.querySelector('.carrier-img');
+        const rect = img.getBoundingClientRect();
+        const xPct = ((e.clientX - rect.left) / rect.width * 100).toFixed(1);
+        const yPct = ((e.clientY - rect.top) / rect.height * 100).toFixed(1);
+        tooltip.textContent = `top: ${yPct}%  left: ${xPct}%`;
+        tooltip.style.display = 'block';
+        tooltip.style.left = (e.clientX + 12) + 'px';
+        tooltip.style.top = (e.clientY + 12) + 'px';
+    });
+    board.addEventListener('mouseleave', () => { tooltip.style.display = 'none'; });
+    board.addEventListener('click', e => {
+        const img = board.querySelector('.carrier-img');
+        const rect = img.getBoundingClientRect();
+        const xPct = ((e.clientX - rect.left) / rect.width * 100).toFixed(1);
+        const yPct = ((e.clientY - rect.top) / rect.height * 100).toFixed(1);
+        console.log(`{ top: ${yPct}, left: ${xPct} }`);
+    });
+})();
+
+function renderCarrierMarkers() {
+    const board = document.getElementById('carrier-board');
+    if (!campaign || !campaign.isUSMC) { board.style.display = 'none'; return; }
+    board.style.display = '';
+
+    // Clear existing markers
+    board.querySelectorAll('.carrier-marker').forEach(el => el.remove());
+
+    const bandStatus = getBandStatusForCampaign();
+    const slotKeys = ['marine1', 'marine2', 'marine3', 'marine4', 'marine5'];
+
+    bandStatus.forEach((bs, i) => {
+        const slot = CARRIER_SLOTS[slotKeys[i]];
+        if (!slot) return;
+
+        let imgSrc = null;
+        if (bs.secured) {
+            imgSrc = '../assets/HL/secure.png';
+        } else if (i === 0 || bandStatus[i - 1].secured) {
+            imgSrc = '../assets/HL/active.png';
+        }
+        if (!imgSrc) return;
+
+        const marker = document.createElement('img');
+        marker.className = 'carrier-marker';
+        marker.src = imgSrc;
+        marker.style.cssText = `position:absolute;top:${slot.top}%;left:${slot.left}%;width:${slot.w}%;height:${slot.h}%;`;
+        board.appendChild(marker);
+    });
+}
+
 function renderSquadron() {
+    renderCarrierMarkers();
+
     const tbody = document.getElementById('squadron-body');
     tbody.innerHTML = '';
 

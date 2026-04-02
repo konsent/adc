@@ -843,6 +843,23 @@ th {
 td { padding: 0.5rem 0.8rem; border-bottom: 1px solid #43463f; vertical-align: middle; text-align: center; }
 tr:hover td { background: rgba(255,255,255,0.02); }
 
+/* ─── Carrier Board ─── */
+.carrier-board {
+    position: relative;
+    display: inline-block;
+    width: 100%;
+    margin-bottom: 1rem;
+}
+.carrier-board .carrier-img {
+    display: block;
+    width: 100%;
+    border-radius: 6px;
+}
+.carrier-marker {
+    pointer-events: none;
+    object-fit: contain;
+}
+
 #squadron-table { table-layout: fixed; }
 #squadron-table th:nth-child(1) { width: 14%; }
 #squadron-table th:nth-child(2) { width: 16%; }
