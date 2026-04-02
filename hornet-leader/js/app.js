@@ -99,7 +99,7 @@ function initSetupScreen() {
 }
 
 function hideFrom(startLevel) {
-    const ids = ['scenario-info', 'length-group', 'length-info', 'difficulty-rules-group', 'campaign-options-group', 'usmc-options-group', 'aircraft-group'];
+    const ids = ['scenario-info', 'length-group', 'length-info', 'difficulty-rules-group', 'campaign-options-group', 'aircraft-group'];
     ids.forEach(id => document.getElementById(id).classList.add('hidden'));
     document.getElementById('generate-group').classList.add('hidden');
     document.getElementById('manual-panel').classList.add('hidden');
@@ -246,11 +246,11 @@ function showScenarioDetails(sc) {
         fmlLabel.textContent = `기체 수 변경 (±1) — 표적당 기체를 1대 더/덜 투입 가능 [-${fmlCost} SO]`;
         document.getElementById('flying-more-less').checked = false;
 
-        // USMC options
-        const usmcGroup = document.getElementById('usmc-options-group');
+        // USMC options (Large Deck Marine inside campaign-options-group)
+        const ldmOption = document.getElementById('large-deck-marine-option');
         const ldmCheckbox = document.getElementById('large-deck-marine');
         if (isUSMC(sc)) {
-            usmcGroup.classList.remove('hidden');
+            ldmOption.style.display = '';
             ldmCheckbox.checked = false;
             ldmCheckbox.onchange = () => {
                 if (ldmCheckbox.checked) {
@@ -263,7 +263,7 @@ function showScenarioDetails(sc) {
                 }
             };
         } else {
-            usmcGroup.classList.add('hidden');
+            ldmOption.style.display = 'none';
             ldmCheckbox.checked = false;
         }
     };
@@ -3018,15 +3018,13 @@ function updateBadges() {
     const miaPenalty = miaCount * miaPenaltyPerPilot;
 
     totalVP = Math.max(0, totalVP - vpPenalty - miaPenalty);
-    document.getElementById('vp-display').textContent = `VP: ${totalVP}`;
-    document.getElementById('vp-display').title =
-        `표적 VP: ${totalVP + vpPenalty + miaPenalty - bonusVP - overkillVP - fmlBonus}${bonusVP ? ` | 보너스: +${bonusVP}` : ''}${overkillVP ? ` | Overkill: +${overkillVP}` : ''}${fmlBonus ? ` | 감소투입: +${fmlBonus}` : ''} | 격추: -${vpPenalty} | MIA: -${miaPenalty}`;
+    const vpTooltip = `표적 VP: ${totalVP + vpPenalty + miaPenalty - bonusVP - overkillVP - fmlBonus}${bonusVP ? ` | 보너스: +${bonusVP}` : ''}${overkillVP ? ` | Overkill: +${overkillVP}` : ''}${fmlBonus ? ` | 감소투입: +${fmlBonus}` : ''} | 격추: -${vpPenalty} | MIA: -${miaPenalty}`;
 
     // Update VP track box
     const vpTrack = document.getElementById('track-vp');
     if (vpTrack) {
         vpTrack.textContent = totalVP;
-        vpTrack.title = document.getElementById('vp-display').title;
+        vpTrack.title = vpTooltip;
     }
 }
 
