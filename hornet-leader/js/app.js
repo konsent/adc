@@ -943,11 +943,50 @@ function renderAll() {
 
 // ─── Carrier Board Slot Definitions (% coordinates) ───
 const CARRIER_SLOTS = {
-    marine1: { top: 24.5, left: 2.5, w: 5.5, h: 12.5 },
+    // USMC marine (Band) slots
+    marine1: { top: 24.5, left: 2.6, w: 5.5, h: 12.5 },
     marine2: { top: 17.0, left: 9.2, w: 5.5, h: 12.5 },
     marine3: { top: 12.0, left: 16.1, w: 5.5, h: 12.5 },
     marine4: { top: 11.5, left: 23.0, w: 5.5, h: 12.5 },
     marine5: { top: 11.5, left: 30.0, w: 5.5, h: 12.5 },
+    hangar1: { top: 23.9, left: 43.8, w: 5.0, h: 11.0 },
+    hangar2: { top: 23.9, left: 49.6, w: 5.0, h: 11.0 },
+    hangar3: { top: 23.9, left: 55.5, w: 5.0, h: 11.0 },
+    hangar4: { top: 23.9, left: 61.7, w: 5.0, h: 11.0 },
+    hangar5: { top: 12.0, left: 68.0, w: 5.0, h: 11.0 },
+    hangar6: { top: 23.9, left: 74.3, w: 5.0, h: 11.0 },
+    deck1:  { top: 65.9, left: 9.8,  w: 5.0, h: 11.0 },
+    deck2:  { top: 65.9, left: 17.1, w: 5.0, h: 11.0 },
+    deck3:  { top: 65.9, left: 28.6, w: 5.0, h: 11.0 },
+    deck4:  { top: 65.9, left: 34.6, w: 5.0, h: 11.0 },
+    deck5:  { top: 65.9, left: 41.0, w: 5.0, h: 11.0 },
+    deck6:  { top: 65.9, left: 47.0, w: 5.0, h: 11.0 },
+    deck7:  { top: 65.9, left: 54.2, w: 5.0, h: 11.0 },
+    deck8:  { top: 77.8, left: 64.5, w: 5.0, h: 11.0 },
+    deck9:  { top: 39.5, left: 82.6, w: 5.0, h: 11.0 },
+    deck10: { top: 65.9, left: 85.9, w: 5.0, h: 11.0 },
+    deck11: { top: 51.0, left: 68.5, w: 5.0, h: 11.0 },
+    // USN diamond slots (top vertex coordinates, rotated 45deg squares)
+    diamond1: { topVertex: 44.4, leftVertex: 37.2, s: 5.5, diamond: true },
+    diamond2: { topVertex: 57.2, leftVertex: 39.5, s: 5.5, diamond: true },
+    diamond3: { topVertex: 50.6, leftVertex: 48.2, s: 5.5, diamond: true },
+    diamond4: { topVertex: 65.2, leftVertex: 63.5, s: 5.5, diamond: true },
+    diamond5: { topVertex: 73.8, leftVertex: 68.0, s: 5.5, diamond: true },
+    // USN hangar (Shaken/Unfit) slots
+    usn_hangar1: { top: 14.1, left: 38.8, w: 5.5, h: 5.5 },
+    usn_hangar2: { top: 14.1, left: 48.4, w: 5.5, h: 5.5 },
+    usn_hangar3: { top: 14.1, left: 58.1, w: 5.5, h: 5.5 },
+    usn_hangar4: { top: 14.1, left: 67.8, w: 5.5, h: 5.5 },
+    usn_hangar5: { top: 14.1, left: 77.5, w: 5.5, h: 5.5 },
+    // USN normal deck slots
+    usn_deck1: { top: 38.2, left: 43.8, w: 5.5, h: 5.5 },
+    usn_deck2: { top: 38.2, left: 49.7, w: 5.5, h: 5.5 },
+    usn_deck3: { top: 38.2, left: 56.0, w: 5.5, h: 5.5 },
+    usn_deck4: { top: 38.2, left: 75.7, w: 5.5, h: 5.5 },
+    usn_deck5: { top: 39.0, left: 81.6, w: 5.5, h: 5.5 },
+    usn_deck6: { top: 76.1, left: 76.4, w: 5.5, h: 5.5 },
+    usn_deck7: { top: 69.4, left: 84.2, w: 5.5, h: 5.5 },
+    usn_deck8: { top: 69.4, left: 89.9, w: 5.5, h: 5.5 },
 };
 
 // ─── DEV: Carrier click coordinate helper (remove later) ───
@@ -980,32 +1019,90 @@ const CARRIER_SLOTS = {
 
 function renderCarrierMarkers() {
     const board = document.getElementById('carrier-board');
-    if (!campaign || !campaign.isUSMC) { board.style.display = 'none'; return; }
+    if (!campaign) { board.style.display = 'none'; return; }
     board.style.display = '';
+
+    // Set carrier image based on force
+    const carrierImg = document.getElementById('carrier-img');
+    carrierImg.src = campaign.isUSMC ? '../assets/HL/usmc_carrier.png' : '../assets/HL/usn_carrier.png';
 
     // Clear existing markers
     board.querySelectorAll('.carrier-marker').forEach(el => el.remove());
 
-    const bandStatus = getBandStatusForCampaign();
-    const slotKeys = ['marine1', 'marine2', 'marine3', 'marine4', 'marine5'];
+    // USMC: Place Band (active/secure) markers
+    if (campaign.isUSMC) {
+        const bandStatus = getBandStatusForCampaign();
+        const marineKeys = ['marine1', 'marine2', 'marine3', 'marine4', 'marine5'];
+        bandStatus.forEach((bs, i) => {
+            const slot = CARRIER_SLOTS[marineKeys[i]];
+            if (!slot) return;
+            let imgSrc = null;
+            if (bs.secured) {
+                imgSrc = '../assets/HL/secure.png';
+            } else if (i === 0 || bandStatus[i - 1].secured) {
+                imgSrc = '../assets/HL/active.png';
+            }
+            if (!imgSrc) return;
+            const marker = document.createElement('img');
+            marker.className = 'carrier-marker';
+            marker.src = imgSrc;
+            marker.style.cssText = `position:absolute;top:${slot.top}%;left:${slot.left}%;width:${slot.w}%;height:${slot.h}%;`;
+            board.appendChild(marker);
+        });
+    }
 
-    bandStatus.forEach((bs, i) => {
-        const slot = CARRIER_SLOTS[slotKeys[i]];
+    // Aircraft to counter image mapping
+    const AIRCRAFT_IMG = {
+        'F/A-18C': 'f18.png', 'F/A-18E': 'f18.png', 'F/A-18F': 'f18.png',
+        'F-14': 'f14.png', 'EA-6B': 'ea6b.png', 'EA-18G': 'ea6b.png',
+        'E-2C': 'e2c.png', 'F-35A/C': 'f35.png', 'AV-8B': 'av8b.png',
+        'A-6': 'a6.png', 'A-7': 'a7.png',
+    };
+
+    function placePilotMarker(pilot, slotKey) {
+        const slot = CARRIER_SLOTS[slotKey];
         if (!slot) return;
-
-        let imgSrc = null;
-        if (bs.secured) {
-            imgSrc = '../assets/HL/secure.png';
-        } else if (i === 0 || bandStatus[i - 1].secured) {
-            imgSrc = '../assets/HL/active.png';
+        const status = getStatus(pilot);
+        const imgFile = AIRCRAFT_IMG[pilot.aircraft];
+        const el = document.createElement('div');
+        el.className = 'carrier-marker carrier-pilot-marker' + (slot.diamond ? ' carrier-diamond' : '') + (campaign.isUSMC ? '' : ' carrier-usn');
+        el.title = `${pilot.name} (${pilot.aircraft}) — ${status}`;
+        if (imgFile) {
+            el.style.backgroundImage = `url('../assets/HL/${imgFile}')`;
         }
-        if (!imgSrc) return;
+        el.innerHTML = `<span class="cpm-name">${pilot.name}</span><span class="cpm-status cpm-${status.toLowerCase()}">${status}</span>`;
+        if (slot.diamond) {
+            const half = slot.s / 2;
+            el.style.cssText += `position:absolute;top:${slot.topVertex + half}%;left:${slot.leftVertex - half}%;width:${slot.s}%;transform:rotate(45deg);`;
+        } else {
+            el.style.cssText += `position:absolute;top:${slot.top}%;left:${slot.left}%;width:${slot.w}%;`;
+        }
+        board.appendChild(el);
+    }
 
-        const marker = document.createElement('img');
-        marker.className = 'carrier-marker';
-        marker.src = imgSrc;
-        marker.style.cssText = `position:absolute;top:${slot.top}%;left:${slot.left}%;width:${slot.w}%;height:${slot.h}%;`;
-        board.appendChild(marker);
+    // Place Shaken/Unfit pilot counters in hangar slots
+    const hangarKeys = campaign.isUSMC
+        ? ['hangar1', 'hangar2', 'hangar3', 'hangar4', 'hangar5', 'hangar6']
+        : ['usn_hangar1', 'usn_hangar2', 'usn_hangar3', 'usn_hangar4', 'usn_hangar5'];
+    const shakenUnfit = campaign.squadron.filter(p =>
+        !p.shotDown && (getStatus(p) === 'Shaken' || getStatus(p) === 'Unfit')
+    );
+    shakenUnfit.forEach((pilot, i) => {
+        if (i >= hangarKeys.length) return;
+        placePilotMarker(pilot, hangarKeys[i]);
+    });
+
+    // Place Okay pilot counters on deck slots (USMC vs USN)
+    const deckKeys = campaign.isUSMC
+        ? ['deck1','deck2','deck3','deck4','deck5','deck6','deck7','deck8','deck9','deck10','deck11']
+        : ['usn_deck1','usn_deck2','usn_deck3','usn_deck4','usn_deck5','usn_deck6','usn_deck7','usn_deck8',
+           'diamond1','diamond2','diamond3','diamond4','diamond5'];
+    const okayPilots = campaign.squadron.filter(p =>
+        !p.shotDown && getStatus(p) === 'Okay'
+    );
+    okayPilots.forEach((pilot, i) => {
+        if (i >= deckKeys.length) return;
+        placePilotMarker(pilot, deckKeys[i]);
     });
 }
 

@@ -848,7 +848,7 @@ tr:hover td { background: rgba(255,255,255,0.02); }
     position: relative;
     display: inline-block;
     width: 100%;
-    margin-bottom: 1rem;
+    grid-column: 1 / -1;
 }
 .carrier-board .carrier-img {
     display: block;
@@ -858,7 +858,46 @@ tr:hover td { background: rgba(255,255,255,0.02); }
 .carrier-marker {
     pointer-events: none;
     object-fit: contain;
+    border: 2px solid #000;
+    border-radius: 6px;
 }
+.carrier-pilot-marker {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    background-size: cover;
+    background-position: center;
+    border-radius: 6px;
+    overflow: hidden;
+    font-family: 'Barlow Condensed', sans-serif;
+    color: #fff;
+    text-shadow: 1px 1px 2px rgba(0,0,0,0.9);
+    box-shadow: 3px 3px 6px rgba(0,0,0,0.6);
+    aspect-ratio: 1 / 1;
+}
+.cpm-name {
+    align-self: flex-start;
+    font-size: 0.75rem;
+    font-weight: 700;
+    padding: 2px 4px;
+    line-height: 1.2;
+}
+.cpm-status {
+    align-self: flex-end;
+    font-size: 0.65rem;
+    font-weight: 700;
+    padding: 2px 4px;
+    line-height: 1.2;
+}
+.carrier-diamond .cpm-name,
+.carrier-diamond .cpm-status {
+    transform: rotate(-45deg);
+}
+.carrier-usn .cpm-name { font-size: 1.0rem; }
+.carrier-usn .cpm-status { font-size: 0.85rem; }
+.cpm-status.cpm-okay { color: #88cc88; }
+.cpm-status.cpm-shaken { color: #ffd740; }
+.cpm-status.cpm-unfit { color: #ff4444; }
 
 #squadron-table { table-layout: fixed; }
 #squadron-table th:nth-child(1) { width: 14%; }
