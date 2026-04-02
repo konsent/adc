@@ -1594,8 +1594,8 @@ function renderMissions() {
                 <input type="number" value="${m.usedSO}" data-day="${dayIdx}" data-field="usedSO" ${m.downTime ? 'readonly' : ''}></div>
             ${freeSO ? `<span class="free-so-badge" title="매 작전일 특수 무장 ${freeSO} SO 무료">무료 SO ${freeSO}</span>` : ''}
             <div class="day-actions">
-                ${!m.downTime && !allResolved ? `<button class="btn btn-small" data-day="${dayIdx}" data-action="add-target">표적 뽑기</button>` : ''}
-                ${!m.downTime && !m.recoveryApplied && !allResolved ? `<button class="btn btn-small btn-downtime" data-day="${dayIdx}" data-action="down-time">Down Time</button>` : ''}
+                ${!m.downTime && !allResolved ? `<button class="btn btn-small" data-day="${dayIdx}" data-action="add-target">표적 선정</button>` : ''}
+                ${!m.downTime && !m.recoveryApplied && !allResolved ? `<button class="btn btn-small btn-downtime" data-day="${dayIdx}" data-action="down-time">휴식</button>` : ''}
             </div>
             ${isComplete ? `<span class="day-collapse-indicator">${isCollapsed ? '▶ 펼치기' : '▼ 접기'}</span>` : ''}
         `;
