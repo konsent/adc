@@ -1078,7 +1078,7 @@ function renderCarrierMarkers() {
             const border = document.createElement('div');
             border.className = 'carrier-diamond-border';
             const bg = document.createElement('div');
-            bg.className = 'carrier-diamond-bg';
+            bg.className = 'carrier-diamond-bg' + (status === 'Unfit' ? ' cpm-unfit-overlay' : '');
             if (imgFile) bg.style.backgroundImage = `url('../assets/HL/${imgFile}')`;
             border.appendChild(bg);
             wrapper.appendChild(border);
@@ -1091,7 +1091,7 @@ function renderCarrierMarkers() {
             board.appendChild(wrapper);
         } else {
             const el = document.createElement('div');
-            el.className = 'carrier-marker carrier-pilot-marker' + (campaign.isUSMC ? '' : ' carrier-usn');
+            el.className = 'carrier-marker carrier-pilot-marker' + (campaign.isUSMC ? '' : ' carrier-usn') + (status === 'Unfit' ? ' cpm-unfit-overlay' : '');
             el.title = `${pilot.name} (${pilot.aircraft}) — ${status}`;
             if (imgFile) {
                 el.style.backgroundImage = `url('../assets/HL/${imgFile}')`;

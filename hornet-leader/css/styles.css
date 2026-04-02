@@ -855,6 +855,14 @@ tr:hover td { background: rgba(255,255,255,0.02); }
     width: 100%;
     border-radius: 6px;
 }
+.carrier-credit {
+    position: absolute;
+    bottom: 4px;
+    right: 8px;
+    font-size: 0.55rem;
+    color: rgba(255,255,255,0.5);
+    pointer-events: none;
+}
 .carrier-marker {
     pointer-events: none;
     object-fit: contain;
@@ -956,6 +964,16 @@ tr:hover td { background: rgba(255,255,255,0.02); }
 .cpm-status.cpm-okay { color: #88cc88; }
 .cpm-status.cpm-shaken { color: #ffd740; }
 .cpm-status.cpm-unfit { color: #ff4444; }
+.cpm-unfit-overlay {
+    position: relative;
+}
+.cpm-unfit-overlay::after {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; width: 100%; height: 100%;
+    background: rgba(180, 30, 30, 0.4);
+    border-radius: inherit;
+}
 
 #squadron-table { table-layout: fixed; }
 #squadron-table th:nth-child(1) { width: 14%; }
