@@ -967,11 +967,11 @@ const CARRIER_SLOTS = {
     deck10: { top: 65.9, left: 85.9, w: 5.0, h: 11.0 },
     deck11: { top: 51.0, left: 68.5, w: 5.0, h: 11.0 },
     // USN diamond slots (top vertex coordinates, rotated 45deg squares)
-    diamond1: { topVertex: 44.4, leftVertex: 37.2, s: 5.5, diamond: true },
-    diamond2: { topVertex: 57.2, leftVertex: 39.5, s: 5.5, diamond: true },
-    diamond3: { topVertex: 50.6, leftVertex: 48.2, s: 5.5, diamond: true },
-    diamond4: { topVertex: 65.2, leftVertex: 63.5, s: 5.5, diamond: true },
-    diamond5: { topVertex: 73.8, leftVertex: 68.0, s: 5.5, diamond: true },
+    diamond1: { topVertex: 47.6, leftVertex: 37.1, s: 5.5, diamond: true },
+    diamond2: { topVertex: 60.4, leftVertex: 39.4, s: 5.5, diamond: true },
+    diamond3: { topVertex: 53.8, leftVertex: 48.1, s: 5.5, diamond: true },
+    diamond4: { topVertex: 68.4, leftVertex: 63.4, s: 5.5, diamond: true },
+    diamond5: { topVertex: 77.0, leftVertex: 67.9, s: 5.5, diamond: true },
     // USN hangar (Shaken/Unfit) slots
     usn_hangar1: { top: 14.1, left: 38.8, w: 5.5, h: 5.5 },
     usn_hangar2: { top: 14.1, left: 48.4, w: 5.5, h: 5.5 },
@@ -1054,7 +1054,7 @@ function renderCarrierMarkers() {
     // Aircraft to counter image mapping
     const AIRCRAFT_IMG = {
         'F/A-18C': 'f18.png', 'F/A-18E': 'f18.png', 'F/A-18F': 'f18.png',
-        'F-14': 'f14.png', 'EA-6B': 'ea6b.png', 'EA-18G': 'ea6b.png',
+        'F-14': 'f14.png', 'EA-6B': 'ea6b.png', 'EA-18G': 'f18.png',
         'E-2C': 'e2c.png', 'F-35A/C': 'f35.png', 'AV-8B': 'av8b.png',
         'A-6': 'a6.png', 'A-7': 'a7.png',
     };
@@ -1064,20 +1064,40 @@ function renderCarrierMarkers() {
         if (!slot) return;
         const status = getStatus(pilot);
         const imgFile = AIRCRAFT_IMG[pilot.aircraft];
-        const el = document.createElement('div');
-        el.className = 'carrier-marker carrier-pilot-marker' + (slot.diamond ? ' carrier-diamond' : '') + (campaign.isUSMC ? '' : ' carrier-usn');
-        el.title = `${pilot.name} (${pilot.aircraft}) — ${status}`;
-        if (imgFile) {
-            el.style.backgroundImage = `url('../assets/HL/${imgFile}')`;
-        }
-        el.innerHTML = `<span class="cpm-name">${pilot.name}</span><span class="cpm-status cpm-${status.toLowerCase()}">${status}</span>`;
+
         if (slot.diamond) {
+            // Diamond: wrapper positions, inner bg is clipped, text overlay on top
             const half = slot.s / 2;
-            el.style.cssText += `position:absolute;top:${slot.topVertex + half}%;left:${slot.leftVertex - half}%;width:${slot.s}%;transform:rotate(45deg);`;
+            const wrapper = document.createElement('div');
+            wrapper.className = 'carrier-marker carrier-diamond-wrapper';
+            wrapper.title = `${pilot.name} (${pilot.aircraft}) — ${status}`;
+            wrapper.style.cssText = `position:absolute;top:${slot.topVertex}%;left:${slot.leftVertex - half}%;width:${slot.s}%;aspect-ratio:1/1;`;
+
+            const border = document.createElement('div');
+            border.className = 'carrier-diamond-border';
+            const bg = document.createElement('div');
+            bg.className = 'carrier-diamond-bg';
+            if (imgFile) bg.style.backgroundImage = `url('../assets/HL/${imgFile}')`;
+            border.appendChild(bg);
+            wrapper.appendChild(border);
+
+            const overlay = document.createElement('div');
+            overlay.className = 'carrier-diamond-overlay';
+            overlay.innerHTML = `<span class="cpm-name">${pilot.name}</span><span class="cpm-aircraft">[${pilot.aircraft}]</span><span class="cpm-status cpm-${status.toLowerCase()}">${status}</span>`;
+            wrapper.appendChild(overlay);
+
+            board.appendChild(wrapper);
         } else {
+            const el = document.createElement('div');
+            el.className = 'carrier-marker carrier-pilot-marker' + (campaign.isUSMC ? '' : ' carrier-usn');
+            el.title = `${pilot.name} (${pilot.aircraft}) — ${status}`;
+            if (imgFile) {
+                el.style.backgroundImage = `url('../assets/HL/${imgFile}')`;
+            }
+            el.innerHTML = `<span class="cpm-name">${pilot.name}</span><div class="cpm-bottom"><span class="cpm-aircraft">${pilot.aircraft}</span><span class="cpm-status cpm-${status.toLowerCase()}">${status}</span></div>`;
             el.style.cssText += `position:absolute;top:${slot.top}%;left:${slot.left}%;width:${slot.w}%;`;
+            board.appendChild(el);
         }
-        board.appendChild(el);
     }
 
     // Place Shaken/Unfit pilot counters in hangar slots

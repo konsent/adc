@@ -882,16 +882,74 @@ tr:hover td { background: rgba(255,255,255,0.02); }
     padding: 2px 4px;
     line-height: 1.2;
 }
-.cpm-status {
-    align-self: flex-end;
-    font-size: 0.65rem;
-    font-weight: 700;
+.cpm-bottom {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    width: 100%;
     padding: 2px 4px;
+}
+.cpm-aircraft {
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: #ddd;
     line-height: 1.2;
 }
-.carrier-diamond .cpm-name,
-.carrier-diamond .cpm-status {
-    transform: rotate(-45deg);
+.cpm-status {
+    font-size: 0.75rem;
+    font-weight: 700;
+    line-height: 1.2;
+}
+/* Diamond marker: clipped bg + text overlay */
+.carrier-diamond-wrapper {
+    pointer-events: none;
+    overflow: visible;
+    border: none;
+    filter: drop-shadow(3px 3px 4px rgba(0,0,0,0.6));
+}
+.carrier-diamond-border {
+    width: 100%;
+    height: 100%;
+    transform: rotate(45deg);
+    border-radius: 6px;
+    overflow: hidden;
+    border: 2px solid #000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.carrier-diamond-bg {
+    width: 100%;
+    height: 100%;
+    background-size: cover;
+    background-position: center;
+    transform: rotate(-45deg) scale(1.42);
+}
+.carrier-diamond-overlay {
+    position: absolute;
+    top: 0; left: 0; width: 100%; height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Barlow Condensed', sans-serif;
+    color: #fff;
+    text-shadow: 1px 1px 2px rgba(0,0,0,0.9);
+}
+.carrier-diamond-overlay .cpm-name {
+    align-self: center;
+    text-align: center;
+    font-size: 1.0rem;
+}
+.carrier-diamond-overlay .cpm-aircraft {
+    font-size: 0.85rem;
+    margin-top: 3px;
+}
+.carrier-diamond-overlay .cpm-status {
+    align-self: center;
+    text-align: center;
+    font-size: 0.85rem;
+    margin-top: 5px;
 }
 .carrier-usn .cpm-name { font-size: 1.0rem; }
 .carrier-usn .cpm-status { font-size: 0.85rem; }
