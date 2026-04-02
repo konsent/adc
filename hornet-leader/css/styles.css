@@ -1056,6 +1056,52 @@ tr:hover td { background: rgba(255,255,255,0.02); }
     color: #8a8e7a;
 }
 
+/* ─── Campaign Result Box (inline) ─── */
+.campaign-result-box {
+    margin-top: 1rem;
+    padding: 1.2rem 1.5rem;
+    background: linear-gradient(135deg, #2a2e25 60%, #3a3e30);
+    border: 2px solid #e8c840;
+    border-radius: 8px;
+    text-align: center;
+}
+.campaign-result-box.campaign-result-fail {
+    border-color: #c04040;
+}
+.campaign-result-icon {
+    font-size: 2rem;
+    margin-bottom: 0.3rem;
+}
+.campaign-result-title {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 1.4rem;
+    color: #e8c840;
+    letter-spacing: 0.05em;
+    margin-bottom: 0.3rem;
+}
+.campaign-result-fail .campaign-result-title {
+    color: #c04040;
+}
+.campaign-result-rank {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 2rem;
+    margin: 0.2rem 0;
+}
+.campaign-result-rank-en {
+    font-size: 0.85rem;
+    color: #8a8e7a;
+    margin-bottom: 0.5rem;
+}
+.campaign-result-vp {
+    font-size: 1.1rem;
+    color: #c0bdb8;
+    margin: 0.3rem 0;
+}
+.campaign-result-scenario {
+    font-size: 0.8rem;
+    color: #8a8e7a;
+}
+
 .band-secure-expand {
     margin-top: 0.6rem;
     color: #e0c050;

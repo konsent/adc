@@ -1991,6 +1991,53 @@ function renderMissions() {
         container.appendChild(div);
     });
 
+    // ── Campaign Result Box (after last mission day) ──
+    const allDone = campaign.missions.every(mi =>
+        mi.downTime || mi.targets.every(t => t.resolved)
+    );
+    const allRecovered = campaign.missions.every(mi =>
+        mi.downTime || mi.recoveryApplied
+    );
+    if ((allDone && allRecovered) || campaign.campaignFailed) {
+        const vpEl = document.getElementById('track-vp');
+        const totalVP = parseInt(vpEl?.textContent) || 0;
+        const rank = getVictoryRank(totalVP);
+
+        const rankLabels = {
+            'Great': { text: '대승리', cls: 'victory-great' },
+            'Good': { text: '승리', cls: 'victory-good' },
+            'Adequate': { text: '무난한 성과', cls: 'victory-adequate' },
+            'Poor': { text: '아쉬운 성과', cls: 'victory-poor' },
+            'Dismal': { text: '패배', cls: 'victory-dismal' },
+        };
+
+        let resultHTML;
+        if (campaign.campaignFailed) {
+            resultHTML = `
+                <div class="campaign-result-box campaign-result-fail">
+                    <div class="campaign-result-icon">&#9888;</div>
+                    <div class="campaign-result-title">캠페인 종료</div>
+                    <div class="campaign-result-rank victory-dismal">패배</div>
+                    <div class="campaign-result-rank-en">Dismal</div>
+                    <div class="campaign-result-vp">최종 VP: <strong>${totalVP}</strong></div>
+                    <div class="campaign-result-scenario">${campaign.scenarioName} — ${campaign.lengthDesc}</div>
+                </div>`;
+        } else {
+            const info = rankLabels[rank] || { text: rank || '결과 없음', cls: '' };
+            resultHTML = `
+                <div class="campaign-result-box">
+                    <div class="campaign-result-title">캠페인 종료</div>
+                    <div class="campaign-result-rank ${info.cls}">${info.text}</div>
+                    <div class="campaign-result-rank-en">${rank || ''}</div>
+                    <div class="campaign-result-vp">최종 VP: <strong>${totalVP}</strong></div>
+                    <div class="campaign-result-scenario">${campaign.scenarioName} — ${campaign.lengthDesc}</div>
+                </div>`;
+        }
+        const resultDiv = document.createElement('div');
+        resultDiv.innerHTML = resultHTML;
+        container.appendChild(resultDiv);
+    }
+
     // Attach events
     attachMissionEvents(container);
 }
