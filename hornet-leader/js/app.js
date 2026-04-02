@@ -82,13 +82,24 @@ function initSetupScreen() {
         diffSel.appendChild(o);
     });
 
+    // Default to "Standard" if available
+    const standardOpt = [...diffSel.options].find(o => o.value === 'Standard');
+    if (standardOpt) {
+        diffSel.value = 'Standard';
+    }
+
     diffSel.addEventListener('change', onDifficultyChange);
     document.getElementById('region-select').addEventListener('change', onRegionChange);
     document.getElementById('force-select').addEventListener('change', onForceChange);
+
+    // Trigger change to populate regions if default was set
+    if (diffSel.value) {
+        onDifficultyChange.call(diffSel);
+    }
 }
 
 function hideFrom(startLevel) {
-    const ids = ['scenario-info', 'length-group', 'length-info', 'difficulty-rules-group', 'usmc-options-group', 'aircraft-group'];
+    const ids = ['scenario-info', 'length-group', 'length-info', 'difficulty-rules-group', 'campaign-options-group', 'usmc-options-group', 'aircraft-group'];
     ids.forEach(id => document.getElementById(id).classList.add('hidden'));
     document.getElementById('generate-group').classList.add('hidden');
     document.getElementById('manual-panel').classList.add('hidden');
@@ -225,8 +236,15 @@ function showScenarioDetails(sc) {
         populateAircraftOptions(sc, lengthIdx);
         populateDifficultyRules();
         document.getElementById('difficulty-rules-group').classList.remove('hidden');
+        document.getElementById('campaign-options-group').classList.remove('hidden');
         document.getElementById('aircraft-group').classList.remove('hidden');
         document.getElementById('generate-group').classList.remove('hidden');
+
+        // Flying More/Less SO cost label
+        const fmlLabel = document.getElementById('flying-more-less-label');
+        const fmlCost = FLYING_MORE_LESS_SO_COST[lengthIdx] || 3;
+        fmlLabel.textContent = `기체 수 변경 (±1) — 표적당 기체를 1대 더/덜 투입 가능 [-${fmlCost} SO]`;
+        document.getElementById('flying-more-less').checked = false;
 
         // USMC options
         const usmcGroup = document.getElementById('usmc-options-group');
@@ -613,7 +631,8 @@ function confirmManualSelection() {
     });
 
     const largeDeckMarine = document.getElementById('large-deck-marine')?.checked || false;
-    campaign = buildCampaign(scenarioIdx, lengthIdx, squadron, diffRules, { extra: { manualSquadron: true, largeDeckMarine } });
+    const flyingMoreLess = document.getElementById('flying-more-less')?.checked || false;
+    campaign = buildCampaign(scenarioIdx, lengthIdx, squadron, diffRules, { extra: { manualSquadron: true, largeDeckMarine, flyingMoreLess } });
 
     resetAssignState();
     saveCampaign();
@@ -765,13 +784,19 @@ function isUSMC(campaignOrName) {
 }
 
 const RANDOM_SO_BONUS = [6, 12, 18]; // Short / Medium / Long
+const FLYING_MORE_LESS_SO_COST = [3, 6, 9]; // Short / Medium / Long
 
 function buildCampaign(scenarioIdx, lengthIdx, squadron, diffRules, opts = {}) {
     const scenario = gameData.Campaigns[scenarioIdx];
     const option = scenario.CampaignOptions[lengthIdx];
     const aircraftSO = calcSquadronSOCost(squadron, lengthIdx);
     const baseSO = option.SOPoints;
-    const totalSO = applySOAdjust(baseSO - aircraftSO + (opts.soBonus || 0), diffRules, lengthIdx);
+    const rawSO = applySOAdjust(baseSO - aircraftSO + (opts.soBonus || 0), diffRules, lengthIdx);
+
+    // Flying More/Less SO cost
+    const flyingMoreLess = !!(opts.extra && opts.extra.flyingMoreLess);
+    const fmlSOCost = flyingMoreLess ? (FLYING_MORE_LESS_SO_COST[lengthIdx] || 3) : 0;
+    const totalSO = rawSO - fmlSOCost;
 
     const daysMatch = option.Timespan.match(/(\d+)/);
     const totalDays = daysMatch ? parseInt(daysMatch[1]) : 3;
@@ -798,18 +823,22 @@ function buildCampaign(scenarioIdx, lengthIdx, squadron, diffRules, opts = {}) {
     // Improvements start empty — cards become active when drawn but not destroyed
     const improvements = [];
 
+    const soBonus = opts.soBonus || 0;
+
     return {
         scenarioIdx, lengthIdx,
         scenarioName: scenario.Name,
         lengthDesc: option.LengthDescription,
         timespan: option.Timespan,
-        baseSO, aircraftSO, totalSO,
+        baseSO, aircraftSO, soBonus, totalSO,
         squadron, missions,
         tracks: { recon: 0, intel: 0, infra: 0 },
         improvements,
         diffRules: diffRules || { level: 'average' },
         isUSMC: parseCampaign(scenario).force === 'USMC',
         largeDeckMarine: false,
+        flyingMoreLess: flyingMoreLess,
+        vpAircraftBonus: 0,
         ...opts.extra,
         createdAt: new Date().toISOString()
     };
@@ -882,6 +911,8 @@ function migrateCampaign(c) {
     if (!c.diffRules) c.diffRules = { level: 'average' };
     if (!('isUSMC' in c)) c.isUSMC = (c.scenarioName || '').includes('(USMC)');
     if (!('largeDeckMarine' in c)) c.largeDeckMarine = false;
+    if (!('flyingMoreLess' in c)) c.flyingMoreLess = false;
+    if (!('vpAircraftBonus' in c)) c.vpAircraftBonus = 0;
     if (!c.improvements) c.improvements = [];
     return c;
 }
@@ -1397,7 +1428,7 @@ function renderMissions() {
                 <span class="tc-type">${tIdx === 0 ? '주 표적' : '부 표적'}</span>
                 <span class="tc-title">#${t.targetNumber} ${targetName}</span>
                 <span class="tc-header-actions">
-                    ${!t.resolved ? `<button class="btn btn-small" data-day="${dayIdx}" data-tidx="${tIdx}" data-action="toggle-assign">배치</button>` : ''}
+                    ${!t.resolved ? `<button class="btn btn-small" data-day="${dayIdx}" data-tidx="${tIdx}" data-action="toggle-assign">투입</button>` : ''}
                     ${tIdx > 0 && !t.resolved ? `<button class="target-remove" data-day="${dayIdx}" data-tidx="${tIdx}">x</button>` : ''}
                 </span>
             `;
@@ -1520,17 +1551,28 @@ function renderMissions() {
 
                 // Aircraft count limit (E-2C exempt)
                 const acLimit = getTargetAircraftCount(t.targetNumber);
+                const fmlActive = campaign.flyingMoreLess && acLimit !== Infinity;
+                const effectiveLimit = fmlActive ? acLimit + 1 : acLimit;
                 const existingNonE2C = (t.assignedPilots || []).filter(ap => !isE2C(campaign.squadron[ap.pilotIdx])).length;
                 const stagedNonE2C = [...staged].filter(pIdx => !isE2C(campaign.squadron[pIdx])).length;
                 const nonE2CCount = existingNonE2C + stagedNonE2C;
-                const limitReached = nonE2CCount >= acLimit;
+                const limitReached = nonE2CCount >= effectiveLimit;
 
                 const panel = document.createElement('div');
                 panel.className = 'assign-panel';
                 if (acLimit !== Infinity) {
                     const limitInfo = document.createElement('div');
                     limitInfo.className = 'assign-limit-info';
-                    limitInfo.textContent = `투입 가능: ${nonE2CCount} / ${acLimit} (E-2C 제외)`;
+                    let limitText = `투입: ${nonE2CCount} / ${acLimit} (E-2C 제외)`;
+                    if (fmlActive) {
+                        if (nonE2CCount > acLimit) {
+                            limitText += ` ⚠ 초과 투입 (VP -1)`;
+                        } else if (nonE2CCount < acLimit) {
+                            limitText += ` ★ 감소 투입 (파괴 시 VP +1)`;
+                        }
+                        limitText += ` [최대 ${effectiveLimit}]`;
+                    }
+                    limitInfo.textContent = limitText;
                     panel.appendChild(limitInfo);
                 }
                 const tbl = document.createElement('table');
@@ -2441,12 +2483,14 @@ function onConfirmAssign(e) {
     const staged = assignStaging[key] || new Set();
 
     const acLimit = getTargetAircraftCount(target.targetNumber);
+    const fmlActive = campaign.flyingMoreLess && acLimit !== Infinity;
+    const effectiveLimit = fmlActive ? acLimit + 1 : acLimit;
     let nonE2CCount = target.assignedPilots.filter(ap => !isE2C(campaign.squadron[ap.pilotIdx])).length;
 
     staged.forEach(pIdx => {
         if (target.assignedPilots.some(ap => ap.pilotIdx === pIdx)) return;
         const pilot = campaign.squadron[pIdx];
-        if (!isE2C(pilot) && nonE2CCount >= acLimit) return;
+        if (!isE2C(pilot) && nonE2CCount >= effectiveLimit) return;
         const traitStress = parseTraitStress(target.targetNumber);
         target.assignedPilots.push({ pilotIdx: pIdx, shotDown: false, missionStress: traitStress, missionXp: 0 });
         if (!isE2C(pilot)) nonE2CCount++;
@@ -2789,6 +2833,21 @@ function resolveTarget(dayIdx, tIdx) {
         campaign.vpPenalty = (campaign.vpPenalty || 0) + shotDownCount;
     }
 
+    // Flying More/Less aircraft VP adjustment
+    if (campaign.flyingMoreLess && t.targetNumber) {
+        const baseAcLimit = getTargetAircraftCount(t.targetNumber);
+        if (baseAcLimit !== Infinity) {
+            const assignedNonE2C = pilots.filter(ap => !isE2C(campaign.squadron[ap.pilotIdx])).length;
+            if (assignedNonE2C > baseAcLimit) {
+                // 1대 초과 투입: VP -1 (결과 무관)
+                campaign.vpPenalty = (campaign.vpPenalty || 0) + 1;
+            } else if (assignedNonE2C < baseAcLimit && t.result === 'Destroyed') {
+                // 1대 감소 투입 + 파괴 성공: VP +1
+                campaign.vpAircraftBonus = (campaign.vpAircraftBonus || 0) + 1;
+            }
+        }
+    }
+
     t.resolved = true;
 
     // Deactivate improvement if this target had one
@@ -2923,8 +2982,10 @@ function updateBadges() {
     });
     const remaining = campaign.totalSO - usedSO;
     document.getElementById('so-display').textContent = `SO: ${remaining}`;
+    const fmlCostDisplay = campaign.flyingMoreLess ? FLYING_MORE_LESS_SO_COST[campaign.lengthIdx] || 0 : 0;
+    const soBonusDisplay = campaign.soBonus || 0;
     document.getElementById('so-display').title =
-        `기본: ${campaign.baseSO || campaign.totalSO} | 기체: ${campaign.aircraftSO ? (campaign.aircraftSO > 0 ? '-' : '+') + Math.abs(campaign.aircraftSO) : '0'} | 사용: ${usedSO}`;
+        `기본: ${campaign.baseSO || campaign.totalSO}${soBonusDisplay ? ` | 랜덤보너스: +${soBonusDisplay}` : ''} | 기체: ${campaign.aircraftSO ? (campaign.aircraftSO > 0 ? '-' : '+') + Math.abs(campaign.aircraftSO) : '0'}${fmlCostDisplay ? ` | 기체수변경: -${fmlCostDisplay}` : ''} | 사용: ${usedSO}`;
 
     // VP: sum of destroyed targets' VP - penalties
     let totalVP = 0;
@@ -2944,6 +3005,10 @@ function updateBadges() {
     });
     totalVP += bonusVP + overkillVP;
 
+    // Flying More/Less bonus VP
+    const fmlBonus = campaign.vpAircraftBonus || 0;
+    totalVP += fmlBonus;
+
     // Penalty: -1 VP per destroyed aircraft
     const vpPenalty = campaign.vpPenalty || 0;
     // Penalty: MIA pilots (-1/-2/-3 by campaign length)
@@ -2955,7 +3020,7 @@ function updateBadges() {
     totalVP = Math.max(0, totalVP - vpPenalty - miaPenalty);
     document.getElementById('vp-display').textContent = `VP: ${totalVP}`;
     document.getElementById('vp-display').title =
-        `표적 VP: ${totalVP + vpPenalty + miaPenalty - bonusVP - overkillVP}${bonusVP ? ` | 보너스: +${bonusVP}` : ''}${overkillVP ? ` | Overkill: +${overkillVP}` : ''} | 격추: -${vpPenalty} | MIA: -${miaPenalty}`;
+        `표적 VP: ${totalVP + vpPenalty + miaPenalty - bonusVP - overkillVP - fmlBonus}${bonusVP ? ` | 보너스: +${bonusVP}` : ''}${overkillVP ? ` | Overkill: +${overkillVP}` : ''}${fmlBonus ? ` | 감소투입: +${fmlBonus}` : ''} | 격추: -${vpPenalty} | MIA: -${miaPenalty}`;
 
     // Update VP track box
     const vpTrack = document.getElementById('track-vp');
@@ -3009,6 +3074,13 @@ function renderSummary() {
         b.className = 'rule-badge rule-badge-info';
         b.textContent = 'Large Deck';
         b.title = '대형 갑판 해군 기체 사용, 표적당 기체 수 -1';
+        rulesDiv.appendChild(b);
+    }
+    if (campaign.flyingMoreLess) {
+        const b = document.createElement('span');
+        b.className = 'rule-badge rule-badge-info';
+        b.textContent = '기체 수 변경 (±1)';
+        b.title = '표적당 기체 1대 초과 투입 시 VP-1, 1대 감소 투입 후 파괴 시 VP+1';
         rulesDiv.appendChild(b);
     }
 
@@ -3190,7 +3262,8 @@ document.addEventListener('DOMContentLoaded', () => {
         if (selectedAircraft.length === 0) return;
         const diffRules = getSelectedDifficultyRules();
         const largeDeckMarine = document.getElementById('large-deck-marine')?.checked || false;
-        createCampaign(parseInt(scenarioIdx), parseInt(lengthIdx), selectedAircraft, diffRules, { largeDeckMarine });
+        const flyingMoreLess = document.getElementById('flying-more-less')?.checked || false;
+        createCampaign(parseInt(scenarioIdx), parseInt(lengthIdx), selectedAircraft, diffRules, { largeDeckMarine, flyingMoreLess });
         resetAssignState();
         saveCampaign();
         showDashboard();

@@ -245,22 +245,22 @@ select:focus, input:focus { outline: none; border-color: #8b7a2e; box-shadow: in
 .aircraft-so-cost.so-gain { color: #6aaa5a; }
 .aircraft-so-cost.so-pay { color: #c06050; }
 
-/* ─── USMC Options ─── */
-#usmc-options-area {
+/* ─── Campaign Options ─── */
+#campaign-options-area {
     padding: 0.3rem 0;
 }
-#usmc-options-area label.rule-option {
-    display: inline-flex;
+#campaign-options-area label.rule-option {
+    display: flex;
     align-items: center;
     gap: 0.4rem;
     font-size: 0.85rem;
     font-weight: 400;
     color: #c0bdb8;
     cursor: pointer;
-    margin-bottom: 0;
+    margin-bottom: 0.2rem;
     white-space: nowrap;
 }
-#usmc-options-area label.rule-option input[type="checkbox"] {
+#campaign-options-area label.rule-option input[type="checkbox"] {
     width: 14px;
     height: 14px;
     margin: 0;
