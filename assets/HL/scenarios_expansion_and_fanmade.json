@@ -1,0 +1,3664 @@
+{
+    "Name": "Hornet Leader - Expansion & Fanmade Scenarios",
+    "Campaigns": [
+        {
+            "Name": "Yugoslavia 1999 (USN)",
+            "Year": 1999,
+            "Difficulty": 1,
+            "DifficultyDescription": "Introductory",
+            "AvailableAircraft": [
+                "E-2C",
+                "EA-6B",
+                "F/A-18C"
+            ],
+            "SpecialWeapons": [
+                "AIM-54 Phoenix",
+                "AIM-120 AMRAAM",
+                "AGM-84 Harpoon",
+                "AGM-130",
+                "AGM-154 JSOW",
+                "GBU-10 Paveway",
+                "GBU-16 Paveway",
+                "GBU-12 Paveway"
+            ],
+            "CampaignOptions": [
+                {
+                    "Length": 1,
+                    "LengthDescription": "Short",
+                    "Timespan": "3 Days",
+                    "SOPoints": 12,
+                    "SquadronMakeup": [
+                        {
+                            "Rank": 1,
+                            "RankDescription": "Newbie",
+                            "Count": 1
+                        },
+                        {
+                            "Rank": 2,
+                            "RankDescription": "Green",
+                            "Count": 2
+                        },
+                        {
+                            "Rank": 3,
+                            "RankDescription": "Average",
+                            "Count": 4
+                        },
+                        {
+                            "Rank": 4,
+                            "RankDescription": "Skilled",
+                            "Count": 1
+                        }
+                    ]
+                },
+                {
+                    "Length": 2,
+                    "LengthDescription": "Medium",
+                    "Timespan": "5 Days",
+                    "SOPoints": 23,
+                    "SquadronMakeup": [
+                        {
+                            "Rank": 1,
+                            "RankDescription": "Newbie",
+                            "Count": 1
+                        },
+                        {
+                            "Rank": 2,
+                            "RankDescription": "Green",
+                            "Count": 2
+                        },
+                        {
+                            "Rank": 3,
+                            "RankDescription": "Average",
+                            "Count": 5
+                        },
+                        {
+                            "Rank": 4,
+                            "RankDescription": "Skilled",
+                            "Count": 1
+                        },
+                        {
+                            "Rank": 5,
+                            "RankDescription": "Veteran",
+                            "Count": 1
+                        }
+                    ]
+                },
+                {
+                    "Length": 3,
+                    "LengthDescription": "Long",
+                    "Timespan": "8 Days",
+                    "SOPoints": 39,
+                    "SquadronMakeup": [
+                        {
+                            "Rank": 1,
+                            "RankDescription": "Newbie",
+                            "Count": 1
+                        },
+                        {
+                            "Rank": 2,
+                            "RankDescription": "Green",
+                            "Count": 2
+                        },
+                        {
+                            "Rank": 3,
+                            "RankDescription": "Average",
+                            "Count": 6
+                        },
+                        {
+                            "Rank": 4,
+                            "RankDescription": "Skilled",
+                            "Count": 2
+                        },
+                        {
+                            "Rank": 5,
+                            "RankDescription": "Veteran",
+                            "Count": 1
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "Name": "Yugoslavia 1999 (USMC)",
+            "Year": 1999,
+            "Difficulty": 1,
+            "DifficultyDescription": "Introductory",
+            "AvailableAircraft": [
+                "AV-8B"
+            ],
+            "SpecialWeapons": [
+                "AIM-120 AMRAAM",
+                "AGM-84 Harpoon",
+                "AGM-130",
+                "AGM-154 JSOW",
+                "GBU-10 Paveway",
+                "GBU-16 Paveway",
+                "GBU-12 Paveway"
+            ],
+            "CampaignOptions": [
+                {
+                    "Length": 1,
+                    "LengthDescription": "Short",
+                    "Timespan": "3 Days",
+                    "SOPoints": 12,
+                    "SquadronMakeup": [
+                        {
+                            "Rank": 1,
+                            "RankDescription": "Newbie",
+                            "Count": 1
+                        },
+                        {
+                            "Rank": 2,
+                            "RankDescription": "Green",
+                            "Count": 2
+                        },
+                        {
+                            "Rank": 3,
+                            "RankDescription": "Average",
+                            "Count": 4
+                        },
+                        {
+                            "Rank": 4,
+                            "RankDescription": "Skilled",
+                            "Count": 1
+                        }
+                    ]
+                },
+                {
+                    "Length": 2,
+                    "LengthDescription": "Medium",
+                    "Timespan": "5 Days",
+                    "SOPoints": 23,
+                    "SquadronMakeup": [
+                        {
+                            "Rank": 1,
+                            "RankDescription": "Newbie",
+                            "Count": 1
+                        },
+                        {
+                            "Rank": 2,
+                            "RankDescription": "Green",
+                            "Count": 2
+                        },
+                        {
+                            "Rank": 3,
+                            "RankDescription": "Average",
+                            "Count": 5
+                        },
+                        {
+                            "Rank": 4,
+                            "RankDescription": "Skilled",
+                            "Count": 1
+                        },
+                        {
+                            "Rank": 5,
+                            "RankDescription": "Veteran",
+                            "Count": 1
+                        }
+                    ]
+                },
+                {
+                    "Length": 3,
+                    "LengthDescription": "Long",
+                    "Timespan": "8 Days",
+                    "SOPoints": 39,
+                    "SquadronMakeup": [
+                        {
+                            "Rank": 1,
+                            "RankDescription": "Newbie",
+                            "Count": 1
+                        },
+                        {
+                            "Rank": 2,
+                            "RankDescription": "Green",
+                            "Count": 2
+                        },
+                        {
+                            "Rank": 3,
+                            "RankDescription": "Average",
+                            "Count": 6
+                        },
+                        {
+                            "Rank": 4,
+                            "RankDescription": "Skilled",
+                            "Count": 2
+                        },
+                        {
+                            "Rank": 5,
+                            "RankDescription": "Veteran",
+                            "Count": 1
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "Name": "Iraq 1991 (USN)",
+            "Year": 1991,
+            "Difficulty": 1,
+            "DifficultyDescription": "Introductory",
+            "AvailableAircraft": [
+                "A-6",
+                "A-7",
+                "E-2C",
+                "EA-6B",
+                "F-14",
+                "F/A-18C",
+                "OV-10"
+            ],
+            "SpecialWeapons": [
+                "AIM-54 Phoenix",
+                "AIM-120 AMRAAM",
+                "AGM-62 Walleye",
+                "GBU-10 Paveway",
+                "GBU-16 Paveway",
+                "GBU-12 Paveway"
+            ],
+            "CampaignOptions": [
+                {
+                    "Length": 1,
+                    "LengthDescription": "Short",
+                    "Timespan": "3 Days",
+                    "SOPoints": 22,
+                    "SquadronMakeup": [
+                        {
+                            "Rank": 1,
+                            "RankDescription": "Newbie",
+                            "Count": 1
+                        },
+                        {
+                            "Rank": 2,
+                            "RankDescription": "Green",
+                            "Count": 2
+                        },
+                        {
+                            "Rank": 3,
+                            "RankDescription": "Average",
+                            "Count": 4
+                        },
+                        {
+                            "Rank": 4,
+                            "RankDescription": "Skilled",
+                            "Count": 1
+                        }
+                    ]
+                },
+                {
+                    "Length": 2,
+                    "LengthDescription": "Medium",
+                    "Timespan": "6 Days",
+                    "SOPoints": 45,
+                    "SquadronMakeup": [
+                        {
+                            "Rank": 1,
+                            "RankDescription": "Newbie",
+                            "Count": 1
+                        },
+                        {
+                            "Rank": 2,
+                            "RankDescription": "Green",
+                            "Count": 2
+                        },
+                        {
+                            "Rank": 3,
+                            "RankDescription": "Average",
+                            "Count": 5
+                        },
+                        {
+                            "Rank": 4,
+                            "RankDescription": "Skilled",
+                            "Count": 1
+                        },
+                        {
+                            "Rank": 5,
+                            "RankDescription": "Veteran",
+                            "Count": 1
+                        }
+                    ]
+                },
+                {
+                    "Length": 3,
+                    "LengthDescription": "Long",
+                    "Timespan": "9 Days",
+                    "SOPoints": 68,
+                    "SquadronMakeup": [
+                        {
+                            "Rank": 1,
+                            "RankDescription": "Newbie",
+                            "Count": 1
+                        },
+                        {
+                            "Rank": 2,
+                            "RankDescription": "Green",
+                            "Count": 2
+                        },
+                        {
+                            "Rank": 3,
+                            "RankDescription": "Average",
+                            "Count": 6
+                        },
+                        {
+                            "Rank": 4,
+                            "RankDescription": "Skilled",
+                            "Count": 2
+                        },
+                        {
+                            "Rank": 5,
+                            "RankDescription": "Veteran",
+                            "Count": 1
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "Name": "Iraq 1991 (USMC)",
+            "Year": 1991,
+            "Difficulty": 1,
+            "DifficultyDescription": "Introductory",
+            "AvailableAircraft": [
+                "AV-8B",
+                "OV-10"
+            ],
+            "SpecialWeapons": [
+                "AIM-120 AMRAAM",
+                "AGM-62 Walleye",
+                "GBU-10 Paveway",
+                "GBU-16 Paveway",
+                "GBU-12 Paveway"
+            ],
+            "CampaignOptions": [
+                {
+                    "Length": 1,
+                    "LengthDescription": "Short",
+                    "Timespan": "3 Days",
+                    "SOPoints": 22,
+                    "SquadronMakeup": [
+                        {
+                            "Rank": 1,
+                            "RankDescription": "Newbie",
+                            "Count": 1
+                        },
+                        {
+                            "Rank": 2,
+                            "RankDescription": "Green",
+                            "Count": 2
+                        },
+                        {
+                            "Rank": 3,
+                            "RankDescription": "Average",
+                            "Count": 4
+                        },
+                        {
+                            "Rank": 4,
+                            "RankDescription": "Skilled",
+                            "Count": 1
+                        }
+                    ]
+                },
+                {
+                    "Length": 2,
+                    "LengthDescription": "Medium",
+                    "Timespan": "6 Days",
+                    "SOPoints": 45,
+                    "SquadronMakeup": [
+                        {
+                            "Rank": 1,
+                            "RankDescription": "Newbie",
+                            "Count": 1
+                        },
+                        {
+                            "Rank": 2,
+                            "RankDescription": "Green",
+                            "Count": 2
+                        },
+                        {
+                            "Rank": 3,
+                            "RankDescription": "Average",
+                            "Count": 5
+                        },
+                        {
+                            "Rank": 4,
+                            "RankDescription": "Skilled",
+                            "Count": 1
+                        },
+                        {
+                            "Rank": 5,
+                            "RankDescription": "Veteran",
+                            "Count": 1
+                        }
+                    ]
+                },
+                {
+                    "Length": 3,
+                    "LengthDescription": "Long",
+                    "Timespan": "9 Days",
+                    "SOPoints": 68,
+                    "SquadronMakeup": [
+                        {
+                            "Rank": 1,
+                            "RankDescription": "Newbie",
+                            "Count": 1
+                        },
+                        {
+                            "Rank": 2,
+                            "RankDescription": "Green",
+                            "Count": 2
+                        },
+                        {
+                            "Rank": 3,
+                            "RankDescription": "Average",
+                            "Count": 6
+                        },
+                        {
+                            "Rank": 4,
+                            "RankDescription": "Skilled",
+                            "Count": 2
+                        },
+                        {
+                            "Rank": 5,
+                            "RankDescription": "Veteran",
+                            "Count": 1
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "Name": "Egyptian Defense 2015 (USN)",
+            "Year": 2015,
+            "Difficulty": 2,
+            "DifficultyDescription": "Standard",
+            "AvailableAircraft": [
+                "E-2C",
+                "EA-18G",
+                "F/A-18C",
+                "F/A-18E",
+                "F/A-18F"
+            ],
+            "SpecialWeapons": [
+                "AIM-120 AMRAAM",
+                "AGM-84 Harpoon",
+                "AGM-130",
+                "AGM-154 JSOW",
+                "GBU-10 Paveway",
+                "GBU-16 Paveway",
+                "GBU-12 Paveway",
+                "GBU-31 JDAM",
+                "GBU-32 JDAM",
+                "GBU-38 JDAM"
+            ],
+            "CampaignOptions": [
+                {
+                    "Length": 1,
+                    "LengthDescription": "Short",
+                    "Timespan": "3 Days",
+                    "SOPoints": 18,
+                    "SquadronMakeup": [
+                        {
+                            "Rank": 1,
+                            "RankDescription": "Newbie",
+                            "Count": 1
+                        },
+                        {
+                            "Rank": 2,
+                            "RankDescription": "Green",
+                            "Count": 2
+                        },
+                        {
+                            "Rank": 3,
+                            "RankDescription": "Average",
+                            "Count": 4
+                        },
+                        {
+                            "Rank": 4,
+                            "RankDescription": "Skilled",
+                            "Count": 1
+                        }
+                    ]
+                },
+                {
+                    "Length": 2,
+                    "LengthDescription": "Medium",
+                    "Timespan": "6 Days",
+                    "SOPoints": 38,
+                    "SquadronMakeup": [
+                        {
+                            "Rank": 1,
+                            "RankDescription": "Newbie",
+                            "Count": 1
+                        },
+                        {
+                            "Rank": 2,
+                            "RankDescription": "Green",
+                            "Count": 2
+                        },
+                        {
+                            "Rank": 3,
+                            "RankDescription": "Average",
+                            "Count": 5
+                        },
+                        {
+                            "Rank": 4,
+                            "RankDescription": "Skilled",
+                            "Count": 1
+                        },
+                        {
+                            "Rank": 5,
+                            "RankDescription": "Veteran",
+                            "Count": 1
+                        }
+                    ]
+                },
+                {
+                    "Length": 3,
+                    "LengthDescription": "Long",
+                    "Timespan": "9 Days",
+                    "SOPoints": 58,
+                    "SquadronMakeup": [
+                        {
+                            "Rank": 1,
+                            "RankDescription": "Newbie",
+                            "Count": 1
+                        },
+                        {
+                            "Rank": 2,
+                            "RankDescription": "Green",
+                            "Count": 2
+                        },
+                        {
+                            "Rank": 3,
+                            "RankDescription": "Average",
+                            "Count": 6
+                        },
+                        {
+                            "Rank": 4,
+                            "RankDescription": "Skilled",
+                            "Count": 2
+                        },
+                        {
+                            "Rank": 5,
+                            "RankDescription": "Veteran",
+                            "Count": 1
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "Name": "Egyptian Defense 2015 (USN) with UCAV",
+            "Year": 2015,
+            "Difficulty": 2,
+            "DifficultyDescription": "Standard",
+            "AvailableAircraft": [
+                "E-2C",
+                "EA-18G",
+                "F/A-18C",
+                "F/A-18E",
+                "F/A-18F",
+                "MQ-47B"
+            ],
+            "SpecialWeapons": [
+                "AIM-120 AMRAAM",
+                "AGM-84 Harpoon",
+                "AGM-130",
+                "AGM-154 JSOW",
+                "GBU-10 Paveway",
+                "GBU-16 Paveway",
+                "GBU-12 Paveway",
+                "GBU-31 JDAM",
+                "GBU-32 JDAM",
+                "GBU-38 JDAM"
+            ],
+            "CampaignOptions": [
+                {
+                    "Length": 1,
+                    "LengthDescription": "Short",
+                    "Timespan": "3 Days",
+                    "SOPoints": 18,
+                    "SquadronMakeup": [
+                        {
+                            "Rank": 1,
+                            "RankDescription": "Newbie",
+                            "Count": 1
+                        },
+                        {
+                            "Rank": 2,
+                            "RankDescription": "Green",
+                            "Count": 2
+                        },
+                        {
+                            "Rank": 3,
+                            "RankDescription": "Average",
+                            "Count": 4
+                        },
+                        {
+                            "Rank": 4,
+                            "RankDescription": "Skilled",
+                            "Count": 1
+                        }
+                    ]
+                },
+                {
+                    "Length": 2,
+                    "LengthDescription": "Medium",
+                    "Timespan": "6 Days",
+                    "SOPoints": 38,
+                    "SquadronMakeup": [
+                        {
+                            "Rank": 1,
+                            "RankDescription": "Newbie",
+                            "Count": 1
+                        },
+                        {
+                            "Rank": 2,
+                            "RankDescription": "Green",
+                            "Count": 2
+                        },
+                        {
+                            "Rank": 3,
+                            "RankDescription": "Average",
+                            "Count": 5
+                        },
+                        {
+                            "Rank": 4,
+                            "RankDescription": "Skilled",
+                            "Count": 1
+                        },
+                        {
+                            "Rank": 5,
+                            "RankDescription": "Veteran",
+                            "Count": 1
+                        }
+                    ]
+                },
+                {
+                    "Length": 3,
+                    "LengthDescription": "Long",
+                    "Timespan": "9 Days",
+                    "SOPoints": 58,
+                    "SquadronMakeup": [
+                        {
+                            "Rank": 1,
+                            "RankDescription": "Newbie",
+                            "Count": 1
+                        },
+                        {
+                            "Rank": 2,
+                            "RankDescription": "Green",
+                            "Count": 2
+                        },
+                        {
+                            "Rank": 3,
+                            "RankDescription": "Average",
+                            "Count": 6
+                        },
+                        {
+                            "Rank": 4,
+                            "RankDescription": "Skilled",
+                            "Count": 2
+                        },
+                        {
+                            "Rank": 5,
+                            "RankDescription": "Veteran",
+                            "Count": 1
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "Name": "Egyptian Defense 2015 (USMC)",
+            "Year": 2015,
+            "Difficulty": 2,
+            "DifficultyDescription": "Standard",
+            "AvailableAircraft": [
+                "AV-8B",
+                "F-35A/C"
+            ],
+            "SpecialWeapons": [
+                "AIM-120 AMRAAM",
+                "AGM-84 Harpoon",
+                "AGM-154 JSOW",
+                "GBU-10 Paveway",
+                "GBU-16 Paveway",
+                "GBU-12 Paveway",
+                "GBU-31 JDAM",
+                "GBU-32 JDAM",
+                "GBU-38 JDAM"
+            ],
+            "CampaignOptions": [
+                {
+                    "Length": 1,
+                    "LengthDescription": "Short",
+                    "Timespan": "3 Days",
+                    "SOPoints": 18,
+                    "SquadronMakeup": [
+                        {
+                            "Rank": 1,
+                            "RankDescription": "Newbie",
+                            "Count": 1
+                        },
+                        {
+                            "Rank": 2,
+                            "RankDescription": "Green",
+                            "Count": 2
+                        },
+                        {
+                            "Rank": 3,
+                            "RankDescription": "Average",
+                            "Count": 4
+                        },
+                        {
+                            "Rank": 4,
+                            "RankDescription": "Skilled",
+                            "Count": 1
+                        }
+                    ]
+                },
+                {
+                    "Length": 2,
+                    "LengthDescription": "Medium",
+                    "Timespan": "6 Days",
+                    "SOPoints": 38,
+                    "SquadronMakeup": [
+                        {
+                            "Rank": 1,
+                            "RankDescription": "Newbie",
+                            "Count": 1
+                        },
+                        {
+                            "Rank": 2,
+                            "RankDescription": "Green",
+                            "Count": 2
+                        },
+                        {
+                            "Rank": 3,
+                            "RankDescription": "Average",
+                            "Count": 5
+                        },
+                        {
+                            "Rank": 4,
+                            "RankDescription": "Skilled",
+                            "Count": 1
+                        },
+                        {
+                            "Rank": 5,
+                            "RankDescription": "Veteran",
+                            "Count": 1
+                        }
+                    ]
+                },
+                {
+                    "Length": 3,
+                    "LengthDescription": "Long",
+                    "Timespan": "9 Days",
+                    "SOPoints": 58,
+                    "SquadronMakeup": [
+                        {
+                            "Rank": 1,
+                            "RankDescription": "Newbie",
+                            "Count": 1
+                        },
+                        {
+                            "Rank": 2,
+                            "RankDescription": "Green",
+                            "Count": 2
+                        },
+                        {
+                            "Rank": 3,
+                            "RankDescription": "Average",
+                            "Count": 6
+                        },
+                        {
+                            "Rank": 4,
+                            "RankDescription": "Skilled",
+                            "Count": 2
+                        },
+                        {
+                            "Rank": 5,
+                            "RankDescription": "Veteran",
+                            "Count": 1
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "Name": "Egyptian Defense 2015 (USMC) with UCAV",
+            "Year": 2015,
+            "Difficulty": 2,
+            "DifficultyDescription": "Standard",
+            "AvailableAircraft": [
+                "AV-8B",
+                "F-35A/C",
+                "MQ-47B"
+            ],
+            "SpecialWeapons": [
+                "AIM-120 AMRAAM",
+                "AGM-84 Harpoon",
+                "AGM-154 JSOW",
+                "GBU-10 Paveway",
+                "GBU-16 Paveway",
+                "GBU-12 Paveway",
+                "GBU-31 JDAM",
+                "GBU-32 JDAM",
+                "GBU-38 JDAM"
+            ],
+            "CampaignOptions": [
+                {
+                    "Length": 1,
+                    "LengthDescription": "Short",
+                    "Timespan": "3 Days",
+                    "SOPoints": 18,
+                    "SquadronMakeup": [
+                        {
+                            "Rank": 1,
+                            "RankDescription": "Newbie",
+                            "Count": 1
+                        },
+                        {
+                            "Rank": 2,
+                            "RankDescription": "Green",
+                            "Count": 2
+                        },
+                        {
+                            "Rank": 3,
+                            "RankDescription": "Average",
+                            "Count": 4
+                        },
+                        {
+                            "Rank": 4,
+                            "RankDescription": "Skilled",
+                            "Count": 1
+                        }
+                    ]
+                },
+                {
+                    "Length": 2,
+                    "LengthDescription": "Medium",
+                    "Timespan": "6 Days",
+                    "SOPoints": 38,
+                    "SquadronMakeup": [
+                        {
+                            "Rank": 1,
+                            "RankDescription": "Newbie",
+                            "Count": 1
+                        },
+                        {
+                            "Rank": 2,
+                            "RankDescription": "Green",
+                            "Count": 2
+                        },
+                        {
+                            "Rank": 3,
+                            "RankDescription": "Average",
+                            "Count": 5
+                        },
+                        {
+                            "Rank": 4,
+                            "RankDescription": "Skilled",
+                            "Count": 1
+                        },
+                        {
+                            "Rank": 5,
+                            "RankDescription": "Veteran",
+                            "Count": 1
+                        }
+                    ]
+                },
+                {
+                    "Length": 3,
+                    "LengthDescription": "Long",
+                    "Timespan": "9 Days",
+                    "SOPoints": 58,
+                    "SquadronMakeup": [
+                        {
+                            "Rank": 1,
+                            "RankDescription": "Newbie",
+                            "Count": 1
+                        },
+                        {
+                            "Rank": 2,
+                            "RankDescription": "Green",
+                            "Count": 2
+                        },
+                        {
+                            "Rank": 3,
+                            "RankDescription": "Average",
+                            "Count": 6
+                        },
+                        {
+                            "Rank": 4,
+                            "RankDescription": "Skilled",
+                            "Count": 2
+                        },
+                        {
+                            "Rank": 5,
+                            "RankDescription": "Veteran",
+                            "Count": 1
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "Name": "Syria 2015 (USMC) with UCAV",
+            "Year": 2015,
+            "Difficulty": 2,
+            "DifficultyDescription": "Standard",
+            "AvailableAircraft": [
+                "AV-8B",
+                "F-35A/C",
+                "MQ-47B"
+            ],
+            "SpecialWeapons": [
+                "AIM-120 AMRAAM",
+                "AGM-84 Harpoon",
+                "AGM-154 JSOW",
+                "GBU-10 Paveway",
+                "GBU-16 Paveway",
+                "GBU-12 Paveway",
+                "GBU-31 JDAM",
+                "GBU-32 JDAM",
+                "GBU-38 JDAM"
+            ],
+            "CampaignOptions": [
+                {
+                    "Length": 1,
+                    "LengthDescription": "Short",
+                    "Timespan": "3 Days",
+                    "SOPoints": 20,
+                    "SquadronMakeup": [
+                        {
+                            "Rank": 1,
+                            "RankDescription": "Newbie",
+                            "Count": 0
+                        },
+                        {
+                            "Rank": 2,
+                            "RankDescription": "Green",
+                            "Count": 3
+                        },
+                        {
+                            "Rank": 3,
+                            "RankDescription": "Average",
+                            "Count": 4
+                        },
+                        {
+                            "Rank": 4,
+                            "RankDescription": "Skilled",
+                            "Count": 1
+                        }
+                    ]
+                },
+                {
+                    "Length": 2,
+                    "LengthDescription": "Medium",
+                    "Timespan": "5 Days",
+                    "SOPoints": 30,
+                    "SquadronMakeup": [
+                        {
+                            "Rank": 1,
+                            "RankDescription": "Newbie",
+                            "Count": 0
+                        },
+                        {
+                            "Rank": 2,
+                            "RankDescription": "Green",
+                            "Count": 3
+                        },
+                        {
+                            "Rank": 3,
+                            "RankDescription": "Average",
+                            "Count": 5
+                        },
+                        {
+                            "Rank": 4,
+                            "RankDescription": "Skilled",
+                            "Count": 1
+                        },
+                        {
+                            "Rank": 5,
+                            "RankDescription": "Veteran",
+                            "Count": 1
+                        }
+                    ]
+                },
+                {
+                    "Length": 3,
+                    "LengthDescription": "Long",
+                    "Timespan": "7 Days",
+                    "SOPoints": 45,
+                    "SquadronMakeup": [
+                        {
+                            "Rank": 1,
+                            "RankDescription": "Newbie",
+                            "Count": 0
+                        },
+                        {
+                            "Rank": 2,
+                            "RankDescription": "Green",
+                            "Count": 3
+                        },
+                        {
+                            "Rank": 3,
+                            "RankDescription": "Average",
+                            "Count": 6
+                        },
+                        {
+                            "Rank": 4,
+                            "RankDescription": "Skilled",
+                            "Count": 2
+                        },
+                        {
+                            "Rank": 5,
+                            "RankDescription": "Veteran",
+                            "Count": 1
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "Name": "Syria 2015 (USN) with UCAV",
+            "Year": 2015,
+            "Difficulty": 2,
+            "DifficultyDescription": "Standard",
+            "AvailableAircraft": [
+                "E-2C",
+                "EA-18G",
+                "F/A-18C",
+                "F/A-18E",
+                "F/A-18F",
+                "MQ-47B"
+            ],
+            "SpecialWeapons": [
+                "AIM-120 AMRAAM",
+                "AGM-84 Harpoon",
+                "AGM-130",
+                "AGM-154 JSOW",
+                "GBU-10 Paveway",
+                "GBU-16 Paveway",
+                "GBU-12 Paveway",
+                "GBU-31 JDAM",
+                "GBU-32 JDAM",
+                "GBU-38 JDAM"
+            ],
+            "CampaignOptions": [
+                {
+                    "Length": 1,
+                    "LengthDescription": "Short",
+                    "Timespan": "3 Days",
+                    "SOPoints": 20,
+                    "SquadronMakeup": [
+                        {
+                            "Rank": 1,
+                            "RankDescription": "Newbie",
+                            "Count": 0
+                        },
+                        {
+                            "Rank": 2,
+                            "RankDescription": "Green",
+                            "Count": 3
+                        },
+                        {
+                            "Rank": 3,
+                            "RankDescription": "Average",
+                            "Count": 4
+                        },
+                        {
+                            "Rank": 4,
+                            "RankDescription": "Skilled",
+                            "Count": 1
+                        }
+                    ]
+                },
+                {
+                    "Length": 2,
+                    "LengthDescription": "Medium",
+                    "Timespan": "5 Days",
+                    "SOPoints": 30,
+                    "SquadronMakeup": [
+                        {
+                            "Rank": 1,
+                            "RankDescription": "Newbie",
+                            "Count": 0
+                        },
+                        {
+                            "Rank": 2,
+                            "RankDescription": "Green",
+                            "Count": 3
+                        },
+                        {
+                            "Rank": 3,
+                            "RankDescription": "Average",
+                            "Count": 5
+                        },
+                        {
+                            "Rank": 4,
+                            "RankDescription": "Skilled",
+                            "Count": 1
+                        },
+                        {
+                            "Rank": 5,
+                            "RankDescription": "Veteran",
+                            "Count": 1
+                        }
+                    ]
+                },
+                {
+                    "Length": 3,
+                    "LengthDescription": "Long",
+                    "Timespan": "7 Days",
+                    "SOPoints": 45,
+                    "SquadronMakeup": [
+                        {
+                            "Rank": 1,
+                            "RankDescription": "Newbie",
+                            "Count": 0
+                        },
+                        {
+                            "Rank": 2,
+                            "RankDescription": "Green",
+                            "Count": 3
+                        },
+                        {
+                            "Rank": 3,
+                            "RankDescription": "Average",
+                            "Count": 6
+                        },
+                        {
+                            "Rank": 4,
+                            "RankDescription": "Skilled",
+                            "Count": 2
+                        },
+                        {
+                            "Rank": 5,
+                            "RankDescription": "Veteran",
+                            "Count": 1
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "Name": "Syria 2015 (USMC)",
+            "Year": 2015,
+            "Difficulty": 2,
+            "DifficultyDescription": "Standard",
+            "AvailableAircraft": [
+                "AV-8B",
+                "F-35A/C"
+            ],
+            "SpecialWeapons": [
+                "AIM-120 AMRAAM",
+                "AGM-84 Harpoon",
+                "AGM-154 JSOW",
+                "GBU-10 Paveway",
+                "GBU-16 Paveway",
+                "GBU-12 Paveway",
+                "GBU-31 JDAM",
+                "GBU-32 JDAM",
+                "GBU-38 JDAM"
+            ],
+            "CampaignOptions": [
+                {
+                    "Length": 1,
+                    "LengthDescription": "Short",
+                    "Timespan": "3 Days",
+                    "SOPoints": 20,
+                    "SquadronMakeup": [
+                        {
+                            "Rank": 1,
+                            "RankDescription": "Newbie",
+                            "Count": 0
+                        },
+                        {
+                            "Rank": 2,
+                            "RankDescription": "Green",
+                            "Count": 3
+                        },
+                        {
+                            "Rank": 3,
+                            "RankDescription": "Average",
+                            "Count": 4
+                        },
+                        {
+                            "Rank": 4,
+                            "RankDescription": "Skilled",
+                            "Count": 1
+                        }
+                    ]
+                },
+                {
+                    "Length": 2,
+                    "LengthDescription": "Medium",
+                    "Timespan": "5 Days",
+                    "SOPoints": 30,
+                    "SquadronMakeup": [
+                        {
+                            "Rank": 1,
+                            "RankDescription": "Newbie",
+                            "Count": 0
+                        },
+                        {
+                            "Rank": 2,
+                            "RankDescription": "Green",
+                            "Count": 3
+                        },
+                        {
+                            "Rank": 3,
+                            "RankDescription": "Average",
+                            "Count": 5
+                        },
+                        {
+                            "Rank": 4,
+                            "RankDescription": "Skilled",
+                            "Count": 1
+                        },
+                        {
+                            "Rank": 5,
+                            "RankDescription": "Veteran",
+                            "Count": 1
+                        }
+                    ]
+                },
+                {
+                    "Length": 3,
+                    "LengthDescription": "Long",
+                    "Timespan": "7 Days",
+                    "SOPoints": 45,
+                    "SquadronMakeup": [
+                        {
+                            "Rank": 1,
+                            "RankDescription": "Newbie",
+                            "Count": 0
+                        },
+                        {
+                            "Rank": 2,
+                            "RankDescription": "Green",
+                            "Count": 3
+                        },
+                        {
+                            "Rank": 3,
+                            "RankDescription": "Average",
+                            "Count": 6
+                        },
+                        {
+                            "Rank": 4,
+                            "RankDescription": "Skilled",
+                            "Count": 2
+                        },
+                        {
+                            "Rank": 5,
+                            "RankDescription": "Veteran",
+                            "Count": 1
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "Name": "Syria 2015 (USN)",
+            "Year": 2015,
+            "Difficulty": 2,
+            "DifficultyDescription": "Standard",
+            "AvailableAircraft": [
+                "E-2C",
+                "EA-18G",
+                "F/A-18C",
+                "F/A-18E",
+                "F/A-18F"
+            ],
+            "SpecialWeapons": [
+                "AIM-120 AMRAAM",
+                "AGM-84 Harpoon",
+                "AGM-130",
+                "AGM-154 JSOW",
+                "GBU-10 Paveway",
+                "GBU-16 Paveway",
+                "GBU-12 Paveway",
+                "GBU-31 JDAM",
+                "GBU-32 JDAM",
+                "GBU-38 JDAM"
+            ],
+            "CampaignOptions": [
+                {
+                    "Length": 1,
+                    "LengthDescription": "Short",
+                    "Timespan": "3 Days",
+                    "SOPoints": 20,
+                    "SquadronMakeup": [
+                        {
+                            "Rank": 1,
+                            "RankDescription": "Newbie",
+                            "Count": 0
+                        },
+                        {
+                            "Rank": 2,
+                            "RankDescription": "Green",
+                            "Count": 3
+                        },
+                        {
+                            "Rank": 3,
+                            "RankDescription": "Average",
+                            "Count": 4
+                        },
+                        {
+                            "Rank": 4,
+                            "RankDescription": "Skilled",
+                            "Count": 1
+                        }
+                    ]
+                },
+                {
+                    "Length": 2,
+                    "LengthDescription": "Medium",
+                    "Timespan": "5 Days",
+                    "SOPoints": 30,
+                    "SquadronMakeup": [
+                        {
+                            "Rank": 1,
+                            "RankDescription": "Newbie",
+                            "Count": 0
+                        },
+                        {
+                            "Rank": 2,
+                            "RankDescription": "Green",
+                            "Count": 3
+                        },
+                        {
+                            "Rank": 3,
+                            "RankDescription": "Average",
+                            "Count": 5
+                        },
+                        {
+                            "Rank": 4,
+                            "RankDescription": "Skilled",
+                            "Count": 1
+                        },
+                        {
+                            "Rank": 5,
+                            "RankDescription": "Veteran",
+                            "Count": 1
+                        }
+                    ]
+                },
+                {
+                    "Length": 3,
+                    "LengthDescription": "Long",
+                    "Timespan": "7 Days",
+                    "SOPoints": 45,
+                    "SquadronMakeup": [
+                        {
+                            "Rank": 1,
+                            "RankDescription": "Newbie",
+                            "Count": 0
+                        },
+                        {
+                            "Rank": 2,
+                            "RankDescription": "Green",
+                            "Count": 3
+                        },
+                        {
+                            "Rank": 3,
+                            "RankDescription": "Average",
+                            "Count": 6
+                        },
+                        {
+                            "Rank": 4,
+                            "RankDescription": "Skilled",
+                            "Count": 2
+                        },
+                        {
+                            "Rank": 5,
+                            "RankDescription": "Veteran",
+                            "Count": 1
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "Name": "Libya 2011 (USN)",
+            "Year": 2011,
+            "Difficulty": 2,
+            "DifficultyDescription": "Standard",
+            "AvailableAircraft": [
+                "E-2C",
+                "EA-18G",
+                "F/A-18C",
+                "F/A-18E",
+                "F/A-18F"
+            ],
+            "SpecialWeapons": [
+                "AIM-120 AMRAAM",
+                "AGM-84 Harpoon",
+                "AGM-130",
+                "AGM-154 JSOW",
+                "GBU-10 Paveway",
+                "GBU-16 Paveway",
+                "GBU-12 Paveway",
+                "GBU-31 JDAM",
+                "GBU-32 JDAM",
+                "GBU-38 JDAM"
+            ],
+            "CampaignOptions": [
+                {
+                    "Length": 1,
+                    "LengthDescription": "Short",
+                    "Timespan": "3 Days",
+                    "SOPoints": 18,
+                    "SquadronMakeup": [
+                        {
+                            "Rank": 1,
+                            "RankDescription": "Newbie",
+                            "Count": 1
+                        },
+                        {
+                            "Rank": 2,
+                            "RankDescription": "Green",
+                            "Count": 2
+                        },
+                        {
+                            "Rank": 3,
+                            "RankDescription": "Average",
+                            "Count": 4
+                        },
+                        {
+                            "Rank": 4,
+                            "RankDescription": "Skilled",
+                            "Count": 1
+                        }
+                    ]
+                },
+                {
+                    "Length": 2,
+                    "LengthDescription": "Medium",
+                    "Timespan": "6 Days",
+                    "SOPoints": 38,
+                    "SquadronMakeup": [
+                        {
+                            "Rank": 1,
+                            "RankDescription": "Newbie",
+                            "Count": 1
+                        },
+                        {
+                            "Rank": 2,
+                            "RankDescription": "Green",
+                            "Count": 2
+                        },
+                        {
+                            "Rank": 3,
+                            "RankDescription": "Average",
+                            "Count": 5
+                        },
+                        {
+                            "Rank": 4,
+                            "RankDescription": "Skilled",
+                            "Count": 1
+                        },
+                        {
+                            "Rank": 5,
+                            "RankDescription": "Veteran",
+                            "Count": 1
+                        }
+                    ]
+                },
+                {
+                    "Length": 3,
+                    "LengthDescription": "Long",
+                    "Timespan": "9 Days",
+                    "SOPoints": 58,
+                    "SquadronMakeup": [
+                        {
+                            "Rank": 1,
+                            "RankDescription": "Newbie",
+                            "Count": 1
+                        },
+                        {
+                            "Rank": 2,
+                            "RankDescription": "Green",
+                            "Count": 2
+                        },
+                        {
+                            "Rank": 3,
+                            "RankDescription": "Average",
+                            "Count": 6
+                        },
+                        {
+                            "Rank": 4,
+                            "RankDescription": "Skilled",
+                            "Count": 2
+                        },
+                        {
+                            "Rank": 5,
+                            "RankDescription": "Veteran",
+                            "Count": 1
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "Name": "Libya 2011 (USMC)",
+            "Year": 2011,
+            "Difficulty": 2,
+            "DifficultyDescription": "Standard",
+            "AvailableAircraft": [
+                "AV-8B"
+            ],
+            "SpecialWeapons": [
+                "AIM-120 AMRAAM",
+                "AGM-84 Harpoon",
+                "AGM-130",
+                "AGM-154 JSOW",
+                "GBU-10 Paveway",
+                "GBU-16 Paveway",
+                "GBU-12 Paveway",
+                "GBU-31 JDAM",
+                "GBU-32 JDAM",
+                "GBU-38 JDAM"
+            ],
+            "CampaignOptions": [
+                {
+                    "Length": 1,
+                    "LengthDescription": "Short",
+                    "Timespan": "3 Days",
+                    "SOPoints": 18,
+                    "SquadronMakeup": [
+                        {
+                            "Rank": 1,
+                            "RankDescription": "Newbie",
+                            "Count": 1
+                        },
+                        {
+                            "Rank": 2,
+                            "RankDescription": "Green",
+                            "Count": 2
+                        },
+                        {
+                            "Rank": 3,
+                            "RankDescription": "Average",
+                            "Count": 4
+                        },
+                        {
+                            "Rank": 4,
+                            "RankDescription": "Skilled",
+                            "Count": 1
+                        }
+                    ]
+                },
+                {
+                    "Length": 2,
+                    "LengthDescription": "Medium",
+                    "Timespan": "6 Days",
+                    "SOPoints": 38,
+                    "SquadronMakeup": [
+                        {
+                            "Rank": 1,
+                            "RankDescription": "Newbie",
+                            "Count": 1
+                        },
+                        {
+                            "Rank": 2,
+                            "RankDescription": "Green",
+                            "Count": 2
+                        },
+                        {
+                            "Rank": 3,
+                            "RankDescription": "Average",
+                            "Count": 5
+                        },
+                        {
+                            "Rank": 4,
+                            "RankDescription": "Skilled",
+                            "Count": 1
+                        },
+                        {
+                            "Rank": 5,
+                            "RankDescription": "Veteran",
+                            "Count": 1
+                        }
+                    ]
+                },
+                {
+                    "Length": 3,
+                    "LengthDescription": "Long",
+                    "Timespan": "9 Days",
+                    "SOPoints": 58,
+                    "SquadronMakeup": [
+                        {
+                            "Rank": 1,
+                            "RankDescription": "Newbie",
+                            "Count": 1
+                        },
+                        {
+                            "Rank": 2,
+                            "RankDescription": "Green",
+                            "Count": 2
+                        },
+                        {
+                            "Rank": 3,
+                            "RankDescription": "Average",
+                            "Count": 6
+                        },
+                        {
+                            "Rank": 4,
+                            "RankDescription": "Skilled",
+                            "Count": 2
+                        },
+                        {
+                            "Rank": 5,
+                            "RankDescription": "Veteran",
+                            "Count": 1
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "Name": "Silent Aurora Antarctica (USN)",
+            "Year": 1999,
+            "Difficulty": 2,
+            "DifficultyDescription": "Standard",
+            "AvailableAircraft": [
+                "A-6",
+                "A-7",
+                "E-2C",
+                "EA-6B",
+                "F/A-18C"
+            ],
+            "SpecialWeapons": [
+                "AIM-54 Phoenix",
+                "AGM-62 Walleye",
+                "GBU-10 Paveway",
+                "GBU-16 Paveway",
+                "GBU-12 Paveway"
+            ],
+            "CampaignOptions": [
+                {
+                    "Length": 1,
+                    "LengthDescription": "Short",
+                    "Timespan": "1 Days",
+                    "SOPoints": 5,
+                    "SquadronMakeup": [
+                        {
+                            "Rank": 1,
+                            "RankDescription": "Newbie",
+                            "Count": 1
+                        },
+                        {
+                            "Rank": 2,
+                            "RankDescription": "Green",
+                            "Count": 2
+                        },
+                        {
+                            "Rank": 3,
+                            "RankDescription": "Average",
+                            "Count": 4
+                        },
+                        {
+                            "Rank": 4,
+                            "RankDescription": "Skilled",
+                            "Count": 1
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "Name": "Silent Aurora Antarctica (USMC)",
+            "Year": 1999,
+            "Difficulty": 2,
+            "DifficultyDescription": "Standard",
+            "AvailableAircraft": [
+                "AV-8B"
+            ],
+            "SpecialWeapons": [
+                "AGM-62 Walleye",
+                "GBU-10 Paveway",
+                "GBU-16 Paveway",
+                "GBU-12 Paveway"
+            ],
+            "CampaignOptions": [
+                {
+                    "Length": 1,
+                    "LengthDescription": "Short",
+                    "Timespan": "1 Days",
+                    "SOPoints": 5,
+                    "SquadronMakeup": [
+                        {
+                            "Rank": 1,
+                            "RankDescription": "Newbie",
+                            "Count": 1
+                        },
+                        {
+                            "Rank": 2,
+                            "RankDescription": "Green",
+                            "Count": 2
+                        },
+                        {
+                            "Rank": 3,
+                            "RankDescription": "Average",
+                            "Count": 4
+                        },
+                        {
+                            "Rank": 4,
+                            "RankDescription": "Skilled",
+                            "Count": 1
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "Name": "Lebanon 1983 (USN)",
+            "Year": 1983,
+            "Difficulty": 2,
+            "DifficultyDescription": "Standard",
+            "AvailableAircraft": [
+                "A-6",
+                "A-7",
+                "E-2C",
+                "EA-6B",
+                "F/A-18C",
+                "OV-10"
+            ],
+            "SpecialWeapons": [
+                "AIM-54 Phoenix",
+                "AIM-62 Walleye",
+                "AGM-88 HARM",
+                "GBU-10 Paveway",
+                "GBU-16 Paveway",
+                "GBU-12 Paveway"
+            ],
+            "CampaignOptions": [
+                {
+                    "Length": 1,
+                    "LengthDescription": "Short",
+                    "Timespan": "4 Days",
+                    "SOPoints": 15,
+                    "SquadronMakeup": [
+                        {
+                            "Rank": 1,
+                            "RankDescription": "Newbie",
+                            "Count": 1
+                        },
+                        {
+                            "Rank": 2,
+                            "RankDescription": "Green",
+                            "Count": 2
+                        },
+                        {
+                            "Rank": 3,
+                            "RankDescription": "Average",
+                            "Count": 4
+                        },
+                        {
+                            "Rank": 4,
+                            "RankDescription": "Skilled",
+                            "Count": 1
+                        }
+                    ]
+                },
+                {
+                    "Length": 2,
+                    "LengthDescription": "Medium",
+                    "Timespan": "8 Days",
+                    "SOPoints": 30,
+                    "SquadronMakeup": [
+                        {
+                            "Rank": 1,
+                            "RankDescription": "Newbie",
+                            "Count": 1
+                        },
+                        {
+                            "Rank": 2,
+                            "RankDescription": "Green",
+                            "Count": 2
+                        },
+                        {
+                            "Rank": 3,
+                            "RankDescription": "Average",
+                            "Count": 5
+                        },
+                        {
+                            "Rank": 4,
+                            "RankDescription": "Skilled",
+                            "Count": 1
+                        },
+                        {
+                            "Rank": 5,
+                            "RankDescription": "Veteran",
+                            "Count": 1
+                        }
+                    ]
+                },
+                {
+                    "Length": 3,
+                    "LengthDescription": "Long",
+                    "Timespan": "12 Days",
+                    "SOPoints": 45,
+                    "SquadronMakeup": [
+                        {
+                            "Rank": 1,
+                            "RankDescription": "Newbie",
+                            "Count": 1
+                        },
+                        {
+                            "Rank": 2,
+                            "RankDescription": "Green",
+                            "Count": 2
+                        },
+                        {
+                            "Rank": 3,
+                            "RankDescription": "Average",
+                            "Count": 6
+                        },
+                        {
+                            "Rank": 4,
+                            "RankDescription": "Skilled",
+                            "Count": 2
+                        },
+                        {
+                            "Rank": 5,
+                            "RankDescription": "Veteran",
+                            "Count": 1
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "Name": "Lebanon 1983 (USMC)",
+            "Year": 1983,
+            "Difficulty": 2,
+            "DifficultyDescription": "Standard",
+            "AvailableAircraft": [
+                "AV-8B",
+                "OV-10"
+            ],
+            "SpecialWeapons": [
+                "AIM-62 Walleye",
+                "AGM-88 HARM",
+                "GBU-10 Paveway",
+                "GBU-16 Paveway",
+                "GBU-12 Paveway"
+            ],
+            "CampaignOptions": [
+                {
+                    "Length": 1,
+                    "LengthDescription": "Short",
+                    "Timespan": "4 Days",
+                    "SOPoints": 15,
+                    "SquadronMakeup": [
+                        {
+                            "Rank": 1,
+                            "RankDescription": "Newbie",
+                            "Count": 1
+                        },
+                        {
+                            "Rank": 2,
+                            "RankDescription": "Green",
+                            "Count": 2
+                        },
+                        {
+                            "Rank": 3,
+                            "RankDescription": "Average",
+                            "Count": 4
+                        },
+                        {
+                            "Rank": 4,
+                            "RankDescription": "Skilled",
+                            "Count": 1
+                        }
+                    ]
+                },
+                {
+                    "Length": 2,
+                    "LengthDescription": "Medium",
+                    "Timespan": "8 Days",
+                    "SOPoints": 30,
+                    "SquadronMakeup": [
+                        {
+                            "Rank": 1,
+                            "RankDescription": "Newbie",
+                            "Count": 1
+                        },
+                        {
+                            "Rank": 2,
+                            "RankDescription": "Green",
+                            "Count": 2
+                        },
+                        {
+                            "Rank": 3,
+                            "RankDescription": "Average",
+                            "Count": 5
+                        },
+                        {
+                            "Rank": 4,
+                            "RankDescription": "Skilled",
+                            "Count": 1
+                        },
+                        {
+                            "Rank": 5,
+                            "RankDescription": "Veteran",
+                            "Count": 1
+                        }
+                    ]
+                },
+                {
+                    "Length": 3,
+                    "LengthDescription": "Long",
+                    "Timespan": "12 Days",
+                    "SOPoints": 45,
+                    "SquadronMakeup": [
+                        {
+                            "Rank": 1,
+                            "RankDescription": "Newbie",
+                            "Count": 1
+                        },
+                        {
+                            "Rank": 2,
+                            "RankDescription": "Green",
+                            "Count": 2
+                        },
+                        {
+                            "Rank": 3,
+                            "RankDescription": "Average",
+                            "Count": 6
+                        },
+                        {
+                            "Rank": 4,
+                            "RankDescription": "Skilled",
+                            "Count": 2
+                        },
+                        {
+                            "Rank": 5,
+                            "RankDescription": "Veteran",
+                            "Count": 1
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "Name": "Operation Nightfall Syria 2013 (USN)",
+            "Year": 2013,
+            "Difficulty": 3,
+            "DifficultyDescription": "Advanced",
+            "AvailableAircraft": [
+                "E-2C",
+                "EA-18G",
+                "F/A-18C",
+                "F/A-18E",
+                "F/A-18F"
+            ],
+            "SpecialWeapons": [
+                "AIM-120 AMRAAM",
+                "AIM-84 Harpoon",
+                "AGM-130",
+                "AGM-154 JSOW",
+                "GBU-10 Paveway",
+                "GBU-16 Paveway",
+                "GBU-12 Paveway",
+                "GBU-31 JDAM",
+                "GBU-32 JDAM",
+                "GBU-38 JDAM"
+            ],
+            "CampaignOptions": [
+                {
+                    "Length": 1,
+                    "LengthDescription": "Short",
+                    "Timespan": "3 Days",
+                    "SOPoints": 28,
+                    "SquadronMakeup": [
+                        {
+                            "Rank": 1,
+                            "RankDescription": "Newbie",
+                            "Count": 1
+                        },
+                        {
+                            "Rank": 2,
+                            "RankDescription": "Green",
+                            "Count": 2
+                        },
+                        {
+                            "Rank": 3,
+                            "RankDescription": "Average",
+                            "Count": 4
+                        },
+                        {
+                            "Rank": 4,
+                            "RankDescription": "Skilled",
+                            "Count": 1
+                        }
+                    ]
+                },
+                {
+                    "Length": 2,
+                    "LengthDescription": "Medium",
+                    "Timespan": "5 Days",
+                    "SOPoints": 44,
+                    "SquadronMakeup": [
+                        {
+                            "Rank": 1,
+                            "RankDescription": "Newbie",
+                            "Count": 1
+                        },
+                        {
+                            "Rank": 2,
+                            "RankDescription": "Green",
+                            "Count": 2
+                        },
+                        {
+                            "Rank": 3,
+                            "RankDescription": "Average",
+                            "Count": 5
+                        },
+                        {
+                            "Rank": 4,
+                            "RankDescription": "Skilled",
+                            "Count": 1
+                        },
+                        {
+                            "Rank": 5,
+                            "RankDescription": "Veteran",
+                            "Count": 1
+                        }
+                    ]
+                },
+                {
+                    "Length": 3,
+                    "LengthDescription": "Long",
+                    "Timespan": "7 Days",
+                    "SOPoints": 56,
+                    "SquadronMakeup": [
+                        {
+                            "Rank": 1,
+                            "RankDescription": "Newbie",
+                            "Count": 1
+                        },
+                        {
+                            "Rank": 2,
+                            "RankDescription": "Green",
+                            "Count": 2
+                        },
+                        {
+                            "Rank": 3,
+                            "RankDescription": "Average",
+                            "Count": 6
+                        },
+                        {
+                            "Rank": 4,
+                            "RankDescription": "Skilled",
+                            "Count": 2
+                        },
+                        {
+                            "Rank": 5,
+                            "RankDescription": "Veteran",
+                            "Count": 1
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "Name": "Operation Nightfall Syria 2013 (USMC)",
+            "Year": 2013,
+            "Difficulty": 2,
+            "DifficultyDescription": "Advanced",
+            "AvailableAircraft": [
+                "AV-8B"
+            ],
+            "SpecialWeapons": [
+                "AIM-120 AMRAAM",
+                "AIM-84 Harpoon",
+                "AGM-130",
+                "AGM-154 JSOW",
+                "GBU-10 Paveway",
+                "GBU-16 Paveway",
+                "GBU-12 Paveway",
+                "GBU-31 JDAM",
+                "GBU-32 JDAM",
+                "GBU-38 JDAM"
+            ],
+            "CampaignOptions": [
+                {
+                    "Length": 1,
+                    "LengthDescription": "Short",
+                    "Timespan": "3 Days",
+                    "SOPoints": 28,
+                    "SquadronMakeup": [
+                        {
+                            "Rank": 1,
+                            "RankDescription": "Newbie",
+                            "Count": 1
+                        },
+                        {
+                            "Rank": 2,
+                            "RankDescription": "Green",
+                            "Count": 2
+                        },
+                        {
+                            "Rank": 3,
+                            "RankDescription": "Average",
+                            "Count": 4
+                        },
+                        {
+                            "Rank": 4,
+                            "RankDescription": "Skilled",
+                            "Count": 1
+                        }
+                    ]
+                },
+                {
+                    "Length": 2,
+                    "LengthDescription": "Medium",
+                    "Timespan": "5 Days",
+                    "SOPoints": 44,
+                    "SquadronMakeup": [
+                        {
+                            "Rank": 1,
+                            "RankDescription": "Newbie",
+                            "Count": 1
+                        },
+                        {
+                            "Rank": 2,
+                            "RankDescription": "Green",
+                            "Count": 2
+                        },
+                        {
+                            "Rank": 3,
+                            "RankDescription": "Average",
+                            "Count": 5
+                        },
+                        {
+                            "Rank": 4,
+                            "RankDescription": "Skilled",
+                            "Count": 1
+                        },
+                        {
+                            "Rank": 5,
+                            "RankDescription": "Veteran",
+                            "Count": 1
+                        }
+                    ]
+                },
+                {
+                    "Length": 3,
+                    "LengthDescription": "Long",
+                    "Timespan": "7 Days",
+                    "SOPoints": 56,
+                    "SquadronMakeup": [
+                        {
+                            "Rank": 1,
+                            "RankDescription": "Newbie",
+                            "Count": 1
+                        },
+                        {
+                            "Rank": 2,
+                            "RankDescription": "Green",
+                            "Count": 2
+                        },
+                        {
+                            "Rank": 3,
+                            "RankDescription": "Average",
+                            "Count": 6
+                        },
+                        {
+                            "Rank": 4,
+                            "RankDescription": "Skilled",
+                            "Count": 2
+                        },
+                        {
+                            "Rank": 5,
+                            "RankDescription": "Veteran",
+                            "Count": 1
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "Name": "North Korea (USN)",
+            "Year": 2013,
+            "Difficulty": 3,
+            "DifficultyDescription": "Advanced",
+            "AvailableAircraft": [
+                "E-2C",
+                "EA-18G",
+                "F/A-18C",
+                "F/A-18E",
+                "F/A-18F"
+            ],
+            "SpecialWeapons": [
+                "AIM-120 AMRAAM",
+                "AIM-84 Harpoon",
+                "AGM-130",
+                "AGM-154 JSOW",
+                "GBU-10 Paveway",
+                "GBU-16 Paveway",
+                "GBU-12 Paveway",
+                "GBU-31 JDAM",
+                "GBU-32 JDAM",
+                "GBU-38 JDAM"
+            ],
+            "CampaignOptions": [
+                {
+                    "Length": 1,
+                    "LengthDescription": "Short",
+                    "Timespan": "5 Days",
+                    "SOPoints": 25,
+                    "SquadronMakeup": [
+                        {
+                            "Rank": 1,
+                            "RankDescription": "Newbie",
+                            "Count": 1
+                        },
+                        {
+                            "Rank": 2,
+                            "RankDescription": "Green",
+                            "Count": 2
+                        },
+                        {
+                            "Rank": 3,
+                            "RankDescription": "Average",
+                            "Count": 4
+                        },
+                        {
+                            "Rank": 4,
+                            "RankDescription": "Skilled",
+                            "Count": 1
+                        }
+                    ]
+                },
+                {
+                    "Length": 2,
+                    "LengthDescription": "Medium",
+                    "Timespan": "10 Days",
+                    "SOPoints": 52,
+                    "SquadronMakeup": [
+                        {
+                            "Rank": 1,
+                            "RankDescription": "Newbie",
+                            "Count": 1
+                        },
+                        {
+                            "Rank": 2,
+                            "RankDescription": "Green",
+                            "Count": 2
+                        },
+                        {
+                            "Rank": 3,
+                            "RankDescription": "Average",
+                            "Count": 5
+                        },
+                        {
+                            "Rank": 4,
+                            "RankDescription": "Skilled",
+                            "Count": 1
+                        },
+                        {
+                            "Rank": 5,
+                            "RankDescription": "Veteran",
+                            "Count": 1
+                        }
+                    ]
+                },
+                {
+                    "Length": 3,
+                    "LengthDescription": "Long",
+                    "Timespan": "15 Days",
+                    "SOPoints": 80,
+                    "SquadronMakeup": [
+                        {
+                            "Rank": 1,
+                            "RankDescription": "Newbie",
+                            "Count": 1
+                        },
+                        {
+                            "Rank": 2,
+                            "RankDescription": "Green",
+                            "Count": 2
+                        },
+                        {
+                            "Rank": 3,
+                            "RankDescription": "Average",
+                            "Count": 6
+                        },
+                        {
+                            "Rank": 4,
+                            "RankDescription": "Skilled",
+                            "Count": 2
+                        },
+                        {
+                            "Rank": 5,
+                            "RankDescription": "Veteran",
+                            "Count": 1
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "Name": "North Korea (USMC)",
+            "Year": 2013,
+            "Difficulty": 3,
+            "DifficultyDescription": "Advanced",
+            "AvailableAircraft": [
+                "AV-8B"
+            ],
+            "SpecialWeapons": [
+                "AIM-120 AMRAAM",
+                "AIM-84 Harpoon",
+                "AGM-130",
+                "AGM-154 JSOW",
+                "GBU-10 Paveway",
+                "GBU-16 Paveway",
+                "GBU-12 Paveway",
+                "GBU-31 JDAM",
+                "GBU-32 JDAM",
+                "GBU-38 JDAM"
+            ],
+            "CampaignOptions": [
+                {
+                    "Length": 1,
+                    "LengthDescription": "Short",
+                    "Timespan": "5 Days",
+                    "SOPoints": 25,
+                    "SquadronMakeup": [
+                        {
+                            "Rank": 1,
+                            "RankDescription": "Newbie",
+                            "Count": 1
+                        },
+                        {
+                            "Rank": 2,
+                            "RankDescription": "Green",
+                            "Count": 2
+                        },
+                        {
+                            "Rank": 3,
+                            "RankDescription": "Average",
+                            "Count": 4
+                        },
+                        {
+                            "Rank": 4,
+                            "RankDescription": "Skilled",
+                            "Count": 1
+                        }
+                    ]
+                },
+                {
+                    "Length": 2,
+                    "LengthDescription": "Medium",
+                    "Timespan": "10 Days",
+                    "SOPoints": 52,
+                    "SquadronMakeup": [
+                        {
+                            "Rank": 1,
+                            "RankDescription": "Newbie",
+                            "Count": 1
+                        },
+                        {
+                            "Rank": 2,
+                            "RankDescription": "Green",
+                            "Count": 2
+                        },
+                        {
+                            "Rank": 3,
+                            "RankDescription": "Average",
+                            "Count": 5
+                        },
+                        {
+                            "Rank": 4,
+                            "RankDescription": "Skilled",
+                            "Count": 1
+                        },
+                        {
+                            "Rank": 5,
+                            "RankDescription": "Veteran",
+                            "Count": 1
+                        }
+                    ]
+                },
+                {
+                    "Length": 3,
+                    "LengthDescription": "Long",
+                    "Timespan": "15 Days",
+                    "SOPoints": 80,
+                    "SquadronMakeup": [
+                        {
+                            "Rank": 1,
+                            "RankDescription": "Newbie",
+                            "Count": 1
+                        },
+                        {
+                            "Rank": 2,
+                            "RankDescription": "Green",
+                            "Count": 2
+                        },
+                        {
+                            "Rank": 3,
+                            "RankDescription": "Average",
+                            "Count": 6
+                        },
+                        {
+                            "Rank": 4,
+                            "RankDescription": "Skilled",
+                            "Count": 2
+                        },
+                        {
+                            "Rank": 5,
+                            "RankDescription": "Veteran",
+                            "Count": 1
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "Name": "WWIII North Atlantic 1980 (USN)",
+            "Year": 1980,
+            "Difficulty": 4,
+            "DifficultyDescription": "Expert",
+            "AvailableAircraft": [
+                "E-2C",
+                "A-6",
+                "A-7",
+                "F-14",
+                "OV-10"
+            ],
+            "SpecialWeapons": [
+                "AIM-54 Phoenix",
+                "AIM-84 Harpoon",
+                "GBU-10 Paveway",
+                "GBU-16 Paveway",
+                "GBU-12 Paveway"
+            ],
+            "CampaignOptions": [
+                {
+                    "Length": 1,
+                    "LengthDescription": "Short",
+                    "Timespan": "5 Days",
+                    "SOPoints": 9,
+                    "SquadronMakeup": [
+                        {
+                            "Rank": 1,
+                            "RankDescription": "Newbie",
+                            "Count": 1
+                        },
+                        {
+                            "Rank": 2,
+                            "RankDescription": "Green",
+                            "Count": 2
+                        },
+                        {
+                            "Rank": 3,
+                            "RankDescription": "Average",
+                            "Count": 4
+                        },
+                        {
+                            "Rank": 4,
+                            "RankDescription": "Skilled",
+                            "Count": 1
+                        }
+                    ]
+                },
+                {
+                    "Length": 2,
+                    "LengthDescription": "Medium",
+                    "Timespan": "10 Days",
+                    "SOPoints": 18,
+                    "SquadronMakeup": [
+                        {
+                            "Rank": 1,
+                            "RankDescription": "Newbie",
+                            "Count": 1
+                        },
+                        {
+                            "Rank": 2,
+                            "RankDescription": "Green",
+                            "Count": 2
+                        },
+                        {
+                            "Rank": 3,
+                            "RankDescription": "Average",
+                            "Count": 5
+                        },
+                        {
+                            "Rank": 4,
+                            "RankDescription": "Skilled",
+                            "Count": 1
+                        },
+                        {
+                            "Rank": 5,
+                            "RankDescription": "Veteran",
+                            "Count": 1
+                        }
+                    ]
+                },
+                {
+                    "Length": 3,
+                    "LengthDescription": "Long",
+                    "Timespan": "15 Days",
+                    "SOPoints": 27,
+                    "SquadronMakeup": [
+                        {
+                            "Rank": 1,
+                            "RankDescription": "Newbie",
+                            "Count": 1
+                        },
+                        {
+                            "Rank": 2,
+                            "RankDescription": "Green",
+                            "Count": 2
+                        },
+                        {
+                            "Rank": 3,
+                            "RankDescription": "Average",
+                            "Count": 6
+                        },
+                        {
+                            "Rank": 4,
+                            "RankDescription": "Skilled",
+                            "Count": 2
+                        },
+                        {
+                            "Rank": 5,
+                            "RankDescription": "Veteran",
+                            "Count": 1
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "Name": "WWIII North Atlantic 1980 (USMC)",
+            "Year": 1980,
+            "Difficulty": 4,
+            "DifficultyDescription": "Expert",
+            "AvailableAircraft": [
+                "AV-8B",
+                "OV-10"
+            ],
+            "SpecialWeapons": [
+                "AIM-84 Harpoon",
+                "GBU-10 Paveway",
+                "GBU-16 Paveway",
+                "GBU-12 Paveway"
+            ],
+            "CampaignOptions": [
+                {
+                    "Length": 1,
+                    "LengthDescription": "Short",
+                    "Timespan": "5 Days",
+                    "SOPoints": 9,
+                    "SquadronMakeup": [
+                        {
+                            "Rank": 1,
+                            "RankDescription": "Newbie",
+                            "Count": 1
+                        },
+                        {
+                            "Rank": 2,
+                            "RankDescription": "Green",
+                            "Count": 2
+                        },
+                        {
+                            "Rank": 3,
+                            "RankDescription": "Average",
+                            "Count": 4
+                        },
+                        {
+                            "Rank": 4,
+                            "RankDescription": "Skilled",
+                            "Count": 1
+                        }
+                    ]
+                },
+                {
+                    "Length": 2,
+                    "LengthDescription": "Medium",
+                    "Timespan": "10 Days",
+                    "SOPoints": 18,
+                    "SquadronMakeup": [
+                        {
+                            "Rank": 1,
+                            "RankDescription": "Newbie",
+                            "Count": 1
+                        },
+                        {
+                            "Rank": 2,
+                            "RankDescription": "Green",
+                            "Count": 2
+                        },
+                        {
+                            "Rank": 3,
+                            "RankDescription": "Average",
+                            "Count": 5
+                        },
+                        {
+                            "Rank": 4,
+                            "RankDescription": "Skilled",
+                            "Count": 1
+                        },
+                        {
+                            "Rank": 5,
+                            "RankDescription": "Veteran",
+                            "Count": 1
+                        }
+                    ]
+                },
+                {
+                    "Length": 3,
+                    "LengthDescription": "Long",
+                    "Timespan": "15 Days",
+                    "SOPoints": 27,
+                    "SquadronMakeup": [
+                        {
+                            "Rank": 1,
+                            "RankDescription": "Newbie",
+                            "Count": 1
+                        },
+                        {
+                            "Rank": 2,
+                            "RankDescription": "Green",
+                            "Count": 2
+                        },
+                        {
+                            "Rank": 3,
+                            "RankDescription": "Average",
+                            "Count": 6
+                        },
+                        {
+                            "Rank": 4,
+                            "RankDescription": "Skilled",
+                            "Count": 2
+                        },
+                        {
+                            "Rank": 5,
+                            "RankDescription": "Veteran",
+                            "Count": 1
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "Name": "R'Lyeh (USN)",
+            "Year": 2015,
+            "Difficulty": 2,
+            "DifficultyDescription": "Standard",
+            "AvailableAircraft": [
+                "E-2C",
+                "EA-18G",
+                "F/A-18C",
+                "F/A-18E",
+                "F/A-18F",
+                "MQ-47B"
+            ],
+            "SpecialWeapons": [
+                "AIM-120 AMRAAM",
+                "AGM-84 Harpoon",
+                "AGM-130",
+                "AGM-154 JSOW",
+                "GBU-10 Paveway",
+                "GBU-16 Paveway",
+                "GBU-12 Paveway",
+                "GBU-31 JDAM",
+                "GBU-32 JDAM",
+                "GBU-38 JDAM",
+                "B83 Nuclear Bomb"
+            ],
+            "CampaignOptions": [
+                {
+                    "Length": 1,
+                    "LengthDescription": "Short",
+                    "Timespan": "3 Days",
+                    "SOPoints": 21,
+                    "SquadronMakeup": [
+                        {
+                            "Rank": 1,
+                            "RankDescription": "Newbie",
+                            "Count": 1
+                        },
+                        {
+                            "Rank": 2,
+                            "RankDescription": "Green",
+                            "Count": 2
+                        },
+                        {
+                            "Rank": 3,
+                            "RankDescription": "Average",
+                            "Count": 4
+                        },
+                        {
+                            "Rank": 4,
+                            "RankDescription": "Skilled",
+                            "Count": 1
+                        }
+                    ]
+                },
+                {
+                    "Length": 2,
+                    "LengthDescription": "Medium",
+                    "Timespan": "6 Days",
+                    "SOPoints": 42,
+                    "SquadronMakeup": [
+                        {
+                            "Rank": 1,
+                            "RankDescription": "Newbie",
+                            "Count": 1
+                        },
+                        {
+                            "Rank": 2,
+                            "RankDescription": "Green",
+                            "Count": 2
+                        },
+                        {
+                            "Rank": 3,
+                            "RankDescription": "Average",
+                            "Count": 5
+                        },
+                        {
+                            "Rank": 4,
+                            "RankDescription": "Skilled",
+                            "Count": 1
+                        },
+                        {
+                            "Rank": 5,
+                            "RankDescription": "Veteran",
+                            "Count": 1
+                        }
+                    ]
+                },
+                {
+                    "Length": 3,
+                    "LengthDescription": "Long",
+                    "Timespan": "9 Days",
+                    "SOPoints": 63,
+                    "SquadronMakeup": [
+                        {
+                            "Rank": 1,
+                            "RankDescription": "Newbie",
+                            "Count": 1
+                        },
+                        {
+                            "Rank": 2,
+                            "RankDescription": "Green",
+                            "Count": 2
+                        },
+                        {
+                            "Rank": 3,
+                            "RankDescription": "Average",
+                            "Count": 6
+                        },
+                        {
+                            "Rank": 4,
+                            "RankDescription": "Skilled",
+                            "Count": 2
+                        },
+                        {
+                            "Rank": 5,
+                            "RankDescription": "Veteran",
+                            "Count": 1
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "Name": "R'Lyeh (USMC)",
+            "Year": 2015,
+            "Difficulty": 2,
+            "DifficultyDescription": "Standard",
+            "AvailableAircraft": [
+                "AV-8B",
+                "F-35A/C",
+                "MQ-47B"
+            ],
+            "SpecialWeapons": [
+                "AIM-120 AMRAAM",
+                "AGM-84 Harpoon",
+                "AGM-130",
+                "AGM-154 JSOW",
+                "GBU-10 Paveway",
+                "GBU-16 Paveway",
+                "GBU-12 Paveway",
+                "GBU-31 JDAM",
+                "GBU-32 JDAM",
+                "GBU-38 JDAM",
+                "B83 Nuclear Bomb"
+            ],
+            "CampaignOptions": [
+                {
+                    "Length": 1,
+                    "LengthDescription": "Short",
+                    "Timespan": "4 Days",
+                    "SOPoints": 24,
+                    "SquadronMakeup": [
+                        {
+                            "Rank": 1,
+                            "RankDescription": "Newbie",
+                            "Count": 1
+                        },
+                        {
+                            "Rank": 2,
+                            "RankDescription": "Green",
+                            "Count": 2
+                        },
+                        {
+                            "Rank": 3,
+                            "RankDescription": "Average",
+                            "Count": 4
+                        },
+                        {
+                            "Rank": 4,
+                            "RankDescription": "Skilled",
+                            "Count": 1
+                        }
+                    ]
+                },
+                {
+                    "Length": 2,
+                    "LengthDescription": "Medium",
+                    "Timespan": "8 Days",
+                    "SOPoints": 50,
+                    "SquadronMakeup": [
+                        {
+                            "Rank": 1,
+                            "RankDescription": "Newbie",
+                            "Count": 1
+                        },
+                        {
+                            "Rank": 2,
+                            "RankDescription": "Green",
+                            "Count": 2
+                        },
+                        {
+                            "Rank": 3,
+                            "RankDescription": "Average",
+                            "Count": 5
+                        },
+                        {
+                            "Rank": 4,
+                            "RankDescription": "Skilled",
+                            "Count": 1
+                        },
+                        {
+                            "Rank": 5,
+                            "RankDescription": "Veteran",
+                            "Count": 1
+                        }
+                    ]
+                },
+                {
+                    "Length": 3,
+                    "LengthDescription": "Long",
+                    "Timespan": "12 Days",
+                    "SOPoints": 76,
+                    "SquadronMakeup": [
+                        {
+                            "Rank": 1,
+                            "RankDescription": "Newbie",
+                            "Count": 1
+                        },
+                        {
+                            "Rank": 2,
+                            "RankDescription": "Green",
+                            "Count": 2
+                        },
+                        {
+                            "Rank": 3,
+                            "RankDescription": "Average",
+                            "Count": 6
+                        },
+                        {
+                            "Rank": 4,
+                            "RankDescription": "Skilled",
+                            "Count": 2
+                        },
+                        {
+                            "Rank": 5,
+                            "RankDescription": "Veteran",
+                            "Count": 1
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "Name": "Hawaiian Islands (USN)",
+            "Year": 2015,
+            "Difficulty": 2,
+            "DifficultyDescription": "Standard",
+            "AvailableAircraft": [
+                "E-2C",
+                "EA-18G",
+                "F/A-18C",
+                "F/A-18E",
+                "F/A-18F",
+                "MQ-47B"
+            ],
+            "SpecialWeapons": [
+                "AIM-120 AMRAAM",
+                "AGM-84 Harpoon",
+                "AGM-130",
+                "AGM-154 JSOW",
+                "GBU-10 Paveway",
+                "GBU-16 Paveway",
+                "GBU-12 Paveway",
+                "GBU-31 JDAM",
+                "GBU-32 JDAM",
+                "GBU-38 JDAM",
+                "B83 Nuclear Bomb"
+            ],
+            "CampaignOptions": [
+                {
+                    "Length": 1,
+                    "LengthDescription": "Short",
+                    "Timespan": "2 Days",
+                    "SOPoints": 12,
+                    "SquadronMakeup": [
+                        {
+                            "Rank": 1,
+                            "RankDescription": "Newbie",
+                            "Count": 1
+                        },
+                        {
+                            "Rank": 2,
+                            "RankDescription": "Green",
+                            "Count": 2
+                        },
+                        {
+                            "Rank": 3,
+                            "RankDescription": "Average",
+                            "Count": 4
+                        },
+                        {
+                            "Rank": 4,
+                            "RankDescription": "Skilled",
+                            "Count": 1
+                        }
+                    ]
+                },
+                {
+                    "Length": 2,
+                    "LengthDescription": "Medium",
+                    "Timespan": "4 Days",
+                    "SOPoints": 24,
+                    "SquadronMakeup": [
+                        {
+                            "Rank": 1,
+                            "RankDescription": "Newbie",
+                            "Count": 1
+                        },
+                        {
+                            "Rank": 2,
+                            "RankDescription": "Green",
+                            "Count": 2
+                        },
+                        {
+                            "Rank": 3,
+                            "RankDescription": "Average",
+                            "Count": 5
+                        },
+                        {
+                            "Rank": 4,
+                            "RankDescription": "Skilled",
+                            "Count": 1
+                        },
+                        {
+                            "Rank": 5,
+                            "RankDescription": "Veteran",
+                            "Count": 1
+                        }
+                    ]
+                },
+                {
+                    "Length": 3,
+                    "LengthDescription": "Long",
+                    "Timespan": "6 Days",
+                    "SOPoints": 36,
+                    "SquadronMakeup": [
+                        {
+                            "Rank": 1,
+                            "RankDescription": "Newbie",
+                            "Count": 1
+                        },
+                        {
+                            "Rank": 2,
+                            "RankDescription": "Green",
+                            "Count": 2
+                        },
+                        {
+                            "Rank": 3,
+                            "RankDescription": "Average",
+                            "Count": 6
+                        },
+                        {
+                            "Rank": 4,
+                            "RankDescription": "Skilled",
+                            "Count": 2
+                        },
+                        {
+                            "Rank": 5,
+                            "RankDescription": "Veteran",
+                            "Count": 1
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "Name": "Hawaiian Islands (USMC)",
+            "Year": 2015,
+            "Difficulty": 3,
+            "DifficultyDescription": "Standard",
+            "AvailableAircraft": [
+                "AV-8B",
+                "F-35A/C",
+                "MQ-47B"
+            ],
+            "SpecialWeapons": [
+                "AIM-120 AMRAAM",
+                "AGM-84 Harpoon",
+                "AGM-130",
+                "AGM-154 JSOW",
+                "GBU-10 Paveway",
+                "GBU-16 Paveway",
+                "GBU-12 Paveway",
+                "GBU-31 JDAM",
+                "GBU-32 JDAM",
+                "GBU-38 JDAM",
+                "B83 Nuclear Bomb"
+            ],
+            "CampaignOptions": [
+                {
+                    "Length": 1,
+                    "LengthDescription": "Short",
+                    "Timespan": "2 Days",
+                    "SOPoints": 12,
+                    "SquadronMakeup": [
+                        {
+                            "Rank": 1,
+                            "RankDescription": "Newbie",
+                            "Count": 1
+                        },
+                        {
+                            "Rank": 2,
+                            "RankDescription": "Green",
+                            "Count": 2
+                        },
+                        {
+                            "Rank": 3,
+                            "RankDescription": "Average",
+                            "Count": 4
+                        },
+                        {
+                            "Rank": 4,
+                            "RankDescription": "Skilled",
+                            "Count": 1
+                        }
+                    ]
+                },
+                {
+                    "Length": 2,
+                    "LengthDescription": "Medium",
+                    "Timespan": "4 Days",
+                    "SOPoints": 24,
+                    "SquadronMakeup": [
+                        {
+                            "Rank": 1,
+                            "RankDescription": "Newbie",
+                            "Count": 1
+                        },
+                        {
+                            "Rank": 2,
+                            "RankDescription": "Green",
+                            "Count": 2
+                        },
+                        {
+                            "Rank": 3,
+                            "RankDescription": "Average",
+                            "Count": 5
+                        },
+                        {
+                            "Rank": 4,
+                            "RankDescription": "Skilled",
+                            "Count": 1
+                        },
+                        {
+                            "Rank": 5,
+                            "RankDescription": "Veteran",
+                            "Count": 1
+                        }
+                    ]
+                },
+                {
+                    "Length": 3,
+                    "LengthDescription": "Long",
+                    "Timespan": "6 Days",
+                    "SOPoints": 76,
+                    "SquadronMakeup": [
+                        {
+                            "Rank": 1,
+                            "RankDescription": "Newbie",
+                            "Count": 1
+                        },
+                        {
+                            "Rank": 2,
+                            "RankDescription": "Green",
+                            "Count": 2
+                        },
+                        {
+                            "Rank": 3,
+                            "RankDescription": "Average",
+                            "Count": 6
+                        },
+                        {
+                            "Rank": 4,
+                            "RankDescription": "Skilled",
+                            "Count": 2
+                        },
+                        {
+                            "Rank": 5,
+                            "RankDescription": "Veteran",
+                            "Count": 1
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "Name": "Mediterranean (USN)",
+            "Year": 2015,
+            "Difficulty": 2,
+            "DifficultyDescription": "Advanced",
+            "AvailableAircraft": [
+                "E-2C",
+                "EA-18G",
+                "F/A-18C",
+                "F/A-18E",
+                "F/A-18F",
+                "MQ-47B"
+            ],
+            "SpecialWeapons": [
+                "AIM-120 AMRAAM",
+                "AGM-84 Harpoon",
+                "AGM-130",
+                "AGM-154 JSOW",
+                "GBU-10 Paveway",
+                "GBU-16 Paveway",
+                "GBU-12 Paveway",
+                "GBU-31 JDAM",
+                "GBU-32 JDAM",
+                "GBU-38 JDAM",
+                "B83 Nuclear Bomb"
+            ],
+            "CampaignOptions": [
+                {
+                    "Length": 1,
+                    "LengthDescription": "Short",
+                    "Timespan": "4 Days",
+                    "SOPoints": 24,
+                    "SquadronMakeup": [
+                        {
+                            "Rank": 1,
+                            "RankDescription": "Newbie",
+                            "Count": 1
+                        },
+                        {
+                            "Rank": 2,
+                            "RankDescription": "Green",
+                            "Count": 2
+                        },
+                        {
+                            "Rank": 3,
+                            "RankDescription": "Average",
+                            "Count": 4
+                        },
+                        {
+                            "Rank": 4,
+                            "RankDescription": "Skilled",
+                            "Count": 1
+                        }
+                    ]
+                },
+                {
+                    "Length": 2,
+                    "LengthDescription": "Medium",
+                    "Timespan": "8 Days",
+                    "SOPoints": 50,
+                    "SquadronMakeup": [
+                        {
+                            "Rank": 1,
+                            "RankDescription": "Newbie",
+                            "Count": 1
+                        },
+                        {
+                            "Rank": 2,
+                            "RankDescription": "Green",
+                            "Count": 2
+                        },
+                        {
+                            "Rank": 3,
+                            "RankDescription": "Average",
+                            "Count": 5
+                        },
+                        {
+                            "Rank": 4,
+                            "RankDescription": "Skilled",
+                            "Count": 1
+                        },
+                        {
+                            "Rank": 5,
+                            "RankDescription": "Veteran",
+                            "Count": 1
+                        }
+                    ]
+                },
+                {
+                    "Length": 3,
+                    "LengthDescription": "Long",
+                    "Timespan": "12 Days",
+                    "SOPoints": 76,
+                    "SquadronMakeup": [
+                        {
+                            "Rank": 1,
+                            "RankDescription": "Newbie",
+                            "Count": 1
+                        },
+                        {
+                            "Rank": 2,
+                            "RankDescription": "Green",
+                            "Count": 2
+                        },
+                        {
+                            "Rank": 3,
+                            "RankDescription": "Average",
+                            "Count": 6
+                        },
+                        {
+                            "Rank": 4,
+                            "RankDescription": "Skilled",
+                            "Count": 2
+                        },
+                        {
+                            "Rank": 5,
+                            "RankDescription": "Veteran",
+                            "Count": 1
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "Name": "Mediterranean (USMC)",
+            "Year": 2015,
+            "Difficulty": 3,
+            "DifficultyDescription": "Advanced",
+            "AvailableAircraft": [
+                "AV-8B",
+                "F-35A/C",
+                "MQ-47B"
+            ],
+            "SpecialWeapons": [
+                "AIM-120 AMRAAM",
+                "AGM-84 Harpoon",
+                "AGM-130",
+                "AGM-154 JSOW",
+                "GBU-10 Paveway",
+                "GBU-16 Paveway",
+                "GBU-12 Paveway",
+                "GBU-31 JDAM",
+                "GBU-32 JDAM",
+                "GBU-38 JDAM",
+                "B83 Nuclear Bomb"
+            ],
+            "CampaignOptions": [
+                {
+                    "Length": 1,
+                    "LengthDescription": "Short",
+                    "Timespan": "4 Days",
+                    "SOPoints": 24,
+                    "SquadronMakeup": [
+                        {
+                            "Rank": 1,
+                            "RankDescription": "Newbie",
+                            "Count": 1
+                        },
+                        {
+                            "Rank": 2,
+                            "RankDescription": "Green",
+                            "Count": 2
+                        },
+                        {
+                            "Rank": 3,
+                            "RankDescription": "Average",
+                            "Count": 4
+                        },
+                        {
+                            "Rank": 4,
+                            "RankDescription": "Skilled",
+                            "Count": 1
+                        }
+                    ]
+                },
+                {
+                    "Length": 2,
+                    "LengthDescription": "Medium",
+                    "Timespan": "8 Days",
+                    "SOPoints": 50,
+                    "SquadronMakeup": [
+                        {
+                            "Rank": 1,
+                            "RankDescription": "Newbie",
+                            "Count": 1
+                        },
+                        {
+                            "Rank": 2,
+                            "RankDescription": "Green",
+                            "Count": 2
+                        },
+                        {
+                            "Rank": 3,
+                            "RankDescription": "Average",
+                            "Count": 5
+                        },
+                        {
+                            "Rank": 4,
+                            "RankDescription": "Skilled",
+                            "Count": 1
+                        },
+                        {
+                            "Rank": 5,
+                            "RankDescription": "Veteran",
+                            "Count": 1
+                        }
+                    ]
+                },
+                {
+                    "Length": 3,
+                    "LengthDescription": "Long",
+                    "Timespan": "12 Days",
+                    "SOPoints": 76,
+                    "SquadronMakeup": [
+                        {
+                            "Rank": 1,
+                            "RankDescription": "Newbie",
+                            "Count": 1
+                        },
+                        {
+                            "Rank": 2,
+                            "RankDescription": "Green",
+                            "Count": 2
+                        },
+                        {
+                            "Rank": 3,
+                            "RankDescription": "Average",
+                            "Count": 6
+                        },
+                        {
+                            "Rank": 4,
+                            "RankDescription": "Skilled",
+                            "Count": 2
+                        },
+                        {
+                            "Rank": 5,
+                            "RankDescription": "Veteran",
+                            "Count": 1
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "Name": "East Coast (USN)",
+            "Year": 2016,
+            "Difficulty": 2,
+            "DifficultyDescription": "Standard",
+            "AvailableAircraft": [
+                "E-2C",
+                "EA-18G",
+                "F/A-18C",
+                "F/A-18E",
+                "F/A-18F",
+                "MQ-47B"
+            ],
+            "SpecialWeapons": [
+                "AIM-120 AMRAAM",
+                "AGM-84 Harpoon",
+                "AGM-130",
+                "AGM-904 JSOW",
+                "GBU-10 Paveway",
+                "GBU-16 Paveway",
+                "GBU-30 Paveway",
+                "GBU-31 JDAM",
+                "GBU-32 JDAM",
+                "GBU-38 JDAM",
+                "B83 Nuclear Bomb"
+            ],
+            "CampaignOptions": [
+                {
+                    "Length": 1,
+                    "LengthDescription": "Short",
+                    "Timespan": "5 Days",
+                    "SOPoints": 30,
+                    "SquadronMakeup": [
+                        {
+                            "Rank": 1,
+                            "RankDescription": "Newbie",
+                            "Count": 1
+                        },
+                        {
+                            "Rank": 2,
+                            "RankDescription": "Green",
+                            "Count": 2
+                        },
+                        {
+                            "Rank": 3,
+                            "RankDescription": "Average",
+                            "Count": 4
+                        },
+                        {
+                            "Rank": 4,
+                            "RankDescription": "Skilled",
+                            "Count": 1
+                        }
+                    ]
+                },
+                {
+                    "Length": 2,
+                    "LengthDescription": "Medium",
+                    "Timespan": "10 Days",
+                    "SOPoints": 60,
+                    "SquadronMakeup": [
+                        {
+                            "Rank": 1,
+                            "RankDescription": "Newbie",
+                            "Count": 1
+                        },
+                        {
+                            "Rank": 2,
+                            "RankDescription": "Green",
+                            "Count": 2
+                        },
+                        {
+                            "Rank": 3,
+                            "RankDescription": "Average",
+                            "Count": 5
+                        },
+                        {
+                            "Rank": 4,
+                            "RankDescription": "Skilled",
+                            "Count": 1
+                        },
+                        {
+                            "Rank": 5,
+                            "RankDescription": "Veteran",
+                            "Count": 1
+                        }
+                    ]
+                },
+                {
+                    "Length": 3,
+                    "LengthDescription": "Long",
+                    "Timespan": "90 Days",
+                    "SOPoints": 76,
+                    "SquadronMakeup": [
+                        {
+                            "Rank": 1,
+                            "RankDescription": "Newbie",
+                            "Count": 1
+                        },
+                        {
+                            "Rank": 2,
+                            "RankDescription": "Green",
+                            "Count": 2
+                        },
+                        {
+                            "Rank": 3,
+                            "RankDescription": "Average",
+                            "Count": 6
+                        },
+                        {
+                            "Rank": 4,
+                            "RankDescription": "Skilled",
+                            "Count": 2
+                        },
+                        {
+                            "Rank": 5,
+                            "RankDescription": "Veteran",
+                            "Count": 1
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "Name": "East Coast (USMC)",
+            "Year": 2016,
+            "Difficulty": 3,
+            "DifficultyDescription": "Standard",
+            "AvailableAircraft": [
+                "AV-8B",
+                "F-35A/C",
+                "MQ-47B"
+            ],
+            "SpecialWeapons": [
+                "AIM-120 AMRAAM",
+                "AGM-84 Harpoon",
+                "AGM-130",
+                "AGM-904 JSOW",
+                "GBU-10 Paveway",
+                "GBU-16 Paveway",
+                "GBU-30 Paveway",
+                "GBU-31 JDAM",
+                "GBU-32 JDAM",
+                "GBU-38 JDAM",
+                "B83 Nuclear Bomb"
+            ],
+            "CampaignOptions": [
+                {
+                    "Length": 1,
+                    "LengthDescription": "Short",
+                    "Timespan": "5 Days",
+                    "SOPoints": 30,
+                    "SquadronMakeup": [
+                        {
+                            "Rank": 1,
+                            "RankDescription": "Newbie",
+                            "Count": 1
+                        },
+                        {
+                            "Rank": 2,
+                            "RankDescription": "Green",
+                            "Count": 2
+                        },
+                        {
+                            "Rank": 3,
+                            "RankDescription": "Average",
+                            "Count": 4
+                        },
+                        {
+                            "Rank": 4,
+                            "RankDescription": "Skilled",
+                            "Count": 1
+                        }
+                    ]
+                },
+                {
+                    "Length": 2,
+                    "LengthDescription": "Medium",
+                    "Timespan": "10 Days",
+                    "SOPoints": 60,
+                    "SquadronMakeup": [
+                        {
+                            "Rank": 1,
+                            "RankDescription": "Newbie",
+                            "Count": 1
+                        },
+                        {
+                            "Rank": 2,
+                            "RankDescription": "Green",
+                            "Count": 2
+                        },
+                        {
+                            "Rank": 3,
+                            "RankDescription": "Average",
+                            "Count": 5
+                        },
+                        {
+                            "Rank": 4,
+                            "RankDescription": "Skilled",
+                            "Count": 1
+                        },
+                        {
+                            "Rank": 5,
+                            "RankDescription": "Veteran",
+                            "Count": 1
+                        }
+                    ]
+                },
+                {
+                    "Length": 3,
+                    "LengthDescription": "Long",
+                    "Timespan": "90 Days",
+                    "SOPoints": 76,
+                    "SquadronMakeup": [
+                        {
+                            "Rank": 1,
+                            "RankDescription": "Newbie",
+                            "Count": 1
+                        },
+                        {
+                            "Rank": 2,
+                            "RankDescription": "Green",
+                            "Count": 2
+                        },
+                        {
+                            "Rank": 3,
+                            "RankDescription": "Average",
+                            "Count": 6
+                        },
+                        {
+                            "Rank": 4,
+                            "RankDescription": "Skilled",
+                            "Count": 2
+                        },
+                        {
+                            "Rank": 5,
+                            "RankDescription": "Veteran",
+                            "Count": 1
+                        }
+                    ]
+                }
+            ]
+        }
+    ]
+}

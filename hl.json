@@ -13056,5 +13056,483 @@
                 }
             }
         }
-    ]
+    ],
+    "VictoryConditions": {
+        "Israel Defense": {
+            "Short": [
+                {
+                    "min": 15,
+                    "rank": "Great"
+                },
+                {
+                    "min": 11,
+                    "rank": "Good"
+                },
+                {
+                    "min": 8,
+                    "rank": "Adequate"
+                },
+                {
+                    "min": 6,
+                    "rank": "Poor"
+                },
+                {
+                    "min": null,
+                    "rank": "Dismal"
+                }
+            ],
+            "Medium": [
+                {
+                    "min": 30,
+                    "rank": "Great"
+                },
+                {
+                    "min": 22,
+                    "rank": "Good"
+                },
+                {
+                    "min": 16,
+                    "rank": "Adequate"
+                },
+                {
+                    "min": 12,
+                    "rank": "Poor"
+                },
+                {
+                    "min": null,
+                    "rank": "Dismal"
+                }
+            ],
+            "Long": [
+                {
+                    "min": 45,
+                    "rank": "Great"
+                },
+                {
+                    "min": 32,
+                    "rank": "Good"
+                },
+                {
+                    "min": 24,
+                    "rank": "Adequate"
+                },
+                {
+                    "min": 18,
+                    "rank": "Poor"
+                },
+                {
+                    "min": null,
+                    "rank": "Dismal"
+                }
+            ]
+        },
+        "Iran 2014": {
+            "Short": [
+                {
+                    "min": 18,
+                    "rank": "Great"
+                },
+                {
+                    "min": 13,
+                    "rank": "Good"
+                },
+                {
+                    "min": 9,
+                    "rank": "Adequate"
+                },
+                {
+                    "min": 7,
+                    "rank": "Poor"
+                },
+                {
+                    "min": null,
+                    "rank": "Dismal"
+                }
+            ],
+            "Medium": [
+                {
+                    "min": 25,
+                    "rank": "Great"
+                },
+                {
+                    "min": 18,
+                    "rank": "Good"
+                },
+                {
+                    "min": 13,
+                    "rank": "Adequate"
+                },
+                {
+                    "min": 9,
+                    "rank": "Poor"
+                },
+                {
+                    "min": null,
+                    "rank": "Dismal"
+                }
+            ],
+            "Long": [
+                {
+                    "min": 33,
+                    "rank": "Great"
+                },
+                {
+                    "min": 23,
+                    "rank": "Good"
+                },
+                {
+                    "min": 17,
+                    "rank": "Adequate"
+                },
+                {
+                    "min": 12,
+                    "rank": "Poor"
+                },
+                {
+                    "min": null,
+                    "rank": "Dismal"
+                }
+            ]
+        },
+        "Libya 1984": {
+            "Short": [
+                {
+                    "min": 14,
+                    "rank": "Great"
+                },
+                {
+                    "min": 10,
+                    "rank": "Good"
+                },
+                {
+                    "min": 7,
+                    "rank": "Adequate"
+                },
+                {
+                    "min": 5,
+                    "rank": "Poor"
+                },
+                {
+                    "min": null,
+                    "rank": "Dismal"
+                }
+            ],
+            "Medium": [
+                {
+                    "min": 21,
+                    "rank": "Great"
+                },
+                {
+                    "min": 15,
+                    "rank": "Good"
+                },
+                {
+                    "min": 11,
+                    "rank": "Adequate"
+                },
+                {
+                    "min": 8,
+                    "rank": "Poor"
+                },
+                {
+                    "min": null,
+                    "rank": "Dismal"
+                }
+            ],
+            "Long": [
+                {
+                    "min": 28,
+                    "rank": "Great"
+                },
+                {
+                    "min": 20,
+                    "rank": "Good"
+                },
+                {
+                    "min": 15,
+                    "rank": "Adequate"
+                },
+                {
+                    "min": 10,
+                    "rank": "Poor"
+                },
+                {
+                    "min": null,
+                    "rank": "Dismal"
+                }
+            ]
+        },
+        "North Korea 2011": {
+            "Short": [
+                {
+                    "min": 15,
+                    "rank": "Great"
+                },
+                {
+                    "min": 11,
+                    "rank": "Good"
+                },
+                {
+                    "min": 8,
+                    "rank": "Adequate"
+                },
+                {
+                    "min": 6,
+                    "rank": "Poor"
+                },
+                {
+                    "min": null,
+                    "rank": "Dismal"
+                }
+            ],
+            "Medium": [
+                {
+                    "min": 26,
+                    "rank": "Great"
+                },
+                {
+                    "min": 19,
+                    "rank": "Good"
+                },
+                {
+                    "min": 14,
+                    "rank": "Adequate"
+                },
+                {
+                    "min": 10,
+                    "rank": "Poor"
+                },
+                {
+                    "min": null,
+                    "rank": "Dismal"
+                }
+            ],
+            "Long": [
+                {
+                    "min": 38,
+                    "rank": "Great"
+                },
+                {
+                    "min": 27,
+                    "rank": "Good"
+                },
+                {
+                    "min": 20,
+                    "rank": "Adequate"
+                },
+                {
+                    "min": 15,
+                    "rank": "Poor"
+                },
+                {
+                    "min": null,
+                    "rank": "Dismal"
+                }
+            ]
+        },
+        "WWIII North Atlantic 1986": {
+            "Short": [
+                {
+                    "min": 22,
+                    "rank": "Great"
+                },
+                {
+                    "min": 16,
+                    "rank": "Good"
+                },
+                {
+                    "min": 12,
+                    "rank": "Adequate"
+                },
+                {
+                    "min": 9,
+                    "rank": "Poor"
+                },
+                {
+                    "min": null,
+                    "rank": "Dismal"
+                }
+            ],
+            "Medium": [
+                {
+                    "min": 35,
+                    "rank": "Great"
+                },
+                {
+                    "min": 25,
+                    "rank": "Good"
+                },
+                {
+                    "min": 19,
+                    "rank": "Adequate"
+                },
+                {
+                    "min": 14,
+                    "rank": "Poor"
+                },
+                {
+                    "min": null,
+                    "rank": "Dismal"
+                }
+            ],
+            "Long": [
+                {
+                    "min": 52,
+                    "rank": "Great"
+                },
+                {
+                    "min": 38,
+                    "rank": "Good"
+                },
+                {
+                    "min": 29,
+                    "rank": "Adequate"
+                },
+                {
+                    "min": 22,
+                    "rank": "Poor"
+                },
+                {
+                    "min": null,
+                    "rank": "Dismal"
+                }
+            ]
+        },
+        "Taiwan Defense 2008": {
+            "Short": [
+                {
+                    "min": 12,
+                    "rank": "Great"
+                },
+                {
+                    "min": 8,
+                    "rank": "Good"
+                },
+                {
+                    "min": 6,
+                    "rank": "Adequate"
+                },
+                {
+                    "min": 4,
+                    "rank": "Poor"
+                },
+                {
+                    "min": null,
+                    "rank": "Dismal"
+                }
+            ],
+            "Medium": [
+                {
+                    "min": 28,
+                    "rank": "Great"
+                },
+                {
+                    "min": 19,
+                    "rank": "Good"
+                },
+                {
+                    "min": 14,
+                    "rank": "Adequate"
+                },
+                {
+                    "min": 10,
+                    "rank": "Poor"
+                },
+                {
+                    "min": null,
+                    "rank": "Dismal"
+                }
+            ],
+            "Long": [
+                {
+                    "min": 43,
+                    "rank": "Great"
+                },
+                {
+                    "min": 31,
+                    "rank": "Good"
+                },
+                {
+                    "min": 23,
+                    "rank": "Adequate"
+                },
+                {
+                    "min": 16,
+                    "rank": "Poor"
+                },
+                {
+                    "min": null,
+                    "rank": "Dismal"
+                }
+            ]
+        },
+        "Syria 2004": {
+            "Short": [
+                {
+                    "min": 15,
+                    "rank": "Great"
+                },
+                {
+                    "min": 11,
+                    "rank": "Good"
+                },
+                {
+                    "min": 8,
+                    "rank": "Adequate"
+                },
+                {
+                    "min": 6,
+                    "rank": "Poor"
+                },
+                {
+                    "min": null,
+                    "rank": "Dismal"
+                }
+            ],
+            "Medium": [
+                {
+                    "min": 27,
+                    "rank": "Great"
+                },
+                {
+                    "min": 19,
+                    "rank": "Good"
+                },
+                {
+                    "min": 14,
+                    "rank": "Adequate"
+                },
+                {
+                    "min": 10,
+                    "rank": "Poor"
+                },
+                {
+                    "min": null,
+                    "rank": "Dismal"
+                }
+            ],
+            "Long": [
+                {
+                    "min": 38,
+                    "rank": "Great"
+                },
+                {
+                    "min": 27,
+                    "rank": "Good"
+                },
+                {
+                    "min": 20,
+                    "rank": "Adequate"
+                },
+                {
+                    "min": 14,
+                    "rank": "Poor"
+                },
+                {
+                    "min": null,
+                    "rank": "Dismal"
+                }
+            ]
+        }
+    }
 }

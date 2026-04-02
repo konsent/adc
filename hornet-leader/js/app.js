@@ -2456,19 +2456,26 @@ function showDebriefModal(dayIdx) {
         `;
     }
 
-    // Check band secured for USMC
+    // Check band secured for USMC — only show bands newly secured THIS mission
     let bandHTML = '';
     if (campaign.isUSMC) {
         const bandStatus = getBandStatusForCampaign();
+        // Get targets destroyed in THIS mission only
+        const thisMissionDestroyed = new Set(
+            m.targets.filter(t => t.resolved && t.result === 'Destroyed' && t.targetNumber)
+                .map(t => String(t.targetNumber))
+        );
         const newlySecured = [];
-        bandStatus.forEach((bs, i) => {
-            if (bs.secured) {
-                const isNew = m.targets.some(t =>
-                    t.result === 'Destroyed' && t.targetNumber &&
-                    bs.targetNumbers.map(String).includes(String(t.targetNumber))
-                );
-                if (isNew) newlySecured.push(bs);
-            }
+        bandStatus.forEach((bs) => {
+            if (!bs.secured) return;
+            // Check if removing this mission's destroyed targets would un-secure the band
+            const otherDestroyedCount = bs.targetNumbers.filter(n =>
+                !thisMissionDestroyed.has(String(n)) &&
+                getDestroyedTargets().has(String(n))
+            ).length;
+            const needed = Math.ceil(bs.total / 2);
+            // If band would NOT be secured without this mission's targets, it's newly secured
+            if (otherDestroyedCount < needed) newlySecured.push(bs);
         });
         if (newlySecured.length > 0) {
             const destroyed = getDestroyedTargets();
@@ -2523,9 +2530,59 @@ function showDebriefModal(dayIdx) {
         m.collapsed = true;
         renderAll();
         autoSave();
+
+        // Check if all missions are completed → show victory modal
+        const allDone = campaign.missions.every(mi =>
+            mi.downTime || mi.targets.every(t => t.resolved)
+        );
+        if (allDone && !campaign.campaignFailed) {
+            setTimeout(() => showVictoryModal(), 200);
+        }
     };
     // Delay to prevent immediate close from the button click
     setTimeout(() => overlay.addEventListener('click', closeHandler), 100);
+}
+
+// ─── Victory Modal ───
+
+function getVictoryRank(vp) {
+    if (!gameData || !gameData.VictoryConditions) return null;
+    const { region } = parseCampaign({ Name: campaign.scenarioName });
+    const conditions = gameData.VictoryConditions[region];
+    if (!conditions) return null;
+    const lengthKey = campaign.lengthDesc;
+    const tiers = conditions[lengthKey];
+    if (!tiers) return null;
+    for (const tier of tiers) {
+        if (tier.min === null || vp >= tier.min) return tier.rank;
+    }
+    return 'Dismal';
+}
+
+function showVictoryModal() {
+    const vpEl = document.getElementById('track-vp');
+    const totalVP = parseInt(vpEl.textContent) || 0;
+    const rank = getVictoryRank(totalVP);
+
+    const rankLabels = {
+        'Great': { text: '대승리', cls: 'victory-great' },
+        'Good': { text: '승리', cls: 'victory-good' },
+        'Adequate': { text: '무난한 성과', cls: 'victory-adequate' },
+        'Poor': { text: '아쉬운 성과', cls: 'victory-poor' },
+        'Dismal': { text: '패배', cls: 'victory-dismal' },
+    };
+    const info = rankLabels[rank] || { text: rank || '결과 없음', cls: '' };
+
+    const overlay = document.getElementById('campaign-fail-modal');
+    const body = document.getElementById('fail-modal-body');
+    body.innerHTML = `
+        <h2 class="victory-title">캠페인 종료</h2>
+        <div class="victory-rank ${info.cls}">${info.text}</div>
+        <div class="victory-rank-en">${rank || ''}</div>
+        <div class="victory-vp">최종 VP: <strong>${totalVP}</strong></div>
+        <p class="victory-scenario">${campaign.scenarioName} — ${campaign.lengthDesc}</p>
+    `;
+    overlay.style.display = 'flex';
 }
 
 // ─── Overkill Modal ───

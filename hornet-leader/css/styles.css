@@ -996,8 +996,22 @@ tr:hover td { background: rgba(255,255,255,0.02); }
 }
 
 /* ─── Band Secure Modal ─── */
+.debrief-band-secure {
+    text-align: center;
+    padding: 0.8rem 1.5rem;
+    margin: 0.5rem 1rem;
+    border: 1px solid #5a6040;
+    border-radius: 6px;
+    background: rgba(80, 100, 50, 0.15);
+}
+.debrief-band-secure h3 {
+    color: #e0c050;
+    margin-bottom: 0.4rem;
+}
 .band-secure-list {
     list-style: none;
+    display: inline-block;
+    text-align: left;
     padding: 0.5rem 0;
     margin: 0;
 }
@@ -1009,6 +1023,39 @@ tr:hover td { background: rgba(255,255,255,0.02); }
     content: '\2714 ';
     color: #6ac040;
 }
+/* ─── Victory Modal ─── */
+.victory-title {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 2rem;
+    color: #e8c840;
+    margin-bottom: 0.5rem;
+    letter-spacing: 0.05em;
+}
+.victory-rank {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 2.5rem;
+    margin: 0.3rem 0;
+}
+.victory-rank-en {
+    font-size: 1rem;
+    color: #8a8e7a;
+    margin-bottom: 0.8rem;
+}
+.victory-great { color: #ffd700; }
+.victory-good { color: #60c060; }
+.victory-adequate { color: #6098c0; }
+.victory-poor { color: #c08040; }
+.victory-dismal { color: #c04040; }
+.victory-vp {
+    font-size: 1.2rem;
+    color: #c0bdb8;
+    margin: 0.5rem 0;
+}
+.victory-scenario {
+    font-size: 0.85rem;
+    color: #8a8e7a;
+}
+
 .band-secure-expand {
     margin-top: 0.6rem;
     color: #e0c050;
