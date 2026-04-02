@@ -974,6 +974,46 @@ tr:hover td { background: rgba(255,255,255,0.02); }
     background: rgba(180, 30, 30, 0.4);
     border-radius: inherit;
 }
+.cpm-mission-label {
+    position: absolute;
+    top: 0; left: 0; width: 100%; height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    background: rgba(0, 0, 0, 0.6);
+    color: #fff;
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 1.0rem;
+    font-weight: 700;
+    white-space: pre-line;
+    border-radius: inherit;
+    z-index: 1;
+}
+.cpm-mission-shotdown {
+    background: rgba(120, 10, 10, 0.75);
+    color: #ffaaaa;
+}
+
+/* ─── Band Secure Modal ─── */
+.band-secure-list {
+    list-style: none;
+    padding: 0.5rem 0;
+    margin: 0;
+}
+.band-secure-list li {
+    padding: 0.2rem 0;
+    color: #a0c890;
+}
+.band-secure-list li::before {
+    content: '\2714 ';
+    color: #6ac040;
+}
+.band-secure-expand {
+    margin-top: 0.6rem;
+    color: #e0c050;
+    font-weight: 600;
+}
 
 #squadron-table { table-layout: fixed; }
 #squadron-table th:nth-child(1) { width: 14%; }

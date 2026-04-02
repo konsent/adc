@@ -1061,14 +1061,32 @@ function renderCarrierMarkers() {
         'A-6': 'a6.png', 'A-7': 'a7.png',
     };
 
-    function placePilotMarker(pilot, slotKey) {
+    // Build map of pilot mission status from active (unresolved) missions
+    const pilotMissionStatus = {};
+    campaign.missions.forEach(m => {
+        if (m.downTime) return;
+        m.targets.forEach(t => {
+            if (t.resolved) return;
+            (t.assignedPilots || []).forEach(ap => {
+                if (ap.shotDown) {
+                    pilotMissionStatus[ap.pilotIdx] = 'shotdown';
+                } else if (!pilotMissionStatus[ap.pilotIdx]) {
+                    pilotMissionStatus[ap.pilotIdx] = 'deployed';
+                }
+            });
+        });
+    });
+
+    function placePilotMarker(pilot, pilotIdx, slotKey) {
         const slot = CARRIER_SLOTS[slotKey];
         if (!slot) return;
         const status = getStatus(pilot);
         const imgFile = AIRCRAFT_IMG[pilot.aircraft];
+        const mStatus = pilotMissionStatus[pilotIdx]; // 'deployed', 'shotdown', or undefined
+
+        const missionLabel = mStatus === 'shotdown' ? '작전 중\n실종' : mStatus === 'deployed' ? '작전 중' : '';
 
         if (slot.diamond) {
-            // Diamond: wrapper positions, inner bg is clipped, text overlay on top
             const half = slot.s / 2;
             const wrapper = document.createElement('div');
             wrapper.className = 'carrier-marker carrier-diamond-wrapper';
@@ -1088,6 +1106,13 @@ function renderCarrierMarkers() {
             overlay.innerHTML = `<span class="cpm-name">${pilot.name}</span><span class="cpm-aircraft">[${pilot.aircraft}]</span><span class="cpm-status cpm-${status.toLowerCase()}">${status}</span>`;
             wrapper.appendChild(overlay);
 
+            if (mStatus) {
+                const mOverlay = document.createElement('div');
+                mOverlay.className = 'cpm-mission-label' + (mStatus === 'shotdown' ? ' cpm-mission-shotdown' : '');
+                mOverlay.textContent = missionLabel;
+                wrapper.appendChild(mOverlay);
+            }
+
             board.appendChild(wrapper);
         } else {
             const el = document.createElement('div');
@@ -1097,21 +1122,34 @@ function renderCarrierMarkers() {
                 el.style.backgroundImage = `url('../assets/HL/${imgFile}')`;
             }
             el.innerHTML = `<span class="cpm-name">${pilot.name}</span><div class="cpm-bottom"><span class="cpm-aircraft">${pilot.aircraft}</span><span class="cpm-status cpm-${status.toLowerCase()}">${status}</span></div>`;
+            if (mStatus) {
+                const mOverlay = document.createElement('div');
+                mOverlay.className = 'cpm-mission-label' + (mStatus === 'shotdown' ? ' cpm-mission-shotdown' : '');
+                mOverlay.textContent = missionLabel;
+                el.appendChild(mOverlay);
+            }
             el.style.cssText += `position:absolute;top:${slot.top}%;left:${slot.left}%;width:${slot.w}%;`;
             board.appendChild(el);
         }
     }
 
+    // Build indexed pilot lists
+    const shakenUnfit = [];
+    const okayPilots = [];
+    campaign.squadron.forEach((p, idx) => {
+        if (p.shotDown) return;
+        const s = getStatus(p);
+        if (s === 'Shaken' || s === 'Unfit') shakenUnfit.push({ pilot: p, idx });
+        else if (s === 'Okay') okayPilots.push({ pilot: p, idx });
+    });
+
     // Place Shaken/Unfit pilot counters in hangar slots
     const hangarKeys = campaign.isUSMC
         ? ['hangar1', 'hangar2', 'hangar3', 'hangar4', 'hangar5', 'hangar6']
         : ['usn_hangar1', 'usn_hangar2', 'usn_hangar3', 'usn_hangar4', 'usn_hangar5'];
-    const shakenUnfit = campaign.squadron.filter(p =>
-        !p.shotDown && (getStatus(p) === 'Shaken' || getStatus(p) === 'Unfit')
-    );
-    shakenUnfit.forEach((pilot, i) => {
+    shakenUnfit.forEach((p, i) => {
         if (i >= hangarKeys.length) return;
-        placePilotMarker(pilot, hangarKeys[i]);
+        placePilotMarker(p.pilot, p.idx, hangarKeys[i]);
     });
 
     // Place Okay pilot counters on deck slots (USMC vs USN)
@@ -1119,12 +1157,9 @@ function renderCarrierMarkers() {
         ? ['deck1','deck2','deck3','deck4','deck5','deck6','deck7','deck8','deck9','deck10','deck11']
         : ['usn_deck1','usn_deck2','usn_deck3','usn_deck4','usn_deck5','usn_deck6','usn_deck7','usn_deck8',
            'diamond1','diamond2','diamond3','diamond4','diamond5'];
-    const okayPilots = campaign.squadron.filter(p =>
-        !p.shotDown && getStatus(p) === 'Okay'
-    );
-    okayPilots.forEach((pilot, i) => {
+    okayPilots.forEach((p, i) => {
         if (i >= deckKeys.length) return;
-        placePilotMarker(pilot, deckKeys[i]);
+        placePilotMarker(p.pilot, p.idx, deckKeys[i]);
     });
 }
 
@@ -2320,7 +2355,7 @@ function closeDrawModal() {
 document.addEventListener('click', e => {
     if (e.target.id === 'target-draw-modal') closeDrawModal();
     if (e.target.id === 'campaign-fail-modal') closeCampaignFailModal();
-    if (e.target.id === 'overkill-modal') closeOverkillModal();
+if (e.target.id === 'overkill-modal') closeOverkillModal();
     if (e.target.id === 'discard-imp-modal') closeDiscardImpModal();
 });
 
@@ -2421,12 +2456,46 @@ function showDebriefModal(dayIdx) {
         `;
     }
 
+    // Check band secured for USMC
+    let bandHTML = '';
+    if (campaign.isUSMC) {
+        const bandStatus = getBandStatusForCampaign();
+        const newlySecured = [];
+        bandStatus.forEach((bs, i) => {
+            if (bs.secured) {
+                const isNew = m.targets.some(t =>
+                    t.result === 'Destroyed' && t.targetNumber &&
+                    bs.targetNumbers.map(String).includes(String(t.targetNumber))
+                );
+                if (isNew) newlySecured.push(bs);
+            }
+        });
+        if (newlySecured.length > 0) {
+            const destroyed = getDestroyedTargets();
+            bandHTML = newlySecured.map(bs => {
+                const list = bs.targetNumbers
+                    .filter(n => destroyed.has(String(n)))
+                    .map(n => {
+                        const e = getTargetEntry(n);
+                        return `<li>#${n} ${e ? e.targetName : ''} 파괴 성공</li>`;
+                    }).join('');
+                const nextBand = bs.band < bandStatus.length ? `${bs.band + 1}구역까지 작전 구역이 확대됩니다.` : '모든 구역이 확보되었습니다!';
+                return `<div class="debrief-band-secure">
+                    <h3>${bs.band}구역을 확보하였습니다.</h3>
+                    <ul class="band-secure-list">${list}</ul>
+                    <p class="band-secure-expand">${nextBand}</p>
+                </div>`;
+            }).join('');
+        }
+    }
+
     body.innerHTML = `
         <div class="debrief-header">
             <h2>${m.day}일차 작전 완료</h2>
             <div class="debrief-sub">${m.downTime ? 'Down Time' : (t => t === 'Night' ? '야간 작전' : '주간 작전')(m.targets[0]?.dayNight || 'Day')}</div>
         </div>
         <div class="debrief-targets">${targetsHTML}</div>
+        ${bandHTML}
         ${impHTML}
         <div class="debrief-summary">
             <div class="debrief-stat debrief-stat-vp">
@@ -2687,7 +2756,7 @@ function onConfirmAssign(e) {
 
     openAssignPanels.delete(key);
     delete assignStaging[key];
-    renderMissions();
+    renderAll();
     autoSave();
 }
 
@@ -2704,7 +2773,7 @@ function onToggleShotDown(e) {
     const apIdx = parseInt(e.target.dataset.apidx);
     const ap = campaign.missions[dayIdx].targets[tIdx].assignedPilots[apIdx];
     ap.shotDown = !ap.shotDown;
-    renderMissions();
+    renderAll();
     autoSave();
 }
 
