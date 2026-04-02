@@ -13,7 +13,7 @@ const RANK_CLASSES = {
 // ─── Base Game Scenarios (filter out expansions) ───
 const BASE_SCENARIOS = [
     'Libya 1984',
-    'WWIII North Atlantic 1980',
+    'WWIII North Atlantic 1986',
     'Israel Defense',
     'Syria 2004',
     'Taiwan Defense 2008',
@@ -42,12 +42,6 @@ async function loadGameData() {
     // Tag base scenarios before renaming
     gameData.Campaigns.forEach(c => {
         c._isBase = isBaseScenario(c.Name);
-    });
-    // Fix scenario name: WWIII 1980 → 1986
-    gameData.Campaigns.forEach(c => {
-        if (c.Name.startsWith('WWIII North Atlantic 1980')) {
-            c.Name = c.Name.replace('1980', '1986');
-        }
     });
     initSetupScreen();
     loadSavedCampaignList();
@@ -132,6 +126,12 @@ function onDifficultyChange() {
         regionSel.appendChild(o);
     });
     regionSel.disabled = false;
+
+    // Auto-select if only one region
+    if (regions.length === 1) {
+        regionSel.value = regions[0];
+        onRegionChange.call(regionSel);
+    }
 }
 
 function onRegionChange() {
