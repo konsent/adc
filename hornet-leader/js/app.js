@@ -990,6 +990,7 @@ const CARRIER_SLOTS = {
 };
 
 // ─── DEV: Carrier click coordinate helper (remove later) ───
+/* DISABLED
 (function() {
     const board = document.getElementById('carrier-board');
     if (!board) return;
@@ -1016,6 +1017,7 @@ const CARRIER_SLOTS = {
         console.log(`{ top: ${yPct}, left: ${xPct} }`);
     });
 })();
+*/
 
 function renderCarrierMarkers() {
     const board = document.getElementById('carrier-board');
