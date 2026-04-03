@@ -636,7 +636,8 @@ function confirmManualSelection() {
 
     const largeDeckMarine = document.getElementById('large-deck-marine')?.checked || false;
     const flyingMoreLess = document.getElementById('flying-more-less')?.checked || false;
-    campaign = buildCampaign(scenarioIdx, lengthIdx, squadron, diffRules, { extra: { manualSquadron: true, largeDeckMarine, flyingMoreLess } });
+    const damagedTargetRule = document.getElementById('damaged-target-rule')?.checked || false;
+    campaign = buildCampaign(scenarioIdx, lengthIdx, squadron, diffRules, { extra: { manualSquadron: true, largeDeckMarine, flyingMoreLess, damagedTargetRule } });
 
     resetAssignState();
     saveCampaign();
@@ -777,6 +778,10 @@ function createTargetWithNumber(targetNumber, scenarioIdx) {
             }
         }
     }
+    // Apply accumulated hits from previously damaged target
+    if (campaign && campaign.damagedTargets && campaign.damagedTargets[String(targetNumber)] != null) {
+        t.achievedHits = campaign.damagedTargets[String(targetNumber)];
+    }
     return t;
 }
 
@@ -787,8 +792,18 @@ function isUSMC(campaignOrName) {
     return name.includes('(USMC)');
 }
 
+function shuffleArray(arr) {
+    const a = [...arr];
+    for (let i = a.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [a[i], a[j]] = [a[j], a[i]];
+    }
+    return a;
+}
+
 const RANDOM_SO_BONUS = [6, 12, 18]; // Short / Medium / Long
 const FLYING_MORE_LESS_SO_COST = [3, 6, 9]; // Short / Medium / Long
+const DAMAGED_TARGET_SO_COST = [3, 6, 9]; // Short / Medium / Long
 
 function buildCampaign(scenarioIdx, lengthIdx, squadron, diffRules, opts = {}) {
     const scenario = gameData.Campaigns[scenarioIdx];
@@ -805,8 +820,16 @@ function buildCampaign(scenarioIdx, lengthIdx, squadron, diffRules, opts = {}) {
     const daysMatch = option.Timespan.match(/(\d+)/);
     const totalDays = daysMatch ? parseInt(daysMatch[1]) : 3;
 
-    // startInPlay: pre-fill day 1 with starting targets
+    // Build target deck: shuffle all available targets, exclude startInPlay
     const startInPlay = (scenario.SpecialRules && scenario.SpecialRules.startInPlay) || [];
+    const startInPlaySet = new Set(startInPlay.map(String));
+    const allTargetNums = (typeof (scenario.Targets || [])[0] === 'object' && scenario.Targets[0].Band)
+        ? scenario.Targets.flatMap(band => band.TargetNumbers).map(String)
+        : (scenario.Targets || []).map(String);
+    const deckCards = allTargetNums.filter(n => !startInPlaySet.has(n));
+    const targetDeck = shuffleArray(deckCards);
+
+    // startInPlay: pre-fill day 1 with starting targets
     const day1Targets = startInPlay.length > 0
         ? startInPlay.map(n => createTargetWithNumber(n, scenarioIdx))
         : [createEmptyTarget()];
@@ -842,6 +865,11 @@ function buildCampaign(scenarioIdx, lengthIdx, squadron, diffRules, opts = {}) {
         isUSMC: parseCampaign(scenario).force === 'USMC',
         largeDeckMarine: false,
         flyingMoreLess: flyingMoreLess,
+        damagedTargetRule: !!(opts.extra && opts.extra.damagedTargetRule),
+        damagedTargets: {},
+        targetDeck: targetDeck,
+        discardPile: [],
+        destroyedCards: [],
         vpAircraftBonus: 0,
         ...opts.extra,
         createdAt: new Date().toISOString()
@@ -916,6 +944,11 @@ function migrateCampaign(c) {
     if (!('isUSMC' in c)) c.isUSMC = (c.scenarioName || '').includes('(USMC)');
     if (!('largeDeckMarine' in c)) c.largeDeckMarine = false;
     if (!('flyingMoreLess' in c)) c.flyingMoreLess = false;
+    if (!('damagedTargetRule' in c)) c.damagedTargetRule = false;
+    if (!c.damagedTargets) c.damagedTargets = {};
+    if (!c.targetDeck) c.targetDeck = null;  // null = legacy mode
+    if (!c.discardPile) c.discardPile = [];
+    if (!c.destroyedCards) c.destroyedCards = [];
     if (!('vpAircraftBonus' in c)) c.vpAircraftBonus = 0;
     if (!c.improvements) c.improvements = [];
     return c;
@@ -1085,7 +1118,7 @@ function renderCarrierMarkers() {
         const slot = CARRIER_SLOTS[slotKey];
         if (!slot) return;
         const status = getStatus(pilot);
-        const imgFile = AIRCRAFT_IMG[pilot.aircraft];
+        const imgFile = pilot.name === 'Maverick' ? 'maverick.png' : AIRCRAFT_IMG[pilot.aircraft];
         const mStatus = pilotMissionStatus[pilotIdx]; // 'deployed', 'shotdown', or undefined
 
         const missionLabel = mStatus === 'shotdown' ? '작전 중\n실종' : mStatus === 'deployed' ? '작전 중' : '';
@@ -1942,8 +1975,8 @@ function renderMissions() {
                 resolveDiv.innerHTML = `
                     <button class="result-btn${t.result === 'Destroyed' ? ' selected' : ''}"
                         data-day="${dayIdx}" data-tidx="${tIdx}" data-result="Destroyed">표적 파괴</button>
-                    <button class="result-btn${t.result === 'Damaged' ? ' selected' : ''}"
-                        data-day="${dayIdx}" data-tidx="${tIdx}" data-result="Damaged">표적 피해</button>
+                    ${campaign.damagedTargetRule ? `<button class="result-btn${t.result === 'Damaged' ? ' selected' : ''}"
+                        data-day="${dayIdx}" data-tidx="${tIdx}" data-result="Damaged">표적 피해</button>` : ''}
                     <button class="result-btn${t.result === 'Failed' ? ' selected' : ''}"
                         data-day="${dayIdx}" data-tidx="${tIdx}" data-result="Failed">타격 실패</button>
                     ${t.result ? `<button class="btn btn-small btn-primary resolve-btn" data-day="${dayIdx}" data-tidx="${tIdx}" data-action="resolve-target">작전 종료</button>` : ''}
@@ -2215,33 +2248,62 @@ function getAvailableTargetPool(dayIdx) {
         .filter(n => !destroyed.has(n) && !dayUsed.has(n));
 }
 
+function ensureDeckHasCards(needed) {
+    if (!campaign.targetDeck) return;
+    // Filter out destroyed cards from deck
+    const destroyedSet = new Set(campaign.destroyedCards || []);
+    campaign.targetDeck = campaign.targetDeck.filter(n => !destroyedSet.has(n));
+    // If deck doesn't have enough, reshuffle discard pile into deck
+    if (campaign.targetDeck.length < needed && campaign.discardPile.length > 0) {
+        const reshuffled = shuffleArray(campaign.discardPile.filter(n => !destroyedSet.has(n)));
+        campaign.targetDeck.push(...reshuffled);
+        campaign.discardPile = [];
+    }
+    // Also filter day-used targets from deck
+}
+
 function openTargetDrawModal(dayIdx) {
     const drawCount = getReconDrawCount();
-    const pool = getAvailableTargetPool(dayIdx);
+    const dayUsed = getDayUsedTargets(dayIdx, -1);
 
-    // Shuffle pool (Fisher-Yates)
-    const shuffled = [...pool];
-    for (let i = shuffled.length - 1; i > 0; i--) {
-        const j = Math.floor(Math.random() * (i + 1));
-        [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
-    }
-
-    // Draw cards sequentially, stop on Scramble
-    const drawnCards = [];
+    let drawnCards = [];
     let scrambleIdx = -1;
-    for (let i = 0; i < Math.min(drawCount, shuffled.length); i++) {
-        const num = shuffled[i];
-        const entry = getTargetEntry(num);
-        drawnCards.push({ num, entry });
-        if (entry && entry.traits && entry.traits.includes('Scramble')) {
-            scrambleIdx = i;
-            break;
+
+    if (campaign.targetDeck) {
+        // === Deck-based draw ===
+        ensureDeckHasCards(drawCount);
+        // Filter day-used from top of deck
+        const available = campaign.targetDeck.filter(n => !dayUsed.has(n));
+        const toDraw = Math.min(drawCount, available.length);
+        for (let i = 0; i < toDraw; i++) {
+            const num = available[i];
+            // Remove from deck
+            const deckIdx = campaign.targetDeck.indexOf(num);
+            if (deckIdx >= 0) campaign.targetDeck.splice(deckIdx, 1);
+            const entry = getTargetEntry(num);
+            drawnCards.push({ num, entry });
+            if (entry && entry.traits && entry.traits.includes('Scramble')) {
+                scrambleIdx = i;
+                break;
+            }
+        }
+    } else {
+        // === Legacy mode: random pool ===
+        const pool = getAvailableTargetPool(dayIdx);
+        const shuffled = shuffleArray(pool);
+        for (let i = 0; i < Math.min(drawCount, shuffled.length); i++) {
+            const num = shuffled[i];
+            const entry = getTargetEntry(num);
+            drawnCards.push({ num, entry });
+            if (entry && entry.traits && entry.traits.includes('Scramble')) {
+                scrambleIdx = i;
+                break;
+            }
         }
     }
 
     // Collect active improvement cards not in drawn cards and not destroyed/day-used
     const destroyed = getDestroyedTargets();
-    const dayUsed = getDayUsedTargets(dayIdx, -1);
     const drawnNums = new Set(drawnCards.map(c => c.num));
     const impCards = (campaign.improvements || [])
         .filter(i => i.active && !drawnNums.has(i.cardNumber) && !destroyed.has(i.cardNumber) && !dayUsed.has(i.cardNumber))
@@ -2455,6 +2517,15 @@ function applyDrawSelection(state) {
         }
     });
 
+    // Discard unselected drawn cards (deck mode)
+    if (campaign.targetDeck) {
+        state.drawnCards.forEach(card => {
+            if (!selectedNums.has(card.num)) {
+                campaign.discardPile.push(card.num);
+            }
+        });
+    }
+
     closeDrawModal();
     renderMissions();
     updateBadges();
@@ -2474,6 +2545,10 @@ function fillTargetFromCard(t, targetNumber) {
     const campDetail = getTargetCampaignDetails(targetNumber);
     if (campDetail) {
         t.baseStress = campDetail.baseStress;
+    }
+    // Apply accumulated hits from previously damaged target
+    if (campaign && campaign.damagedTargets && campaign.damagedTargets[String(targetNumber)] != null) {
+        t.achievedHits = campaign.damagedTargets[String(targetNumber)];
     }
 }
 
@@ -2960,9 +3035,15 @@ function showDebriefModal(dayIdx) {
             const resultLabel = t.result === 'Destroyed' ? '파괴 성공' : t.result === 'Damaged' ? '표적 피해' : '타격 실패';
 
             if (t.result === 'Destroyed') {
-                dayVP += parseInt(t.vp) || 0;
+                const baseVP = parseInt(t.vp) || 0;
+                const wasPreviouslyDamaged = campaign.damagedTargetRule &&
+                    t.targetNumber && campaign.damagedTargets &&
+                    (t._wasDamaged || false);  // set during resolve
+                dayVP += wasPreviouslyDamaged ? Math.ceil(baseVP / 2) : baseVP;
                 if (t.overkillVP) dayVP += t.overkillVP;
                 destroyedCount++;
+            } else if (t.result === 'Damaged' && campaign.damagedTargetRule) {
+                dayVP += Math.floor((parseInt(t.vp) || 0) / 2);
             }
 
             let pilotsHTML = '';
@@ -3452,8 +3533,11 @@ function onAchievedHitsChange(e) {
                 t.overkillVP = 0;
             }
         }
-    } else {
+    } else if (campaign.damagedTargetRule && hits != null && val >= Math.ceil(hits / 2)) {
         t.result = 'Damaged';
+        t.overkillVP = 0;
+    } else {
+        t.result = val > 0 ? 'Failed' : '';
         t.overkillVP = 0;
     }
 
@@ -3712,6 +3796,19 @@ function resolveTarget(dayIdx, tIdx) {
         }
     });
 
+    // Damaged target: record accumulated hits + SO cost
+    if (t.result === 'Damaged' && campaign.damagedTargetRule) {
+        campaign.damagedTargets[t.targetNumber] = t.achievedHits || 0;
+        const soCost = DAMAGED_TARGET_SO_COST[campaign.lengthIdx] || 3;
+        campaign.missions[dayIdx].usedSO = (parseFloat(campaign.missions[dayIdx].usedSO) || 0) + soCost;
+    }
+
+    // Destroyed: mark if previously damaged, then clear record
+    if (t.result === 'Destroyed' && campaign.damagedTargets && campaign.damagedTargets[t.targetNumber] != null) {
+        t._wasDamaged = true;
+        delete campaign.damagedTargets[t.targetNumber];
+    }
+
     // Auto-apply tracks when target destroyed
     if (t.result === 'Destroyed') {
         const recon = parseInt(t.recon) || 0;
@@ -3771,10 +3868,42 @@ function resolveTarget(dayIdx, tIdx) {
 
     t.resolved = true;
 
+    // Deck management
+    if (campaign.targetDeck && t.targetNumber) {
+        const num = String(t.targetNumber);
+        const isImpTarget = (campaign.improvements || []).some(i => i.cardNumber === num && i.active);
+        if (t.result === 'Destroyed') {
+            // Permanently remove from game
+            if (!campaign.destroyedCards.includes(num)) campaign.destroyedCards.push(num);
+            campaign.targetDeck = campaign.targetDeck.filter(n => n !== num);
+            campaign.discardPile = campaign.discardPile.filter(n => n !== num);
+        } else if (t.result === 'Damaged') {
+            // Discard (except Improvement targets which stay on table)
+            if (!isImpTarget && !campaign.discardPile.includes(num)) {
+                campaign.discardPile.push(num);
+            }
+        } else if (t.result === 'Failed') {
+            // Discard
+            if (!campaign.discardPile.includes(num)) {
+                campaign.discardPile.push(num);
+            }
+        }
+    }
+
     // Deactivate improvement if this target had one
     if (t.result === 'Destroyed' && campaign.improvements) {
         const imp = campaign.improvements.find(i => i.cardNumber === String(t.targetNumber) && i.active);
         if (imp) imp.active = false;
+    }
+
+    // Band unlock: add newly unlocked targets to deck
+    if (campaign.targetDeck && t.result === 'Destroyed' && campaign.isUSMC) {
+        const deckSet = new Set([...campaign.targetDeck, ...campaign.discardPile, ...campaign.destroyedCards]);
+        const unlocked = getUnlockedTargetNumbers().map(String);
+        const newCards = unlocked.filter(n => !deckSet.has(n));
+        if (newCards.length > 0) {
+            campaign.targetDeck.push(...shuffleArray(newCards));
+        }
     }
 
     // Check failCondition (e.g. Israel Defense)
@@ -3903,10 +4032,35 @@ function updateBadges() {
     });
     const remaining = campaign.totalSO - usedSO;
     document.getElementById('so-display').textContent = `SO: ${remaining}`;
-    const fmlCostDisplay = campaign.flyingMoreLess ? FLYING_MORE_LESS_SO_COST[campaign.lengthIdx] || 0 : 0;
+    const fmlCost = campaign.flyingMoreLess ? FLYING_MORE_LESS_SO_COST[campaign.lengthIdx] || 0 : 0;
     const soBonusDisplay = campaign.soBonus || 0;
-    document.getElementById('so-display').title =
-        `기본: ${campaign.baseSO || campaign.totalSO}${soBonusDisplay ? ` | 랜덤보너스: +${soBonusDisplay}` : ''} | 기체: ${campaign.aircraftSO ? (campaign.aircraftSO > 0 ? '-' : '+') + Math.abs(campaign.aircraftSO) : '0'}${fmlCostDisplay ? ` | 기체수변경: -${fmlCostDisplay}` : ''} | 사용: ${usedSO}`;
+
+    // Tooltip: 시나리오 시작 시 적용 항목
+    const dmgSOPerUse = campaign.damagedTargetRule ? (DAMAGED_TARGET_SO_COST[campaign.lengthIdx] || 3) : 0;
+    const lines = [
+        `기본 SO ··················· ${campaign.baseSO || campaign.totalSO}`,
+        soBonusDisplay ? `무작위 보너스 ·········· +${soBonusDisplay}` : '',
+        campaign.aircraftSO ? `기체 비용 ················ ${campaign.aircraftSO > 0 ? '-' : '+'}${Math.abs(campaign.aircraftSO)}` : '',
+        fmlCost ? `기체수변경 규칙 ······· -${fmlCost}` : '',
+        campaign.damagedTargetRule ? `표적피해 규칙 ·········· -${dmgSOPerUse}` : '',
+        `────────────────────`,
+        `시작 SO ··················· ${campaign.totalSO}`,
+        `사용 SO ··················· -${usedSO}`,
+        `잔여 SO ··················· ${remaining}`,
+    ].filter(Boolean);
+
+    const soEl = document.getElementById('so-display');
+    soEl.removeAttribute('title');
+    soEl.setAttribute('data-tooltip', lines.join('\n'));
+
+    // Deck display
+    const deckEl = document.getElementById('deck-display');
+    if (campaign.targetDeck) {
+        deckEl.style.display = '';
+        deckEl.textContent = `덱: ${campaign.targetDeck.length} | 버림: ${campaign.discardPile.length}`;
+    } else {
+        deckEl.style.display = 'none';
+    }
 
     // VP: sum of destroyed targets' VP - penalties
     let totalVP = 0;
@@ -3918,9 +4072,11 @@ function updateBadges() {
         m.targets.forEach(t => {
             if (t.resolved && t.result === 'Destroyed') {
                 const v = parseInt(t.vp) || 0;
-                totalVP += v;
+                totalVP += t._wasDamaged ? Math.ceil(v / 2) : v;
                 if (bonusVPSet.has(String(t.targetNumber))) bonusVP += 1;
                 if (t.overkillVP) overkillVP += t.overkillVP;
+            } else if (t.resolved && t.result === 'Damaged' && campaign.damagedTargetRule) {
+                totalVP += Math.floor((parseInt(t.vp) || 0) / 2);
             }
         });
     });
@@ -4182,7 +4338,8 @@ document.addEventListener('DOMContentLoaded', () => {
         const diffRules = getSelectedDifficultyRules();
         const largeDeckMarine = document.getElementById('large-deck-marine')?.checked || false;
         const flyingMoreLess = document.getElementById('flying-more-less')?.checked || false;
-        createCampaign(parseInt(scenarioIdx), parseInt(lengthIdx), selectedAircraft, diffRules, { largeDeckMarine, flyingMoreLess });
+        const damagedTargetRule = document.getElementById('damaged-target-rule')?.checked || false;
+        createCampaign(parseInt(scenarioIdx), parseInt(lengthIdx), selectedAircraft, diffRules, { largeDeckMarine, flyingMoreLess, damagedTargetRule });
         resetAssignState();
         saveCampaign();
         showDashboard();

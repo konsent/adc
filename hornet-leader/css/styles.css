@@ -441,6 +441,7 @@ select:focus, input:focus { outline: none; border-color: #8b7a2e; box-shadow: in
     box-shadow: 0 1px 3px rgba(0,0,0,0.35);
 }
 .so-badge { background: linear-gradient(180deg, #3a4a35, #2e3e2a); border: 1px solid #5a7a50; color: #8fc88f; }
+.deck-badge { background: linear-gradient(180deg, #3a3a35, #2e2e2a); border: 1px solid #6a6a50; color: #c8c088; font-family: 'Barlow Condensed', sans-serif; padding: 0.2em 0.7em; border-radius: 2px; font-weight: 700; font-size: 0.85rem; box-shadow: 0 1px 3px rgba(0,0,0,0.35); }
 .vp-badge { background: linear-gradient(180deg, #3a3a4a, #2e2e3e); border: 1px solid #5a5a7a; color: #8f8fc8; }
 
 /* ═══ Mission Day Blocks: deck plates ═══ */
@@ -579,7 +580,7 @@ select:focus, input:focus { outline: none; border-color: #8b7a2e; box-shadow: in
 #trait-tooltip {
     position: fixed; z-index: 9999;
     max-width: min(320px, 90vw);
-    white-space: normal; font-size: 0.75rem; font-weight: 400; line-height: 1.45;
+    white-space: pre-line; font-size: 0.75rem; font-weight: 400; line-height: 1.45;
     padding: 0.5rem 0.7rem; border-radius: 4px;
     background: #1a1c18; border: 1px solid #5a5d55; color: #d0cec4;
     box-shadow: 0 4px 12px rgba(0,0,0,0.5); pointer-events: none; display: none;
