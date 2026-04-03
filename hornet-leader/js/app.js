@@ -865,12 +865,22 @@ function buildCampaign(scenarioIdx, lengthIdx, squadron, diffRules, opts = {}) {
     const daysMatch = option.Timespan.match(/(\d+)/);
     const totalDays = daysMatch ? parseInt(daysMatch[1]) : 3;
 
-    // Build target deck: shuffle all available targets, exclude startInPlay
+    // Build target deck: shuffle available targets, exclude startInPlay
+    // USMC: only Band 1 targets go into the initial deck (other bands unlock later)
     const startInPlay = (scenario.SpecialRules && scenario.SpecialRules.startInPlay) || [];
     const startInPlaySet = new Set(startInPlay.map(String));
-    const allTargetNums = (typeof (scenario.Targets || [])[0] === 'object' && scenario.Targets[0].Band)
-        ? scenario.Targets.flatMap(band => band.TargetNumbers).map(String)
-        : (scenario.Targets || []).map(String);
+    const isUSMCScenario = parseCampaign(scenario).force === 'USMC';
+    const hasBands = (typeof (scenario.Targets || [])[0] === 'object' && scenario.Targets[0].Band);
+    let allTargetNums;
+    if (isUSMCScenario && hasBands) {
+        // Only Band 1 targets in initial deck
+        const band1 = scenario.Targets.find(b => b.Band === 1);
+        allTargetNums = band1 ? band1.TargetNumbers.map(String) : [];
+    } else {
+        allTargetNums = hasBands
+            ? scenario.Targets.flatMap(band => band.TargetNumbers).map(String)
+            : (scenario.Targets || []).map(String);
+    }
     const deckCards = allTargetNums.filter(n => !startInPlaySet.has(n));
     const targetDeck = shuffleArray(deckCards);
 
@@ -1103,6 +1113,116 @@ const CARRIER_SLOTS = {
 })();
 */
 
+// ─── Zone Transition Animation (USMC) ───
+// Bands pending animation — renderCarrierMarkers treats these as still "active" (not yet secured)
+let _pendingAnimBands = new Set();
+
+// newlySecuredBands: array of band numbers (1-based) that were just secured
+function animateZoneTransition(newlySecuredBands) {
+    return new Promise(resolve => {
+        if (!campaign || !campaign.isUSMC || !newlySecuredBands.length) { resolve(); return; }
+
+        // Mark bands as pending animation so renderCarrierMarkers keeps them as "active"
+        newlySecuredBands.forEach(b => _pendingAnimBands.add(b));
+        renderCarrierMarkers();
+
+        const board = document.getElementById('carrier-board');
+        const carrierImg = document.getElementById('carrier-img');
+        const marineKeys = ['marine1', 'marine2', 'marine3', 'marine4', 'marine5'];
+        const bandStatus = getBandStatusForCampaign();
+
+        // Block user interaction
+        const overlay = document.createElement('div');
+        overlay.className = 'zone-transition-overlay';
+        document.body.appendChild(overlay);
+
+        const scrollY = window.scrollY || document.documentElement.scrollTop;
+        const root = document.documentElement;
+
+        // Compute zoom origin in page pixels: left edge & vertical center of marine zone area
+        const imgRect = carrierImg.getBoundingClientRect();
+        const allMarineSlots = marineKeys.map(k => CARRIER_SLOTS[k]).filter(Boolean);
+        const minLeftPct = Math.min(...allMarineSlots.map(s => s.left));
+        const minTopPct = Math.min(...allMarineSlots.map(s => s.top));
+        const maxBottomPct = Math.max(...allMarineSlots.map(s => s.top + s.h));
+
+        const zoomX = imgRect.left + window.scrollX + (minLeftPct / 100) * imgRect.width;
+        const zoomY = imgRect.top + window.scrollY + ((minTopPct + maxBottomPct) / 2 / 100) * imgRect.height;
+
+        root.style.setProperty('--zone-zoom-x', `${zoomX}px`);
+        root.style.setProperty('--zone-zoom-y', `${zoomY}px`);
+
+        // Step 1: Scroll to carrier board
+        board.scrollIntoView({ behavior: 'smooth', block: 'center' });
+
+        // Step 2: Page-level zoom in
+        setTimeout(() => {
+            root.classList.add('zone-page-zoom');
+
+            // Step 3: After zoom, flip active → secure
+            setTimeout(() => {
+                newlySecuredBands.forEach(bandNum => {
+                    const bandIdx = bandNum - 1;
+                    const slot = CARRIER_SLOTS[marineKeys[bandIdx]];
+                    if (!slot) return;
+
+                    const markers = board.querySelectorAll('.carrier-marker');
+                    let targetMarker = null;
+                    markers.forEach(m => {
+                        if (m.tagName === 'IMG' && m.src && m.src.includes('active.png')) {
+                            const top = parseFloat(m.style.top);
+                            const left = parseFloat(m.style.left);
+                            if (Math.abs(top - slot.top) < 1 && Math.abs(left - slot.left) < 1) {
+                                targetMarker = m;
+                            }
+                        }
+                    });
+
+                    if (targetMarker) {
+                        targetMarker.classList.add('marker-flip-secure');
+                        setTimeout(() => {
+                            targetMarker.src = '../assets/HL/secure.png';
+                        }, 350);
+                    }
+                });
+
+                // Step 4: Drop-bounce new active markers
+                setTimeout(() => {
+                    newlySecuredBands.forEach(bandNum => {
+                        const nextBandIdx = bandNum;
+                        if (nextBandIdx >= bandStatus.length) return;
+                        if (bandStatus[nextBandIdx].secured) return;
+
+                        const slot = CARRIER_SLOTS[marineKeys[nextBandIdx]];
+                        if (!slot) return;
+
+                        const marker = document.createElement('img');
+                        marker.className = 'carrier-marker marker-drop-active';
+                        marker.src = '../assets/HL/active.png';
+                        marker.style.cssText = `position:absolute;top:${slot.top}%;left:${slot.left}%;width:${slot.w}%;height:${slot.h}%;opacity:0;`;
+                        board.appendChild(marker);
+                    });
+
+                    // Step 5: Zoom out
+                    setTimeout(() => {
+                        root.classList.remove('zone-page-zoom');
+
+                        // Step 6: Scroll back
+                        setTimeout(() => {
+                            window.scrollTo({ top: scrollY, behavior: 'smooth' });
+                            setTimeout(() => {
+                                _pendingAnimBands.clear();
+                                overlay.remove();
+                                resolve();
+                            }, 800);
+                        }, 900);
+                    }, 1000);
+                }, 900);
+            }, 900);
+        }, 900);
+    });
+}
+
 function renderCarrierMarkers() {
     const board = document.getElementById('carrier-board');
     if (!campaign) { board.style.display = 'none'; return; }
@@ -1123,9 +1243,17 @@ function renderCarrierMarkers() {
             const slot = CARRIER_SLOTS[marineKeys[i]];
             if (!slot) return;
             let imgSrc = null;
-            if (bs.secured) {
+            const bandNum = bs.band;
+            const isPendingAnim = _pendingAnimBands.has(bandNum);
+            if (bs.secured && !isPendingAnim) {
                 imgSrc = '../assets/HL/secure.png';
+            } else if (bs.secured && isPendingAnim) {
+                // Render as active — animation will flip it to secure
+                imgSrc = '../assets/HL/active.png';
             } else if (i === 0 || bandStatus[i - 1].secured) {
+                // Skip rendering next-band active marker if its previous band is pending animation
+                // (the animation will drop-bounce it in)
+                if (_pendingAnimBands.has(bandNum - 1)) return;
                 imgSrc = '../assets/HL/active.png';
             }
             if (!imgSrc) return;
@@ -1274,7 +1402,6 @@ function renderSquadron() {
                     </div>
                 </td>
                 <td class="cooldown-val">${pilot.cooldown}</td>
-                <td class="sa-val">${pilot.sa || 0}</td>
             `;
         } else {
             tr.innerHTML = `
@@ -1302,7 +1429,6 @@ function renderSquadron() {
                     </div>
                 </td>
                 <td class="cooldown-val">${pilot.cooldown}</td>
-                <td class="sa-val">${pilot.sa || 0}</td>
             `;
         }
         tbody.appendChild(tr);
@@ -1680,8 +1806,15 @@ function renderMissions() {
         const allResolved = m.targets.every(t => t.resolved);
         const isComplete = (allResolved && m.recoveryApplied) || m.downTime;
         const isCollapsed = m.collapsed && isComplete;
+
+        // Check if ALL previous days are fully complete
+        const prevComplete = campaign.missions.slice(0, dayIdx).every(prev =>
+            (prev.targets.every(t => t.resolved) && prev.recoveryApplied) || prev.downTime
+        );
+
+        const canAct = prevComplete;
         const div = document.createElement('div');
-        div.className = 'mission-day' + (isComplete ? ' resolved' : '') + (isCollapsed ? ' collapsed' : '');
+        div.className = 'mission-day' + (isComplete ? ' resolved' : '') + (isCollapsed ? ' collapsed' : '') + (!canAct && !isComplete ? ' day-locked' : '');
 
         // Header
         const header = document.createElement('div');
@@ -1696,8 +1829,8 @@ function renderMissions() {
                 <input type="number" value="${m.usedSO}" data-day="${dayIdx}" data-field="usedSO" ${m.downTime ? 'readonly' : ''}></div>
             ${freeSO ? `<span class="free-so-badge" title="매 작전일 특수 무장 ${freeSO} SO 무료">무료 SO ${freeSO}</span>` : ''}
             <div class="day-actions">
-                ${!m.downTime && !allResolved ? `<button class="btn btn-small" data-day="${dayIdx}" data-action="add-target">표적 선정</button>` : ''}
-                ${!m.downTime && !m.recoveryApplied && !allResolved ? `<button class="btn btn-small btn-downtime" data-day="${dayIdx}" data-action="down-time">휴식</button>` : ''}
+                ${!m.downTime && !allResolved ? `<button class="btn btn-small" data-day="${dayIdx}" data-action="add-target" ${!canAct ? 'disabled title="이전 작전일을 먼저 완료하세요"' : ''}>표적 선정</button>` : ''}
+                ${!m.downTime && !m.recoveryApplied && !allResolved ? `<button class="btn btn-small btn-downtime" data-day="${dayIdx}" data-action="down-time" ${!canAct ? 'disabled title="이전 작전일을 먼저 완료하세요"' : ''}>휴식</button>` : ''}
             </div>
             ${isComplete ? `<span class="day-collapse-indicator">${isCollapsed ? '▶ 펼치기' : '▼ 접기'}</span>` : ''}
         `;
@@ -2332,6 +2465,9 @@ function ensureDeckHasCards(needed) {
     // Also filter day-used targets from deck
 }
 
+// Snapshot of deck state before drawing — restored on cancel
+let _deckSnapshot = null;
+
 function openTargetDrawModal(dayIdx) {
     const drawCount = getReconDrawCount();
     const dayUsed = getDayUsedTargets(dayIdx, -1);
@@ -2340,6 +2476,11 @@ function openTargetDrawModal(dayIdx) {
     let scrambleIdx = -1;
 
     if (campaign.targetDeck) {
+        // Save deck snapshot before modifying (for cancel/restore)
+        _deckSnapshot = {
+            targetDeck: [...campaign.targetDeck],
+            discardPile: [...campaign.discardPile]
+        };
         // === Deck-based draw ===
         ensureDeckHasCards(drawCount);
         // Filter day-used from top of deck
@@ -2596,6 +2737,7 @@ function applyDrawSelection(state) {
         });
     }
 
+    _deckSnapshot = null;  // Confirm: don't restore deck on close
     closeDrawModal();
     renderMissions();
     updateBadges();
@@ -2623,6 +2765,12 @@ function fillTargetFromCard(t, targetNumber) {
 }
 
 function closeDrawModal() {
+    // Restore deck state if cancelled (cards were removed from deck on draw)
+    if (_deckSnapshot && campaign.targetDeck) {
+        campaign.targetDeck = _deckSnapshot.targetDeck;
+        campaign.discardPile = _deckSnapshot.discardPile;
+    }
+    _deckSnapshot = null;
     document.getElementById('target-draw-modal').style.display = 'none';
 }
 
@@ -3356,6 +3504,7 @@ function showDebriefModal(dayIdx) {
 
     // Check band secured for USMC — only show bands newly secured THIS mission
     let bandHTML = '';
+    let newlySecured = [];
     if (campaign.isUSMC) {
         const bandStatus = getBandStatusForCampaign();
         // Get targets destroyed in THIS mission only
@@ -3363,7 +3512,6 @@ function showDebriefModal(dayIdx) {
             m.targets.filter(t => t.resolved && t.result === 'Destroyed' && t.targetNumber)
                 .map(t => String(t.targetNumber))
         );
-        const newlySecured = [];
         bandStatus.forEach((bs) => {
             if (!bs.secured) return;
             // Check if removing this mission's destroyed targets would un-secure the band
@@ -3421,20 +3569,36 @@ function showDebriefModal(dayIdx) {
 
     overlay.style.display = 'flex';
 
+    // Capture newly secured band numbers for animation
+    const _newlySecuredBandNums = newlySecured.map(bs => bs.band);
+
     // Close on any click → collapse the day
     const closeHandler = () => {
         overlay.style.display = 'none';
         overlay.removeEventListener('click', closeHandler);
         m.collapsed = true;
-        renderAll();
-        autoSave();
 
-        // Check if all missions are completed → show victory modal
-        const allDone = campaign.missions.every(mi =>
-            mi.downTime || mi.targets.every(t => t.resolved)
-        );
-        if (allDone && !campaign.campaignFailed) {
-            setTimeout(() => showVictoryModal(), 200);
+        if (_newlySecuredBandNums.length > 0) {
+            // Play zone transition animation, then renderAll
+            animateZoneTransition(_newlySecuredBandNums).then(() => {
+                renderAll();
+                autoSave();
+                const allDone = campaign.missions.every(mi =>
+                    mi.downTime || mi.targets.every(t => t.resolved)
+                );
+                if (allDone && !campaign.campaignFailed) {
+                    setTimeout(() => showVictoryModal(), 200);
+                }
+            });
+        } else {
+            renderAll();
+            autoSave();
+            const allDone = campaign.missions.every(mi =>
+                mi.downTime || mi.targets.every(t => t.resolved)
+            );
+            if (allDone && !campaign.campaignFailed) {
+                setTimeout(() => showVictoryModal(), 200);
+            }
         }
     };
     // Delay to prevent immediate close from the button click
@@ -3610,7 +3774,13 @@ function closeCampaignFailModal() {
 }
 
 function onAddTarget(e) {
+    if (e.target.disabled) return;
     const dayIdx = parseInt(e.target.dataset.day);
+    // Block if any previous day is not complete
+    const allPrevDone = campaign.missions.slice(0, dayIdx).every(prev =>
+        (prev.targets.every(t => t.resolved) && prev.recoveryApplied) || prev.downTime
+    );
+    if (!allPrevDone) return;
     openTargetDrawModal(dayIdx);
 }
 
@@ -4190,13 +4360,16 @@ function resolveTarget(dayIdx, tIdx) {
         if (imp) imp.active = false;
     }
 
-    // Band unlock: add newly unlocked targets to deck
+    // Band unlock: when a new band is unlocked, merge new cards with remaining deck + discard and reshuffle
     if (campaign.targetDeck && t.result === 'Destroyed' && campaign.isUSMC) {
         const deckSet = new Set([...campaign.targetDeck, ...campaign.discardPile, ...campaign.destroyedCards]);
         const unlocked = getUnlockedTargetNumbers().map(String);
         const newCards = unlocked.filter(n => !deckSet.has(n));
         if (newCards.length > 0) {
-            campaign.targetDeck.push(...shuffleArray(newCards));
+            // Combine current deck + discard pile + new band cards → reshuffle into new deck
+            const combined = [...campaign.targetDeck, ...campaign.discardPile, ...newCards];
+            campaign.targetDeck = shuffleArray(combined);
+            campaign.discardPile = [];
         }
     }
 

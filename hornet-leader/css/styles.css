@@ -135,6 +135,12 @@ header h1 {
 .btn-danger { background: linear-gradient(180deg, #6a2520, #501a18); border-color: #8a3030; color: #e0a0a0; }
 .btn-danger:hover { background: linear-gradient(180deg, #7a3028, #5a2020); }
 .btn-small { font-size: 0.75rem; padding: 0.3em 0.7em; }
+.day-actions .btn:disabled {
+    pointer-events: none;
+    color: #666;
+    border-color: #444;
+    background: #333;
+}
 .btn-icon { padding: 0.2em 0.5em; font-size: 0.8rem; min-width: 24px; }
 
 /* ─── Forms ─── */
@@ -464,6 +470,23 @@ select:focus, input:focus { outline: none; border-color: #8b7a2e; box-shadow: in
     background: linear-gradient(90deg, transparent, rgba(255,255,255,0.08) 20%, rgba(255,255,255,0.04) 50%, rgba(255,255,255,0.08) 80%, transparent);
 }
 .mission-day.resolved { border-left-color: #6aaa5a; }
+.mission-day.day-locked {
+    opacity: 0.5;
+}
+.mission-day.day-locked::after {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; width: 100%; height: 100%;
+    background: repeating-linear-gradient(
+        -45deg,
+        transparent,
+        transparent 4px,
+        rgba(255,255,255,0.04) 4px,
+        rgba(255,255,255,0.04) 8px
+    );
+    pointer-events: none;
+    z-index: 10;
+}
 
 .day-header {
     display: flex;
@@ -909,6 +932,15 @@ tr:hover td { background: rgba(255,255,255,0.02); }
     width: 100%;
     grid-column: 1 / -1;
 }
+/* Page-level zoom for zone transition animation */
+html {
+    transition: transform 0.8s cubic-bezier(0.25, 0.1, 0.25, 1);
+    transform-origin: 0 0;
+}
+html.zone-page-zoom {
+    transform: scale(var(--zone-zoom, 2));
+    transform-origin: var(--zone-zoom-x, 0px) var(--zone-zoom-y, 0px);
+}
 .carrier-board .carrier-img {
     display: block;
     width: 100%;
@@ -1058,6 +1090,36 @@ tr:hover td { background: rgba(255,255,255,0.02); }
 .cpm-mission-shotdown {
     background: rgba(120, 10, 10, 0.75);
     color: #ffaaaa;
+}
+
+/* ─── Zone Transition Animations ─── */
+.carrier-marker.marker-flip-secure {
+    animation: flipSecure 0.8s ease-in-out forwards;
+    transform-style: preserve-3d;
+}
+@keyframes flipSecure {
+    0%   { transform: perspective(400px) rotateY(0deg) scale(1); }
+    40%  { transform: perspective(400px) rotateY(90deg) scale(1.2); }
+    50%  { transform: perspective(400px) rotateY(90deg) scale(1.2); }
+    100% { transform: perspective(400px) rotateY(0deg) scale(1); }
+}
+.carrier-marker.marker-drop-active {
+    animation: dropBounce 0.8s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+}
+@keyframes dropBounce {
+    0%   { transform: translateY(-200%) scale(0.3); opacity: 0; }
+    40%  { transform: translateY(10%) scale(1.15); opacity: 1; }
+    55%  { transform: translateY(-8%) scale(0.95); }
+    70%  { transform: translateY(4%) scale(1.05); }
+    85%  { transform: translateY(-2%) scale(0.98); }
+    100% { transform: translateY(0) scale(1); opacity: 1; }
+}
+.zone-transition-overlay {
+    position: fixed;
+    top: 0; left: 0; width: 100%; height: 100%;
+    z-index: 9998;
+    pointer-events: all;
+    background: transparent;
 }
 
 /* ─── Band Secure Modal ─── */
