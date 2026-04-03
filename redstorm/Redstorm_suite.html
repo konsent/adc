@@ -1,11 +1,11 @@
 <!DOCTYPE html>
 <html lang="ko">
 <head>
-<link rel="apple-touch-icon" sizes="180x180" href="./assets/rs_base/favicon_io/apple-touch-icon.png">
-<link rel="icon" type="image/png" sizes="32x32" href="./assets/rs_base/favicon_io/favicon-32x32.png">
-<link rel="icon" type="image/png" sizes="16x16" href="./assets/rs_base/favicon_io/favicon-16x16.png">
-<link rel="manifest" href="./assets/rs_base/favicon_io/site.webmanifest">
-<link rel="icon" href="./assets/rs_base/favicon_io/favicon.ico" type="image/x-icon">
+<link rel="apple-touch-icon" sizes="180x180" href="../assets/rs_base/favicon_io/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="../assets/rs_base/favicon_io/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="../assets/rs_base/favicon_io/favicon-16x16.png">
+<link rel="manifest" href="../assets/rs_base/favicon_io/site.webmanifest">
+<link rel="icon" href="../assets/rs_base/favicon_io/favicon.ico" type="image/x-icon">
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>RED STORM — Solo Campaign Tools</title>
@@ -3956,7 +3956,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         const aircraftName = aircraftSelect.value;
         const scenarioPath = balticToggle.checked ? 'rs_baltic' : 'rs_base';
         const sidePath = isWP ? 'wp' : 'nato';
-        const imagePath = `assets/${scenarioPath}/${sidePath}/flight/${aircraftName}.jpg`;
+        const imagePath = `../assets/${scenarioPath}/${sidePath}/flight/${aircraftName}.jpg`;
         modalImage.onload = () => {
           modal.style.display = 'block';
           const rect = button.getBoundingClientRect();
@@ -4003,7 +4003,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         availableCards.forEach(cardName => {
           const img = document.createElement('img');
           img.className = 'selectable-card';
-          img.src = `assets/${scenarioPath}/${side}/${cardType}/${cardName}.jpg`;
+          img.src = `../assets/${scenarioPath}/${side}/${cardType}/${cardName}.jpg`;
           img.dataset.cardName = cardName;
           img.alt = cardName;
           img.title = cardName;
@@ -4045,7 +4045,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     const cardType = cardArea.dataset.cardType;
     const side = cardArea.dataset.side;
     const scenarioPath = balticToggle.checked ? 'rs_baltic' : 'rs_base';
-    const path = `assets/${scenarioPath}/${side}/${cardType}/${cardName}.jpg`;
+    const path = `../assets/${scenarioPath}/${side}/${cardType}/${cardName}.jpg`;
     const img = document.createElement('img');
     img.className = 'card-image';
     img.src = path;
@@ -5432,7 +5432,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         const img = document.createElement('img');
         img.className = 'card-image';
         img.dataset.cardName = name;
-        img.src = `assets/${scenarioPath}/${side}/flight/${name}.jpg?t=${Date.now()}`;
+        img.src = `../assets/${scenarioPath}/${side}/flight/${name}.jpg?t=${Date.now()}`;
         img.title = name;
         img.alt = name;
         img.onerror = () => {
@@ -5894,14 +5894,14 @@ document.addEventListener('DOMContentLoaded', async () => {
         // Inline detection images for detection phase
         if (phase.name && phase.name.includes('탐지')) {
           out += `<div style="margin-top:10px;display:flex;gap:8px;flex-wrap:wrap;">`;
-          out += `<img src="assets/rs_detect1.png" style="max-width:48%;border-radius:4px;border:1px solid var(--border);" alt="Detection 1">`;
-          out += `<img src="assets/rs_detect2.png" style="max-width:48%;border-radius:4px;border:1px solid var(--border);" alt="Detection 2">`;
+          out += `<img src="../assets/rs_detect1.png" style="max-width:48%;border-radius:4px;border:1px solid var(--border);" alt="Detection 1">`;
+          out += `<img src="../assets/rs_detect2.png" style="max-width:48%;border-radius:4px;border:1px solid var(--border);" alt="Detection 2">`;
           out += `</div>`;
         }
         // Inline tracking image for tracking phase
         if (phase.name && phase.name.includes('추적')) {
           out += `<div style="margin-top:10px;">`;
-          out += `<img src="assets/rs_track.png" style="max-width:48%;border-radius:4px;border:1px solid var(--border);" alt="Tracking">`;
+          out += `<img src="../assets/rs_track.png" style="max-width:48%;border-radius:4px;border:1px solid var(--border);" alt="Tracking">`;
           out += `</div>`;
         }
         // Inline weather dice for weather phase
@@ -8882,7 +8882,7 @@ document.addEventListener('DOMContentLoaded', async () => {
       // Flight ADC cards
       aircraftSet.forEach(name => {
         const sidePath = aircraftSides[name] || 'nato';
-        const path = `assets/${scenarioPath}/${sidePath}/flight/${name}.jpg`;
+        const path = `../assets/${scenarioPath}/${sidePath}/flight/${name}.jpg`;
         const img = document.createElement('img');
         img.src = path;
         img.alt = name;
@@ -8911,7 +8911,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         adcViewerContent.appendChild(sep);
         samCards.forEach(({ name, side }) => {
           const img = document.createElement('img');
-          img.src = `assets/${scenarioPath}/${side}/sam/${name}.jpg`;
+          img.src = `../assets/${scenarioPath}/${side}/sam/${name}.jpg`;
           img.alt = name;
           img.title = `SAM: ${name}`;
           img.onerror = () => img.remove();

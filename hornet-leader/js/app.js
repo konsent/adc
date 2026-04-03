@@ -35,8 +35,8 @@ function isBase(campaign) {
 
 async function loadGameData() {
     const [resp, tResp] = await Promise.all([
-        fetch('../hl.json'),
-        fetch('../hl_target.json')
+        fetch('hl.json'),
+        fetch('hl_target.json')
     ]);
     gameData = await resp.json();
     targetData = await tResp.json();
