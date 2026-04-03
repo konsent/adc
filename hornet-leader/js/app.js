@@ -500,7 +500,8 @@ function generateSquadron(scenario, option, selectedAircraft) {
                 stress: 0,
                 xp: 0,
                 cooldown: rankStats ? rankStats.Cooldown : 0,
-                hasStats: hasStats
+                hasStats: hasStats,
+                sa: getPilotSA(pilot.Name, rankName)
             });
         }
     }
@@ -632,7 +633,8 @@ function confirmManualSelection() {
             stress: 0,
             xp: 0,
             cooldown: rankStats ? rankStats.Cooldown : 0,
-            hasStats: hasStats
+            hasStats: hasStats,
+            sa: getPilotSA(pd.Name, rank)
         });
     });
 
@@ -695,6 +697,7 @@ function updatePilotForRank(pilot, resetStress) {
     pilot.hasStats = !!(pd && pd.Stats);
     const rs = getPilotRankStats(pilot);
     if (rs) pilot.cooldown = rs.stats.Cooldown;
+    pilot.sa = getPilotSA(pilot.name, pilot.rank);
     if (resetStress) {
         pilot.stress = 0;
         pilot.xp = 0;
@@ -808,6 +811,36 @@ const RANDOM_SO_BONUS = [6, 12, 18]; // Short / Medium / Long
 const FLYING_MORE_LESS_SO_COST = [3, 6, 9]; // Short / Medium / Long
 const DAMAGED_TARGET_SO_COST = [3, 6, 9]; // Short / Medium / Long
 const INTENSE_STRESS_SO_COST = [3, 6, 9]; // Short / Medium / Long
+const PILOT_SA = {
+    'Tigger':[0,0,0,0,0,0],'Gizmo':[0,0,0,0,0,0],'Tonto':[0,0,0,0,0,1],'Bigfoot':[0,0,0,1,1,2],
+    'Slick':[0,1,1,2,2,3],'Toon':[0,0,1,0,1,2],'Caveman':[0,0,1,2,2,2],'Tango':[0,0,0,0,0,0],
+    'Shepherd':[0,0,0,0,0,0],'Ogre':[0,1,1,2,2,2],'Cowboy':[0,0,0,1,1,1],'Chaos':[0,0,0,0,0,1],
+    'Merlin':[0,1,2,2,3,3],'Boston':[0,0,0,0,0,1],'Scout':[0,0,0,0,0,0],'Wolf':[0,0,0,0,0,0],
+    'Dodger':[0,0,0,0,0,0],'Rudder':[0,0,0,0,0,0],'Big Time':[0,1,2,2,3,3],'Dino':[0,0,0,0,0,0],
+    'Animal':[0,1,1,2,2,3],'Saw':[0,0,1,1,1,2],'Turnip':[0,0,0,0,0,1],'Crispy':[0,0,0,0,0,0],
+    'Mystic':[0,0,0,0,0,0],'Kong':[0,0,0,0,0,0],'Burger':[0,0,0,0,0,1],'Sniper':[0,0,1,1,1,2],
+    'Hammer':[0,0,0,1,1,2],'Ranger':[0,1,1,2,2,3],'Blackhawk':[0,1,2,2,3,3],'Meatball':[0,0,0,1,1,2],
+    'Bacon':[0,0,0,0,1,1],'Alpo':[0,0,0,0,0,0],'Bug':[0,0,0,0,1,2],'Moon':[0,0,1,1,1,1],
+    'Shifty':[0,1,1,2,2,2],'Eyes':[1,2,2,3,3,4],'Extra':[0,0,0,0,0,0],'Cracken':[0,0,0,0,0,0],
+    'Chili':[0,0,1,1,1,1],'Crunch':[0,0,0,0,1,1],'Mullet':[0,0,0,0,0,0],'Mustang':[0,0,0,1,1,2],
+    'Raven':[0,0,0,1,1,1],'Sparky':[0,0,0,0,1,1],'Bison':[0,0,0,1,1,1],'Teflon':[0,0,1,1,1,1],
+    'Duke':[0,0,1,1,2,3],'Alien':[0,0,0,0,0,2],'Talon':[0,0,0,1,2,3],'Doc':[0,0,0,0,0,1],
+    'Lightning':[0,0,0,1,1,1],'Tex':[0,0,0,0,0,0],'Tuna':[0,0,0,0,0,1],'Bear':[0,0,0,0,0,0],
+    'Beast':[0,0,0,0,0,0],'Psycho':[0,0,0,0,0,0],'Pluto':[0,0,0,1,1,1],'Banzai':[0,0,0,0,0,0],
+    'Salsa':[0,1,2,2,3,3],'Thor':[0,1,1,2,2,3],'Scotty':[0,1,2,2,2,3],'Kermit':[0,0,0,0,0,0],
+    'Waldo':[0,0,0,0,1,2],'Hunter':[0,0,0,1,1,1],'Raider':[0,1,2,2,3,3],'Pyro':[0,1,1,2,2,3],
+    'Panther':[0,0,0,0,0,1],'Brick':[1,2,2,3,4,5],'Buzz':[0,0,0,0,0,1],'Camel':[0,0,1,1,1,2],
+    'Wash':[1,1,2,2,2,2],'Dingo':[0,0,0,0,1,1],'Spike':[0,0,0,0,0,0],'Maverick':[0,0,0,0,0,0],
+    'Griffin':[0,0,1,1,1,1],'Hoss':[0,0,0,0,0,0],'Wedge':[0,0,0,0,0,0],'Farmboy':[0,0,1,2,2,3],
+};
+
+function getPilotSA(name, rank) {
+    const sa = PILOT_SA[name];
+    if (!sa) return 0;
+    const idx = RANKS.indexOf(rank);
+    return idx >= 0 && idx < sa.length ? sa[idx] : 0;
+}
+
 const JDAM_WEAPONS = ['GBU-31', 'GBU-32', 'GBU-38'];
 const JDAM_SO_COST = 12;
 
@@ -1241,6 +1274,7 @@ function renderSquadron() {
                     </div>
                 </td>
                 <td class="cooldown-val">${pilot.cooldown}</td>
+                <td class="sa-val">${pilot.sa || 0}</td>
             `;
         } else {
             tr.innerHTML = `
@@ -1268,6 +1302,7 @@ function renderSquadron() {
                     </div>
                 </td>
                 <td class="cooldown-val">${pilot.cooldown}</td>
+                <td class="sa-val">${pilot.sa || 0}</td>
             `;
         }
         tbody.appendChild(tr);
@@ -1708,7 +1743,6 @@ function renderMissions() {
             const campDetail = getTargetCampaignDetails(t.targetNumber);
             const wpPenalty = getImprovementWPPenalty();
             const effectiveWP = campDetail ? campDetail.wp - wpPenalty : null;
-            const wpLabel = effectiveWP != null ? `<span class="wp-badge">WP ${effectiveWP}</span>` : '';
             const hits = getTargetHits(t.targetNumber);
             const targetEntry = getTargetEntry(t.targetNumber);
             const targetName = targetEntry ? targetEntry.targetName : '';
@@ -1751,6 +1785,10 @@ function renderMissions() {
                 <div class="tc-daynight ${isNight ? 'night' : 'day'}${canNight ? '' : ' no-night'}" data-day="${dayIdx}" data-tidx="${tIdx}" data-tfield="dayNight">
                     ${isNight ? '야간 작전' : '주간 작전'}
                 </div>
+                ${isNight ? `<div class="tc-night-draw" data-day="${dayIdx}" data-tidx="${tIdx}" title="클릭: Fast/Slow/Site/Bandit 랜덤 뽑기">
+                    <span class="night-draw-label">야간</span>
+                    <span class="night-draw-result">${t.nightDraw || '?'}</span>
+                </div>` : ''}
                 <div class="tc-stat-box">
                     <span class="tc-stat-label">기본 ST</span>
                     <span class="tc-stat-value">${t.baseStress || '—'}</span>
@@ -1808,31 +1846,38 @@ function renderMissions() {
                     const mXp = ap.missionXp || 0;
                     const prow = document.createElement('div');
                     prow.className = 'assigned-pilot-row' + (ap.shotDown ? ' shot-down' : '');
+                    const pilotSA = pilot.sa || 0;
+                    const isFL = !!ap.flightLeader;
+                    const usedSA = ap.usedSA != null ? ap.usedSA : pilotSA;
+
                     prow.innerHTML = `
-                        <span class="ap-name">${pilot.name}</span>
-                        <span class="ap-aircraft">${pilot.aircraft}</span>${campaign.isUSMC && pilot.aircraft === 'AV-8B' ? '<span class="noe-badge" title="Nap of the Earth: 저고도 비행 시 Damaged → Stress로 처리 (이벤트 제외)">NoE</span>' : ''}
-                        ${wpLabel}
-                        <span class="ap-stress-section">
-                            <span class="ap-stress-label">스트레스</span>
-                            <span class="ap-stress-mission">
-                                ${t.resolved ? `${mStress >= 0 ? '+' : ''}${mStress}` : `
+                        <span class="ap-col ap-col-fl">${isFL ? `<span class="flight-leader-badge" data-day="${dayIdx}" data-tidx="${tIdx}" title="비행대장 (클릭하여 변경)">★</span>` : ''}</span>
+                        <span class="ap-col ap-col-name">${pilot.name}</span>
+                        <span class="ap-col ap-col-ac">${pilot.aircraft}${campaign.isUSMC && pilot.aircraft === 'AV-8B' ? ' <span class="noe-badge" title="NoE">NoE</span>' : ''}</span>
+                        <span class="ap-col ap-col-stxp">
+                            <span class="ap-stxp-row">
+                                <span class="ap-stat-label">ST</span>
+                                ${t.resolved ? `<span class="ap-stat-val">${mStress >= 0 ? '+' : ''}${mStress}</span>` : `
                                 <button class="arrow-btn arrow-down ap-arrow" data-day="${dayIdx}" data-tidx="${tIdx}" data-apidx="${apIdx}" data-action="ms-down">&#9660;</button>
-                                <span class="ap-ms-val">${mStress >= 0 ? '+' : ''}${mStress}</span>
-                                <button class="arrow-btn arrow-up ap-arrow" data-day="${dayIdx}" data-tidx="${tIdx}" data-apidx="${apIdx}" data-action="ms-up">&#9650;</button>
-                                `}
+                                <span class="ap-stat-val">${mStress >= 0 ? '+' : ''}${mStress}</span>
+                                <button class="arrow-btn arrow-up ap-arrow" data-day="${dayIdx}" data-tidx="${tIdx}" data-apidx="${apIdx}" data-action="ms-up">&#9650;</button>`}
                             </span>
-                        </span>
-                        <span class="ap-xp-section">
-                            <span class="ap-xp-label">경험치</span>
-                            <span class="ap-xp-mission">
-                                ${t.resolved ? `+${mXp}` : `
+                            <span class="ap-stxp-row">
+                                <span class="ap-stat-label">XP</span>
+                                ${t.resolved ? `<span class="ap-stat-val">+${mXp}</span>` : `
                                 <button class="arrow-btn arrow-down ap-arrow" data-day="${dayIdx}" data-tidx="${tIdx}" data-apidx="${apIdx}" data-action="xp-down">&#9660;</button>
-                                <span class="ap-xp-val">+${mXp}</span>
-                                <button class="arrow-btn arrow-up ap-arrow" data-day="${dayIdx}" data-tidx="${tIdx}" data-apidx="${apIdx}" data-action="xp-up">&#9650;</button>
-                                `}
+                                <span class="ap-stat-val">+${mXp}</span>
+                                <button class="arrow-btn arrow-up ap-arrow" data-day="${dayIdx}" data-tidx="${tIdx}" data-apidx="${apIdx}" data-action="xp-up">&#9650;</button>`}
                             </span>
                         </span>
-                        <span class="ap-actions">
+                        <span class="ap-col ap-col-sa">${pilotSA > 0 ? `
+                            <span class="ap-sa-label">SA</span>
+                            ${t.resolved ? `<span class="ap-sa-val">${usedSA}/${pilotSA}</span>` : `
+                            <button class="arrow-btn arrow-down sa-pilot-arrow" data-day="${dayIdx}" data-tidx="${tIdx}" data-apidx="${apIdx}" data-action="sa-down">&#9660;</button>
+                            <span class="ap-sa-val">${usedSA}/${pilotSA}</span>
+                            <button class="arrow-btn arrow-up sa-pilot-arrow" data-day="${dayIdx}" data-tidx="${tIdx}" data-apidx="${apIdx}" data-action="sa-up" data-max="${pilotSA}">&#9650;</button>`}
+                        ` : ''}</span>
+                        <span class="ap-col ap-col-actions">
                             ${t.resolved ? '' : `
                             ${campaign.intenseStressRule && !isE2C(pilot) ? `<button class="btn-intense${ap.intenseUsed ? ' active' : ''}"
                                 data-day="${dayIdx}" data-tidx="${tIdx}" data-apidx="${apIdx}" title="고강도: 공격/제압 +1, 스트레스 +1">고강도</button>` : ''}
@@ -1864,6 +1909,7 @@ function renderMissions() {
                         pilotsDiv.appendChild(lrow);
                     }
                 });
+
                 tBlock.appendChild(pilotsDiv);
             }
 
@@ -2176,6 +2222,8 @@ function attachMissionEvents(container) {
         el.addEventListener('change', onTargetFieldChange));
     container.querySelectorAll('.tc-daynight').forEach(el =>
         el.addEventListener('click', onToggleDayNight));
+    container.querySelectorAll('.tc-night-draw').forEach(el =>
+        el.addEventListener('click', onNightDraw));
     container.querySelectorAll('.assign-panel input[type="checkbox"]').forEach(el =>
         el.addEventListener('change', onStagePilot));
     container.querySelectorAll('[data-action="confirm-assign"]').forEach(el =>
@@ -2188,6 +2236,10 @@ function attachMissionEvents(container) {
         el.addEventListener('click', onToggleShotDown));
     container.querySelectorAll('.btn-intense').forEach(el =>
         el.addEventListener('click', onToggleIntense));
+    container.querySelectorAll('.flight-leader-badge').forEach(el =>
+        el.addEventListener('click', onToggleFlightLeader));
+    container.querySelectorAll('.sa-pilot-arrow').forEach(el =>
+        el.addEventListener('click', onSAPilotArrow));
     container.querySelectorAll('.btn-armament').forEach(el =>
         el.addEventListener('click', e => {
             const { day, tidx, apidx } = e.target.dataset;
@@ -2648,12 +2700,21 @@ function showArmamentModal(dayIdx, tIdx, apIdx) {
 
     // Scenario special weapons list
     const scenario = gameData.Campaigns[campaign.scenarioIdx];
-    const specialWeapons = (scenario.SpecialWeapons || []).map(s => s.split(' ')[0]); // "AGM-84 Harpoon" → "AGM-84"
+    const specialWeapons = (scenario.SpecialWeapons || []).map(s => {
+        const prefix = s.split(' ')[0];
+        // Fix known typo: AIM-84 → AGM-84 (Harpoon)
+        if (prefix === 'AIM-84') return 'AGM-84';
+        return prefix;
+    });
 
     // Init state
     const selected = (ap.loadout || []).map(item => ({ ...item }));
     const hasJdam = JDAM_WEAPONS.some(j => specialWeapons.includes(j) && weapons[j]);
-    _armamentModalState = { dayIdx, tIdx, apIdx, aircraft: armKey, pilotName: pilot.name, pilotAircraft: pilot.aircraft, weapons, maxWP, restrictions, selected, specialWeapons, jdamPaid: !!target.jdamPaid, hasJdam };
+    const targetEntry = getTargetEntry(target.targetNumber);
+    const isFleetTarget = targetEntry && (targetEntry.targetName || '').toLowerCase().includes('fleet');
+    const isFixedTarget = targetEntry && (targetEntry.traits || '').includes('Fixed');
+    const jdamFixedOnly = !!(getSpecialRules().jdamFixedOnly);
+    _armamentModalState = { dayIdx, tIdx, apIdx, aircraft: armKey, pilotName: pilot.name, pilotAircraft: pilot.aircraft, weapons, maxWP, restrictions, selected, specialWeapons, jdamPaid: !!target.jdamPaid, hasJdam, isFleetTarget, isFixedTarget, jdamFixedOnly };
 
     // Check for fixed loadout (EA-6B)
     if (restrictions.fixedLoadout) {
@@ -2710,7 +2771,8 @@ function renderArmamentModal() {
     avail.innerHTML = '<h4>가용 무장</h4>';
 
     // JDAM activation toggle
-    if (st.hasJdam) {
+    const jdamAllowed = st.hasJdam && !(st.jdamFixedOnly && !st.isFixedTarget);
+    if (jdamAllowed) {
         const jdamDiv = document.createElement('div');
         jdamDiv.className = 'jdam-toggle';
         if (st.jdamPaid) {
@@ -2747,7 +2809,10 @@ function renderArmamentModal() {
         const cantAfford = wpCost > remainWP;
         const notInScenario = !BASE_WEAPONS.includes(wname) && !st.specialWeapons.includes(wname);
         const jdamNotPaid = JDAM_WEAPONS.includes(wname) && !st.jdamPaid;
-        const disabled = restricted || limitExceeded || cantAfford || isFixed || notInScenario || jdamNotPaid;
+        const jdamFixedRestricted = JDAM_WEAPONS.includes(wname) && st.jdamFixedOnly && !st.isFixedTarget;
+        const harpoonFleetOnly = !!(getSpecialRules().harpoonFleetOnly);
+        const harpoonRestricted = wname === 'AGM-84' && harpoonFleetOnly && !st.isFleetTarget;
+        const disabled = restricted || limitExceeded || cantAfford || isFixed || notInScenario || jdamNotPaid || jdamFixedRestricted || harpoonRestricted;
 
         const isSpecial = st.specialWeapons.includes(wname);
         const item = document.createElement('div');
@@ -2757,7 +2822,9 @@ function renderArmamentModal() {
             if (notInScenario) reasons.push('이 시나리오에서 사용 불가');
             if (restricted) reasons.push('이 기체는 공대공 무장 탑재 불가');
             if (limitExceeded) reasons.push(`${wname} 최대 수량 도달 (${st.restrictions.weaponLimits[wname]}발)`);
+            if (jdamFixedRestricted) reasons.push('JDAM은 Fixed 표적에만 사용 가능');
             if (jdamNotPaid) reasons.push(`JDAM 활성화 필요 (${JDAM_SO_COST} SO)`);
+            if (harpoonRestricted) reasons.push('Harpoon은 Fleet 표적에만 사용 가능');
             if (cantAfford) reasons.push(`WP 부족 (필요: ${wpCost}, 잔여: ${remainWP})`);
             if (isFixed) reasons.push('고정 무장 (변경 불가)');
             item.title = reasons.join('\n');
@@ -2858,7 +2925,7 @@ function onToggleSpendLoadout(e) {
         } else {
             // Roll d10 (1~10)
             ap.loadout[lidx].roll = Math.floor(Math.random() * 10) + 1;
-            ap.loadout[lidx].intense = !!ap.intenseUsed;
+            ap.loadout[lidx].intense = !!ap.intenseUsed && ap.loadout[lidx].weapon !== 'ECM Pod';
             ap.loadout[lidx].spent = true;
         }
         renderAll();
@@ -2942,7 +3009,8 @@ function showReplacementModal(miaPilotIdx, candidate, roll, result) {
             stress: 0,
             xp: 0,
             cooldown: rankStats ? rankStats.Cooldown : 0,
-            hasStats: hasStats
+            hasStats: hasStats,
+            sa: getPilotSA(pd.Name, result.rank)
         };
         campaign.squadron.push(newPilot);
         const newIdx = campaign.squadron.length - 1;
@@ -3056,6 +3124,122 @@ function removeSquadronPilot(removeIdx) {
     campaign.squadron.splice(removeIdx, 1);
 }
 
+// ─── Flight Leader ───
+
+function assignFlightLeader(dayIdx, tIdx) {
+    const target = campaign.missions[dayIdx].targets[tIdx];
+    const pilots = target.assignedPilots || [];
+    if (pilots.length === 0) return;
+
+    // Clear existing flight leader
+    pilots.forEach(ap => { ap.flightLeader = false; });
+
+    // Find highest rank (excluding E-2C)
+    let maxRankIdx = -1;
+    pilots.forEach(ap => {
+        const pilot = campaign.squadron[ap.pilotIdx];
+        if (!pilot || isE2C(pilot)) return;
+        const ri = RANKS.indexOf(pilot.rank);
+        if (ri > maxRankIdx) maxRankIdx = ri;
+    });
+
+    if (maxRankIdx < 0) return;
+
+    // Candidates at highest rank
+    const candidates = pilots.filter(ap => {
+        const pilot = campaign.squadron[ap.pilotIdx];
+        return pilot && !isE2C(pilot) && RANKS.indexOf(pilot.rank) === maxRankIdx;
+    });
+
+    if (candidates.length === 1) {
+        candidates[0].flightLeader = true;
+    } else if (candidates.length > 1) {
+        // Check if one is already marked
+        const existing = candidates.find(ap => ap.flightLeader);
+        if (existing) return; // keep existing selection
+        // Show selection modal
+        showFlightLeaderModal(dayIdx, tIdx, candidates);
+    }
+}
+
+function showFlightLeaderModal(dayIdx, tIdx, candidates) {
+    const overlay = document.getElementById('flight-leader-modal');
+    const body = document.getElementById('flight-leader-modal-body');
+
+    let html = '<h3>비행대장 선택</h3><p>최고 랭크 조종사가 여러 명입니다. 비행대장을 선택하세요.</p><div class="fl-candidates">';
+    candidates.forEach((ap) => {
+        const pilot = campaign.squadron[ap.pilotIdx];
+        const sa = pilot.sa || 0;
+        html += `<div class="fl-candidate" data-day="${dayIdx}" data-tidx="${tIdx}" data-apidx="${campaign.missions[dayIdx].targets[tIdx].assignedPilots.indexOf(ap)}">
+            <span class="fl-name">${pilot.name}</span>
+            <span class="fl-aircraft">${pilot.aircraft}</span>
+            <span class="fl-rank ${RANK_CLASSES[pilot.rank] || ''}">${pilot.rank}</span>
+            <span class="fl-sa">SA ${sa}</span>
+        </div>`;
+    });
+    html += '</div>';
+    body.innerHTML = html;
+
+    body.querySelectorAll('.fl-candidate').forEach(el => {
+        el.addEventListener('click', () => {
+            const d = parseInt(el.dataset.day);
+            const ti = parseInt(el.dataset.tidx);
+            const ai = parseInt(el.dataset.apidx);
+            const target = campaign.missions[d].targets[ti];
+            target.assignedPilots.forEach(ap => { ap.flightLeader = false; });
+            target.assignedPilots[ai].flightLeader = true;
+            closeFlightLeaderModal();
+            renderAll();
+            autoSave();
+        });
+    });
+
+    overlay.style.display = 'flex';
+}
+
+function closeFlightLeaderModal() {
+    document.getElementById('flight-leader-modal').style.display = 'none';
+}
+
+function onToggleFlightLeader(e) {
+    const el = e.currentTarget;
+    const dayIdx = parseInt(el.dataset.day);
+    const tIdx = parseInt(el.dataset.tidx);
+    // Re-run assignment (will show modal if multiple candidates)
+    const target = campaign.missions[dayIdx].targets[tIdx];
+    const pilots = target.assignedPilots || [];
+    let maxRankIdx = -1;
+    pilots.forEach(ap => {
+        const pilot = campaign.squadron[ap.pilotIdx];
+        if (!pilot || isE2C(pilot)) return;
+        const ri = RANKS.indexOf(pilot.rank);
+        if (ri > maxRankIdx) maxRankIdx = ri;
+    });
+    const candidates = pilots.filter(ap => {
+        const pilot = campaign.squadron[ap.pilotIdx];
+        return pilot && !isE2C(pilot) && RANKS.indexOf(pilot.rank) === maxRankIdx;
+    });
+    if (candidates.length > 1) {
+        showFlightLeaderModal(dayIdx, tIdx, candidates);
+    }
+}
+
+function onSAPilotArrow(e) {
+    const dayIdx = parseInt(e.target.dataset.day);
+    const tIdx = parseInt(e.target.dataset.tidx);
+    const apIdx = parseInt(e.target.dataset.apidx);
+    const action = e.target.dataset.action;
+    const ap = campaign.missions[dayIdx].targets[tIdx].assignedPilots[apIdx];
+    const pilot = campaign.squadron[ap.pilotIdx];
+    const maxSA = pilot ? (pilot.sa || 0) : 0;
+    let used = ap.usedSA || 0;
+    if (action === 'sa-up' && used < maxSA) used++;
+    if (action === 'sa-down' && used > 0) used--;
+    ap.usedSA = used;
+    renderMissions();
+    autoSave();
+}
+
 // Close modal on overlay click
 document.addEventListener('click', e => {
     if (e.target.id === 'target-draw-modal') closeDrawModal();
@@ -3064,6 +3248,7 @@ if (e.target.id === 'overkill-modal') closeOverkillModal();
     if (e.target.id === 'discard-imp-modal') closeDiscardImpModal();
     if (e.target.id === 'armament-modal') closeArmamentModal();
     if (e.target.id === 'replacement-modal') closeReplacementModal();
+    if (e.target.id === 'flight-leader-modal') closeFlightLeaderModal();
 });
 
 // ─── Trait Tooltip (JS-based) ───
@@ -3447,6 +3632,18 @@ function onToggleDayNight(e) {
     autoSave();
 }
 
+const NIGHT_DRAW_OPTIONS = ['Fast', 'Slow', 'Site', 'Bandit'];
+
+function onNightDraw(e) {
+    const el = e.currentTarget;
+    const dayIdx = parseInt(el.dataset.day);
+    const tIdx = parseInt(el.dataset.tidx);
+    const t = campaign.missions[dayIdx].targets[tIdx];
+    t.nightDraw = NIGHT_DRAW_OPTIONS[Math.floor(Math.random() * NIGHT_DRAW_OPTIONS.length)];
+    renderMissions();
+    autoSave();
+}
+
 function onTargetFieldChange(e) {
     const dayIdx = parseInt(e.target.dataset.day);
     const tIdx = parseInt(e.target.dataset.tidx);
@@ -3529,12 +3726,14 @@ function onConfirmAssign(e) {
             newAssigned.push(oldByIdx[pIdx]);
         } else {
             const traitStress = parseTraitStress(target.targetNumber);
-            newAssigned.push({ pilotIdx: pIdx, shotDown: false, missionStress: traitStress, missionXp: 0, loadout: [] });
+            const pSA = campaign.squadron[pIdx] ? (campaign.squadron[pIdx].sa || 0) : 0;
+            newAssigned.push({ pilotIdx: pIdx, shotDown: false, missionStress: traitStress, missionXp: 0, loadout: [], usedSA: pSA });
         }
         if (!isE2C(pilot)) nonE2CCount++;
     });
 
     target.assignedPilots = newAssigned;
+    assignFlightLeader(dayIdx, tIdx);
 
     openAssignPanels.delete(key);
     delete assignStaging[key];
@@ -3866,8 +4065,9 @@ function resolveTarget(dayIdx, tIdx) {
             pilot.shotDown = true;
             ap.sarResult = '';  // pending SAR
         } else {
-            // 1. Stress: baseStress + individual stress + difficulty mod - cooldown (min 0)
-            const stressGain = Math.max(0, baseStress + (ap.missionStress || 0) + stressMod - pilot.cooldown);
+            // 1. Stress: baseStress + individual stress + difficulty mod + night bonus - cooldown (min 0)
+            const nightStress = t.dayNight === 'Night' ? 1 : 0;
+            const stressGain = Math.max(0, baseStress + (ap.missionStress || 0) + stressMod + nightStress - pilot.cooldown);
             pilot.stress += stressGain;
 
             // 2. XP: +1 base
