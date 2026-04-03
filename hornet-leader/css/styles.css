@@ -990,6 +990,12 @@ tr:hover td { background: rgba(255,255,255,0.02); }
     border-radius: inherit;
     z-index: 1;
 }
+.carrier-diamond-wrapper > .cpm-mission-label {
+    top: -18%; left: -18%;
+    width: 136%; height: 136%;
+    clip-path: polygon(50% 0%, 100% 50%, 50% 100%, 0% 50%);
+    border-radius: 0;
+}
 .cpm-mission-shotdown {
     background: rgba(120, 10, 10, 0.75);
     color: #ffaaaa;

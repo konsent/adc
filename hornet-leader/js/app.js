@@ -1059,8 +1059,8 @@ function renderCarrierMarkers() {
 
     // Aircraft to counter image mapping
     const AIRCRAFT_IMG = {
-        'F/A-18C': 'f18.png', 'F/A-18E': 'f18.png', 'F/A-18F': 'f18.png',
-        'F-14': 'f14.png', 'EA-6B': 'ea6b.png', 'EA-18G': 'f18.png',
+        'F/A-18C': 'f18c.png', 'F/A-18E': 'f18e.png', 'F/A-18F': 'f18.png',
+        'F-14': 'f14.png', 'EA-6B': 'ea6b.png', 'EA-18G': 'ea18g.png',
         'E-2C': 'e2c.png', 'F-35A/C': 'f35.png', 'AV-8B': 'av8b.png',
         'A-6': 'a6.png', 'A-7': 'a7.png',
     };
@@ -1770,8 +1770,8 @@ function renderMissions() {
                         </span>
                         <span class="ap-actions">
                             ${t.resolved ? '' : `
-                            <button class="btn-armament"
-                                data-day="${dayIdx}" data-tidx="${tIdx}" data-apidx="${apIdx}">무장</button>
+                            ${isE2C(pilot) ? '' : `<button class="btn-armament"
+                                data-day="${dayIdx}" data-tidx="${tIdx}" data-apidx="${apIdx}">무장</button>`}
                             <button class="btn-shotdown${ap.shotDown ? ' active' : ''}"
                                 data-day="${dayIdx}" data-tidx="${tIdx}" data-apidx="${apIdx}">격추</button>
                             `}
