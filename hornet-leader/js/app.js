@@ -639,7 +639,8 @@ function confirmManualSelection() {
     const largeDeckMarine = document.getElementById('large-deck-marine')?.checked || false;
     const flyingMoreLess = document.getElementById('flying-more-less')?.checked || false;
     const damagedTargetRule = document.getElementById('damaged-target-rule')?.checked || false;
-    campaign = buildCampaign(scenarioIdx, lengthIdx, squadron, diffRules, { extra: { manualSquadron: true, largeDeckMarine, flyingMoreLess, damagedTargetRule } });
+    const intenseStressRule = document.getElementById('intense-stress-rule')?.checked || false;
+    campaign = buildCampaign(scenarioIdx, lengthIdx, squadron, diffRules, { extra: { manualSquadron: true, largeDeckMarine, flyingMoreLess, damagedTargetRule, intenseStressRule } });
 
     resetAssignState();
     saveCampaign();
@@ -806,6 +807,7 @@ function shuffleArray(arr) {
 const RANDOM_SO_BONUS = [6, 12, 18]; // Short / Medium / Long
 const FLYING_MORE_LESS_SO_COST = [3, 6, 9]; // Short / Medium / Long
 const DAMAGED_TARGET_SO_COST = [3, 6, 9]; // Short / Medium / Long
+const INTENSE_STRESS_SO_COST = [3, 6, 9]; // Short / Medium / Long
 
 function buildCampaign(scenarioIdx, lengthIdx, squadron, diffRules, opts = {}) {
     const scenario = gameData.Campaigns[scenarioIdx];
@@ -820,7 +822,10 @@ function buildCampaign(scenarioIdx, lengthIdx, squadron, diffRules, opts = {}) {
     // Damaged Target Rule SO cost
     const damagedTargetRule = !!(opts.extra && opts.extra.damagedTargetRule);
     const dmgSOCost = damagedTargetRule ? (DAMAGED_TARGET_SO_COST[lengthIdx] || 3) : 0;
-    const totalSO = rawSO - fmlSOCost - dmgSOCost;
+    // Intense Stress Rule SO cost
+    const intenseStressRule = !!(opts.extra && opts.extra.intenseStressRule);
+    const intSOCost = intenseStressRule ? (INTENSE_STRESS_SO_COST[lengthIdx] || 3) : 0;
+    const totalSO = rawSO - fmlSOCost - dmgSOCost - intSOCost;
 
     const daysMatch = option.Timespan.match(/(\d+)/);
     const totalDays = daysMatch ? parseInt(daysMatch[1]) : 3;
@@ -871,6 +876,7 @@ function buildCampaign(scenarioIdx, lengthIdx, squadron, diffRules, opts = {}) {
         largeDeckMarine: false,
         flyingMoreLess: flyingMoreLess,
         damagedTargetRule: !!(opts.extra && opts.extra.damagedTargetRule),
+        intenseStressRule: intenseStressRule,
         damagedTargets: {},
         targetDeck: targetDeck,
         discardPile: [],
@@ -950,6 +956,7 @@ function migrateCampaign(c) {
     if (!('largeDeckMarine' in c)) c.largeDeckMarine = false;
     if (!('flyingMoreLess' in c)) c.flyingMoreLess = false;
     if (!('damagedTargetRule' in c)) c.damagedTargetRule = false;
+    if (!('intenseStressRule' in c)) c.intenseStressRule = false;
     if (!c.damagedTargets) c.damagedTargets = {};
     if (!c.targetDeck) c.targetDeck = null;  // null = legacy mode
     if (!c.discardPile) c.discardPile = [];
@@ -1825,6 +1832,8 @@ function renderMissions() {
                         </span>
                         <span class="ap-actions">
                             ${t.resolved ? '' : `
+                            ${campaign.intenseStressRule && !isE2C(pilot) ? `<button class="btn-intense${ap.intenseUsed ? ' active' : ''}"
+                                data-day="${dayIdx}" data-tidx="${tIdx}" data-apidx="${apIdx}" title="고강도: 공격/제압 +1, 스트레스 +1">고강도</button>` : ''}
                             ${isE2C(pilot) ? '' : `<button class="btn-armament"
                                 data-day="${dayIdx}" data-tidx="${tIdx}" data-apidx="${apIdx}">무장</button>`}
                             <button class="btn-shotdown${ap.shotDown ? ' active' : ''}"
@@ -1843,7 +1852,7 @@ function renderMissions() {
                             const wrap = document.createElement('span');
                             wrap.className = 'loadout-item' + (item.spent ? ' spent' : '');
                             wrap.innerHTML = `<img class="loadout-icon" src="../assets/HL/output/${folder}/${item.file}" title="${item.weapon} (WP ${item.wp})">` +
-                                (item.spent ? `<span class="loadout-spent-label">${item.roll != null ? item.roll : '소진'}</span>` : '');
+                                (item.spent ? `<span class="loadout-spent-label">${item.roll != null ? item.roll : '소진'}${item.intense ? '<span class="intense-bonus">+1</span>' : ''}</span>` : '');
                             wrap.dataset.day = dayIdx;
                             wrap.dataset.tidx = tIdx;
                             wrap.dataset.apidx = apIdx;
@@ -2175,6 +2184,8 @@ function attachMissionEvents(container) {
         btn.addEventListener('click', () => onReplacementAttempt(parseInt(btn.dataset.idx))));
     container.querySelectorAll('.btn-shotdown').forEach(el =>
         el.addEventListener('click', onToggleShotDown));
+    container.querySelectorAll('.btn-intense').forEach(el =>
+        el.addEventListener('click', onToggleIntense));
     container.querySelectorAll('.btn-armament').forEach(el =>
         el.addEventListener('click', e => {
             const { day, tidx, apidx } = e.target.dataset;
@@ -2779,9 +2790,11 @@ function onToggleSpendLoadout(e) {
             // Toggle off: reset
             ap.loadout[lidx].spent = false;
             ap.loadout[lidx].roll = null;
+            ap.loadout[lidx].intense = false;
         } else {
             // Roll d10 (1~10)
             ap.loadout[lidx].roll = Math.floor(Math.random() * 10) + 1;
+            ap.loadout[lidx].intense = !!ap.intenseUsed;
             ap.loadout[lidx].spent = true;
         }
         renderAll();
@@ -3482,6 +3495,18 @@ function onToggleShotDown(e) {
     autoSave();
 }
 
+function onToggleIntense(e) {
+    const dayIdx = parseInt(e.target.dataset.day);
+    const tIdx = parseInt(e.target.dataset.tidx);
+    const apIdx = parseInt(e.target.dataset.apidx);
+    const ap = campaign.missions[dayIdx].targets[tIdx].assignedPilots[apIdx];
+    ap.intenseUsed = !ap.intenseUsed;
+    // Auto apply stress +1 / -1
+    ap.missionStress = (ap.missionStress || 0) + (ap.intenseUsed ? 1 : -1);
+    renderAll();
+    autoSave();
+}
+
 function onMissionPilotArrow(e) {
     const dayIdx = parseInt(e.target.dataset.day);
     const tIdx = parseInt(e.target.dataset.tidx);
@@ -4042,12 +4067,14 @@ function updateBadges() {
 
     // Tooltip: 시나리오 시작 시 적용 항목
     const dmgCost = campaign.damagedTargetRule ? (DAMAGED_TARGET_SO_COST[campaign.lengthIdx] || 3) : 0;
+    const intCost = campaign.intenseStressRule ? (INTENSE_STRESS_SO_COST[campaign.lengthIdx] || 3) : 0;
     const lines = [
         `기본 SO ··················· ${campaign.baseSO || campaign.totalSO}`,
         soBonusDisplay ? `무작위 보너스 ·········· +${soBonusDisplay}` : '',
         campaign.aircraftSO ? `기체 비용 ················ ${campaign.aircraftSO > 0 ? '-' : '+'}${Math.abs(campaign.aircraftSO)}` : '',
         fmlCost ? `기체수변경 규칙 ······· -${fmlCost}` : '',
         dmgCost ? `표적피해 규칙 ·········· -${dmgCost}` : '',
+        intCost ? `고강도 스트레스 ······· -${intCost}` : '',
         `────────────────────`,
         `시작 SO ··················· ${campaign.totalSO}`,
         `사용 SO ··················· -${usedSO}`,
@@ -4344,7 +4371,8 @@ document.addEventListener('DOMContentLoaded', () => {
         const largeDeckMarine = document.getElementById('large-deck-marine')?.checked || false;
         const flyingMoreLess = document.getElementById('flying-more-less')?.checked || false;
         const damagedTargetRule = document.getElementById('damaged-target-rule')?.checked || false;
-        createCampaign(parseInt(scenarioIdx), parseInt(lengthIdx), selectedAircraft, diffRules, { largeDeckMarine, flyingMoreLess, damagedTargetRule });
+        const intenseStressRule = document.getElementById('intense-stress-rule')?.checked || false;
+        createCampaign(parseInt(scenarioIdx), parseInt(lengthIdx), selectedAircraft, diffRules, { largeDeckMarine, flyingMoreLess, damagedTargetRule, intenseStressRule });
         resetAssignState();
         saveCampaign();
         showDashboard();

@@ -2077,6 +2077,26 @@ tr.pilot-unfit { position: relative; }
 }
 .btn-armament:hover { background: #254a6a; border-color: #4a8aba; color: #b0d8f8; }
 
+/* ─── Intense Stress Button ─── */
+.btn-intense {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 0.72rem;
+    padding: 0.2em 0.5em;
+    background: #4a3520;
+    border: 1px solid #6a5528;
+    color: #c0a070;
+    border-radius: 2px;
+    cursor: pointer;
+    text-transform: uppercase;
+}
+.btn-intense:hover { background: #5a4025; border-color: #a08040; color: #e0c090; }
+.btn-intense.active { background: #6a4820; border-color: #c0a040; color: #ffd060; }
+.intense-bonus {
+    color: #ff4040;
+    font-size: 0.85em;
+    margin-left: 1px;
+}
+
 /* ─── Armament Modal ─── */
 .armament-modal {
     background: #2a2d26;
