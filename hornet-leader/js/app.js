@@ -2,6 +2,7 @@
 
 let gameData = null;
 let targetData = null;
+let armamentData = null;
 let campaign = null;
 
 const RANKS = ['Newbie', 'Green', 'Average', 'Skilled', 'Veteran', 'Ace'];
@@ -34,12 +35,14 @@ function isBase(campaign) {
 // ─── Data Loading ───
 
 async function loadGameData() {
-    const [resp, tResp] = await Promise.all([
+    const [resp, tResp, aResp] = await Promise.all([
         fetch('hl.json'),
-        fetch('hl_target.json')
+        fetch('hl_target.json'),
+        fetch('../assets/HL/output/armaments.json')
     ]);
     gameData = await resp.json();
     targetData = await tResp.json();
+    armamentData = await aResp.json();
     // Tag base scenarios before renaming
     gameData.Campaigns.forEach(c => {
         c._isBase = isBaseScenario(c.Name);
@@ -1759,12 +1762,33 @@ function renderMissions() {
                         </span>
                         <span class="ap-actions">
                             ${t.resolved ? '' : `
+                            <button class="btn-armament"
+                                data-day="${dayIdx}" data-tidx="${tIdx}" data-apidx="${apIdx}">무장</button>
                             <button class="btn-shotdown${ap.shotDown ? ' active' : ''}"
                                 data-day="${dayIdx}" data-tidx="${tIdx}" data-apidx="${apIdx}">격추</button>
                             `}
                         </span>
                     `;
                     pilotsDiv.appendChild(prow);
+                    // Loadout sub-row
+                    const loadout = ap.loadout || [];
+                    if (loadout.length > 0) {
+                        const lrow = document.createElement('div');
+                        lrow.className = 'loadout-row';
+                        const folder = getArmamentKey(pilot.aircraft).replace(/\//g, '-');
+                        loadout.forEach((item, lidx) => {
+                            const wrap = document.createElement('span');
+                            wrap.className = 'loadout-item' + (item.spent ? ' spent' : '');
+                            wrap.innerHTML = `<img class="loadout-icon" src="../assets/HL/output/${folder}/${item.file}" title="${item.weapon} (WP ${item.wp})">` +
+                                (item.spent ? '<span class="loadout-spent-label">소진</span>' : '');
+                            wrap.dataset.day = dayIdx;
+                            wrap.dataset.tidx = tIdx;
+                            wrap.dataset.apidx = apIdx;
+                            wrap.dataset.lidx = lidx;
+                            lrow.appendChild(wrap);
+                        });
+                        pilotsDiv.appendChild(lrow);
+                    }
                 });
                 tBlock.appendChild(pilotsDiv);
             }
@@ -1773,6 +1797,9 @@ function renderMissions() {
             if (openAssignPanels.has(key)) {
                 if (!assignStaging[key]) assignStaging[key] = new Set();
                 const staged = assignStaging[key];
+
+                // Pilots assigned to THIS target (for deployed-elsewhere check)
+                const thisTargetPilots = new Set((t.assignedPilots || []).map(ap => ap.pilotIdx));
 
                 // Aircraft count limit (E-2C exempt)
                 const acLimit = getTargetAircraftCount(t.targetNumber);
@@ -1809,7 +1836,8 @@ function renderMissions() {
                 campaign.squadron.forEach((pilot, pIdx) => {
                     const status = pilot.shotDown ? 'MIA' : getStatus(pilot);
                     const isDisabled = status === 'Unfit' || pilot.shotDown;
-                    const isDeployed = dayDeployed.has(pIdx);
+                    const isDeployedElsewhere = dayDeployed.has(pIdx) && !staged.has(pIdx) && !thisTargetPilots.has(pIdx);
+                    const isDeployed = isDeployedElsewhere;
                     const isStaged = staged.has(pIdx);
                     const maxStress = getMaxStress(pilot);
                     const isE2CPilot = isE2C(pilot);
@@ -2064,6 +2092,13 @@ function attachMissionEvents(container) {
         el.addEventListener('click', onCancelAssign));
     container.querySelectorAll('.btn-shotdown').forEach(el =>
         el.addEventListener('click', onToggleShotDown));
+    container.querySelectorAll('.btn-armament').forEach(el =>
+        el.addEventListener('click', e => {
+            const { day, tidx, apidx } = e.target.dataset;
+            showArmamentModal(parseInt(day), parseInt(tidx), parseInt(apidx));
+        }));
+    container.querySelectorAll('.loadout-item').forEach(el =>
+        el.addEventListener('dblclick', onToggleSpendLoadout));
     container.querySelectorAll('.ap-arrow').forEach(el =>
         el.addEventListener('click', onMissionPilotArrow));
     container.querySelectorAll('.result-btn[data-day][data-tidx]').forEach(el => {
@@ -2399,12 +2434,224 @@ function closeDrawModal() {
     document.getElementById('target-draw-modal').style.display = 'none';
 }
 
+// ─── Armament Modal ───
+
+const AIRCRAFT_RESTRICTIONS = {
+    "A-6E":   { noAA: true, noGun: true },
+    "A-7E":   { weaponLimits: { "AIM-9": 2 } },
+    "EA-6B":  { noAA: true, noGun: true, fixedLoadout: { "AGM-88": 4 } },
+    "F-14":   { weaponLimits: { "AIM-54": 6 } },
+    "EA-18G": { noGun: true },
+};
+
+// Map hl.json aircraft names to armaments.json keys
+const AIRCRAFT_ARMAMENT_MAP = {
+    "A-6": "A-6E",
+    "A-7": "A-7E",
+    "F-35A/C": "F-35C",
+};
+
+function getArmamentKey(aircraft) {
+    return AIRCRAFT_ARMAMENT_MAP[aircraft] || aircraft;
+}
+
+function getArmamentPath(armamentKey, filename) {
+    return `../assets/HL/output/${armamentKey.replace(/\//g, '-')}/${filename}`;
+}
+
+function isAAWeapon(name) {
+    return /^AIM-/.test(name);
+}
+
+let _armamentModalState = null;
+
+function showArmamentModal(dayIdx, tIdx, apIdx) {
+    const target = campaign.missions[dayIdx].targets[tIdx];
+    const ap = target.assignedPilots[apIdx];
+    const pilot = campaign.squadron[ap.pilotIdx];
+    const armKey = getArmamentKey(pilot.aircraft);
+
+    if (!armamentData || !armamentData[armKey]) return;
+
+    const acData = armamentData[armKey];
+    const weapons = acData.weapons;
+    const aircraftWP = acData.aircraft_wp || 0;
+    const campDetail = getTargetCampaignDetails(target.targetNumber);
+    const wpPenalty = getImprovementWPPenalty();
+    const targetWPMod = campDetail && campDetail.wp != null ? campDetail.wp : 0;
+    const maxWP = aircraftWP + targetWPMod - wpPenalty;
+
+    const restrictions = AIRCRAFT_RESTRICTIONS[armKey] || {};
+
+    // Scenario special weapons list
+    const scenario = gameData.Campaigns[campaign.scenarioIdx];
+    const specialWeapons = (scenario.SpecialWeapons || []).map(s => s.split(' ')[0]); // "AGM-84 Harpoon" → "AGM-84"
+
+    // Init state
+    const selected = (ap.loadout || []).map(item => ({ ...item }));
+    _armamentModalState = { dayIdx, tIdx, apIdx, aircraft: armKey, pilotName: pilot.name, pilotAircraft: pilot.aircraft, weapons, maxWP, restrictions, selected, specialWeapons };
+
+    // Check for fixed loadout (EA-6B)
+    if (restrictions.fixedLoadout) {
+        const fixed = restrictions.fixedLoadout;
+        if (selected.length === 0) {
+            for (const [wname, count] of Object.entries(fixed)) {
+                const wdata = weapons[wname];
+                if (!wdata) continue;
+                for (let i = 0; i < count; i++) {
+                    selected.push({ weapon: wname, wp: wdata.stats.wp, file: wdata.files[0], spent: false });
+                }
+            }
+            _armamentModalState.selected = selected;
+        }
+    }
+
+    renderArmamentModal();
+    document.getElementById('armament-modal').style.display = 'flex';
+}
+
+function renderArmamentModal() {
+    const st = _armamentModalState;
+    if (!st) return;
+
+    const usedWP = st.selected.reduce((sum, s) => sum + s.wp, 0);
+    const remainWP = st.maxWP - usedWP;
+    const isFixed = !!(st.restrictions.fixedLoadout);
+
+    // Count selected per weapon
+    const selectedCount = {};
+    st.selected.forEach(s => { selectedCount[s.weapon] = (selectedCount[s.weapon] || 0) + 1; });
+
+    // Calculate SO cost for special weapons
+    const specialSOCost = st.selected.reduce((sum, s) => {
+        return sum + (st.specialWeapons.includes(s.weapon) ? s.wp : 0);
+    }, 0);
+
+    // Header
+    document.querySelector('.armament-modal-header h3').textContent = `무장 선택 — ${st.pilotName} (${st.pilotAircraft})`;
+    document.getElementById('armament-wp-info').innerHTML = `WP: ${usedWP} / ${st.maxWP}` +
+        (specialSOCost > 0 ? `<span class="armament-so-cost"> | SO: -${specialSOCost}</span>` : '');
+
+    // Available weapons (left)
+    const avail = document.getElementById('armament-available');
+    avail.innerHTML = '<h4>가용 무장</h4>';
+    const grid = document.createElement('div');
+    grid.className = 'armament-grid';
+
+    // Base weapons always available; special weapons need scenario permission
+    const BASE_WEAPONS = ['Mk.20','Mk.82','Mk.83','Mk.84','AIM-7','AIM-9','AGM-65','AGM-88','Rockets','ECM Pod'];
+
+    for (const [wname, wdata] of Object.entries(st.weapons)) {
+        const wpCost = wdata.stats.wp;
+        const restricted = st.restrictions.noAA && isAAWeapon(wname);
+        const limitExceeded = st.restrictions.weaponLimits &&
+            st.restrictions.weaponLimits[wname] != null &&
+            (selectedCount[wname] || 0) >= st.restrictions.weaponLimits[wname];
+        const cantAfford = wpCost > remainWP;
+        const notInScenario = !BASE_WEAPONS.includes(wname) && !st.specialWeapons.includes(wname);
+        const disabled = restricted || limitExceeded || cantAfford || isFixed || notInScenario;
+
+        const isSpecial = st.specialWeapons.includes(wname);
+        const item = document.createElement('div');
+        item.className = 'armament-item' + (disabled ? ' disabled' : '') + (isSpecial ? ' special' : '');
+        item.innerHTML = `<img src="${getArmamentPath(st.aircraft, wdata.files[0])}" alt="${wname}">
+            <span class="armament-label">${wname}</span>
+            <span class="armament-wp-cost">WP ${wpCost}${isSpecial ? ' · SO ' + wpCost : ''}</span>`;
+        if (!disabled) {
+            item.addEventListener('click', () => {
+                st.selected.push({ weapon: wname, wp: wpCost, file: wdata.files[0], spent: false });
+                renderArmamentModal();
+            });
+        }
+        grid.appendChild(item);
+    }
+    avail.appendChild(grid);
+
+    // Selected weapons (right)
+    const sel = document.getElementById('armament-selected');
+    sel.innerHTML = '<h4>선택된 무장</h4>';
+    const selGrid = document.createElement('div');
+    selGrid.className = 'armament-grid';
+
+    st.selected.forEach((s, idx) => {
+        const item = document.createElement('div');
+        item.className = 'armament-item selected';
+        item.innerHTML = `<img src="${getArmamentPath(st.aircraft, s.file)}" alt="${s.weapon}">
+            <span class="armament-label">${s.weapon}</span>
+            <span class="armament-wp-cost">WP ${s.wp}</span>`;
+        if (!isFixed) {
+            item.addEventListener('click', () => {
+                st.selected.splice(idx, 1);
+                renderArmamentModal();
+            });
+        }
+        selGrid.appendChild(item);
+    });
+    sel.appendChild(selGrid);
+
+    // Actions
+    const actions = document.getElementById('armament-modal-actions');
+    actions.innerHTML = '';
+    const btnConfirm = document.createElement('button');
+    btnConfirm.className = 'btn btn-small btn-primary';
+    btnConfirm.textContent = '확인';
+    btnConfirm.addEventListener('click', () => {
+        const target = campaign.missions[st.dayIdx].targets[st.tIdx];
+        const ap = target.assignedPilots[st.apIdx];
+        const m = campaign.missions[st.dayIdx];
+
+        // Calculate previous SO cost from old loadout
+        const oldSOCost = (ap.loadout || []).reduce((sum, s) =>
+            sum + (st.specialWeapons.includes(s.weapon) ? s.wp : 0), 0);
+        // Calculate new SO cost
+        const newSOCost = st.selected.reduce((sum, s) =>
+            sum + (st.specialWeapons.includes(s.weapon) ? s.wp : 0), 0);
+        // Apply SO difference
+        const soDiff = newSOCost - oldSOCost;
+        if (soDiff !== 0) {
+            m.usedSO = (parseFloat(m.usedSO) || 0) + soDiff;
+        }
+
+        ap.loadout = st.selected;
+        closeArmamentModal();
+        renderAll();
+        autoSave();
+    });
+    actions.appendChild(btnConfirm);
+
+    const btnCancel = document.createElement('button');
+    btnCancel.className = 'btn btn-small';
+    btnCancel.textContent = '취소';
+    btnCancel.addEventListener('click', closeArmamentModal);
+    actions.appendChild(btnCancel);
+}
+
+function closeArmamentModal() {
+    document.getElementById('armament-modal').style.display = 'none';
+    _armamentModalState = null;
+}
+
+function onToggleSpendLoadout(e) {
+    const el = e.currentTarget;
+    const dayIdx = parseInt(el.dataset.day);
+    const tIdx = parseInt(el.dataset.tidx);
+    const apIdx = parseInt(el.dataset.apidx);
+    const lidx = parseInt(el.dataset.lidx);
+    const ap = campaign.missions[dayIdx].targets[tIdx].assignedPilots[apIdx];
+    if (ap.loadout && ap.loadout[lidx]) {
+        ap.loadout[lidx].spent = !ap.loadout[lidx].spent;
+        renderAll();
+        autoSave();
+    }
+}
+
 // Close modal on overlay click
 document.addEventListener('click', e => {
     if (e.target.id === 'target-draw-modal') closeDrawModal();
     if (e.target.id === 'campaign-fail-modal') closeCampaignFailModal();
 if (e.target.id === 'overkill-modal') closeOverkillModal();
     if (e.target.id === 'discard-imp-modal') closeDiscardImpModal();
+    if (e.target.id === 'armament-modal') closeArmamentModal();
 });
 
 // ─── Trait Tooltip (JS-based) ───
@@ -2824,7 +3071,10 @@ function onToggleAssign(e) {
         delete assignStaging[key];
     } else {
         openAssignPanels.add(key);
-        assignStaging[key] = new Set();
+        // Pre-populate staging with already-assigned pilots
+        const target = campaign.missions[dayIdx].targets[tIdx];
+        const existing = new Set((target.assignedPilots || []).map(ap => ap.pilotIdx));
+        assignStaging[key] = existing;
     }
     renderMissions();
 }
@@ -2845,19 +3095,30 @@ function onConfirmAssign(e) {
     const target = campaign.missions[dayIdx].targets[tIdx];
     const staged = assignStaging[key] || new Set();
 
+    // Build new assignedPilots: keep existing data for pilots still staged, add new ones
+    const oldByIdx = {};
+    (target.assignedPilots || []).forEach(ap => { oldByIdx[ap.pilotIdx] = ap; });
+
+    const newAssigned = [];
     const acLimit = getTargetAircraftCount(target.targetNumber);
     const fmlActive = campaign.flyingMoreLess && acLimit !== Infinity;
     const effectiveLimit = fmlActive ? acLimit + 1 : acLimit;
-    let nonE2CCount = target.assignedPilots.filter(ap => !isE2C(campaign.squadron[ap.pilotIdx])).length;
+    let nonE2CCount = 0;
 
     staged.forEach(pIdx => {
-        if (target.assignedPilots.some(ap => ap.pilotIdx === pIdx)) return;
         const pilot = campaign.squadron[pIdx];
         if (!isE2C(pilot) && nonE2CCount >= effectiveLimit) return;
-        const traitStress = parseTraitStress(target.targetNumber);
-        target.assignedPilots.push({ pilotIdx: pIdx, shotDown: false, missionStress: traitStress, missionXp: 0 });
+        if (oldByIdx[pIdx]) {
+            // Keep existing pilot data (loadout, stress, xp, etc.)
+            newAssigned.push(oldByIdx[pIdx]);
+        } else {
+            const traitStress = parseTraitStress(target.targetNumber);
+            newAssigned.push({ pilotIdx: pIdx, shotDown: false, missionStress: traitStress, missionXp: 0, loadout: [] });
+        }
         if (!isE2C(pilot)) nonE2CCount++;
     });
+
+    target.assignedPilots = newAssigned;
 
     openAssignPanels.delete(key);
     delete assignStaging[key];

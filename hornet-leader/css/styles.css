@@ -1955,3 +1955,164 @@ tr.pilot-unfit { position: relative; }
     border-top: 1px solid #43463f;
 }
 .draw-actions .btn { min-width: 5rem; }
+
+/* ─── Armament Button ─── */
+.btn-armament {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 0.72rem;
+    padding: 0.2em 0.5em;
+    background: #1e3a5a;
+    border: 1px solid #2a5a8a;
+    color: #90b8d8;
+    border-radius: 2px;
+    cursor: pointer;
+    text-transform: uppercase;
+}
+.btn-armament:hover { background: #254a6a; border-color: #4a8aba; color: #b0d8f8; }
+
+/* ─── Armament Modal ─── */
+.armament-modal {
+    background: #2a2d26;
+    border: 2px solid #5a5e50;
+    border-radius: 8px;
+    width: min(95vw, 900px);
+    max-height: 85vh;
+    display: flex; flex-direction: column;
+    box-shadow: 0 8px 32px rgba(0,0,0,0.6);
+}
+.armament-modal-header {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 0.7rem 1rem;
+    border-bottom: 1px solid #43463f;
+}
+.armament-modal-header h3 {
+    margin: 0; font-family: 'Bebas Neue', sans-serif;
+    font-size: 1.2rem; color: #c8c0a0; letter-spacing: 0.05em;
+}
+.armament-wp-info {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 1rem; color: #f0d060; font-weight: 700;
+}
+.armament-modal-body {
+    display: flex; gap: 0.5rem;
+    padding: 0.6rem;
+    overflow-y: auto; flex: 1;
+    min-height: 300px;
+}
+.armament-panel {
+    flex: 1;
+    background: #1e201a;
+    border: 1px solid #3a3d35;
+    border-radius: 4px;
+    padding: 0.5rem;
+}
+.armament-panel h4 {
+    margin: 0 0 0.4rem 0;
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 0.85rem; color: #a0a890;
+    text-transform: uppercase; letter-spacing: 0.05em;
+    border-bottom: 1px solid #3a3d35;
+    padding-bottom: 0.3rem;
+}
+.armament-grid {
+    display: flex; flex-wrap: wrap; gap: 6px;
+}
+.armament-item {
+    position: relative;
+    width: 72px;
+    background: #2a2d26;
+    border: 1px solid #4a4d45;
+    border-radius: 3px;
+    padding: 3px;
+    cursor: pointer;
+    text-align: center;
+    transition: border-color 0.15s, opacity 0.15s;
+}
+.armament-item:hover { border-color: #8a8d80; }
+.armament-item.selected { border-color: #5a8a3a; background: #2a3a20; }
+.armament-item.disabled {
+    cursor: not-allowed; opacity: 0.5;
+}
+.armament-item.disabled::after {
+    content: '';
+    position: absolute; inset: 0;
+    background: rgba(180, 40, 40, 0.3);
+    border-radius: 3px;
+    pointer-events: none;
+}
+.armament-item img {
+    width: 100%; height: auto;
+    display: block;
+    image-rendering: pixelated;
+}
+.armament-label {
+    display: block;
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 0.6rem; color: #c0c8b0;
+    line-height: 1.1;
+    margin-top: 2px;
+    white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+}
+.armament-wp-cost {
+    display: block;
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 0.55rem; color: #f0d060;
+}
+.armament-so-cost {
+    color: #f08050;
+    font-size: 0.85rem;
+}
+.armament-item.special {
+    border-color: #7a6a30;
+}
+.armament-item.special .armament-wp-cost {
+    color: #f0a030;
+}
+.armament-modal-actions {
+    display: flex; gap: 0.5rem; justify-content: flex-end;
+    padding: 0.6rem 1rem;
+    border-top: 1px solid #43463f;
+}
+
+/* ─── Loadout Row ─── */
+.loadout-row {
+    display: flex; flex-wrap: wrap; gap: 3px;
+    padding: 3px 0 3px 2rem;
+    margin-left: 0.5rem;
+    border-left: 2px solid #3a4a5a;
+    background: rgba(30, 50, 70, 0.15);
+}
+.loadout-item {
+    position: relative;
+    display: inline-block;
+    width: 72px; height: 72px;
+    border: 1px solid #4a5a6a;
+    border-radius: 3px;
+    overflow: hidden;
+    cursor: pointer;
+}
+.loadout-item img.loadout-icon {
+    width: 100%; height: 100%;
+    object-fit: contain;
+    display: block;
+}
+.loadout-item.spent {
+    cursor: default;
+}
+.loadout-item.spent::after {
+    content: '';
+    position: absolute; inset: 0;
+    background: rgba(0, 0, 0, 0.7);
+}
+.loadout-spent-label {
+    position: absolute;
+    top: 50%; left: 50%;
+    transform: translate(-50%, -50%);
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 0.75rem;
+    color: #ff6060;
+    font-weight: 700;
+    text-transform: uppercase;
+    z-index: 1;
+    pointer-events: none;
+}

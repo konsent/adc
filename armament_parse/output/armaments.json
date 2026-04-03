@@ -1,0 +1,2262 @@
+{
+  "A-6E": {
+    "weapons": {
+      "Mk.20": {
+        "count": 1,
+        "files": [
+          "Mk.20.png"
+        ],
+        "stats": {
+          "wp": 1,
+          "attack": [
+            8,
+            11
+          ],
+          "altitude": [
+            "L"
+          ]
+        }
+      },
+      "Mk.82": {
+        "count": 1,
+        "files": [
+          "Mk.82.png"
+        ],
+        "stats": {
+          "wp": 1,
+          "attack": [
+            7,
+            10
+          ],
+          "altitude": [
+            "L"
+          ]
+        }
+      },
+      "Mk.83": {
+        "count": 1,
+        "files": [
+          "Mk.83.png"
+        ],
+        "stats": {
+          "wp": 2,
+          "attack": [
+            5,
+            7,
+            10
+          ],
+          "altitude": [
+            "L"
+          ]
+        }
+      },
+      "Mk.84": {
+        "count": 1,
+        "files": [
+          "Mk.84.png"
+        ],
+        "stats": {
+          "wp": 2,
+          "attack": [
+            3,
+            5,
+            8
+          ],
+          "altitude": [
+            "L"
+          ]
+        }
+      },
+      "AGM-62": {
+        "count": 1,
+        "files": [
+          "AGM-62.png"
+        ],
+        "stats": {
+          "wp": 2,
+          "attack": [
+            4,
+            7,
+            10
+          ],
+          "altitude": [
+            "H"
+          ]
+        }
+      },
+      "AGM-65": {
+        "count": 1,
+        "files": [
+          "AGM-65.png"
+        ],
+        "stats": {
+          "wp": 2,
+          "attack": [
+            7,
+            10
+          ],
+          "altitude": [
+            "H",
+            "L"
+          ]
+        }
+      },
+      "AGM-84": {
+        "count": 1,
+        "files": [
+          "AGM-84.png"
+        ],
+        "stats": {
+          "wp": 2,
+          "attack": [
+            3,
+            6,
+            9
+          ],
+          "altitude": [
+            "H"
+          ]
+        }
+      },
+      "AGM-88": {
+        "count": 1,
+        "files": [
+          "AGM-88.png"
+        ],
+        "stats": {
+          "wp": 1,
+          "attack": [
+            4
+          ],
+          "altitude": [
+            "H"
+          ]
+        }
+      },
+      "AGM-130": {
+        "count": 1,
+        "files": [
+          "AGM-130.png"
+        ],
+        "stats": {
+          "wp": 4,
+          "attack": [
+            2,
+            3,
+            5,
+            8
+          ],
+          "altitude": [
+            "H",
+            "L"
+          ]
+        }
+      },
+      "GBU-10": {
+        "count": 1,
+        "files": [
+          "GBU-10.png"
+        ],
+        "stats": {
+          "wp": 3,
+          "attack": [
+            1,
+            2,
+            4,
+            7
+          ],
+          "altitude": [
+            "H"
+          ]
+        }
+      },
+      "GBU-12": {
+        "count": 1,
+        "files": [
+          "GBU-12.png"
+        ],
+        "stats": {
+          "wp": 1,
+          "attack": [
+            6,
+            8,
+            10
+          ],
+          "altitude": [
+            "H"
+          ]
+        }
+      },
+      "GBU-16": {
+        "count": 1,
+        "files": [
+          "GBU-16.png"
+        ],
+        "stats": {
+          "wp": 2,
+          "attack": [
+            3,
+            5,
+            7,
+            9
+          ],
+          "altitude": [
+            "H"
+          ]
+        }
+      },
+      "Rockets": {
+        "count": 1,
+        "files": [
+          "Rockets.png"
+        ],
+        "stats": {
+          "wp": 1,
+          "attack": [
+            7
+          ],
+          "altitude": [
+            "L"
+          ]
+        }
+      },
+      "ECM Pod": {
+        "count": 1,
+        "files": [
+          "ECM_Pod.png"
+        ],
+        "stats": {
+          "wp": 1,
+          "attack": [
+            6
+          ],
+          "altitude": [
+            "H",
+            "L"
+          ]
+        }
+      }
+    },
+    "total_counters": 14,
+    "aircraft_wp": 12
+  },
+  "A-7E": {
+    "weapons": {
+      "AIM-9": {
+        "count": 1,
+        "files": [
+          "AIM-9.png"
+        ],
+        "stats": {
+          "wp": 1,
+          "attack": [
+            6
+          ],
+          "altitude": [
+            "H",
+            "L"
+          ]
+        }
+      },
+      "Mk.20": {
+        "count": 1,
+        "files": [
+          "Mk.20.png"
+        ],
+        "stats": {
+          "wp": 1,
+          "attack": [
+            8,
+            11
+          ],
+          "altitude": [
+            "L"
+          ]
+        }
+      },
+      "Mk.82": {
+        "count": 1,
+        "files": [
+          "Mk.82.png"
+        ],
+        "stats": {
+          "wp": 1,
+          "attack": [
+            7,
+            10
+          ],
+          "altitude": [
+            "L"
+          ]
+        }
+      },
+      "Mk.83": {
+        "count": 1,
+        "files": [
+          "Mk.83.png"
+        ],
+        "stats": {
+          "wp": 2,
+          "attack": [
+            5,
+            7,
+            10
+          ],
+          "altitude": [
+            "L"
+          ]
+        }
+      },
+      "Mk.84": {
+        "count": 1,
+        "files": [
+          "Mk.84.png"
+        ],
+        "stats": {
+          "wp": 2,
+          "attack": [
+            3,
+            5,
+            8
+          ],
+          "altitude": [
+            "L"
+          ]
+        }
+      },
+      "AGM-62": {
+        "count": 1,
+        "files": [
+          "AGM-62.png"
+        ],
+        "stats": {
+          "wp": 2,
+          "attack": [
+            4,
+            7,
+            10
+          ],
+          "altitude": [
+            "H"
+          ]
+        }
+      },
+      "AGM-65": {
+        "count": 1,
+        "files": [
+          "AGM-65.png"
+        ],
+        "stats": {
+          "wp": 2,
+          "attack": [
+            7,
+            10
+          ],
+          "altitude": [
+            "H",
+            "L"
+          ]
+        }
+      },
+      "AGM-84": {
+        "count": 1,
+        "files": [
+          "AGM-84.png"
+        ],
+        "stats": {
+          "wp": 2,
+          "attack": [
+            3,
+            6,
+            9
+          ],
+          "altitude": [
+            "H"
+          ]
+        }
+      },
+      "AGM-88": {
+        "count": 1,
+        "files": [
+          "AGM-88.png"
+        ],
+        "stats": {
+          "wp": 1,
+          "attack": [
+            4
+          ],
+          "altitude": [
+            "H"
+          ]
+        }
+      },
+      "GBU-10": {
+        "count": 1,
+        "files": [
+          "GBU-10.png"
+        ],
+        "stats": {
+          "wp": 3,
+          "attack": [
+            1,
+            2,
+            4,
+            7
+          ],
+          "altitude": [
+            "H"
+          ]
+        }
+      },
+      "GBU-12": {
+        "count": 1,
+        "files": [
+          "GBU-12.png"
+        ],
+        "stats": {
+          "wp": 1,
+          "attack": [
+            6,
+            8,
+            10
+          ],
+          "altitude": [
+            "H"
+          ]
+        }
+      },
+      "GBU-16": {
+        "count": 1,
+        "files": [
+          "GBU-16.png"
+        ],
+        "stats": {
+          "wp": 2,
+          "attack": [
+            3,
+            5,
+            7,
+            9
+          ],
+          "altitude": [
+            "H"
+          ]
+        }
+      },
+      "Rockets": {
+        "count": 1,
+        "files": [
+          "Rockets.png"
+        ],
+        "stats": {
+          "wp": 1,
+          "attack": [
+            7
+          ],
+          "altitude": [
+            "L"
+          ]
+        }
+      },
+      "ECM Pod": {
+        "count": 1,
+        "files": [
+          "ECM_Pod.png"
+        ],
+        "stats": {
+          "wp": 1,
+          "attack": [
+            6
+          ],
+          "altitude": [
+            "H",
+            "L"
+          ]
+        }
+      }
+    },
+    "total_counters": 14,
+    "aircraft_wp": 7
+  },
+  "F-14": {
+    "weapons": {
+      "AIM-7": {
+        "count": 1,
+        "files": [
+          "AIM-7.png"
+        ],
+        "stats": {
+          "wp": 1,
+          "attack": [
+            6
+          ],
+          "altitude": [
+            "H",
+            "L"
+          ]
+        }
+      },
+      "AIM-9": {
+        "count": 1,
+        "files": [
+          "AIM-9.png"
+        ],
+        "stats": {
+          "wp": 1,
+          "attack": [
+            6
+          ],
+          "altitude": [
+            "H",
+            "L"
+          ]
+        }
+      },
+      "AIM-54": {
+        "count": 1,
+        "files": [
+          "AIM-54.png"
+        ],
+        "stats": {
+          "wp": 1,
+          "attack": [
+            6
+          ],
+          "altitude": [
+            "H"
+          ]
+        }
+      },
+      "Mk.20": {
+        "count": 1,
+        "files": [
+          "Mk.20.png"
+        ],
+        "stats": {
+          "wp": 1,
+          "attack": [
+            8,
+            11
+          ],
+          "altitude": [
+            "L"
+          ]
+        }
+      },
+      "Mk.82": {
+        "count": 1,
+        "files": [
+          "Mk.82.png"
+        ],
+        "stats": {
+          "wp": 1,
+          "attack": [
+            7,
+            10
+          ],
+          "altitude": [
+            "L"
+          ]
+        }
+      },
+      "Mk.83": {
+        "count": 1,
+        "files": [
+          "Mk.83.png"
+        ],
+        "stats": {
+          "wp": 2,
+          "attack": [
+            5,
+            7,
+            10
+          ],
+          "altitude": [
+            "L"
+          ]
+        }
+      },
+      "Mk.84": {
+        "count": 1,
+        "files": [
+          "Mk.84.png"
+        ],
+        "stats": {
+          "wp": 2,
+          "attack": [
+            3,
+            5,
+            8
+          ],
+          "altitude": [
+            "L"
+          ]
+        }
+      },
+      "GBU-10": {
+        "count": 1,
+        "files": [
+          "GBU-10.png"
+        ],
+        "stats": {
+          "wp": 3,
+          "attack": [
+            1,
+            2,
+            4,
+            7
+          ],
+          "altitude": [
+            "H"
+          ]
+        }
+      },
+      "GBU-12": {
+        "count": 1,
+        "files": [
+          "GBU-12.png"
+        ],
+        "stats": {
+          "wp": 1,
+          "attack": [
+            6,
+            8,
+            10
+          ],
+          "altitude": [
+            "H"
+          ]
+        }
+      },
+      "GBU-16": {
+        "count": 1,
+        "files": [
+          "GBU-16.png"
+        ],
+        "stats": {
+          "wp": 2,
+          "attack": [
+            3,
+            5,
+            7,
+            9
+          ],
+          "altitude": [
+            "H"
+          ]
+        }
+      },
+      "GBU-31": {
+        "count": 1,
+        "files": [
+          "GBU-31.png"
+        ],
+        "stats": {
+          "wp": 3,
+          "attack": [
+            0,
+            2,
+            5,
+            9
+          ],
+          "altitude": [
+            "H",
+            "L"
+          ]
+        }
+      },
+      "GBU-32": {
+        "count": 1,
+        "files": [
+          "GBU-32.png"
+        ],
+        "stats": {
+          "wp": 2,
+          "attack": [
+            2,
+            4,
+            7
+          ],
+          "altitude": [
+            "H",
+            "L"
+          ]
+        }
+      },
+      "GBU-38": {
+        "count": 1,
+        "files": [
+          "GBU-38.png"
+        ],
+        "stats": {
+          "wp": 1,
+          "attack": [
+            3,
+            9
+          ],
+          "altitude": [
+            "H",
+            "L"
+          ]
+        }
+      },
+      "ECM Pod": {
+        "count": 1,
+        "files": [
+          "ECM_Pod.png"
+        ],
+        "stats": {
+          "wp": 1,
+          "attack": [
+            6
+          ],
+          "altitude": [
+            "H",
+            "L"
+          ]
+        }
+      }
+    },
+    "total_counters": 14,
+    "aircraft_wp": 8
+  },
+  "AV-8B": {
+    "weapons": {
+      "AIM-9": {
+        "count": 1,
+        "files": [
+          "AIM-9.png"
+        ],
+        "stats": {
+          "wp": 1,
+          "attack": [
+            6
+          ],
+          "altitude": [
+            "H",
+            "L"
+          ]
+        }
+      },
+      "AIM-120": {
+        "count": 1,
+        "files": [
+          "AIM-120.png"
+        ],
+        "stats": {
+          "wp": 1,
+          "attack": [
+            5
+          ],
+          "altitude": [
+            "H",
+            "L"
+          ]
+        }
+      },
+      "Mk.20": {
+        "count": 1,
+        "files": [
+          "Mk.20.png"
+        ],
+        "stats": {
+          "wp": 1,
+          "attack": [
+            8,
+            11
+          ],
+          "altitude": [
+            "L"
+          ]
+        }
+      },
+      "Mk.82": {
+        "count": 1,
+        "files": [
+          "Mk.82.png"
+        ],
+        "stats": {
+          "wp": 1,
+          "attack": [
+            7,
+            10
+          ],
+          "altitude": [
+            "L"
+          ]
+        }
+      },
+      "Mk.83": {
+        "count": 1,
+        "files": [
+          "Mk.83.png"
+        ],
+        "stats": {
+          "wp": 2,
+          "attack": [
+            5,
+            7,
+            10
+          ],
+          "altitude": [
+            "L"
+          ]
+        }
+      },
+      "AGM-65": {
+        "count": 1,
+        "files": [
+          "AGM-65.png"
+        ],
+        "stats": {
+          "wp": 2,
+          "attack": [
+            7,
+            10
+          ],
+          "altitude": [
+            "H",
+            "L"
+          ]
+        }
+      },
+      "GBU-12": {
+        "count": 1,
+        "files": [
+          "GBU-12.png"
+        ],
+        "stats": {
+          "wp": 1,
+          "attack": [
+            6,
+            8,
+            10
+          ],
+          "altitude": [
+            "H"
+          ]
+        }
+      },
+      "GBU-16": {
+        "count": 1,
+        "files": [
+          "GBU-16.png"
+        ],
+        "stats": {
+          "wp": 2,
+          "attack": [
+            3,
+            5,
+            7,
+            9
+          ],
+          "altitude": [
+            "H"
+          ]
+        }
+      },
+      "Rockets": {
+        "count": 1,
+        "files": [
+          "Rockets.png"
+        ],
+        "stats": {
+          "wp": 1,
+          "attack": [
+            7
+          ],
+          "altitude": [
+            "L"
+          ]
+        }
+      },
+      "ECM Pod": {
+        "count": 1,
+        "files": [
+          "ECM_Pod.png"
+        ],
+        "stats": {
+          "wp": 1,
+          "attack": [
+            6
+          ],
+          "altitude": [
+            "H",
+            "L"
+          ]
+        }
+      }
+    },
+    "total_counters": 10,
+    "aircraft_wp": 6
+  },
+  "F-35C": {
+    "weapons": {
+      "AIM-9": {
+        "count": 1,
+        "files": [
+          "AIM-9.png"
+        ],
+        "stats": {
+          "wp": 1,
+          "attack": [
+            6
+          ],
+          "altitude": [
+            "H",
+            "L"
+          ]
+        }
+      },
+      "AIM-120": {
+        "count": 1,
+        "files": [
+          "AIM-120.png"
+        ],
+        "stats": {
+          "wp": 1,
+          "attack": [
+            5
+          ],
+          "altitude": [
+            "H",
+            "L"
+          ]
+        }
+      },
+      "Mk.20": {
+        "count": 1,
+        "files": [
+          "Mk.20.png"
+        ],
+        "stats": {
+          "wp": 1,
+          "attack": [
+            8,
+            11
+          ],
+          "altitude": [
+            "L"
+          ]
+        }
+      },
+      "Mk.82": {
+        "count": 1,
+        "files": [
+          "Mk.82.png"
+        ],
+        "stats": {
+          "wp": 1,
+          "attack": [
+            7,
+            10
+          ],
+          "altitude": [
+            "L"
+          ]
+        }
+      },
+      "Mk.83": {
+        "count": 1,
+        "files": [
+          "Mk.83.png"
+        ],
+        "stats": {
+          "wp": 2,
+          "attack": [
+            5,
+            7,
+            10
+          ],
+          "altitude": [
+            "L"
+          ]
+        }
+      },
+      "Mk.84": {
+        "count": 1,
+        "files": [
+          "Mk.84.png"
+        ],
+        "stats": {
+          "wp": 2,
+          "attack": [
+            3,
+            5,
+            8
+          ],
+          "altitude": [
+            "L"
+          ]
+        }
+      },
+      "AGM-154": {
+        "count": 1,
+        "files": [
+          "AGM-154.png"
+        ],
+        "stats": {
+          "wp": 2,
+          "attack": [
+            4,
+            8
+          ],
+          "altitude": [
+            "H",
+            "L"
+          ]
+        }
+      },
+      "GBU-10": {
+        "count": 1,
+        "files": [
+          "GBU-10.png"
+        ],
+        "stats": {
+          "wp": 3,
+          "attack": [
+            1,
+            2,
+            4,
+            7
+          ],
+          "altitude": [
+            "H"
+          ]
+        }
+      },
+      "GBU-12": {
+        "count": 1,
+        "files": [
+          "GBU-12.png"
+        ],
+        "stats": {
+          "wp": 1,
+          "attack": [
+            6,
+            8,
+            10
+          ],
+          "altitude": [
+            "H"
+          ]
+        }
+      },
+      "GBU-16": {
+        "count": 1,
+        "files": [
+          "GBU-16.png"
+        ],
+        "stats": {
+          "wp": 2,
+          "attack": [
+            3,
+            5,
+            7,
+            9
+          ],
+          "altitude": [
+            "H"
+          ]
+        }
+      },
+      "GBU-31": {
+        "count": 1,
+        "files": [
+          "GBU-31.png"
+        ],
+        "stats": {
+          "wp": 3,
+          "attack": [
+            0,
+            2,
+            5,
+            9
+          ],
+          "altitude": [
+            "H",
+            "L"
+          ]
+        }
+      },
+      "GBU-32": {
+        "count": 1,
+        "files": [
+          "GBU-32.png"
+        ],
+        "stats": {
+          "wp": 2,
+          "attack": [
+            2,
+            4,
+            7
+          ],
+          "altitude": [
+            "H",
+            "L"
+          ]
+        }
+      },
+      "GBU-38": {
+        "count": 1,
+        "files": [
+          "GBU-38.png"
+        ],
+        "stats": {
+          "wp": 1,
+          "attack": [
+            3,
+            9
+          ],
+          "altitude": [
+            "H",
+            "L"
+          ]
+        }
+      }
+    },
+    "total_counters": 13,
+    "aircraft_wp": 7
+  },
+  "F/A-18C": {
+    "weapons": {
+      "AIM-7": {
+        "count": 1,
+        "files": [
+          "AIM-7.png"
+        ],
+        "stats": {
+          "wp": 1,
+          "attack": [
+            6
+          ],
+          "altitude": [
+            "H",
+            "L"
+          ]
+        }
+      },
+      "AIM-9": {
+        "count": 1,
+        "files": [
+          "AIM-9.png"
+        ],
+        "stats": {
+          "wp": 1,
+          "attack": [
+            6
+          ],
+          "altitude": [
+            "H",
+            "L"
+          ]
+        }
+      },
+      "AIM-120": {
+        "count": 1,
+        "files": [
+          "AIM-120.png"
+        ],
+        "stats": {
+          "wp": 1,
+          "attack": [
+            5
+          ],
+          "altitude": [
+            "H",
+            "L"
+          ]
+        }
+      },
+      "Mk.20": {
+        "count": 1,
+        "files": [
+          "Mk.20.png"
+        ],
+        "stats": {
+          "wp": 1,
+          "attack": [
+            8,
+            11
+          ],
+          "altitude": [
+            "L"
+          ]
+        }
+      },
+      "Mk.82": {
+        "count": 1,
+        "files": [
+          "Mk.82.png"
+        ],
+        "stats": {
+          "wp": 1,
+          "attack": [
+            7,
+            10
+          ],
+          "altitude": [
+            "L"
+          ]
+        }
+      },
+      "Mk.83": {
+        "count": 1,
+        "files": [
+          "Mk.83.png"
+        ],
+        "stats": {
+          "wp": 2,
+          "attack": [
+            5,
+            7,
+            10
+          ],
+          "altitude": [
+            "L"
+          ]
+        }
+      },
+      "Mk.84": {
+        "count": 1,
+        "files": [
+          "Mk.84.png"
+        ],
+        "stats": {
+          "wp": 2,
+          "attack": [
+            3,
+            5,
+            8
+          ],
+          "altitude": [
+            "L"
+          ]
+        }
+      },
+      "AGM-62": {
+        "count": 1,
+        "files": [
+          "AGM-62.png"
+        ],
+        "stats": {
+          "wp": 2,
+          "attack": [
+            4,
+            7,
+            10
+          ],
+          "altitude": [
+            "H"
+          ]
+        }
+      },
+      "AGM-65": {
+        "count": 1,
+        "files": [
+          "AGM-65.png"
+        ],
+        "stats": {
+          "wp": 2,
+          "attack": [
+            7,
+            10
+          ],
+          "altitude": [
+            "H",
+            "L"
+          ]
+        }
+      },
+      "AGM-84": {
+        "count": 1,
+        "files": [
+          "AGM-84.png"
+        ],
+        "stats": {
+          "wp": 2,
+          "attack": [
+            3,
+            6,
+            9
+          ],
+          "altitude": [
+            "H"
+          ]
+        }
+      },
+      "AGM-88": {
+        "count": 1,
+        "files": [
+          "AGM-88.png"
+        ],
+        "stats": {
+          "wp": 1,
+          "attack": [
+            4
+          ],
+          "altitude": [
+            "H"
+          ]
+        }
+      },
+      "AGM-130": {
+        "count": 1,
+        "files": [
+          "AGM-130.png"
+        ],
+        "stats": {
+          "wp": 4,
+          "attack": [
+            2,
+            3,
+            5,
+            8
+          ],
+          "altitude": [
+            "H",
+            "L"
+          ]
+        }
+      },
+      "AGM-154": {
+        "count": 1,
+        "files": [
+          "AGM-154.png"
+        ],
+        "stats": {
+          "wp": 2,
+          "attack": [
+            4,
+            8
+          ],
+          "altitude": [
+            "H",
+            "L"
+          ]
+        }
+      },
+      "GBU-10": {
+        "count": 1,
+        "files": [
+          "GBU-10.png"
+        ],
+        "stats": {
+          "wp": 3,
+          "attack": [
+            1,
+            2,
+            4,
+            7
+          ],
+          "altitude": [
+            "H"
+          ]
+        }
+      },
+      "GBU-12": {
+        "count": 1,
+        "files": [
+          "GBU-12.png"
+        ],
+        "stats": {
+          "wp": 1,
+          "attack": [
+            6,
+            8,
+            10
+          ],
+          "altitude": [
+            "H"
+          ]
+        }
+      },
+      "GBU-16": {
+        "count": 1,
+        "files": [
+          "GBU-16.png"
+        ],
+        "stats": {
+          "wp": 2,
+          "attack": [
+            3,
+            5,
+            7,
+            9
+          ],
+          "altitude": [
+            "H"
+          ]
+        }
+      },
+      "GBU-31": {
+        "count": 1,
+        "files": [
+          "GBU-31.png"
+        ],
+        "stats": {
+          "wp": 3,
+          "attack": [
+            0,
+            2,
+            5,
+            9
+          ],
+          "altitude": [
+            "H",
+            "L"
+          ]
+        }
+      },
+      "GBU-32": {
+        "count": 1,
+        "files": [
+          "GBU-32.png"
+        ],
+        "stats": {
+          "wp": 2,
+          "attack": [
+            2,
+            4,
+            7
+          ],
+          "altitude": [
+            "H",
+            "L"
+          ]
+        }
+      },
+      "GBU-38": {
+        "count": 1,
+        "files": [
+          "GBU-38.png"
+        ],
+        "stats": {
+          "wp": 1,
+          "attack": [
+            3,
+            9
+          ],
+          "altitude": [
+            "H",
+            "L"
+          ]
+        }
+      },
+      "Rockets": {
+        "count": 1,
+        "files": [
+          "Rockets.png"
+        ],
+        "stats": {
+          "wp": 1,
+          "attack": [
+            7
+          ],
+          "altitude": [
+            "L"
+          ]
+        }
+      },
+      "ECM Pod": {
+        "count": 1,
+        "files": [
+          "ECM_Pod.png"
+        ],
+        "stats": {
+          "wp": 1,
+          "attack": [
+            6
+          ],
+          "altitude": [
+            "H",
+            "L"
+          ]
+        }
+      }
+    },
+    "total_counters": 21,
+    "aircraft_wp": 8
+  },
+  "F/A-18E": {
+    "weapons": {
+      "AIM-7": {
+        "count": 1,
+        "files": [
+          "AIM-7.png"
+        ],
+        "stats": {
+          "wp": 1,
+          "attack": [
+            6
+          ],
+          "altitude": [
+            "H",
+            "L"
+          ]
+        }
+      },
+      "AIM-9": {
+        "count": 1,
+        "files": [
+          "AIM-9.png"
+        ],
+        "stats": {
+          "wp": 1,
+          "attack": [
+            6
+          ],
+          "altitude": [
+            "H",
+            "L"
+          ]
+        }
+      },
+      "AIM-120": {
+        "count": 1,
+        "files": [
+          "AIM-120.png"
+        ],
+        "stats": {
+          "wp": 1,
+          "attack": [
+            5
+          ],
+          "altitude": [
+            "H",
+            "L"
+          ]
+        }
+      },
+      "Mk.20": {
+        "count": 1,
+        "files": [
+          "Mk.20.png"
+        ],
+        "stats": {
+          "wp": 1,
+          "attack": [
+            8,
+            11
+          ],
+          "altitude": [
+            "L"
+          ]
+        }
+      },
+      "Mk.82": {
+        "count": 1,
+        "files": [
+          "Mk.82.png"
+        ],
+        "stats": {
+          "wp": 1,
+          "attack": [
+            7,
+            10
+          ],
+          "altitude": [
+            "L"
+          ]
+        }
+      },
+      "Mk.83": {
+        "count": 1,
+        "files": [
+          "Mk.83.png"
+        ],
+        "stats": {
+          "wp": 2,
+          "attack": [
+            5,
+            7,
+            10
+          ],
+          "altitude": [
+            "L"
+          ]
+        }
+      },
+      "Mk.84": {
+        "count": 1,
+        "files": [
+          "Mk.84.png"
+        ],
+        "stats": {
+          "wp": 2,
+          "attack": [
+            3,
+            5,
+            8
+          ],
+          "altitude": [
+            "L"
+          ]
+        }
+      },
+      "AGM-65": {
+        "count": 1,
+        "files": [
+          "AGM-65.png"
+        ],
+        "stats": {
+          "wp": 2,
+          "attack": [
+            7,
+            10
+          ],
+          "altitude": [
+            "H",
+            "L"
+          ]
+        }
+      },
+      "AGM-84": {
+        "count": 1,
+        "files": [
+          "AGM-84.png"
+        ],
+        "stats": {
+          "wp": 2,
+          "attack": [
+            3,
+            6,
+            9
+          ],
+          "altitude": [
+            "H"
+          ]
+        }
+      },
+      "AGM-88": {
+        "count": 1,
+        "files": [
+          "AGM-88.png"
+        ],
+        "stats": {
+          "wp": 1,
+          "attack": [
+            4
+          ],
+          "altitude": [
+            "H"
+          ]
+        }
+      },
+      "AGM-130": {
+        "count": 1,
+        "files": [
+          "AGM-130.png"
+        ],
+        "stats": {
+          "wp": 4,
+          "attack": [
+            2,
+            3,
+            5,
+            8
+          ],
+          "altitude": [
+            "H",
+            "L"
+          ]
+        }
+      },
+      "AGM-154": {
+        "count": 1,
+        "files": [
+          "AGM-154.png"
+        ],
+        "stats": {
+          "wp": 2,
+          "attack": [
+            4,
+            8
+          ],
+          "altitude": [
+            "H",
+            "L"
+          ]
+        }
+      },
+      "GBU-10": {
+        "count": 1,
+        "files": [
+          "GBU-10.png"
+        ],
+        "stats": {
+          "wp": 3,
+          "attack": [
+            1,
+            2,
+            4,
+            7
+          ],
+          "altitude": [
+            "H"
+          ]
+        }
+      },
+      "GBU-12": {
+        "count": 1,
+        "files": [
+          "GBU-12.png"
+        ],
+        "stats": {
+          "wp": 1,
+          "attack": [
+            6,
+            8,
+            10
+          ],
+          "altitude": [
+            "H"
+          ]
+        }
+      },
+      "GBU-16": {
+        "count": 1,
+        "files": [
+          "GBU-16.png"
+        ],
+        "stats": {
+          "wp": 2,
+          "attack": [
+            3,
+            5,
+            7,
+            9
+          ],
+          "altitude": [
+            "H"
+          ]
+        }
+      },
+      "GBU-31": {
+        "count": 1,
+        "files": [
+          "GBU-31.png"
+        ],
+        "stats": {
+          "wp": 3,
+          "attack": [
+            0,
+            2,
+            5,
+            9
+          ],
+          "altitude": [
+            "H",
+            "L"
+          ]
+        }
+      },
+      "GBU-32": {
+        "count": 1,
+        "files": [
+          "GBU-32.png"
+        ],
+        "stats": {
+          "wp": 2,
+          "attack": [
+            2,
+            4,
+            7
+          ],
+          "altitude": [
+            "H",
+            "L"
+          ]
+        }
+      },
+      "GBU-38": {
+        "count": 1,
+        "files": [
+          "GBU-38.png"
+        ],
+        "stats": {
+          "wp": 1,
+          "attack": [
+            3,
+            9
+          ],
+          "altitude": [
+            "H",
+            "L"
+          ]
+        }
+      },
+      "Rockets": {
+        "count": 1,
+        "files": [
+          "Rockets.png"
+        ],
+        "stats": {
+          "wp": 1,
+          "attack": [
+            7
+          ],
+          "altitude": [
+            "L"
+          ]
+        }
+      },
+      "ECM Pod": {
+        "count": 1,
+        "files": [
+          "ECM_Pod.png"
+        ],
+        "stats": {
+          "wp": 1,
+          "attack": [
+            6
+          ],
+          "altitude": [
+            "H",
+            "L"
+          ]
+        }
+      }
+    },
+    "total_counters": 20,
+    "aircraft_wp": 10
+  },
+  "F/A-18F": {
+    "weapons": {
+      "AIM-7": {
+        "count": 1,
+        "files": [
+          "AIM-7.png"
+        ],
+        "stats": {
+          "wp": 1,
+          "attack": [
+            6
+          ],
+          "altitude": [
+            "H",
+            "L"
+          ]
+        }
+      },
+      "AIM-9": {
+        "count": 1,
+        "files": [
+          "AIM-9.png"
+        ],
+        "stats": {
+          "wp": 1,
+          "attack": [
+            6
+          ],
+          "altitude": [
+            "H",
+            "L"
+          ]
+        }
+      },
+      "AIM-120": {
+        "count": 1,
+        "files": [
+          "AIM-120.png"
+        ],
+        "stats": {
+          "wp": 1,
+          "attack": [
+            5
+          ],
+          "altitude": [
+            "H",
+            "L"
+          ]
+        }
+      },
+      "Mk.20": {
+        "count": 1,
+        "files": [
+          "Mk.20.png"
+        ],
+        "stats": {
+          "wp": 1,
+          "attack": [
+            8,
+            11
+          ],
+          "altitude": [
+            "L"
+          ]
+        }
+      },
+      "Mk.82": {
+        "count": 1,
+        "files": [
+          "Mk.82.png"
+        ],
+        "stats": {
+          "wp": 1,
+          "attack": [
+            7,
+            10
+          ],
+          "altitude": [
+            "L"
+          ]
+        }
+      },
+      "Mk.83": {
+        "count": 1,
+        "files": [
+          "Mk.83.png"
+        ],
+        "stats": {
+          "wp": 2,
+          "attack": [
+            5,
+            7,
+            10
+          ],
+          "altitude": [
+            "L"
+          ]
+        }
+      },
+      "Mk.84": {
+        "count": 1,
+        "files": [
+          "Mk.84.png"
+        ],
+        "stats": {
+          "wp": 2,
+          "attack": [
+            3,
+            5,
+            8
+          ],
+          "altitude": [
+            "L"
+          ]
+        }
+      },
+      "AGM-65": {
+        "count": 1,
+        "files": [
+          "AGM-65.png"
+        ],
+        "stats": {
+          "wp": 2,
+          "attack": [
+            7,
+            10
+          ],
+          "altitude": [
+            "H",
+            "L"
+          ]
+        }
+      },
+      "AGM-84": {
+        "count": 1,
+        "files": [
+          "AGM-84.png"
+        ],
+        "stats": {
+          "wp": 2,
+          "attack": [
+            3,
+            6,
+            9
+          ],
+          "altitude": [
+            "H"
+          ]
+        }
+      },
+      "AGM-88": {
+        "count": 1,
+        "files": [
+          "AGM-88.png"
+        ],
+        "stats": {
+          "wp": 1,
+          "attack": [
+            4
+          ],
+          "altitude": [
+            "H"
+          ]
+        }
+      },
+      "AGM-130": {
+        "count": 1,
+        "files": [
+          "AGM-130.png"
+        ],
+        "stats": {
+          "wp": 4,
+          "attack": [
+            2,
+            3,
+            5,
+            8
+          ],
+          "altitude": [
+            "H",
+            "L"
+          ]
+        }
+      },
+      "AGM-154": {
+        "count": 1,
+        "files": [
+          "AGM-154.png"
+        ],
+        "stats": {
+          "wp": 2,
+          "attack": [
+            4,
+            8
+          ],
+          "altitude": [
+            "H",
+            "L"
+          ]
+        }
+      },
+      "GBU-10": {
+        "count": 1,
+        "files": [
+          "GBU-10.png"
+        ],
+        "stats": {
+          "wp": 3,
+          "attack": [
+            1,
+            2,
+            4,
+            7
+          ],
+          "altitude": [
+            "H"
+          ]
+        }
+      },
+      "GBU-12": {
+        "count": 1,
+        "files": [
+          "GBU-12.png"
+        ],
+        "stats": {
+          "wp": 1,
+          "attack": [
+            6,
+            8,
+            10
+          ],
+          "altitude": [
+            "H"
+          ]
+        }
+      },
+      "GBU-16": {
+        "count": 1,
+        "files": [
+          "GBU-16.png"
+        ],
+        "stats": {
+          "wp": 2,
+          "attack": [
+            3,
+            5,
+            7,
+            9
+          ],
+          "altitude": [
+            "H"
+          ]
+        }
+      },
+      "GBU-31": {
+        "count": 1,
+        "files": [
+          "GBU-31.png"
+        ],
+        "stats": {
+          "wp": 3,
+          "attack": [
+            0,
+            2,
+            5,
+            9
+          ],
+          "altitude": [
+            "H",
+            "L"
+          ]
+        }
+      },
+      "GBU-32": {
+        "count": 1,
+        "files": [
+          "GBU-32.png"
+        ],
+        "stats": {
+          "wp": 2,
+          "attack": [
+            2,
+            4,
+            7
+          ],
+          "altitude": [
+            "H",
+            "L"
+          ]
+        }
+      },
+      "GBU-38": {
+        "count": 1,
+        "files": [
+          "GBU-38.png"
+        ],
+        "stats": {
+          "wp": 1,
+          "attack": [
+            3,
+            9
+          ],
+          "altitude": [
+            "H",
+            "L"
+          ]
+        }
+      },
+      "Rockets": {
+        "count": 1,
+        "files": [
+          "Rockets.png"
+        ],
+        "stats": {
+          "wp": 1,
+          "attack": [
+            7
+          ],
+          "altitude": [
+            "L"
+          ]
+        }
+      },
+      "ECM Pod": {
+        "count": 1,
+        "files": [
+          "ECM_Pod.png"
+        ],
+        "stats": {
+          "wp": 1,
+          "attack": [
+            6
+          ],
+          "altitude": [
+            "H",
+            "L"
+          ]
+        }
+      }
+    },
+    "total_counters": 20,
+    "aircraft_wp": 10
+  },
+  "E-2C": {
+    "weapons": [],
+    "aircraft_wp": null
+  },
+  "EA-6B": {
+    "weapons": {
+      "AGM-88": {
+        "count": 1,
+        "files": [
+          "AGM-88.png"
+        ],
+        "stats": {
+          "wp": 1,
+          "attack": [
+            4
+          ],
+          "altitude": [
+            "H"
+          ]
+        }
+      }
+    },
+    "total_counters": 1,
+    "aircraft_wp": null
+  },
+  "EA-18G": {
+    "weapons": {
+      "AIM-120": {
+        "count": 1,
+        "files": [
+          "AIM-120.png"
+        ],
+        "stats": {
+          "wp": 1,
+          "attack": [
+            5
+          ],
+          "altitude": [
+            "H",
+            "L"
+          ]
+        }
+      },
+      "AGM-88": {
+        "count": 1,
+        "files": [
+          "AGM-88.png"
+        ],
+        "stats": {
+          "wp": 1,
+          "attack": [
+            4
+          ],
+          "altitude": [
+            "H"
+          ]
+        }
+      },
+      "AGM-154": {
+        "count": 1,
+        "files": [
+          "AGM-154.png"
+        ],
+        "stats": {
+          "wp": 2,
+          "attack": [
+            4,
+            8
+          ],
+          "altitude": [
+            "H",
+            "L"
+          ]
+        }
+      },
+      "ECM Pod": {
+        "count": 1,
+        "files": [
+          "ECM_Pod.png"
+        ],
+        "stats": {
+          "wp": 1,
+          "attack": [
+            6
+          ],
+          "altitude": [
+            "H",
+            "L"
+          ]
+        }
+      }
+    },
+    "total_counters": 4,
+    "aircraft_wp": 8
+  }
+}
