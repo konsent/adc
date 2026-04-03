@@ -2027,6 +2027,14 @@ function renderMissions() {
                             ${t.resolved ? '' : `
                             ${campaign.intenseStressRule && !isE2C(pilot) ? `<button class="btn-intense${ap.intenseUsed ? ' active' : ''}"
                                 data-day="${dayIdx}" data-tidx="${tIdx}" data-apidx="${apIdx}" title="고강도: 공격/제압 +1, 스트레스 +1">고강도</button>` : ''}
+                            ${(() => {
+                                const lo = ap.loadout || [];
+                                const rwp = lo.reduce((s, it) => s + (!it.spent && !isAAWeapon(it.weapon) ? (it.wp || 0) : 0), 0);
+                                const dfp = rwp >= 5 ? -3 : rwp >= 4 ? -2 : rwp >= 3 ? -1 : 0;
+                                if (dfp === 0) return '';
+                                const cls = Math.abs(dfp) >= 3 ? 'df-level-3' : Math.abs(dfp) >= 2 ? 'df-level-2' : 'df-level-1';
+                                return `<span class="dogfight-penalty ${cls}" title="도그파이트 중량 페널티: 공대지 무장을 장착한 상태에서 사거리 0에 있는 적기를 공격하거나 제압할 때 받는 페널티 (잔여 AtG WP: ${rwp})">DF: ${dfp}</span>`;
+                            })()}
                             ${isE2C(pilot) ? '' : `<button class="btn-armament"
                                 data-day="${dayIdx}" data-tidx="${tIdx}" data-apidx="${apIdx}">무장</button>`}
                             <button class="btn-shotdown${ap.shotDown ? ' active' : ''}"
@@ -3080,7 +3088,14 @@ function renderArmamentModal() {
         // Recalculate day's special weapon SO with free SO discount
         // 1. Get old total special weapon SO for this day (before this change)
         const oldDaySwSO = calcDaySpecialWeaponSO(st.dayIdx, st.specialWeapons);
-        // 2. Apply new loadout + JDAM paid state
+        // 2. Sort loadout: AA → AtG → Rockets → ECM Pod, then apply
+        const weaponSortOrder = (name) => {
+            if (isAAWeapon(name)) return 0;
+            if (/^Rockets$/i.test(name)) return 2;
+            if (/^ECM/i.test(name)) return 3;
+            return 1; // AtG
+        };
+        st.selected.sort((a, b) => weaponSortOrder(a.weapon) - weaponSortOrder(b.weapon));
         ap.loadout = st.selected;
         // Reset jdamPaid if no JDAM selected
         const hasAnyJdam = st.selected.some(s => JDAM_WEAPONS.includes(s.weapon));

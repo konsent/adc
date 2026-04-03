@@ -2403,6 +2403,20 @@ tr.pilot-unfit { position: relative; }
     font-style: italic;
 }
 
+/* ─── Dogfight Penalty Badge ─── */
+.dogfight-penalty {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 0.8rem;
+    font-weight: 700;
+    padding: 0.2em 0.7em;
+    border-radius: 3px;
+    cursor: help;
+    white-space: nowrap;
+}
+.df-level-1 { background: #4a4a1a; border: 1px solid #8a8a30; color: #dddd55; }
+.df-level-2 { background: #4a3a1a; border: 1px solid #8a6a20; color: #ddaa33; }
+.df-level-3 { background: #4a1a1a; border: 1px solid #8a3030; color: #ff5555; }
+
 /* ─── Armament Modal ─── */
 .armament-modal {
     background: #2a2d26;
