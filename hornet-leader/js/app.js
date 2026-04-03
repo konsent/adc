@@ -1945,6 +1945,15 @@ function renderMissions() {
                 <div class="tc-enemy-dice" data-day="${dayIdx}" data-tidx="${tIdx}" title="적 공격 주사위 (1~10)">
                     <span class="enemy-dice-label">적 공격</span>
                     <span class="enemy-dice-result">${t.enemyDice || '?'}</span>
+                    ${(() => {
+                        const dr = campaign.diffRules || {};
+                        let mod = 0;
+                        if (dr.improvedEnemies) mod += 1;
+                        if (dr.downgradedEnemies) mod -= 1;
+                        if (mod === 0) return '';
+                        const cls = mod > 0 ? 'mod-negative' : 'mod-positive';
+                        return `<span class="enemy-dice-modifier ${cls}">${mod > 0 ? '+' : ''}${mod}</span>`;
+                    })()}
                 </div>
             `;
             tBlock.appendChild(statsRow);
@@ -3441,7 +3450,7 @@ if (e.target.id === 'overkill-modal') closeOverkillModal();
     if (e.target.id === 'discard-imp-modal') closeDiscardImpModal();
     if (e.target.id === 'armament-modal') closeArmamentModal();
     if (e.target.id === 'replacement-modal') closeReplacementModal();
-    if (e.target.id === 'flight-leader-modal') closeFlightLeaderModal();
+    // flight-leader-modal: 바깥 클릭으로 닫지 않음 (반드시 선택해야 함)
 });
 
 // ─── Trait Tooltip (JS-based) ───
