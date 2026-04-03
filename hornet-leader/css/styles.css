@@ -1956,6 +1956,27 @@ tr.pilot-unfit { position: relative; }
 }
 .draw-actions .btn { min-width: 5rem; }
 
+/* ─── Achieved Hits Input ─── */
+.tc-stat-achieved {
+    border-color: #6a5a2a;
+}
+.achieved-hits-input {
+    width: 2.5rem;
+    text-align: center;
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 0.9rem;
+    font-weight: 700;
+    color: #f0d060;
+    background: #1a1c16;
+    border: 1px solid #5a5e50;
+    border-radius: 3px;
+    padding: 0.1em 0.2em;
+}
+.achieved-hits-input:focus {
+    outline: none;
+    border-color: #f0d060;
+}
+
 /* ─── Armament Button ─── */
 .btn-armament {
     font-family: 'Barlow Condensed', sans-serif;
@@ -2108,9 +2129,9 @@ tr.pilot-unfit { position: relative; }
     position: absolute;
     top: 50%; left: 50%;
     transform: translate(-50%, -50%);
-    font-family: 'Barlow Condensed', sans-serif;
-    font-size: 0.75rem;
-    color: #ff6060;
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 1.6rem;
+    color: #ffcc00;
     font-weight: 700;
     text-transform: uppercase;
     z-index: 1;

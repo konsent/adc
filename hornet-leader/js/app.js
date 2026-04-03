@@ -751,7 +751,7 @@ function applySOAdjust(totalSO, diffRules, lengthIdx) {
 }
 
 function createEmptyTarget() {
-    return { targetNumber: '', dayNight: 'Day', vp: '', recon: '', intel: '', infra: '', baseStress: '', assignedPilots: [], result: '', resolved: false };
+    return { targetNumber: '', dayNight: 'Day', vp: '', recon: '', intel: '', infra: '', baseStress: '', assignedPilots: [], result: '', resolved: false, achievedHits: 0 };
 }
 
 function createTargetWithNumber(targetNumber, scenarioIdx) {
@@ -1699,6 +1699,14 @@ function renderMissions() {
                     <span class="tc-stat-label">명중</span>
                     <span class="tc-stat-value">${hits != null ? hits : '—'}</span>
                 </div>
+                <div class="tc-stat-box tc-stat-achieved">
+                    <span class="tc-stat-label">달성</span>
+                    ${t.resolved
+                        ? `<span class="tc-stat-value">${t.achievedHits || 0}</span>`
+                        : `<input type="number" class="achieved-hits-input" value="${t.achievedHits || 0}" min="0"
+                            data-day="${dayIdx}" data-tidx="${tIdx}" data-field="achievedHits">`
+                    }
+                </div>
             `;
             tBlock.appendChild(statsRow);
 
@@ -1780,7 +1788,7 @@ function renderMissions() {
                             const wrap = document.createElement('span');
                             wrap.className = 'loadout-item' + (item.spent ? ' spent' : '');
                             wrap.innerHTML = `<img class="loadout-icon" src="../assets/HL/output/${folder}/${item.file}" title="${item.weapon} (WP ${item.wp})">` +
-                                (item.spent ? '<span class="loadout-spent-label">소진</span>' : '');
+                                (item.spent ? `<span class="loadout-spent-label">${item.roll != null ? item.roll : '소진'}</span>` : '');
                             wrap.dataset.day = dayIdx;
                             wrap.dataset.tidx = tIdx;
                             wrap.dataset.apidx = apIdx;
@@ -1802,12 +1810,11 @@ function renderMissions() {
                 const thisTargetPilots = new Set((t.assignedPilots || []).map(ap => ap.pilotIdx));
 
                 // Aircraft count limit (E-2C exempt)
+                // staged already includes existing assigned pilots, so count from staged only
                 const acLimit = getTargetAircraftCount(t.targetNumber);
                 const fmlActive = campaign.flyingMoreLess && acLimit !== Infinity;
                 const effectiveLimit = fmlActive ? acLimit + 1 : acLimit;
-                const existingNonE2C = (t.assignedPilots || []).filter(ap => !isE2C(campaign.squadron[ap.pilotIdx])).length;
-                const stagedNonE2C = [...staged].filter(pIdx => !isE2C(campaign.squadron[pIdx])).length;
-                const nonE2CCount = existingNonE2C + stagedNonE2C;
+                const nonE2CCount = [...staged].filter(pIdx => !isE2C(campaign.squadron[pIdx])).length;
                 const limitReached = nonE2CCount >= effectiveLimit;
 
                 const panel = document.createElement('div');
@@ -2104,6 +2111,8 @@ function attachMissionEvents(container) {
     container.querySelectorAll('.result-btn[data-day][data-tidx]').forEach(el => {
         if (!el.classList.contains('selected')) el.addEventListener('click', onSelectResult);
     });
+    container.querySelectorAll('.achieved-hits-input').forEach(el =>
+        el.addEventListener('change', onAchievedHitsChange));
     container.querySelectorAll('[data-action="resolve-target"]').forEach(el =>
         el.addEventListener('click', onResolveTarget));
     container.querySelectorAll('[data-action="apply-recovery"]').forEach(el =>
@@ -2554,6 +2563,15 @@ function renderArmamentModal() {
         const isSpecial = st.specialWeapons.includes(wname);
         const item = document.createElement('div');
         item.className = 'armament-item' + (disabled ? ' disabled' : '') + (isSpecial ? ' special' : '');
+        if (disabled) {
+            const reasons = [];
+            if (notInScenario) reasons.push('이 시나리오에서 사용 불가');
+            if (restricted) reasons.push('이 기체는 공대공 무장 탑재 불가');
+            if (limitExceeded) reasons.push(`${wname} 최대 수량 도달 (${st.restrictions.weaponLimits[wname]}발)`);
+            if (cantAfford) reasons.push(`WP 부족 (필요: ${wpCost}, 잔여: ${remainWP})`);
+            if (isFixed) reasons.push('고정 무장 (변경 불가)');
+            item.title = reasons.join('\n');
+        }
         item.innerHTML = `<img src="${getArmamentPath(st.aircraft, wdata.files[0])}" alt="${wname}">
             <span class="armament-label">${wname}</span>
             <span class="armament-wp-cost">WP ${wpCost}${isSpecial ? ' · SO ' + wpCost : ''}</span>`;
@@ -2639,7 +2657,15 @@ function onToggleSpendLoadout(e) {
     const lidx = parseInt(el.dataset.lidx);
     const ap = campaign.missions[dayIdx].targets[tIdx].assignedPilots[apIdx];
     if (ap.loadout && ap.loadout[lidx]) {
-        ap.loadout[lidx].spent = !ap.loadout[lidx].spent;
+        if (ap.loadout[lidx].spent) {
+            // Toggle off: reset
+            ap.loadout[lidx].spent = false;
+            ap.loadout[lidx].roll = null;
+        } else {
+            // Roll d10 (1~10)
+            ap.loadout[lidx].roll = Math.floor(Math.random() * 10) + 1;
+            ap.loadout[lidx].spent = true;
+        }
         renderAll();
         autoSave();
     }
@@ -2885,12 +2911,10 @@ function showVictoryModal() {
 function showOverkillModal(dayIdx, tIdx, ok) {
     const overlay = document.getElementById('overkill-modal');
     const body = document.getElementById('overkill-modal-body');
-    const infraMod = getInfraHitsModifier();
-    const effectiveThreshold = Math.max(1, ok.threshold + infraMod);
 
     body.innerHTML = `
         <h3>Overkill 확인</h3>
-        <p>공격 히트 합계가 <strong>${effectiveThreshold}</strong> 이상인가요?</p>
+        <p>공격 히트 합계가 <strong>${ok.threshold}</strong> 이상인가요?</p>
         <p class="overkill-bonus">달성 시 보너스: <strong>+${ok.bonusVP} VP</strong></p>
     `;
 
@@ -3176,27 +3200,71 @@ function onSelectResult(e) {
     autoSave();
 }
 
+function onAchievedHitsChange(e) {
+    const dayIdx = parseInt(e.target.dataset.day);
+    const tIdx = parseInt(e.target.dataset.tidx);
+    const t = campaign.missions[dayIdx].targets[tIdx];
+    const val = parseInt(e.target.value) || 0;
+    t.achievedHits = val;
+
+    const hits = getTargetHits(t.targetNumber);
+
+    if (val <= 0) {
+        t.result = '';
+    } else if (hits != null && val >= hits) {
+        t.result = 'Destroyed';
+        // Overkill auto-check
+        const ok = parseOverkill(t.targetNumber);
+        if (ok) {
+            if (val >= ok.threshold) {
+                t.overkillVP = ok.bonusVP;
+                showOverkillNotification(ok.bonusVP);
+            } else {
+                t.overkillVP = 0;
+            }
+        }
+    } else {
+        t.result = 'Damaged';
+        t.overkillVP = 0;
+    }
+
+    renderMissions();
+    autoSave();
+}
+
+function showOverkillNotification(bonusVP) {
+    const overlay = document.getElementById('overkill-modal');
+    const body = document.getElementById('overkill-modal-body');
+    body.innerHTML = `
+        <h3>Overkill 달성!</h3>
+        <p class="overkill-bonus">보너스 <strong>+${bonusVP} VP</strong> 획득</p>
+    `;
+    const actions = document.getElementById('overkill-modal-actions');
+    actions.innerHTML = '';
+    const btn = document.createElement('button');
+    btn.className = 'btn btn-small btn-primary';
+    btn.textContent = '확인';
+    btn.addEventListener('click', closeOverkillModal);
+    actions.appendChild(btn);
+    overlay.style.display = 'flex';
+}
+
 function parseOverkill(targetNumber) {
     const entry = getTargetEntry(targetNumber);
     if (!entry) return null;
     const baseHits = parseInt(entry.hits) || 0;
 
     // Format 1: "overkill" field like "+10 BONUS: +1VP"
+    // threshold = baseHits + bonus (absolute value, no modifiers)
     if (entry.overkill) {
         const m = entry.overkill.match(/\+(\d+)\s*BONUS.*?\+(\d+)\s*VP/i);
         if (m) return { threshold: baseHits + parseInt(m[1]), bonusVP: parseInt(m[2]) };
     }
 
-    // Format 2: traits — many variants:
-    //   "Overkill: 17+, gain 1VP"
-    //   "OVERKILL 13+: Gain +1VP"
-    //   "OVERKILL BONUS: 14+, Gain +1VP"
-    //   "OVERKILL +14: Gain +1VP"
-    //   "OVERKILL 18+: Gain +1 VP"
-    //   "OVERKILL 10+: Gain +1 VP"
+    // Format 2: traits — "OVERKILL 18+: Gain +1VP" etc.
+    // The number is an absolute threshold (already accounts for base hits)
     if (entry.traits) {
         const t = entry.traits;
-        // Extract threshold number and bonus VP from any OVERKILL variant
         const m = t.match(/OVERKILL[\s:]*(?:BONUS[\s:]*)?[+]?(\d+)\+?.*?(?:Gain\s*)?[+]?(\d+)\s*VP/i);
         if (m) return { threshold: parseInt(m[1]), bonusVP: parseInt(m[2]) };
     }
@@ -3208,8 +3276,8 @@ function onResolveTarget(e) {
     const tIdx = parseInt(e.target.dataset.tidx);
     const t = campaign.missions[dayIdx].targets[tIdx];
 
-    // Check Overkill before resolving
-    if (t.result === 'Destroyed') {
+    // Check Overkill before resolving (only if not already determined by achievedHits)
+    if (t.result === 'Destroyed' && !t.achievedHits) {
         const ok = parseOverkill(t.targetNumber);
         if (ok) {
             showOverkillModal(dayIdx, tIdx, ok);
