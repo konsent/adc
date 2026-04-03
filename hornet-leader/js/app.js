@@ -196,7 +196,7 @@ function showScenarioDetails(sc) {
         <span class="sc-meta">연도: ${sc.Year} | 난이도: ${sc.DifficultyDescription}</span>
         <div class="sc-tag-group">
             <span class="sc-tag-label">기체</span>
-            <div class="sc-tags">${sc.AvailableAircraft.map(a => `<span class="sc-tag sc-tag-ac">${a}</span>`).join('')}</div>
+            <div class="sc-tags">${sc.AvailableAircraft.filter(a => a !== 'OV-10').map(a => `<span class="sc-tag sc-tag-ac">${a}</span>`).join('')}</div>
         </div>
         <div class="sc-tag-group">
             <span class="sc-tag-label">특수 무장</span>
@@ -287,7 +287,9 @@ function populateAircraftOptions(scenario, lengthIdx) {
 
     const tbl = document.createElement('table');
     tbl.className = 'aircraft-table';
+    const HIDDEN_AIRCRAFT = new Set(['OV-10']);
     scenario.AvailableAircraft.forEach(designation => {
+        if (HIDDEN_AIRCRAFT.has(designation)) return;
         const acType = gameData.AircraftTypes.find(a => a.Designation === designation);
         const pilotCount = gameData.Pilots.filter(p => p.Aircraft === designation && !EXPANSION_PILOTS.has(p.Name)).length;
         if (pilotCount === 0) return; // skip aircraft with no base-game pilots
@@ -815,7 +817,10 @@ function buildCampaign(scenarioIdx, lengthIdx, squadron, diffRules, opts = {}) {
     // Flying More/Less SO cost
     const flyingMoreLess = !!(opts.extra && opts.extra.flyingMoreLess);
     const fmlSOCost = flyingMoreLess ? (FLYING_MORE_LESS_SO_COST[lengthIdx] || 3) : 0;
-    const totalSO = rawSO - fmlSOCost;
+    // Damaged Target Rule SO cost
+    const damagedTargetRule = !!(opts.extra && opts.extra.damagedTargetRule);
+    const dmgSOCost = damagedTargetRule ? (DAMAGED_TARGET_SO_COST[lengthIdx] || 3) : 0;
+    const totalSO = rawSO - fmlSOCost - dmgSOCost;
 
     const daysMatch = option.Timespan.match(/(\d+)/);
     const totalDays = daysMatch ? parseInt(daysMatch[1]) : 3;
@@ -4036,13 +4041,13 @@ function updateBadges() {
     const soBonusDisplay = campaign.soBonus || 0;
 
     // Tooltip: 시나리오 시작 시 적용 항목
-    const dmgSOPerUse = campaign.damagedTargetRule ? (DAMAGED_TARGET_SO_COST[campaign.lengthIdx] || 3) : 0;
+    const dmgCost = campaign.damagedTargetRule ? (DAMAGED_TARGET_SO_COST[campaign.lengthIdx] || 3) : 0;
     const lines = [
         `기본 SO ··················· ${campaign.baseSO || campaign.totalSO}`,
         soBonusDisplay ? `무작위 보너스 ·········· +${soBonusDisplay}` : '',
         campaign.aircraftSO ? `기체 비용 ················ ${campaign.aircraftSO > 0 ? '-' : '+'}${Math.abs(campaign.aircraftSO)}` : '',
         fmlCost ? `기체수변경 규칙 ······· -${fmlCost}` : '',
-        campaign.damagedTargetRule ? `표적피해 규칙 ·········· -${dmgSOPerUse}` : '',
+        dmgCost ? `표적피해 규칙 ·········· -${dmgCost}` : '',
         `────────────────────`,
         `시작 SO ··················· ${campaign.totalSO}`,
         `사용 SO ··················· -${usedSO}`,
@@ -4394,6 +4399,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const scenario = gameData.Campaigns[campaign.scenarioIdx];
         const option = scenario.CampaignOptions[campaign.lengthIdx];
         const allowedAircraft = scenario.AvailableAircraft.filter(a => {
+            if (a === 'OV-10') return false;
             const count = gameData.Pilots.filter(p => p.Aircraft === a && !EXPANSION_PILOTS.has(p.Name)).length;
             return count > 0;
         });
