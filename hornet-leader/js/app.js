@@ -2589,6 +2589,22 @@ const AIRCRAFT_ARMAMENT_MAP = {
     "F-35A/C": "F-35C",
 };
 
+function calcDaySpecialWeaponSO(dayIdx, specialWeapons) {
+    const m = campaign.missions[dayIdx];
+    if (!m) return 0;
+    let rawSO = 0;
+    m.targets.forEach(t => {
+        (t.assignedPilots || []).forEach(ap => {
+            (ap.loadout || []).forEach(item => {
+                if (specialWeapons.includes(item.weapon)) rawSO += item.wp;
+            });
+        });
+    });
+    // Apply free SO discount
+    const freeSO = (getSpecialRules().freeSOPerDay) || 0;
+    return Math.max(0, rawSO - freeSO);
+}
+
 function getArmamentKey(aircraft) {
     return AIRCRAFT_ARMAMENT_MAP[aircraft] || aircraft;
 }
@@ -2747,19 +2763,19 @@ function renderArmamentModal() {
         const ap = target.assignedPilots[st.apIdx];
         const m = campaign.missions[st.dayIdx];
 
-        // Calculate previous SO cost from old loadout
-        const oldSOCost = (ap.loadout || []).reduce((sum, s) =>
-            sum + (st.specialWeapons.includes(s.weapon) ? s.wp : 0), 0);
-        // Calculate new SO cost
-        const newSOCost = st.selected.reduce((sum, s) =>
-            sum + (st.specialWeapons.includes(s.weapon) ? s.wp : 0), 0);
-        // Apply SO difference
-        const soDiff = newSOCost - oldSOCost;
+        // Recalculate day's special weapon SO with free SO discount
+        // 1. Get old total special weapon SO for this day (before this change)
+        const oldDaySwSO = calcDaySpecialWeaponSO(st.dayIdx, st.specialWeapons);
+        // 2. Apply new loadout
+        ap.loadout = st.selected;
+        // 3. Get new total special weapon SO for this day
+        const newDaySwSO = calcDaySpecialWeaponSO(st.dayIdx, st.specialWeapons);
+        // 4. Apply difference to usedSO
+        const soDiff = newDaySwSO - oldDaySwSO;
         if (soDiff !== 0) {
             m.usedSO = (parseFloat(m.usedSO) || 0) + soDiff;
         }
 
-        ap.loadout = st.selected;
         closeArmamentModal();
         renderAll();
         autoSave();
