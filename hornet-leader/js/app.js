@@ -1182,39 +1182,56 @@ function renderSquadron() {
 
         if (pilot.shotDown || status === 'Unfit') tr.classList.add('pilot-unfit');
 
-        tr.innerHTML = `
-            <td class="pilot-name${noStats}">${pilot.name}</td>
-            <td class="pilot-aircraft">${pilot.aircraft}</td>
-            <td class="${RANK_CLASSES[pilot.rank] || ''} rank-cell" data-idx="${idx}">${pilot.rank}</td>
-            <td class="status-${pilot.shotDown ? 'unfit' : status.toLowerCase()}">${status}</td>
-            <td class="stress-cell">
-                <div class="inline-control">
-                    <button class="arrow-btn arrow-down" data-idx="${idx}" data-action="stress-down">&#9660;</button>
-                    <span class="stress-val">${pilot.stress}</span><span class="stress-max">/${maxStress}</span>
-                    <button class="arrow-btn arrow-up" data-idx="${idx}" data-action="stress-up">&#9650;</button>
-                </div>
-            </td>
-            <td class="xp-cell">
-                <div class="inline-control">
-                    <button class="arrow-btn arrow-down" data-idx="${idx}" data-action="xp-down">&#9660;</button>
-                    <div class="xp-bar-wrap">
-                        <div class="xp-bar-track">
-                            <div class="xp-bar-fill" style="width:${xpNeeded ? Math.min(100, (pilot.xp / xpNeeded) * 100) : 0}%"></div>
-                        </div>
-                        <span class="xp-bar-label">${pilot.xp}${xpNeeded !== null ? '/' + xpNeeded : ''}</span>
+        if (pilot.shotDown) {
+            tr.innerHTML = `
+                <td class="pilot-name${noStats}">${pilot.name}</td>
+                <td class="pilot-aircraft">${pilot.aircraft}</td>
+                <td class="${RANK_CLASSES[pilot.rank] || ''} rank-cell">${pilot.rank}</td>
+                <td class="status-unfit">MIA</td>
+                <td class="stress-cell" colspan="2">
+                    <div class="mia-actions">
+                        <button class="btn-recover" data-idx="${idx}">파일럿 복귀</button>
                     </div>
-                    <button class="arrow-btn arrow-up" data-idx="${idx}" data-action="xp-up">&#9650;</button>
-                </div>
-            </td>
-            <td class="cooldown-val">${pilot.cooldown}</td>
-        `;
+                </td>
+                <td class="cooldown-val">${pilot.cooldown}</td>
+            `;
+        } else {
+            tr.innerHTML = `
+                <td class="pilot-name${noStats}">${pilot.name}</td>
+                <td class="pilot-aircraft">${pilot.aircraft}</td>
+                <td class="${RANK_CLASSES[pilot.rank] || ''} rank-cell" data-idx="${idx}">${pilot.rank}</td>
+                <td class="status-${status.toLowerCase()}">${status}</td>
+                <td class="stress-cell">
+                    <div class="inline-control">
+                        <button class="arrow-btn arrow-down" data-idx="${idx}" data-action="stress-down">&#9660;</button>
+                        <span class="stress-val">${pilot.stress}</span><span class="stress-max">/${maxStress}</span>
+                        <button class="arrow-btn arrow-up" data-idx="${idx}" data-action="stress-up">&#9650;</button>
+                    </div>
+                </td>
+                <td class="xp-cell">
+                    <div class="inline-control">
+                        <button class="arrow-btn arrow-down" data-idx="${idx}" data-action="xp-down">&#9660;</button>
+                        <div class="xp-bar-wrap">
+                            <div class="xp-bar-track">
+                                <div class="xp-bar-fill" style="width:${xpNeeded ? Math.min(100, (pilot.xp / xpNeeded) * 100) : 0}%"></div>
+                            </div>
+                            <span class="xp-bar-label">${pilot.xp}${xpNeeded !== null ? '/' + xpNeeded : ''}</span>
+                        </div>
+                        <button class="arrow-btn arrow-up" data-idx="${idx}" data-action="xp-up">&#9650;</button>
+                    </div>
+                </td>
+                <td class="cooldown-val">${pilot.cooldown}</td>
+            `;
+        }
         tbody.appendChild(tr);
     });
 
     tbody.querySelectorAll('.arrow-btn').forEach(btn =>
         btn.addEventListener('click', onArrowClick));
-    tbody.querySelectorAll('.rank-cell').forEach(cell =>
+    tbody.querySelectorAll('.rank-cell[data-idx]').forEach(cell =>
         cell.addEventListener('click', () => cycleRank(parseInt(cell.dataset.idx))));
+    tbody.querySelectorAll('.btn-recover').forEach(btn =>
+        btn.addEventListener('click', () => onRecoverPilot(parseInt(btn.dataset.idx))));
 }
 
 function onArrowClick(e) {
@@ -1857,27 +1874,46 @@ function renderMissions() {
                     if (isStaged) tr.classList.add('assign-row-selected');
 
                     const statusClass = pilot.shotDown ? 'unfit' : status.toLowerCase();
-                    tr.innerHTML = `
-                        <td class="assign-check-cell">
-                            <input type="checkbox" data-day="${dayIdx}" data-tidx="${tIdx}" data-pidx="${pIdx}"
-                                ${isDeployed || isStaged ? 'checked' : ''} ${!canSelect ? 'disabled' : ''}>
-                        </td>
-                        <td class="pilot-name">${pilot.name}</td>
-                        <td class="pilot-aircraft">${pilot.aircraft}</td>
-                        <td class="${RANK_CLASSES[pilot.rank] || ''}">${pilot.rank}</td>
-                        <td>${pilot.stress}/${maxStress}</td>
-                        <td class="status-${statusClass}">${isDeployed ? '투입됨' : status}</td>
-                    `;
-                    // Row click toggles checkbox
-                    tr.style.cursor = canSelect ? 'pointer' : 'default';
-                    tr.addEventListener('click', e => {
-                        if (e.target.tagName === 'INPUT') return; // let checkbox handle itself
-                        const cb = tr.querySelector('input[type="checkbox"]');
-                        if (cb && !cb.disabled) {
-                            cb.checked = !cb.checked;
-                            cb.dispatchEvent(new Event('change', { bubbles: true }));
-                        }
-                    });
+
+                    if (pilot.shotDown) {
+                        // MIA pilot row: show replacement button instead of checkbox
+                        tr.classList.add('assign-row-disabled');
+                        const tried = pilot.replacementTried;
+                        tr.innerHTML = `
+                            <td class="assign-check-cell"></td>
+                            <td class="pilot-name">${pilot.name}</td>
+                            <td class="pilot-aircraft">${pilot.aircraft}</td>
+                            <td class="${RANK_CLASSES[pilot.rank] || ''}">${pilot.rank}</td>
+                            <td colspan="2" class="mia-replace-cell">
+                                ${tried
+                                    ? `<span class="replacement-tried">${pilot.replacedBy != null ? '보충 완료' : '보충 시도 완료'}</span>`
+                                    : `<button class="btn-replacement" data-idx="${pIdx}">조종사 보충 시도</button>`
+                                }
+                            </td>
+                        `;
+                    } else {
+                        tr.innerHTML = `
+                            <td class="assign-check-cell">
+                                <input type="checkbox" data-day="${dayIdx}" data-tidx="${tIdx}" data-pidx="${pIdx}"
+                                    ${isDeployed || isStaged ? 'checked' : ''} ${!canSelect ? 'disabled' : ''}>
+                            </td>
+                            <td class="pilot-name">${pilot.name}</td>
+                            <td class="pilot-aircraft">${pilot.aircraft}</td>
+                            <td class="${RANK_CLASSES[pilot.rank] || ''}">${pilot.rank}</td>
+                            <td>${pilot.stress}/${maxStress}</td>
+                            <td class="status-${statusClass}">${isDeployed ? '투입됨' : status}</td>
+                        `;
+                        // Row click toggles checkbox
+                        tr.style.cursor = canSelect ? 'pointer' : 'default';
+                        tr.addEventListener('click', e => {
+                            if (e.target.tagName === 'INPUT' || e.target.tagName === 'BUTTON') return;
+                            const cb = tr.querySelector('input[type="checkbox"]');
+                            if (cb && !cb.disabled) {
+                                cb.checked = !cb.checked;
+                                cb.dispatchEvent(new Event('change', { bubbles: true }));
+                            }
+                        });
+                    }
 
                     tbody2.appendChild(tr);
                 });
@@ -2097,6 +2133,8 @@ function attachMissionEvents(container) {
         el.addEventListener('click', onConfirmAssign));
     container.querySelectorAll('[data-action="cancel-assign"]').forEach(el =>
         el.addEventListener('click', onCancelAssign));
+    container.querySelectorAll('.assign-panel .btn-replacement').forEach(btn =>
+        btn.addEventListener('click', () => onReplacementAttempt(parseInt(btn.dataset.idx))));
     container.querySelectorAll('.btn-shotdown').forEach(el =>
         el.addEventListener('click', onToggleShotDown));
     container.querySelectorAll('.btn-armament').forEach(el =>
@@ -2671,6 +2709,196 @@ function onToggleSpendLoadout(e) {
     }
 }
 
+// ─── Replacement Pilot ───
+
+const REPLACEMENT_TABLE = [
+    { min: 1, max: 1, rank: 'Newbie', so: 0 },
+    { min: 2, max: 4, rank: 'Green', so: 1 },
+    { min: 5, max: 7, rank: 'Average', so: 4 },
+    { min: 8, max: 9, rank: 'Skilled', so: 7 },
+    { min: 10, max: 10, rank: 'Veteran', so: 10 },
+];
+
+function getReplacementRank(roll) {
+    return REPLACEMENT_TABLE.find(r => roll >= r.min && roll <= r.max);
+}
+
+function onReplacementAttempt(pilotIdx) {
+    const pilot = campaign.squadron[pilotIdx];
+    if (!pilot || !pilot.shotDown) return;
+
+    const aircraft = pilot.aircraft;
+    const usedNames = new Set(campaign.squadron.map(p => p.name));
+
+    // Find candidates: same aircraft, not in squadron, not expansion
+    const candidates = gameData.Pilots.filter(p =>
+        p.Aircraft === aircraft && !usedNames.has(p.Name) && !EXPANSION_PILOTS.has(p.Name));
+
+    pilot.replacementTried = true;
+
+    if (candidates.length === 0) {
+        alert(`대체 가능한 ${aircraft} 조종사가 없습니다.`);
+        renderAll();
+        autoSave();
+        return;
+    }
+
+    // Random candidate
+    const candidate = candidates[Math.floor(Math.random() * candidates.length)];
+    const roll = Math.floor(Math.random() * 10) + 1;
+    const result = getReplacementRank(roll);
+
+    showReplacementModal(pilotIdx, candidate, roll, result);
+}
+
+function showReplacementModal(miaPilotIdx, candidate, roll, result) {
+    const overlay = document.getElementById('replacement-modal');
+    const body = document.getElementById('replacement-modal-body');
+    const actions = document.getElementById('replacement-modal-actions');
+    const miaPilot = campaign.squadron[miaPilotIdx];
+
+    body.innerHTML = `
+        <h3>보충 조종사</h3>
+        <p class="replacement-mia">실종: <strong>${miaPilot.name}</strong> (${miaPilot.aircraft})</p>
+        <div class="replacement-result">
+            <p>후보: <strong>${candidate.Name}</strong> (${candidate.Aircraft})</p>
+            <p>주사위: <strong>${roll}</strong></p>
+            <p>숙련도: <strong class="${RANK_CLASSES[result.rank] || ''}">${result.rank}</strong></p>
+            <p>SO 비용: <strong>${result.so}</strong></p>
+        </div>
+    `;
+
+    actions.innerHTML = '';
+
+    const acceptBtn = document.createElement('button');
+    acceptBtn.className = 'btn btn-small btn-primary';
+    acceptBtn.textContent = `수락 (SO -${result.so})`;
+    acceptBtn.addEventListener('click', () => {
+        // Add replacement pilot to squadron
+        const pd = candidate;
+        const hasStats = !!pd.Stats;
+        const rankStats = hasStats && pd.Stats[result.rank] ? pd.Stats[result.rank] : null;
+        const newPilot = {
+            name: pd.Name,
+            aircraft: pd.Aircraft,
+            rank: result.rank,
+            stress: 0,
+            xp: 0,
+            cooldown: rankStats ? rankStats.Cooldown : 0,
+            hasStats: hasStats
+        };
+        campaign.squadron.push(newPilot);
+        const newIdx = campaign.squadron.length - 1;
+        miaPilot.replacedBy = newIdx;
+
+        // Deduct SO from current mission day
+        const currentDay = campaign.missions.findIndex(m => !m.recoveryApplied);
+        const dayIdx = currentDay >= 0 ? currentDay : campaign.missions.length - 1;
+        campaign.missions[dayIdx].usedSO = (parseFloat(campaign.missions[dayIdx].usedSO) || 0) + result.so;
+
+        closeReplacementModal();
+        renderAll();
+        autoSave();
+    });
+    actions.appendChild(acceptBtn);
+
+    const rejectBtn = document.createElement('button');
+    rejectBtn.className = 'btn btn-small';
+    rejectBtn.textContent = '거절';
+    rejectBtn.addEventListener('click', () => {
+        closeReplacementModal();
+        renderAll();
+        autoSave();
+    });
+    actions.appendChild(rejectBtn);
+
+    overlay.style.display = 'flex';
+}
+
+function closeReplacementModal() {
+    document.getElementById('replacement-modal').style.display = 'none';
+}
+
+function onRecoverPilot(pilotIdx) {
+    const pilot = campaign.squadron[pilotIdx];
+    if (!pilot || !pilot.shotDown) return;
+
+    if (pilot.replacedBy != null) {
+        // Replacement exists — show choice modal
+        showRecoverChoiceModal(pilotIdx, pilot.replacedBy);
+    } else {
+        // No replacement — just recover
+        pilot.shotDown = false;
+        renderAll();
+        autoSave();
+    }
+}
+
+function showRecoverChoiceModal(originalIdx, replacementIdx) {
+    const original = campaign.squadron[originalIdx];
+    const replacement = campaign.squadron[replacementIdx];
+    const overlay = document.getElementById('replacement-modal');
+    const body = document.getElementById('replacement-modal-body');
+    const actions = document.getElementById('replacement-modal-actions');
+
+    body.innerHTML = `
+        <h3>조종사 복귀 — 선택</h3>
+        <p>실종된 <strong>${original.name}</strong>이(가) 복귀했습니다.</p>
+        <p>보충 조종사 <strong>${replacement.name}</strong>과(와) 함께 운용 중입니다.</p>
+        <p>한 명을 선택하여 편대에 남기세요. 나머지는 제거됩니다.</p>
+    `;
+
+    actions.innerHTML = '';
+
+    const keepOriginal = document.createElement('button');
+    keepOriginal.className = 'btn btn-small btn-primary';
+    keepOriginal.textContent = `${original.name} 잔류 (복귀)`;
+    keepOriginal.addEventListener('click', () => {
+        original.shotDown = false;
+        original.replacedBy = null;
+        removeSquadronPilot(replacementIdx);
+        closeReplacementModal();
+        renderAll();
+        autoSave();
+    });
+    actions.appendChild(keepOriginal);
+
+    const keepReplacement = document.createElement('button');
+    keepReplacement.className = 'btn btn-small';
+    keepReplacement.textContent = `${replacement.name} 잔류 (보충)`;
+    keepReplacement.addEventListener('click', () => {
+        original.replacedBy = null;
+        removeSquadronPilot(originalIdx);
+        closeReplacementModal();
+        renderAll();
+        autoSave();
+    });
+    actions.appendChild(keepReplacement);
+
+    overlay.style.display = 'flex';
+}
+
+function removeSquadronPilot(removeIdx) {
+    // Fix all assignedPilots references before removing
+    campaign.missions.forEach(m => {
+        m.targets.forEach(t => {
+            (t.assignedPilots || []).forEach(ap => {
+                if (ap.pilotIdx > removeIdx) ap.pilotIdx--;
+            });
+            // Remove assignments pointing to removed pilot
+            t.assignedPilots = (t.assignedPilots || []).filter(ap => ap.pilotIdx !== removeIdx);
+        });
+    });
+    // Fix replacedBy references
+    campaign.squadron.forEach(p => {
+        if (p.replacedBy != null) {
+            if (p.replacedBy === removeIdx) p.replacedBy = null;
+            else if (p.replacedBy > removeIdx) p.replacedBy--;
+        }
+    });
+    campaign.squadron.splice(removeIdx, 1);
+}
+
 // Close modal on overlay click
 document.addEventListener('click', e => {
     if (e.target.id === 'target-draw-modal') closeDrawModal();
@@ -2678,6 +2906,7 @@ document.addEventListener('click', e => {
 if (e.target.id === 'overkill-modal') closeOverkillModal();
     if (e.target.id === 'discard-imp-modal') closeDiscardImpModal();
     if (e.target.id === 'armament-modal') closeArmamentModal();
+    if (e.target.id === 'replacement-modal') closeReplacementModal();
 });
 
 // ─── Trait Tooltip (JS-based) ───

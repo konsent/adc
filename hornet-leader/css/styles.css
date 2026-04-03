@@ -779,6 +779,8 @@ select:focus, input:focus { outline: none; border-color: #8b7a2e; box-shadow: in
 .assign-check-cell { text-align: center; width: 2rem; }
 .assign-check-cell input[type="checkbox"] { accent-color: #8b7a2e; cursor: pointer; }
 .assign-row-disabled { opacity: 0.3; }
+.assign-row-disabled .btn-replacement { opacity: 1; position: relative; z-index: 1; }
+.assign-row-disabled:has(.btn-replacement) { opacity: 0.6; }
 .assign-row-deployed { opacity: 0.4; }
 .assign-row-deployed td:last-child { color: #c8b040; font-style: italic; }
 .assign-row-selected td { background: rgba(139,122,46,0.08); }
@@ -1961,6 +1963,83 @@ tr.pilot-unfit { position: relative; }
     border-top: 1px solid #43463f;
 }
 .draw-actions .btn { min-width: 5rem; }
+
+/* ─── Replacement Pilot ─── */
+.mia-actions {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+.btn-recover, .btn-replacement {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 0.72rem;
+    padding: 0.25em 0.6em;
+    border-radius: 2px;
+    cursor: pointer;
+    text-transform: uppercase;
+    border: 1px solid;
+}
+.btn-recover {
+    background: #1e4a3a;
+    border-color: #2a7a5a;
+    color: #80d0a0;
+}
+.btn-recover:hover { background: #256a4a; border-color: #40a070; color: #a0f0c0; }
+.btn-replacement {
+    background: #1e3a5a;
+    border-color: #2a5a8a;
+    color: #90b8d8;
+}
+.btn-replacement:hover { background: #254a6a; border-color: #4a8aba; color: #b0d8f8; }
+.replacement-tried {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 0.65rem;
+    color: #808070;
+    font-style: italic;
+}
+.mia-replace-cell {
+    text-align: center;
+}
+.replacement-modal {
+    background: #2a2d26;
+    border: 2px solid #5a5e50;
+    border-radius: 8px;
+    width: min(90vw, 420px);
+    box-shadow: 0 8px 32px rgba(0,0,0,0.6);
+}
+.replacement-modal-body {
+    padding: 1rem;
+}
+.replacement-modal-body h3 {
+    margin: 0 0 0.6rem 0;
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 1.2rem;
+    color: #c8c0a0;
+}
+.replacement-mia {
+    color: #c08080;
+    margin: 0 0 0.6rem 0;
+    font-size: 0.85rem;
+}
+.replacement-result {
+    background: #1e201a;
+    border: 1px solid #3a3d35;
+    border-radius: 4px;
+    padding: 0.6rem;
+}
+.replacement-result p {
+    margin: 0.2rem 0;
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 0.9rem;
+    color: #c0c8b0;
+}
+.replacement-modal-actions {
+    display: flex;
+    gap: 0.5rem;
+    justify-content: flex-end;
+    padding: 0.6rem 1rem;
+    border-top: 1px solid #43463f;
+}
 
 /* ─── Achieved Hits Input ─── */
 .tc-stat-achieved {
