@@ -26,6 +26,7 @@ body {
 /* ─── Screens ─── */
 .screen { display: none; max-width: 1400px; margin: 0 auto; padding: 0 16px 2rem; }
 .screen.active { display: block; }
+#setup-screen { max-width: 900px; }
 
 /* ─── Header: heavy top plate ─── */
 header {
@@ -617,9 +618,9 @@ select:focus, input:focus { outline: none; border-color: #8b7a2e; box-shadow: in
     border-bottom: 1px solid #3a3d35;
 }
 .tc-stat-box {
-    display: flex; flex-direction: column; align-items: center;
+    display: flex; flex-direction: column; align-items: center; justify-content: center;
     min-width: 3.5rem;
-    padding: 0.3rem 0.4rem;
+    padding: 0.2rem 0.5rem;
     background: #282b24;
     border: 1px solid #43463f;
     border-radius: 4px;
@@ -959,6 +960,7 @@ html.zone-page-zoom {
     object-fit: contain;
     border: 2px solid #000;
     border-radius: 6px;
+    filter: drop-shadow(3px 3px 4px rgba(0,0,0,0.6));
 }
 .carrier-pilot-marker {
     display: flex;
