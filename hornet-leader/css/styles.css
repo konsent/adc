@@ -2195,6 +2195,34 @@ tr.pilot-unfit { position: relative; }
 .armament-item.special .armament-wp-cost {
     color: #f0a030;
 }
+/* JDAM toggle */
+.jdam-toggle {
+    display: flex; align-items: center; gap: 0.5rem;
+    padding: 0.4rem 0.5rem;
+    margin-bottom: 0.4rem;
+    background: #2a2a1e;
+    border: 1px solid #5a5a30;
+    border-radius: 4px;
+}
+.jdam-active {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 0.8rem;
+    color: #f0d060;
+    font-weight: 700;
+}
+.btn-jdam {
+    background: #4a3a10 !important;
+    border-color: #8a7a30 !important;
+    color: #f0d060 !important;
+}
+.btn-jdam:hover { background: #5a4a18 !important; border-color: #c0a040 !important; }
+.jdam-deactivate-btn {
+    font-size: 0.65rem !important;
+    padding: 0.1em 0.4em !important;
+    opacity: 0.6;
+}
+.jdam-deactivate-btn:hover { opacity: 1; }
+
 .armament-modal-actions {
     display: flex; gap: 0.5rem; justify-content: flex-end;
     padding: 0.6rem 1rem;

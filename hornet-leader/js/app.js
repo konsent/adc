@@ -755,7 +755,7 @@ function applySOAdjust(totalSO, diffRules, lengthIdx) {
 }
 
 function createEmptyTarget() {
-    return { targetNumber: '', dayNight: 'Day', vp: '', recon: '', intel: '', infra: '', baseStress: '', assignedPilots: [], result: '', resolved: false, achievedHits: 0 };
+    return { targetNumber: '', dayNight: 'Day', vp: '', recon: '', intel: '', infra: '', baseStress: '', assignedPilots: [], result: '', resolved: false, achievedHits: 0, jdamPaid: false };
 }
 
 function createTargetWithNumber(targetNumber, scenarioIdx) {
@@ -808,6 +808,8 @@ const RANDOM_SO_BONUS = [6, 12, 18]; // Short / Medium / Long
 const FLYING_MORE_LESS_SO_COST = [3, 6, 9]; // Short / Medium / Long
 const DAMAGED_TARGET_SO_COST = [3, 6, 9]; // Short / Medium / Long
 const INTENSE_STRESS_SO_COST = [3, 6, 9]; // Short / Medium / Long
+const JDAM_WEAPONS = ['GBU-31', 'GBU-32', 'GBU-38'];
+const JDAM_SO_COST = 12;
 
 function buildCampaign(scenarioIdx, lengthIdx, squadron, diffRules, opts = {}) {
     const scenario = gameData.Campaigns[scenarioIdx];
@@ -2593,16 +2595,23 @@ function calcDaySpecialWeaponSO(dayIdx, specialWeapons) {
     const m = campaign.missions[dayIdx];
     if (!m) return 0;
     let rawSO = 0;
+    let jdamFixedSO = 0;
     m.targets.forEach(t => {
+        const isJdamPaid = !!t.jdamPaid;
+        if (isJdamPaid) jdamFixedSO += JDAM_SO_COST;
         (t.assignedPilots || []).forEach(ap => {
             (ap.loadout || []).forEach(item => {
+                if (isJdamPaid && JDAM_WEAPONS.includes(item.weapon)) return; // JDAM free if paid
                 if (specialWeapons.includes(item.weapon)) rawSO += item.wp;
             });
         });
     });
-    // Apply free SO discount
+    // Apply free SO discount: first to regular special weapons, remainder to JDAM
     const freeSO = (getSpecialRules().freeSOPerDay) || 0;
-    return Math.max(0, rawSO - freeSO);
+    const discountedRaw = Math.max(0, rawSO - freeSO);
+    const leftover = Math.max(0, freeSO - rawSO); // remaining discount after regular weapons
+    const discountedJdam = Math.max(0, jdamFixedSO - leftover);
+    return discountedRaw + discountedJdam;
 }
 
 function getArmamentKey(aircraft) {
@@ -2643,7 +2652,8 @@ function showArmamentModal(dayIdx, tIdx, apIdx) {
 
     // Init state
     const selected = (ap.loadout || []).map(item => ({ ...item }));
-    _armamentModalState = { dayIdx, tIdx, apIdx, aircraft: armKey, pilotName: pilot.name, pilotAircraft: pilot.aircraft, weapons, maxWP, restrictions, selected, specialWeapons };
+    const hasJdam = JDAM_WEAPONS.some(j => specialWeapons.includes(j) && weapons[j]);
+    _armamentModalState = { dayIdx, tIdx, apIdx, aircraft: armKey, pilotName: pilot.name, pilotAircraft: pilot.aircraft, weapons, maxWP, restrictions, selected, specialWeapons, jdamPaid: !!target.jdamPaid, hasJdam };
 
     // Check for fixed loadout (EA-6B)
     if (restrictions.fixedLoadout) {
@@ -2676,19 +2686,52 @@ function renderArmamentModal() {
     const selectedCount = {};
     st.selected.forEach(s => { selectedCount[s.weapon] = (selectedCount[s.weapon] || 0) + 1; });
 
-    // Calculate SO cost for special weapons
+    // Calculate SO cost for special weapons (JDAM excluded if jdamPaid)
     const specialSOCost = st.selected.reduce((sum, s) => {
+        if (st.jdamPaid && JDAM_WEAPONS.includes(s.weapon)) return sum; // JDAM free if paid
         return sum + (st.specialWeapons.includes(s.weapon) ? s.wp : 0);
     }, 0);
+    const jdamSOCost = st.jdamPaid ? JDAM_SO_COST : 0;
+    const totalSOCost = specialSOCost + jdamSOCost;
 
     // Header
     document.querySelector('.armament-modal-header h3').textContent = `무장 선택 — ${st.pilotName} (${st.pilotAircraft})`;
-    document.getElementById('armament-wp-info').innerHTML = `WP: ${usedWP} / ${st.maxWP}` +
-        (specialSOCost > 0 ? `<span class="armament-so-cost"> | SO: -${specialSOCost}</span>` : '');
+    let soLabel = '';
+    if (totalSOCost > 0) {
+        const parts = [];
+        if (jdamSOCost) parts.push(`JDAM ${jdamSOCost}`);
+        if (specialSOCost) parts.push(`특수무장 ${specialSOCost}`);
+        soLabel = `<span class="armament-so-cost"> | SO: -${totalSOCost}${parts.length > 1 ? ` (${parts.join(' + ')})` : ''}</span>`;
+    }
+    document.getElementById('armament-wp-info').innerHTML = `WP: ${usedWP} / ${st.maxWP}` + soLabel;
 
     // Available weapons (left)
     const avail = document.getElementById('armament-available');
     avail.innerHTML = '<h4>가용 무장</h4>';
+
+    // JDAM activation toggle
+    if (st.hasJdam) {
+        const jdamDiv = document.createElement('div');
+        jdamDiv.className = 'jdam-toggle';
+        if (st.jdamPaid) {
+            jdamDiv.innerHTML = `<span class="jdam-active">JDAM 활성화됨 (SO ${JDAM_SO_COST})</span>
+                <button class="btn btn-small jdam-deactivate-btn">해제</button>`;
+            jdamDiv.querySelector('.jdam-deactivate-btn').addEventListener('click', () => {
+                st.jdamPaid = false;
+                // Remove all JDAM from selected
+                st.selected = st.selected.filter(s => !JDAM_WEAPONS.includes(s.weapon));
+                renderArmamentModal();
+            });
+        } else {
+            jdamDiv.innerHTML = `<button class="btn btn-small btn-jdam">JDAM 활성화 (SO ${JDAM_SO_COST})</button>`;
+            jdamDiv.querySelector('.btn-jdam').addEventListener('click', () => {
+                st.jdamPaid = true;
+                renderArmamentModal();
+            });
+        }
+        avail.appendChild(jdamDiv);
+    }
+
     const grid = document.createElement('div');
     grid.className = 'armament-grid';
 
@@ -2703,7 +2746,8 @@ function renderArmamentModal() {
             (selectedCount[wname] || 0) >= st.restrictions.weaponLimits[wname];
         const cantAfford = wpCost > remainWP;
         const notInScenario = !BASE_WEAPONS.includes(wname) && !st.specialWeapons.includes(wname);
-        const disabled = restricted || limitExceeded || cantAfford || isFixed || notInScenario;
+        const jdamNotPaid = JDAM_WEAPONS.includes(wname) && !st.jdamPaid;
+        const disabled = restricted || limitExceeded || cantAfford || isFixed || notInScenario || jdamNotPaid;
 
         const isSpecial = st.specialWeapons.includes(wname);
         const item = document.createElement('div');
@@ -2713,6 +2757,7 @@ function renderArmamentModal() {
             if (notInScenario) reasons.push('이 시나리오에서 사용 불가');
             if (restricted) reasons.push('이 기체는 공대공 무장 탑재 불가');
             if (limitExceeded) reasons.push(`${wname} 최대 수량 도달 (${st.restrictions.weaponLimits[wname]}발)`);
+            if (jdamNotPaid) reasons.push(`JDAM 활성화 필요 (${JDAM_SO_COST} SO)`);
             if (cantAfford) reasons.push(`WP 부족 (필요: ${wpCost}, 잔여: ${remainWP})`);
             if (isFixed) reasons.push('고정 무장 (변경 불가)');
             item.title = reasons.join('\n');
@@ -2766,8 +2811,11 @@ function renderArmamentModal() {
         // Recalculate day's special weapon SO with free SO discount
         // 1. Get old total special weapon SO for this day (before this change)
         const oldDaySwSO = calcDaySpecialWeaponSO(st.dayIdx, st.specialWeapons);
-        // 2. Apply new loadout
+        // 2. Apply new loadout + JDAM paid state
         ap.loadout = st.selected;
+        // Reset jdamPaid if no JDAM selected
+        const hasAnyJdam = st.selected.some(s => JDAM_WEAPONS.includes(s.weapon));
+        target.jdamPaid = st.jdamPaid && hasAnyJdam;
         // 3. Get new total special weapon SO for this day
         const newDaySwSO = calcDaySpecialWeaponSO(st.dayIdx, st.specialWeapons);
         // 4. Apply difference to usedSO
