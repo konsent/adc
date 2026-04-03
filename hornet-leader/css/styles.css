@@ -2260,6 +2260,18 @@ tr.pilot-unfit { position: relative; }
     transition: border-color 0.15s;
 }
 .tc-night-draw:hover { border-color: #7a7aaa; }
+.tc-night-draw.night-draw-shake {
+    animation: nightShake 0.4s ease;
+}
+@keyframes nightShake {
+    0%   { transform: translateX(0); }
+    15%  { transform: translateX(-6px); }
+    30%  { transform: translateX(5px); }
+    45%  { transform: translateX(-4px); }
+    60%  { transform: translateX(3px); }
+    75%  { transform: translateX(-2px); }
+    100% { transform: translateX(0); }
+}
 .night-draw-label {
     font-family: 'Barlow Condensed', sans-serif;
     font-size: 0.55rem;

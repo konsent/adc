@@ -3811,6 +3811,12 @@ function onNightDraw(e) {
     const t = campaign.missions[dayIdx].targets[tIdx];
     t.nightDraw = NIGHT_DRAW_OPTIONS[Math.floor(Math.random() * NIGHT_DRAW_OPTIONS.length)];
     renderMissions();
+    // Shake feedback on the newly rendered night-draw element
+    const fresh = document.querySelector(`.tc-night-draw[data-day="${dayIdx}"][data-tidx="${tIdx}"]`);
+    if (fresh) {
+        fresh.classList.add('night-draw-shake');
+        fresh.addEventListener('animationend', () => fresh.classList.remove('night-draw-shake'), { once: true });
+    }
     autoSave();
 }
 
