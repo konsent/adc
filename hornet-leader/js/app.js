@@ -1942,6 +1942,10 @@ function renderMissions() {
                             data-day="${dayIdx}" data-tidx="${tIdx}" data-field="achievedHits">`
                     }
                 </div>
+                <div class="tc-enemy-dice" data-day="${dayIdx}" data-tidx="${tIdx}" title="적 공격 주사위 (1~10)">
+                    <span class="enemy-dice-label">적 공격</span>
+                    <span class="enemy-dice-result">${t.enemyDice || '?'}</span>
+                </div>
             `;
             tBlock.appendChild(statsRow);
 
@@ -1986,7 +1990,7 @@ function renderMissions() {
                     prow.innerHTML = `
                         <span class="ap-col ap-col-fl">${isFL ? `<span class="flight-leader-badge" data-day="${dayIdx}" data-tidx="${tIdx}" title="비행대장 (클릭하여 변경)">★</span>` : ''}</span>
                         <span class="ap-col ap-col-name">${pilot.name}</span>
-                        <span class="ap-col ap-col-ac">${pilot.aircraft}${campaign.isUSMC && pilot.aircraft === 'AV-8B' ? ' <span class="noe-badge" title="NoE">NoE</span>' : ''}</span>
+                        <span class="ap-col ap-col-ac">${pilot.aircraft}${campaign.isUSMC && pilot.aircraft === 'AV-8B' ? ' <span class="noe-badge" title="NoE (Nap-of-the-Earth): 저고도로 비행하는 해리어는 사이트/적기에게 받은 피해 결과를, 스트레스 결과로 처리">NoE</span>' : ''}</span>
                         <span class="ap-col ap-col-stxp">
                             <span class="ap-stxp-row">
                                 <span class="ap-stat-label">ST</span>
@@ -2031,14 +2035,27 @@ function renderMissions() {
                         loadout.forEach((item, lidx) => {
                             const wrap = document.createElement('span');
                             wrap.className = 'loadout-item' + (item.spent ? ' spent' : '');
+                            const { total: totalMod, hasAny: hasModifiers } = getLoadoutModifier(item, targetEntry);
+                            const modLabel = totalMod >= 0 ? `+${totalMod}` : `${totalMod}`;
+                            const modClass = totalMod > 0 ? 'mod-positive' : totalMod < 0 ? 'mod-negative' : 'mod-zero';
                             wrap.innerHTML = `<img class="loadout-icon" src="../assets/HL/output/${folder}/${item.file}" title="${item.weapon} (WP ${item.wp})">` +
-                                (item.spent ? `<span class="loadout-spent-label">${item.roll != null ? item.roll : '소진'}${item.intense ? '<span class="intense-bonus">+1</span>' : ''}</span>` : '');
+                                (item.spent ? `<span class="loadout-spent-label">${item.roll != null ? item.roll : '소진'}</span>` +
+                                    (hasModifiers ? `<span class="loadout-modifier ${modClass}">${modLabel}</span>` : '')
+                                : '');
                             wrap.dataset.day = dayIdx;
                             wrap.dataset.tidx = tIdx;
                             wrap.dataset.apidx = apIdx;
                             wrap.dataset.lidx = lidx;
                             lrow.appendChild(wrap);
                         });
+                        // Show note if any weapon has a target-specific bonus
+                        const hasWeaponBonus = loadout.some(item => getWeaponTargetBonus(item.weapon, targetEntry) !== 0);
+                        if (hasWeaponBonus) {
+                            const note = document.createElement('div');
+                            note.className = 'loadout-bonus-note';
+                            note.textContent = '*무장 굴림 보정수치는 표적에만 적용됩니다 (사이트엔 적용 X)';
+                            lrow.appendChild(note);
+                        }
                         pilotsDiv.appendChild(lrow);
                     }
                 });
@@ -2357,6 +2374,8 @@ function attachMissionEvents(container) {
         el.addEventListener('click', onToggleDayNight));
     container.querySelectorAll('.tc-night-draw').forEach(el =>
         el.addEventListener('click', onNightDraw));
+    container.querySelectorAll('.tc-enemy-dice').forEach(el =>
+        el.addEventListener('click', onEnemyDice));
     container.querySelectorAll('.assign-panel input[type="checkbox"]').forEach(el =>
         el.addEventListener('change', onStagePilot));
     container.querySelectorAll('[data-action="confirm-assign"]').forEach(el =>
@@ -2824,6 +2843,32 @@ function getArmamentPath(armamentKey, filename) {
 
 function isAAWeapon(name) {
     return /^AIM-/.test(name);
+}
+
+// Weapon-target attack bonus (applies to target rolls only, not sites)
+function getWeaponTargetBonus(weaponName, targetEntry) {
+    if (!weaponName || !targetEntry) return 0;
+    const traits = (targetEntry.traits || '').toLowerCase();
+    const wn = weaponName.toLowerCase();
+    // AGM-65 vs Vehicle: +3
+    if (wn.startsWith('agm-65') && traits.includes('vehicle')) return 3;
+    // Mk.20 Rockeye vs Soft: +5
+    if (wn.startsWith('mk.20') && traits.includes('soft')) return 5;
+    // AGM-154 JSOW vs Soft: +3
+    if (wn.startsWith('agm-154') && traits.includes('soft')) return 3;
+    return 0;
+}
+
+// Total modifier for a spent loadout item — returns { total, hasAny }
+function getLoadoutModifier(item, targetEntry) {
+    if (!item.spent) return { total: 0, hasAny: false };
+    let mod = 0;
+    let hasAny = false;
+    if (item.intense) { mod += 1; hasAny = true; }
+    if (!isAAWeapon(item.weapon) && targetEntry && (targetEntry.traits || '').includes('Small')) { mod -= 1; hasAny = true; }
+    const weaponBonus = getWeaponTargetBonus(item.weapon, targetEntry);
+    if (weaponBonus) { mod += weaponBonus; hasAny = true; }
+    return { total: mod, hasAny };
 }
 
 let _armamentModalState = null;
@@ -3816,6 +3861,21 @@ function onNightDraw(e) {
     if (fresh) {
         fresh.classList.add('night-draw-shake');
         fresh.addEventListener('animationend', () => fresh.classList.remove('night-draw-shake'), { once: true });
+    }
+    autoSave();
+}
+
+function onEnemyDice(e) {
+    const el = e.currentTarget;
+    const dayIdx = parseInt(el.dataset.day);
+    const tIdx = parseInt(el.dataset.tidx);
+    const t = campaign.missions[dayIdx].targets[tIdx];
+    t.enemyDice = Math.floor(Math.random() * 10) + 1;
+    renderMissions();
+    const fresh = document.querySelector(`.tc-enemy-dice[data-day="${dayIdx}"][data-tidx="${tIdx}"]`);
+    if (fresh) {
+        fresh.classList.add('enemy-dice-shake');
+        fresh.addEventListener('animationend', () => fresh.classList.remove('enemy-dice-shake'), { once: true });
     }
     autoSave();
 }
