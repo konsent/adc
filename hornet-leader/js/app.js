@@ -2281,6 +2281,10 @@ function renderMissions() {
                             data-day="${dayIdx}" data-tidx="${tIdx}" data-field="achievedHits">`
                     }
                 </div>
+                ${!t.resolved && pilots.length > 0 ? `<div class="tc-random-dice" data-day="${dayIdx}" data-tidx="${tIdx}" title="격추되지 않은 파일럿 중 무작위 선택">
+                    <span class="random-dice-label">랜덤</span>
+                    <span class="random-dice-result">${t._randomSelectedApIdx != null ? campaign.squadron[(t.assignedPilots[t._randomSelectedApIdx] || {}).pilotIdx]?.name || '?' : '?'}</span>
+                </div>` : ''}
                 <div class="tc-enemy-dice" data-day="${dayIdx}" data-tidx="${tIdx}" title="적 공격 주사위 (1~10)">
                     <span class="enemy-dice-label">적 공격</span>
                     <span class="enemy-dice-result">${t.enemyDice || '?'}</span>
@@ -2330,14 +2334,23 @@ function renderMissions() {
                     const mStress = ap.missionStress || 0;
                     const mXp = ap.missionXp || 0;
                     const prow = document.createElement('div');
-                    prow.className = 'assigned-pilot-row' + (ap.shotDown ? ' shot-down' : '');
+                    const isRandomSelected = (t._randomSelectedApIdx === apIdx);
+                    prow.className = 'assigned-pilot-row' + (ap.shotDown ? ' shot-down' : '') + (isRandomSelected ? ' random-target-overlay' : '');
                     const pilotSA = pilot.sa || 0;
                     const isFL = !!ap.flightLeader;
                     const usedSA = ap.usedSA != null ? ap.usedSA : pilotSA;
 
                     prow.innerHTML = `
                         <span class="ap-col ap-col-fl">${isFL ? `<span class="flight-leader-badge" data-day="${dayIdx}" data-tidx="${tIdx}" title="비행대장 (클릭하여 변경)">★</span>` : ''}</span>
-                        <span class="ap-col ap-col-name">${pilot.name}</span>
+                        <span class="ap-col ap-col-name">${pilot.name}${(() => {
+                            const ts = ap.tempStress || 0;
+                            if (ts === 0) return '';
+                            const simPilot = Object.assign({}, pilot, { stress: pilot.stress + ts });
+                            const mStatus = getStatus(simPilot);
+                            if (mStatus === 'Shaken') return '<span class="stress-tag stress-tag-shaken" title="작전 중 Shaken">S</span>';
+                            if (mStatus === 'Unfit') return '<span class="stress-tag stress-tag-unfit" title="작전 중 Unfit">U</span>';
+                            return '';
+                        })()}</span>
                         <span class="ap-col ap-col-ac">${pilot.aircraft}${campaign.isUSMC && pilot.aircraft === 'AV-8B' ? ' <span class="noe-badge" title="NoE (Nap-of-the-Earth): 저고도로 비행하는 해리어는 사이트/적기에게 받은 피해 결과를, 스트레스 결과로 처리">NoE</span>' : ''}</span>
                         <span class="ap-col ap-col-stxp">
                             <span class="ap-stxp-row">
@@ -2364,20 +2377,27 @@ function renderMissions() {
                         ` : ''}</span>
                         <span class="ap-col ap-col-actions">
                             ${t.resolved ? '' : `
-                            ${campaign.intenseStressRule && !isE2C(pilot) ? `<button class="btn-intense${ap.intenseUsed ? ' active' : ''}"
-                                data-day="${dayIdx}" data-tidx="${tIdx}" data-apidx="${apIdx}" title="고강도: 공격/제압 +1, 스트레스 +1">고강도</button>` : ''}
-                            ${(() => {
-                                const lo = ap.loadout || [];
-                                const rwp = lo.reduce((s, it) => s + (!it.spent && !isAAWeapon(it.weapon) ? (it.wp || 0) : 0), 0);
-                                const dfp = rwp >= 5 ? -3 : rwp >= 4 ? -2 : rwp >= 3 ? -1 : 0;
-                                if (dfp === 0) return '';
-                                const cls = Math.abs(dfp) >= 3 ? 'df-level-3' : Math.abs(dfp) >= 2 ? 'df-level-2' : 'df-level-1';
-                                return `<span class="dogfight-penalty ${cls}" title="도그파이트 중량 페널티: 공대지 무장을 장착한 상태에서 사거리 0에 있는 적기를 공격하거나 제압할 때 받는 페널티 (잔여 AtG WP: ${rwp})">DF: ${dfp}</span>`;
-                            })()}
-                            ${isE2C(pilot) ? '' : `<button class="btn-armament"
-                                data-day="${dayIdx}" data-tidx="${tIdx}" data-apidx="${apIdx}">무장</button>`}
-                            <button class="btn-shotdown${ap.shotDown ? ' active' : ''}"
-                                data-day="${dayIdx}" data-tidx="${tIdx}" data-apidx="${apIdx}">격추</button>
+                            <span class="ap-actions-row">
+                                ${campaign.intenseStressRule && !isE2C(pilot) ? `<button class="btn-intense${ap.intenseUsed ? ' active' : ''}"
+                                    data-day="${dayIdx}" data-tidx="${tIdx}" data-apidx="${apIdx}" title="고강도: 공격/제압 +1, 스트레스 +1">고강도</button>` : ''}
+                                ${(() => {
+                                    const lo = ap.loadout || [];
+                                    const rwp = lo.reduce((s, it) => s + (!it.spent && !isAAWeapon(it.weapon) ? (it.wp || 0) : 0), 0);
+                                    const dfp = rwp >= 5 ? -3 : rwp >= 4 ? -2 : rwp >= 3 ? -1 : 0;
+                                    if (dfp === 0) return '';
+                                    const cls = Math.abs(dfp) >= 3 ? 'df-level-3' : Math.abs(dfp) >= 2 ? 'df-level-2' : 'df-level-1';
+                                    return `<span class="dogfight-penalty ${cls}" title="도그파이트 중량 페널티: 공대지 무장을 장착한 상태에서 사거리 0에 있는 적기를 공격하거나 제압할 때 받는 페널티 (잔여 AtG WP: ${rwp})">DF: ${dfp}</span>`;
+                                })()}
+                                ${isE2C(pilot) ? '' : `<button class="btn-armament"
+                                    data-day="${dayIdx}" data-tidx="${tIdx}" data-apidx="${apIdx}">무장</button>`}
+                                <button class="btn-damage${ap.damaged ? ' active' : ''}"
+                                    data-day="${dayIdx}" data-tidx="${tIdx}" data-apidx="${apIdx}" title="1회: 비상투하 (무장제거+스트레스2), 2회: 격추">피해</button>
+                            </span>
+                            <span class="ap-actions-row">
+                                ${isE2C(pilot) ? '' : `<button class="btn-evade" data-day="${dayIdx}" data-tidx="${tIdx}" data-apidx="${apIdx}" title="회피 시도: 스트레스 +2, d10×2 굴림">회피</button>`}
+                                <button class="btn-shotdown${ap.shotDown ? ' active' : ''}"
+                                    data-day="${dayIdx}" data-tidx="${tIdx}" data-apidx="${apIdx}">격추</button>
+                            </span>
                             `}
                         </span>
                     `;
@@ -2390,12 +2410,13 @@ function renderMissions() {
                         const folder = getArmamentKey(pilot.aircraft).replace(/\//g, '-');
                         loadout.forEach((item, lidx) => {
                             const wrap = document.createElement('span');
-                            wrap.className = 'loadout-item' + (item.spent ? ' spent' : '');
+                            wrap.className = 'loadout-item' + (item.spent ? ' spent' : '') + (ap.jettisoned ? ' jettisoned' : '');
                             const { total: totalMod, hasAny: hasModifiers } = getLoadoutModifier(item, targetEntry);
                             const modLabel = totalMod >= 0 ? `+${totalMod}` : `${totalMod}`;
                             const modClass = totalMod > 0 ? 'mod-positive' : totalMod < 0 ? 'mod-negative' : 'mod-zero';
                             wrap.innerHTML = `<img class="loadout-icon" src="../assets/HL/output/${folder}/${item.file}" title="${item.weapon} (WP ${item.wp})">` +
-                                (item.spent ? `<span class="loadout-spent-label">${item.roll != null ? item.roll : '소진'}</span>` +
+                                (ap.jettisoned ? `<span class="jettison-item-label">비상투하</span>` :
+                                item.spent ? `<span class="loadout-spent-label">${item.roll != null ? item.roll : '소진'}</span>` +
                                     (hasModifiers ? `<span class="loadout-modifier ${modClass}">${modLabel}</span>` : '')
                                 : '');
                             wrap.dataset.day = dayIdx;
@@ -2405,12 +2426,14 @@ function renderMissions() {
                             lrow.appendChild(wrap);
                         });
                         // Show note if any weapon has a target-specific bonus
-                        const hasWeaponBonus = loadout.some(item => getWeaponTargetBonus(item.weapon, targetEntry) !== 0);
-                        if (hasWeaponBonus) {
-                            const note = document.createElement('div');
-                            note.className = 'loadout-bonus-note';
-                            note.textContent = '*무장 굴림 보정수치는 표적에만 적용됩니다 (사이트엔 적용 X)';
-                            lrow.appendChild(note);
+                        if (!ap.jettisoned) {
+                            const hasWeaponBonus = loadout.some(item => getWeaponTargetBonus(item.weapon, targetEntry) !== 0);
+                            if (hasWeaponBonus) {
+                                const note = document.createElement('div');
+                                note.className = 'loadout-bonus-note';
+                                note.textContent = '*무장 굴림 보정수치는 표적에만 적용됩니다 (사이트엔 적용 X)';
+                                lrow.appendChild(note);
+                            }
                         }
                         pilotsDiv.appendChild(lrow);
                     }
@@ -2732,6 +2755,8 @@ function attachMissionEvents(container) {
         el.addEventListener('click', onNightDraw));
     container.querySelectorAll('.tc-enemy-dice').forEach(el =>
         el.addEventListener('click', onEnemyDice));
+    container.querySelectorAll('.tc-random-dice').forEach(el =>
+        el.addEventListener('click', onRandomTarget));
     container.querySelectorAll('.assign-panel input[type="checkbox"]').forEach(el =>
         el.addEventListener('change', onStagePilot));
     container.querySelectorAll('[data-action="confirm-assign"]').forEach(el =>
@@ -2740,6 +2765,10 @@ function attachMissionEvents(container) {
         el.addEventListener('click', onCancelAssign));
     container.querySelectorAll('.assign-panel .btn-replacement').forEach(btn =>
         btn.addEventListener('click', () => onReplacementAttempt(parseInt(btn.dataset.idx))));
+    container.querySelectorAll('.btn-evade').forEach(el =>
+        el.addEventListener('click', onEvade));
+    container.querySelectorAll('.btn-damage').forEach(el =>
+        el.addEventListener('click', onDamage));
     container.querySelectorAll('.btn-shotdown').forEach(el =>
         el.addEventListener('click', onToggleShotDown));
     container.querySelectorAll('.btn-intense').forEach(el =>
@@ -4255,6 +4284,33 @@ function onEnemyDice(e) {
     autoSave();
 }
 
+let _randomTimer = null;
+function onRandomTarget(e) {
+    e.stopPropagation();
+    const el = e.currentTarget;
+    const dayIdx = parseInt(el.dataset.day);
+    const tIdx = parseInt(el.dataset.tidx);
+    const t = campaign.missions[dayIdx].targets[tIdx];
+    const pilots = t.assignedPilots || [];
+    const alive = pilots.map((ap, idx) => ({ ap, idx })).filter(o => !o.ap.shotDown);
+    if (alive.length === 0) return;
+    const pick = alive[Math.floor(Math.random() * alive.length)];
+    t._randomSelectedApIdx = pick.idx;
+    if (_randomTimer) clearTimeout(_randomTimer);
+    renderMissions();
+    // shake animation on the random box
+    const fresh = document.querySelector(`.tc-random-dice[data-day="${dayIdx}"][data-tidx="${tIdx}"]`);
+    if (fresh) {
+        fresh.classList.add('enemy-dice-shake');
+        fresh.addEventListener('animationend', () => fresh.classList.remove('enemy-dice-shake'), { once: true });
+    }
+    _randomTimer = setTimeout(() => {
+        t._randomSelectedApIdx = null;
+        renderMissions();
+        _randomTimer = null;
+    }, 5000);
+}
+
 function onTargetFieldChange(e) {
     const dayIdx = parseInt(e.target.dataset.day);
     const tIdx = parseInt(e.target.dataset.tidx);
@@ -4367,6 +4423,88 @@ function onToggleShotDown(e) {
     ap.shotDown = !ap.shotDown;
     renderAll();
     autoSave();
+}
+
+function onDamage(e) {
+    const dayIdx = parseInt(e.target.dataset.day);
+    const tIdx = parseInt(e.target.dataset.tidx);
+    const apIdx = parseInt(e.target.dataset.apidx);
+    const ap = campaign.missions[dayIdx].targets[tIdx].assignedPilots[apIdx];
+    if (!ap.damaged) {
+        // 1st click: jettison (mark all weapons), remove SA, +2 stress
+        ap.damaged = true;
+        ap.jettisoned = true;
+        ap.usedSA = 0;
+        ap.tempStress = (ap.tempStress || 0) + 2;
+    } else {
+        // 2nd click: shot down
+        ap.shotDown = true;
+    }
+    renderAll();
+    autoSave();
+}
+
+function onEvade(e) {
+    const dayIdx = parseInt(e.target.dataset.day);
+    const tIdx = parseInt(e.target.dataset.tidx);
+    const apIdx = parseInt(e.target.dataset.apidx);
+    const ap = campaign.missions[dayIdx].targets[tIdx].assignedPilots[apIdx];
+    const pilot = campaign.squadron[ap.pilotIdx];
+    // +2 stress
+    ap.tempStress = (ap.tempStress || 0) + 2;
+    renderAll();
+    autoSave();
+    // Show evade modal with dice
+    const modal = document.getElementById('evade-modal');
+    const body = document.getElementById('evade-modal-body');
+    body.innerHTML = `
+        <div class="evade-header">
+            <span class="evade-pilot-name">${pilot.name}</span>
+            <span class="evade-pilot-ac">${pilot.aircraft}</span>
+        </div>
+        <div class="evade-desc">회피 시도 (스트레스 +2)</div>
+        <div class="evade-dice-area">
+            <div class="evade-die" id="evade-die-1">
+                <span class="evade-die-val">?</span>
+            </div>
+            <div class="evade-die" id="evade-die-2">
+                <span class="evade-die-val">?</span>
+            </div>
+        </div>
+        <div class="evade-result" id="evade-result-text"></div>
+    `;
+    modal.style.display = 'flex';
+    // Animate dice
+    const die1El = document.getElementById('evade-die-1');
+    const die2El = document.getElementById('evade-die-2');
+    const resultEl = document.getElementById('evade-result-text');
+    let tick = 0;
+    const totalTicks = 12;
+    const interval = setInterval(() => {
+        die1El.querySelector('.evade-die-val').textContent = Math.floor(Math.random() * 10) + 1;
+        die2El.querySelector('.evade-die-val').textContent = Math.floor(Math.random() * 10) + 1;
+        die1El.classList.add('evade-die-spin');
+        die2El.classList.add('evade-die-spin');
+        tick++;
+        if (tick >= totalTicks) {
+            clearInterval(interval);
+            const r1 = Math.floor(Math.random() * 10) + 1;
+            const r2 = Math.floor(Math.random() * 10) + 1;
+            die1El.querySelector('.evade-die-val').textContent = r1;
+            die2El.querySelector('.evade-die-val').textContent = r2;
+            die1El.classList.remove('evade-die-spin');
+            die2El.classList.remove('evade-die-spin');
+            // Highlight lower value
+            const lower = Math.min(r1, r2);
+            if (r1 <= r2) die1El.classList.add('evade-die-highlight');
+            if (r2 <= r1) die2El.classList.add('evade-die-highlight');
+            resultEl.innerHTML = `낮은 값: <strong>${lower}</strong>`;
+        }
+    }, 80);
+}
+
+function closeEvadeModal() {
+    document.getElementById('evade-modal').style.display = 'none';
 }
 
 function onToggleIntense(e) {
@@ -4889,6 +5027,10 @@ function applyPendingStress(dayIdx) {
             if (ap.stressGain != null && !ap.stressApplied) {
                 pilot.stress += ap.stressGain;
                 ap.stressApplied = true;
+            }
+            if (ap.tempStress && !ap.tempStressApplied) {
+                pilot.stress += ap.tempStress;
+                ap.tempStressApplied = true;
             }
             if (ap.sarStress != null && !ap.sarStressApplied) {
                 pilot.stress += ap.sarStress;

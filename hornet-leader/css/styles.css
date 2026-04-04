@@ -776,8 +776,15 @@ select:focus, input:focus { outline: none; border-color: #8b7a2e; box-shadow: in
 .ap-col-actions {
     margin-left: auto;
     display: flex;
-    gap: 0.3rem;
+    flex-direction: column;
+    gap: 2px;
     flex-shrink: 0;
+    align-items: flex-end;
+}
+.ap-actions-row {
+    display: flex;
+    gap: 0.3rem;
+    align-items: center;
 }
 .ap-stxp-row {
     display: flex;
@@ -815,6 +822,190 @@ select:focus, input:focus { outline: none; border-color: #8b7a2e; box-shadow: in
     text-align: center;
 }
 .assigned-pilot-row.shot-down { opacity: 0.35; text-decoration: line-through; }
+
+/* ─── Random Target Selection Overlay ─── */
+.assigned-pilot-row.random-target-overlay {
+    position: relative;
+}
+.assigned-pilot-row.random-target-overlay::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: rgba(255, 60, 60, 0.18);
+    border: 2px solid rgba(255, 80, 80, 0.6);
+    border-radius: 3px;
+    pointer-events: none;
+    animation: randomPulse 1.2s ease-in-out infinite;
+}
+@keyframes randomPulse {
+    0%, 100% { background: rgba(255, 60, 60, 0.18); }
+    50% { background: rgba(255, 60, 60, 0.32); }
+}
+
+/* ─── Stress Tag (S/U) ─── */
+.stress-tag {
+    display: inline-block;
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 0.65rem;
+    font-weight: 700;
+    padding: 0 0.25em;
+    margin-left: 0.3em;
+    border-radius: 2px;
+    vertical-align: middle;
+    line-height: 1.3;
+}
+.stress-tag-shaken {
+    color: #1a1a00;
+    background: #e0c040;
+}
+.stress-tag-unfit {
+    color: #fff;
+    background: #c03030;
+}
+
+/* ─── Damage / Jettison ─── */
+.btn-damage {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 0.72rem;
+    padding: 0.2em 0.5em;
+    background: #3a2a10;
+    border: 1px solid #6a5028;
+    color: #c0a060;
+    border-radius: 2px;
+    cursor: pointer;
+    text-transform: uppercase;
+}
+.btn-damage:hover { background: #4a3518; border-color: #b09040; color: #e0c080; }
+.btn-damage.active { background: #5a3810; border-color: #c0a040; color: #ffd060; }
+
+/* ─── Evade Button ─── */
+.btn-evade {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 0.72rem;
+    padding: 0.2em 0.5em;
+    background: #1a2a3a;
+    border: 1px solid #2a5a7a;
+    color: #70b0d0;
+    border-radius: 2px;
+    cursor: pointer;
+    text-transform: uppercase;
+}
+.btn-evade:hover { background: #253a4a; border-color: #4a8aba; color: #a0d8f8; }
+
+/* ──��� Evade Modal ─── */
+.evade-modal {
+    background: #2a2d26;
+    border: 2px solid #5a5e50;
+    border-radius: 8px;
+    width: min(90vw, 340px);
+    padding: 1.5rem;
+    text-align: center;
+}
+.evade-header {
+    margin-bottom: 0.6rem;
+}
+.evade-pilot-name {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 1.4rem;
+    color: #e0ddd5;
+    margin-right: 0.5rem;
+}
+.evade-pilot-ac {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 0.85rem;
+    color: #8a8880;
+}
+.evade-desc {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 0.9rem;
+    color: #c0a060;
+    margin-bottom: 1.2rem;
+    letter-spacing: 0.05em;
+}
+.evade-dice-area {
+    display: flex;
+    justify-content: center;
+    gap: 1.5rem;
+    margin-bottom: 1rem;
+}
+.evade-die {
+    width: 3.5rem;
+    height: 3.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #1a1c16;
+    border: 2px solid #5a5e50;
+    border-radius: 6px;
+    transition: border-color 0.3s, background 0.3s, transform 0.15s;
+}
+.evade-die-val {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 1.8rem;
+    color: #e0ddd5;
+    line-height: 1;
+}
+.evade-die-spin {
+    animation: evadeDieSpin 0.08s linear;
+}
+@keyframes evadeDieSpin {
+    0% { transform: rotateX(0deg) scale(1); }
+    50% { transform: rotateX(90deg) scale(0.9); }
+    100% { transform: rotateX(0deg) scale(1); }
+}
+.evade-die-highlight {
+    border-color: #50ff50;
+    background: #1a2a1a;
+    box-shadow: 0 0 12px rgba(80, 255, 80, 0.3);
+}
+.evade-die-highlight .evade-die-val {
+    color: #50ff50;
+    text-shadow: 0 0 8px rgba(80, 255, 80, 0.5);
+}
+.evade-result {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 1rem;
+    color: #a0d8a0;
+    margin-top: 0.5rem;
+}
+.evade-result strong {
+    font-size: 1.3rem;
+    color: #50ff50;
+}
+.evade-modal-actions {
+    margin-top: 1.2rem;
+    text-align: center;
+}
+
+/* ─── Jettison per-item overlay ─── */
+.loadout-item.jettisoned {
+    position: relative;
+    opacity: 0.6;
+}
+.loadout-item.jettisoned::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: rgba(180, 100, 30, 0.25);
+    border: 1px dashed rgba(200, 140, 50, 0.6);
+    border-radius: 3px;
+    pointer-events: none;
+}
+.jettison-item-label {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 0.75rem;
+    font-weight: 700;
+    color: #ffc040;
+    text-shadow: 0 0 4px rgba(0,0,0,0.9), 0 0 8px rgba(0,0,0,0.7);
+    white-space: nowrap;
+    letter-spacing: 0.05em;
+    pointer-events: none;
+    z-index: 1;
+}
 
 .ap-name { font-weight: 700; color: #e0ddd5; min-width: 5em; }
 .ap-aircraft { color: #7a7870; font-style: italic; min-width: 6em; }
@@ -2287,6 +2478,44 @@ tr.pilot-unfit { position: relative; }
     color: #c0c0f0;
     line-height: 1.1;
 }
+
+/* ─── Random Target Dice Box ─── */
+.tc-random-dice {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background: #3a0a0a;
+    border: 1px solid #cc3333;
+    border-radius: 4px;
+    padding: 0.2rem 0.5rem;
+    cursor: pointer;
+    min-width: 3.5rem;
+    margin-left: auto;
+    transition: border-color 0.15s;
+}
+.tc-random-dice:hover { border-color: #ff4444; }
+.random-dice-label {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 0.55rem;
+    color: #dd6666;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+.random-dice-result {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 0.85rem;
+    color: #ff5555;
+    line-height: 1.1;
+    max-width: 4.5rem;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    text-align: center;
+}
+/* When random box exists, enemy dice sits next to it */
+.tc-random-dice + .tc-enemy-dice { margin-left: 0.4rem; }
 
 /* ─── Enemy Dice Box ─── */
 .tc-enemy-dice {
