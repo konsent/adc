@@ -1021,6 +1021,7 @@ function showDashboard() {
     // Hide reroll button for manually selected squadrons or if any mission is resolved
     const anyResolved = campaign.missions.some(m => m.targets.some(t => t.resolved) || m.downTime);
     document.getElementById('reroll-btn').style.display = (campaign.manualSquadron || anyResolved) ? 'none' : '';
+    _pilotSlotMap = null; // reset slot map for new/loaded campaign
     renderAll();
 }
 
@@ -1223,6 +1224,301 @@ function animateZoneTransition(newlySecuredBands) {
     });
 }
 
+// ─── Status Transition Animation (End-of-Day) ───
+// Pending status changes for animation — stored by applyEndOfDayRecovery
+let _pendingStatusChanges = [];
+// Preserved slot map from animation — used once by renderCarrierMarkers then cleared
+let _pilotSlotMap = null;
+
+// Return current pilot slot positions — uses _pilotSlotMap if available (actual rendered positions)
+function computePilotSlotMap() {
+    if (_pilotSlotMap) {
+        // Return a copy of the current rendered positions
+        const map = {};
+        Object.entries(_pilotSlotMap).forEach(([k, v]) => { map[parseInt(k)] = v; });
+        return map;
+    }
+    // Fallback: sequential placement
+    const map = {};
+    const shakenUnfit = [];
+    const okayPilots = [];
+    campaign.squadron.forEach((p, idx) => {
+        if (p.shotDown) return;
+        const s = getStatus(p);
+        if (s === 'Shaken' || s === 'Unfit') shakenUnfit.push(idx);
+        else if (s === 'Okay') okayPilots.push(idx);
+    });
+
+    const hangarKeys = campaign.isUSMC
+        ? ['hangar1', 'hangar2', 'hangar3', 'hangar4', 'hangar5', 'hangar6']
+        : ['usn_hangar1', 'usn_hangar2', 'usn_hangar3', 'usn_hangar4', 'usn_hangar5'];
+    const deckKeys = campaign.isUSMC
+        ? ['deck1','deck2','deck3','deck4','deck5','deck6','deck7','deck8','deck9','deck10','deck11']
+        : ['usn_deck1','usn_deck2','usn_deck3','usn_deck4','usn_deck5','usn_deck6','usn_deck7','usn_deck8',
+           'diamond1','diamond2','diamond3','diamond4','diamond5'];
+
+    shakenUnfit.forEach((pilotIdx, i) => {
+        if (i < hangarKeys.length) map[pilotIdx] = hangarKeys[i];
+    });
+    okayPilots.forEach((pilotIdx, i) => {
+        if (i < deckKeys.length) map[pilotIdx] = deckKeys[i];
+    });
+    return map;
+}
+
+// statusChanges: [{ pilotIdx, oldStatus, newStatus, oldSlotKey, newSlotKey }]
+// beforeScrollBack: optional callback invoked before scrolling back (e.g. collapse day)
+function animateStatusTransitions(statusChanges, beforeScrollBack) {
+    return new Promise(resolve => {
+        if (!statusChanges.length) { resolve(); return; }
+
+        const board = document.getElementById('carrier-board');
+        const scrollY = window.scrollY || document.documentElement.scrollTop;
+
+        // Block user interaction
+        const overlay = document.createElement('div');
+        overlay.className = 'zone-transition-overlay';
+        document.body.appendChild(overlay);
+
+        // Temporarily restore old stress to render old layout
+        const savedStress = {};
+        statusChanges.forEach(c => {
+            savedStress[c.pilotIdx] = campaign.squadron[c.pilotIdx].stress;
+            campaign.squadron[c.pilotIdx].stress = c.oldStress;
+        });
+        // Temporarily restore shotDown for MIA pilots
+        const savedShotDown = {};
+        statusChanges.forEach(c => {
+            if (c.newStatus === 'MIA') {
+                savedShotDown[c.pilotIdx] = campaign.squadron[c.pilotIdx].shotDown;
+                campaign.squadron[c.pilotIdx].shotDown = false;
+            }
+        });
+        renderCarrierMarkers();
+        // Use _pilotSlotMap directly — it reflects actual rendered positions
+        const fullOldSlotMap = {};
+        if (_pilotSlotMap) {
+            Object.entries(_pilotSlotMap).forEach(([k, v]) => { fullOldSlotMap[parseInt(k)] = v; });
+        }
+        // Restore actual values
+        statusChanges.forEach(c => {
+            campaign.squadron[c.pilotIdx].stress = savedStress[c.pilotIdx];
+            if (c.newStatus === 'MIA') {
+                campaign.squadron[c.pilotIdx].shotDown = savedShotDown[c.pilotIdx];
+            }
+        });
+
+        // Scroll to carrier board
+        board.scrollIntoView({ behavior: 'smooth', block: 'center' });
+
+        // Separate by category: improved first, then worsened, then MIA
+        const improved = statusChanges.filter(c => c.newStatus === 'Okay');
+        const worsened = statusChanges.filter(c => c.newStatus !== 'MIA' && c.newStatus !== 'Okay');
+        const mia = statusChanges.filter(c => c.newStatus === 'MIA');
+        const ordered = [...improved, ...worsened, ...mia];
+
+        // Dynamically assign target slots — process in animation order
+        // When a pilot moves, free their old slot so the next pilot can use it
+        const hangarKeys = campaign.isUSMC
+            ? ['hangar1', 'hangar2', 'hangar3', 'hangar4', 'hangar5', 'hangar6']
+            : ['usn_hangar1', 'usn_hangar2', 'usn_hangar3', 'usn_hangar4', 'usn_hangar5'];
+        const deckKeys = campaign.isUSMC
+            ? ['deck1','deck2','deck3','deck4','deck5','deck6','deck7','deck8','deck9','deck10','deck11']
+            : ['usn_deck1','usn_deck2','usn_deck3','usn_deck4','usn_deck5','usn_deck6','usn_deck7','usn_deck8',
+               'diamond1','diamond2','diamond3','diamond4','diamond5'];
+
+        // Assign target slots sequentially (improved → worsened → MIA)
+        // Each pilot that moves frees their old slot for the next one
+        const hangarSet = new Set(hangarKeys);
+        const deckSet = new Set(deckKeys);
+        const occupiedSlots = new Set(Object.values(fullOldSlotMap));
+        ordered.forEach(change => {
+            const oldIsHangar = change.oldSlotKey && hangarSet.has(change.oldSlotKey);
+            const oldIsDeck = change.oldSlotKey && deckSet.has(change.oldSlotKey);
+            const newNeedsHangar = (change.newStatus === 'Shaken' || change.newStatus === 'Unfit');
+            const newNeedsDeck = (change.newStatus === 'Okay');
+
+            if (change.newStatus === 'MIA') {
+                if (change.oldSlotKey) occupiedSlots.delete(change.oldSlotKey);
+                change.newSlotKey = null;
+            } else if (newNeedsDeck && oldIsDeck) {
+                // Already in deck — stay in place
+                change.newSlotKey = null;
+            } else if (newNeedsHangar && oldIsHangar) {
+                // Already in hangar — stay in place
+                change.newSlotKey = null;
+            } else if (newNeedsDeck) {
+                // Hangar → Deck: find free deck slot
+                change.newSlotKey = null;
+                for (const key of deckKeys) {
+                    if (!occupiedSlots.has(key)) {
+                        change.newSlotKey = key;
+                        break;
+                    }
+                }
+                if (change.newSlotKey) {
+                    if (change.oldSlotKey) occupiedSlots.delete(change.oldSlotKey);
+                    occupiedSlots.add(change.newSlotKey);
+                }
+            } else {
+                // Deck → Hangar: find free hangar slot
+                change.newSlotKey = null;
+                for (const key of hangarKeys) {
+                    if (!occupiedSlots.has(key)) {
+                        change.newSlotKey = key;
+                        break;
+                    }
+                }
+                if (change.newSlotKey) {
+                    if (change.oldSlotKey) occupiedSlots.delete(change.oldSlotKey);
+                    occupiedSlots.add(change.newSlotKey);
+                }
+                // No free hangar slot: stay in place
+            }
+        });
+
+        // Extra pass: move misplaced pilots to correct area if slots freed up
+        const overflowMoves = [];
+        campaign.squadron.forEach((p, idx) => {
+            if (p.shotDown) return;
+            if (ordered.some(c => c.pilotIdx === idx)) return;
+            const oldSlot = fullOldSlotMap[idx];
+            if (!oldSlot) return;
+            const status = getStatus(p);
+            // Shaken/Unfit stuck in deck → move to freed hangar
+            if ((status === 'Shaken' || status === 'Unfit') && deckSet.has(oldSlot)) {
+                for (const key of hangarKeys) {
+                    if (!occupiedSlots.has(key)) {
+                        overflowMoves.push({
+                            pilotIdx: idx, oldStatus: status, newStatus: status,
+                            oldStress: p.stress, oldSlotKey: oldSlot, newSlotKey: key,
+                        });
+                        occupiedSlots.delete(oldSlot);
+                        occupiedSlots.add(key);
+                        break;
+                    }
+                }
+            }
+            // Okay stuck in hangar → move to freed deck
+            if (status === 'Okay' && hangarSet.has(oldSlot)) {
+                for (const key of deckKeys) {
+                    if (!occupiedSlots.has(key)) {
+                        overflowMoves.push({
+                            pilotIdx: idx, oldStatus: status, newStatus: status,
+                            oldStress: p.stress, oldSlotKey: oldSlot, newSlotKey: key,
+                        });
+                        occupiedSlots.delete(oldSlot);
+                        occupiedSlots.add(key);
+                        break;
+                    }
+                }
+            }
+        });
+        ordered.push(...overflowMoves);
+
+        function findMarker(pilotIdx) {
+            const pilot = campaign.squadron[pilotIdx];
+            const markers = board.querySelectorAll('.carrier-marker');
+            let found = null;
+            markers.forEach(m => {
+                if (m.title && m.title.startsWith(pilot.name + ' (')) found = m;
+            });
+            return found;
+        }
+
+        function animateOne(change, callback) {
+            const marker = findMarker(change.pilotIdx);
+            if (!marker) { callback(); return; }
+
+            if (change.newStatus === 'MIA') {
+                // Shake then fade out
+                marker.classList.add('marker-status-shake');
+                setTimeout(() => {
+                    marker.classList.remove('marker-status-shake');
+                    marker.classList.add('marker-status-fadeout');
+                    setTimeout(callback, 900);
+                }, 650);
+            } else {
+                // Shake
+                marker.classList.add('marker-status-shake');
+                setTimeout(() => {
+                    marker.classList.remove('marker-status-shake');
+
+                    // Update status text on the marker
+                    const statusEls = marker.querySelectorAll('.cpm-status');
+                    statusEls.forEach(el => {
+                        el.className = `cpm-status cpm-${change.newStatus.toLowerCase()}`;
+                        el.textContent = change.newStatus;
+                    });
+
+                    // Update Unfit overlay class
+                    if (change.newStatus === 'Unfit') {
+                        marker.classList.add('cpm-unfit-overlay');
+                        const bg = marker.querySelector('.carrier-diamond-bg');
+                        if (bg) bg.classList.add('cpm-unfit-overlay');
+                    } else {
+                        marker.classList.remove('cpm-unfit-overlay');
+                        const bg = marker.querySelector('.carrier-diamond-bg');
+                        if (bg) bg.classList.remove('cpm-unfit-overlay');
+                    }
+
+                    // Move to new slot position (keep marker shape as-is during animation)
+                    const newSlot = change.newSlotKey ? CARRIER_SLOTS[change.newSlotKey] : null;
+                    if (newSlot) {
+                        marker.classList.add('marker-status-moving');
+                        // Always use top/left/width regardless of marker or slot type
+                        // so diamond markers slide in their original shape
+                        if (newSlot.diamond) {
+                            const half = newSlot.s / 2;
+                            marker.style.top = newSlot.topVertex + '%';
+                            marker.style.left = (newSlot.leftVertex - half) + '%';
+                        } else {
+                            marker.style.top = newSlot.top + '%';
+                            marker.style.left = newSlot.left + '%';
+                        }
+                        // Don't change width — keep original marker size during slide
+                    }
+                    setTimeout(callback, 800);
+                }, 650);
+            }
+        }
+
+        // Chain animations sequentially after scroll delay
+        setTimeout(() => {
+            let i = 0;
+            function next() {
+                if (i >= ordered.length) {
+                    // Build complete slot map: old positions + animated new positions
+                    const completeMap = {};
+                    Object.entries(fullOldSlotMap).forEach(([idx, key]) => {
+                        completeMap[idx] = key;
+                    });
+                    ordered.forEach(c => {
+                        if (c.newStatus === 'MIA') {
+                            delete completeMap[c.pilotIdx];
+                        } else if (c.newSlotKey) {
+                            completeMap[c.pilotIdx] = c.newSlotKey;
+                        }
+                        // If newSlotKey is null (no free slot), keep old position
+                    });
+                    _pilotSlotMap = completeMap;
+                    // Collapse day before scrolling back so content height adjusts first
+                    if (beforeScrollBack) beforeScrollBack();
+                    // Scroll back to original position
+                    window.scrollTo({ top: scrollY, behavior: 'smooth' });
+                    setTimeout(() => {
+                        overlay.remove();
+                        resolve();
+                    }, 800);
+                    return;
+                }
+                animateOne(ordered[i], () => { i++; next(); });
+            }
+            next();
+        }, 800);
+    });
+}
+
 function renderCarrierMarkers() {
     const board = document.getElementById('carrier-board');
     if (!campaign) { board.style.display = 'none'; return; }
@@ -1345,33 +1641,74 @@ function renderCarrierMarkers() {
         }
     }
 
-    // Build indexed pilot lists
-    const shakenUnfit = [];
-    const okayPilots = [];
-    campaign.squadron.forEach((p, idx) => {
-        if (p.shotDown) return;
-        const s = getStatus(p);
-        if (s === 'Shaken' || s === 'Unfit') shakenUnfit.push({ pilot: p, idx });
-        else if (s === 'Okay') okayPilots.push({ pilot: p, idx });
-    });
-
-    // Place Shaken/Unfit pilot counters in hangar slots
     const hangarKeys = campaign.isUSMC
         ? ['hangar1', 'hangar2', 'hangar3', 'hangar4', 'hangar5', 'hangar6']
         : ['usn_hangar1', 'usn_hangar2', 'usn_hangar3', 'usn_hangar4', 'usn_hangar5'];
-    shakenUnfit.forEach((p, i) => {
-        if (i >= hangarKeys.length) return;
-        placePilotMarker(p.pilot, p.idx, hangarKeys[i]);
-    });
-
-    // Place Okay pilot counters on deck slots (USMC vs USN)
     const deckKeys = campaign.isUSMC
         ? ['deck1','deck2','deck3','deck4','deck5','deck6','deck7','deck8','deck9','deck10','deck11']
         : ['usn_deck1','usn_deck2','usn_deck3','usn_deck4','usn_deck5','usn_deck6','usn_deck7','usn_deck8',
            'diamond1','diamond2','diamond3','diamond4','diamond5'];
-    okayPilots.forEach((p, i) => {
-        if (i >= deckKeys.length) return;
-        placePilotMarker(p.pilot, p.idx, deckKeys[i]);
+    const hangarSet = new Set(hangarKeys);
+    const deckSet = new Set(deckKeys);
+
+    // Build current pilot→status map
+    const pilotStatus = {};
+    campaign.squadron.forEach((p, idx) => {
+        if (p.shotDown) return;
+        pilotStatus[idx] = getStatus(p);
+    });
+
+    // Validate _pilotSlotMap: only remove gone pilots, keep everyone else in place
+    const usedSlots = new Set();
+    if (_pilotSlotMap) {
+        Object.keys(_pilotSlotMap).forEach(idxStr => {
+            const idx = parseInt(idxStr);
+            const status = pilotStatus[idx];
+            if (!status) {
+                // Pilot is shotDown or gone
+                delete _pilotSlotMap[idx];
+            } else {
+                usedSlots.add(_pilotSlotMap[idx]);
+            }
+        });
+    } else {
+        _pilotSlotMap = {};
+    }
+
+    // Collect all unassigned pilots, assign free slots
+    // Order: stable pilots keep their slots, then assign remaining
+    const unassigned = [];
+    campaign.squadron.forEach((p, idx) => {
+        if (p.shotDown || _pilotSlotMap[idx]) return;
+        const status = pilotStatus[idx];
+        if (status) unassigned.push(idx);
+    });
+    unassigned.forEach(idx => {
+        const status = pilotStatus[idx];
+        const pool = (status === 'Shaken' || status === 'Unfit') ? hangarKeys : deckKeys;
+        for (const key of pool) {
+            if (!usedSlots.has(key)) {
+                _pilotSlotMap[idx] = key;
+                usedSlots.add(key);
+                return;
+            }
+        }
+        // Overflow: try any remaining slot (keep pilot visible)
+        const allKeys = [...hangarKeys, ...deckKeys];
+        for (const key of allKeys) {
+            if (!usedSlots.has(key)) {
+                _pilotSlotMap[idx] = key;
+                usedSlots.add(key);
+                return;
+            }
+        }
+    });
+
+    // Place all pilots using the stable map
+    campaign.squadron.forEach((p, idx) => {
+        if (p.shotDown) return;
+        const slotKey = _pilotSlotMap[idx];
+        if (slotKey) placePilotMarker(p, idx, slotKey);
     });
 }
 
@@ -3641,25 +3978,17 @@ function showDebriefModal(dayIdx) {
     // Capture newly secured band numbers for animation
     const _newlySecuredBandNums = newlySecured.map(bs => bs.band);
 
-    // Close on any click → collapse the day
+    // Capture pending status changes for animation
+    const _capturedStatusChanges = _pendingStatusChanges.slice();
+    _pendingStatusChanges = [];
+
+    // Close on any click → animate → collapse → scroll back
     const closeHandler = () => {
         overlay.style.display = 'none';
         overlay.removeEventListener('click', closeHandler);
-        m.collapsed = true;
 
-        if (_newlySecuredBandNums.length > 0) {
-            // Play zone transition animation, then renderAll
-            animateZoneTransition(_newlySecuredBandNums).then(() => {
-                renderAll();
-                autoSave();
-                const allDone = campaign.missions.every(mi =>
-                    mi.downTime || mi.targets.every(t => t.resolved)
-                );
-                if (allDone && !campaign.campaignFailed) {
-                    setTimeout(() => showVictoryModal(), 200);
-                }
-            });
-        } else {
+        const finalize = () => {
+            m.collapsed = true;
             renderAll();
             autoSave();
             const allDone = campaign.missions.every(mi =>
@@ -3668,6 +3997,23 @@ function showDebriefModal(dayIdx) {
             if (allDone && !campaign.campaignFailed) {
                 setTimeout(() => showVictoryModal(), 200);
             }
+        };
+
+        const playStatusAnim = () => {
+            if (_capturedStatusChanges.length > 0) {
+                animateStatusTransitions(_capturedStatusChanges, () => {
+                    m.collapsed = true;
+                    renderMissions();
+                }).then(finalize);
+            } else {
+                finalize();
+            }
+        };
+
+        if (_newlySecuredBandNums.length > 0) {
+            animateZoneTransition(_newlySecuredBandNums).then(playStatusAnim);
+        } else {
+            playStatusAnim();
         }
     };
     // Delay to prevent immediate close from the button click
@@ -4179,12 +4525,39 @@ function onDownTime(e) {
     const m = campaign.missions[dayIdx];
     if (m.downTime || m.recoveryApplied) return;
 
+    // ── Snapshot before recovery ──
+    const oldSnapshot = campaign.squadron.map((p, idx) => ({
+        stress: p.stress,
+        shotDown: !!p.shotDown,
+        status: p.shotDown ? 'MIA' : getStatus(p)
+    }));
+    const oldSlotMap = computePilotSlotMap();
+
     // 페널티: Recon, Intel, Infra 각 -1
     campaign.tracks.recon = Math.max(0, (campaign.tracks.recon || 0) - 1);
     campaign.tracks.intel = Math.max(0, (campaign.tracks.intel || 0) - 1);
     campaign.tracks.infra = Math.max(0, (campaign.tracks.infra || 0) - 1);
 
     recoverPilots();
+
+    // ── Compute status changes ──
+    const newSlotMap = computePilotSlotMap();
+    const statusChanges = [];
+    campaign.squadron.forEach((p, idx) => {
+        const newStatus = p.shotDown ? 'MIA' : getStatus(p);
+        const old = oldSnapshot[idx];
+        if (old.status !== newStatus) {
+            statusChanges.push({
+                pilotIdx: idx,
+                oldStatus: old.status,
+                newStatus,
+                oldStress: old.stress,
+                oldSlotKey: oldSlotMap[idx] || null,
+                newSlotKey: newSlotMap[idx] || null,
+            });
+        }
+    });
+    _pendingStatusChanges = statusChanges;
 
     // SO 이월
     const startSO = parseFloat(m.startSO) || 0;
@@ -4253,17 +4626,17 @@ function onSarRoll(e) {
     ap.sarModifiers = { location, wpPenalty, atgWp };
 
     if (finalResult >= 9) {
-        // 신속 회복: stress +3, XP +1, 복귀
+        // 신속 회복: stress +3 (deferred), XP +1, 복귀
         ap.sarResult = 'quick';
         pilot.shotDown = false;
-        pilot.stress += 3;
+        ap.sarStress = 3;
         pilot.xp += 1;
         promoteIfReady(pilot);
     } else if (finalResult >= 6) {
-        // 포화 속 구조: stress +5, XP +1, 복귀
+        // 포화 속 구조: stress +5 (deferred), XP +1, 복귀
         ap.sarResult = 'fire';
         pilot.shotDown = false;
-        pilot.stress += 5;
+        ap.sarStress = 5;
         pilot.xp += 1;
         promoteIfReady(pilot);
     } else {
@@ -4326,9 +4699,10 @@ function resolveTarget(dayIdx, tIdx) {
             ap.sarResult = '';  // pending SAR
         } else {
             // 1. Stress: baseStress + individual stress + difficulty mod + night bonus - cooldown (min 0)
+            //    Deferred — applied at end-of-day via applyPendingStress()
             const nightStress = t.dayNight === 'Night' ? 1 : 0;
             const stressGain = Math.max(0, baseStress + (ap.missionStress || 0) + stressMod + nightStress - pilot.cooldown);
-            pilot.stress += stressGain;
+            ap.stressGain = stressGain;
 
             // 2. XP: +1 base
             let xpGain = 1;
@@ -4498,19 +4872,68 @@ function resolveTarget(dayIdx, tIdx) {
     autoSave();
 }
 
+// Apply all deferred stress gains (from resolveTarget & SAR) for a given day
+function applyPendingStress(dayIdx) {
+    const m = campaign.missions[dayIdx];
+    m.targets.forEach(t => {
+        (t.assignedPilots || []).forEach(ap => {
+            const pilot = campaign.squadron[ap.pilotIdx];
+            if (ap.stressGain != null && !ap.stressApplied) {
+                pilot.stress += ap.stressGain;
+                ap.stressApplied = true;
+            }
+            if (ap.sarStress != null && !ap.sarStressApplied) {
+                pilot.stress += ap.sarStress;
+                ap.sarStressApplied = true;
+            }
+        });
+    });
+}
+
 // End-of-day recovery: called once all targets in a day are resolved
-// Participants: no additional recovery here (cooldown already applied per-target)
-// Non-participants: Cool + 2 stress recovery
+// 1. Apply deferred stress from missions
+// 2. Recover non-participants: Cool + 2 stress recovery
+// 3. Animate status transitions
 // SO carry-over: remaining SO → next day's startSO
 function applyEndOfDayRecovery(dayIdx) {
     const m = campaign.missions[dayIdx];
     if (m.recoveryApplied) return;
 
-    const assignedIndices = getDayDeployedSet(m);
+    // ── Snapshot BEFORE stress application ──
+    const oldSnapshot = campaign.squadron.map(p => ({
+        stress: p.stress,
+        shotDown: !!p.shotDown,
+        status: p.shotDown ? 'MIA' : getStatus(p)
+    }));
+    const oldSlotMap = computePilotSlotMap();
 
+    // ── Apply deferred mission stress ──
+    applyPendingStress(dayIdx);
+
+    // ── Then recover non-deployed, non-Unfit pilots ──
+    const assignedIndices = getDayDeployedSet(m);
     recoverPilots((pilot, idx) =>
         !assignedIndices.has(idx) && getStatus(pilot) !== 'Unfit'
     );
+
+    // ── Compute status changes (old vs final) ──
+    const newSlotMap = computePilotSlotMap();
+    const statusChanges = [];
+    campaign.squadron.forEach((p, idx) => {
+        const newStatus = p.shotDown ? 'MIA' : getStatus(p);
+        const old = oldSnapshot[idx];
+        if (old.status !== newStatus) {
+            statusChanges.push({
+                pilotIdx: idx,
+                oldStatus: old.status,
+                newStatus,
+                oldStress: old.stress,
+                oldSlotKey: oldSlotMap[idx] || null,
+                newSlotKey: newSlotMap[idx] || null,
+            });
+        }
+    });
+    _pendingStatusChanges = statusChanges;
 
     // SO carry-over to next day
     const startSO = parseFloat(m.startSO) || 0;
