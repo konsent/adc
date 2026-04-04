@@ -4633,21 +4633,20 @@ function onSarRoll(e) {
     if (finalResult >= 9) {
         // 신속 회복: stress +3 (deferred), XP +1, 복귀
         ap.sarResult = 'quick';
-        pilot.shotDown = false;
+        ap.pendingShotDown = false; // cancel MIA
         ap.sarStress = 3;
         pilot.xp += 1;
         promoteIfReady(pilot);
     } else if (finalResult >= 6) {
         // 포화 속 구조: stress +5 (deferred), XP +1, 복귀
         ap.sarResult = 'fire';
-        pilot.shotDown = false;
+        ap.pendingShotDown = false; // cancel MIA
         ap.sarStress = 5;
         pilot.xp += 1;
         promoteIfReady(pilot);
     } else {
-        // 작전 중 실종: Unfit 유지
+        // 작전 중 실종: MIA confirmed (applied at end-of-day)
         ap.sarResult = 'mia';
-        // pilot.shotDown stays true → MIA
     }
 
     renderAll();
@@ -4699,8 +4698,8 @@ function resolveTarget(dayIdx, tIdx) {
         const pilot = campaign.squadron[ap.pilotIdx];
 
         if (ap.shotDown) {
-            // Mark shot down — stress/XP handled by SAR
-            pilot.shotDown = true;
+            // Mark shot down — deferred until end-of-day via applyPendingStress()
+            ap.pendingShotDown = true;
             ap.sarResult = '';  // pending SAR
         } else {
             // 1. Stress: baseStress + individual stress + difficulty mod + night bonus - cooldown (min 0)
@@ -4877,12 +4876,16 @@ function resolveTarget(dayIdx, tIdx) {
     autoSave();
 }
 
-// Apply all deferred stress gains (from resolveTarget & SAR) for a given day
+// Apply all deferred stress/shotDown from resolveTarget & SAR for a given day
 function applyPendingStress(dayIdx) {
     const m = campaign.missions[dayIdx];
     m.targets.forEach(t => {
         (t.assignedPilots || []).forEach(ap => {
             const pilot = campaign.squadron[ap.pilotIdx];
+            if (ap.pendingShotDown && !ap.shotDownApplied) {
+                pilot.shotDown = true;
+                ap.shotDownApplied = true;
+            }
             if (ap.stressGain != null && !ap.stressApplied) {
                 pilot.stress += ap.stressGain;
                 ap.stressApplied = true;
