@@ -1119,7 +1119,8 @@ const CARRIER_SLOTS = {
 let _pendingAnimBands = new Set();
 
 // newlySecuredBands: array of band numbers (1-based) that were just secured
-function animateZoneTransition(newlySecuredBands) {
+// beforeScrollBack: optional callback invoked before scrolling back
+function animateZoneTransition(newlySecuredBands, beforeScrollBack) {
     return new Promise(resolve => {
         if (!campaign || !campaign.isUSMC || !newlySecuredBands.length) { resolve(); return; }
 
@@ -1208,8 +1209,9 @@ function animateZoneTransition(newlySecuredBands) {
                     setTimeout(() => {
                         root.classList.remove('zone-page-zoom');
 
-                        // Step 6: Scroll back
+                        // Step 6: Collapse day, then scroll back
                         setTimeout(() => {
+                            if (beforeScrollBack) beforeScrollBack();
                             window.scrollTo({ top: scrollY, behavior: 'smooth' });
                             setTimeout(() => {
                                 _pendingAnimBands.clear();
@@ -4011,7 +4013,10 @@ function showDebriefModal(dayIdx) {
         };
 
         if (_newlySecuredBandNums.length > 0) {
-            animateZoneTransition(_newlySecuredBandNums).then(playStatusAnim);
+            animateZoneTransition(_newlySecuredBandNums, () => {
+                m.collapsed = true;
+                renderMissions();
+            }).then(playStatusAnim);
         } else {
             playStatusAnim();
         }
