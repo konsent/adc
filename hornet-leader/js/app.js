@@ -2350,9 +2350,8 @@ function renderMissions() {
                     prow.innerHTML = `
                         <span class="ap-col ap-col-fl">${isFL ? `<span class="flight-leader-badge" data-day="${dayIdx}" data-tidx="${tIdx}" title="비행대장 (클릭하여 변경)">★</span>` : ''}</span>
                         <span class="ap-col ap-col-name">${pilot.name}${(() => {
-                            const ts = ap.tempStress || 0;
-                            if (ts === 0) return '';
-                            const simPilot = Object.assign({}, pilot, { stress: pilot.stress + ts });
+                            const extra = (ap.tempStress || 0) + (ap.missionStress || 0);
+                            const simPilot = Object.assign({}, pilot, { stress: pilot.stress + extra });
                             const mStatus = getStatus(simPilot);
                             if (mStatus === 'Shaken') return '<span class="stress-tag stress-tag-shaken" title="작전 중 Shaken">S</span>';
                             if (mStatus === 'Unfit') return '<span class="stress-tag stress-tag-unfit" title="작전 중 Unfit">U</span>';
