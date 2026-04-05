@@ -4445,11 +4445,7 @@ function onTargetFieldChange(e) {
         if (campDetail) {
             t.baseStress = campDetail.baseStress;
         }
-        // Update trait stress for already-assigned pilots
-        const newTraitStress = parseTraitStress(e.target.value);
-        (t.assignedPilots || []).forEach(ap => {
-            ap.missionStress = newTraitStress;
-        });
+        // Trait stress is applied at resolveTarget time, not on assignment/field change
         renderMissions();
     }
     updateBadges();
@@ -4506,9 +4502,9 @@ function onConfirmAssign(e) {
             // Keep existing pilot data (loadout, stress, xp, etc.)
             newAssigned.push(oldByIdx[pIdx]);
         } else {
-            const traitStress = parseTraitStress(target.targetNumber);
             const pSA = campaign.squadron[pIdx] ? (campaign.squadron[pIdx].sa || 0) : 0;
-            newAssigned.push({ pilotIdx: pIdx, shotDown: false, missionStress: traitStress, missionXp: 0, loadout: [], usedSA: pSA });
+            // missionStress starts at 0; trait-based Stress keyword applied at resolveTarget time
+            newAssigned.push({ pilotIdx: pIdx, shotDown: false, missionStress: 0, missionXp: 0, loadout: [], usedSA: pSA });
         }
         if (!isE2C(pilot)) nonE2CCount++;
     });
@@ -4931,6 +4927,7 @@ function resolveTarget(dayIdx, tIdx) {
 
     const pilots = t.assignedPilots || [];
     const baseStress = parseInt(t.baseStress) || 0;
+    const traitStress = parseTraitStress(t.targetNumber);
     const hasShotDown = pilots.some(ap => ap.shotDown);
 
     // Difficulty stress modifier
@@ -4957,7 +4954,7 @@ function resolveTarget(dayIdx, tIdx) {
             // 1. Stress: baseStress + individual stress + difficulty mod + night bonus - cooldown (min 0)
             //    Deferred — applied at end-of-day via applyPendingStress()
             const nightStress = t.dayNight === 'Night' ? 1 : 0;
-            const stressGain = Math.max(0, baseStress + (ap.missionStress || 0) + stressMod + nightStress - pilot.cooldown);
+            const stressGain = Math.max(0, baseStress + (ap.missionStress || 0) + traitStress + stressMod + nightStress - pilot.cooldown);
             ap.stressGain = stressGain;
 
             // 2. XP: +1 base
