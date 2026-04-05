@@ -2224,13 +2224,20 @@ function renderMissions() {
             header.className = 'tc-header';
             header.innerHTML = `
                 <span class="tc-type">${tIdx === 0 ? '주 표적' : '부 표적'}</span>
-                <span class="tc-title">#${t.targetNumber} ${targetName}</span>
+                <span class="tc-title tc-title-hover">#${t.targetNumber} ${targetName}</span>
                 <span class="tc-header-actions">
                     ${!t.resolved ? `<button class="btn btn-small" data-day="${dayIdx}" data-tidx="${tIdx}" data-action="toggle-assign">투입</button>` : ''}
                     ${tIdx > 0 && !t.resolved ? `<button class="target-remove" data-day="${dayIdx}" data-tidx="${tIdx}">x</button>` : ''}
                 </span>
             `;
             tBlock.appendChild(header);
+            if (targetEntry) {
+                const titleEl = header.querySelector('.tc-title-hover');
+                if (titleEl) {
+                    titleEl.addEventListener('mouseenter', () => showTargetDetailPanel(targetEntry, t.targetNumber, titleEl));
+                    titleEl.addEventListener('mouseleave', hideTargetDetailPanel);
+                }
+            }
 
             // 2) Traits row
             if (targetEntry && targetEntry.traits) {
@@ -3002,6 +3009,10 @@ function renderDrawModal(state) {
             handleCardClick(state, source, idx, hasSecondary);
             renderDrawModal(state);
         });
+        if (entry) {
+            div.addEventListener('mouseenter', () => showTargetDetailPanel(entry, card.num, div));
+            div.addEventListener('mouseleave', hideTargetDetailPanel);
+        }
 
         return div;
     }
@@ -3052,6 +3063,110 @@ function renderDrawModal(state) {
 
     overlay.style.display = 'flex';
     document.getElementById('draw-modal-close').onclick = closeDrawModal;
+}
+
+function showTargetDetailPanel(entry, cardNum, anchorEl) {
+    const panel = document.getElementById('target-detail-panel');
+    if (!panel) return;
+
+    const bandInfo = getTargetBandInfo(cardNum);
+    const wpPen = getImprovementWPPenalty ? getImprovementWPPenalty() : 0;
+    const effectiveWP = bandInfo ? (bandInfo.WP - wpPen) : null;
+    const baseStress = bandInfo ? bandInfo.Stress : null;
+    const bonusXP = bandInfo ? (bandInfo.BonusXP || 0) : 0;
+
+    const traits = (entry.traits || '').split(',').map(t => t.trim()).filter(Boolean);
+    const sites = entry.sites || {};
+    const bandits = entry.bandits || {};
+    const rew = entry.destroyedRewards || {};
+
+    // Campaign-specific override
+    let campaignOverride = null;
+    if (entry.campaignDetails && campaign && campaign.scenarioName) {
+        for (const key of Object.keys(entry.campaignDetails)) {
+            if (campaign.scenarioName.includes(key)) {
+                campaignOverride = { key, data: entry.campaignDetails[key] };
+                break;
+            }
+        }
+    }
+
+    const esc = s => String(s == null ? '' : s)
+        .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+
+    panel.innerHTML = `
+        <div class="tdp-header">
+            <span class="tdp-num">#${esc(cardNum)}</span>
+            <span class="tdp-name">${esc(entry.targetName || '?')}</span>
+        </div>
+        <div class="tdp-stat-grid">
+            <div class="tdp-stat"><span class="tdp-label">투입 기체</span><span class="tdp-val">${esc(entry.aircraftCount)}</span></div>
+            <div class="tdp-stat"><span class="tdp-label">명중 필요</span><span class="tdp-val">${esc(entry.hits)}</span></div>
+            ${effectiveWP != null ? `<div class="tdp-stat"><span class="tdp-label">WP</span><span class="tdp-val">${effectiveWP}${wpPen ? ` <span class="tdp-sub">(−${wpPen})</span>` : ''}</span></div>` : ''}
+            ${baseStress != null ? `<div class="tdp-stat"><span class="tdp-label">기본 ST</span><span class="tdp-val">${baseStress}</span></div>` : ''}
+            ${bonusXP ? `<div class="tdp-stat"><span class="tdp-label">보너스 XP</span><span class="tdp-val">+${bonusXP}</span></div>` : ''}
+        </div>
+        <div class="tdp-section">
+            <div class="tdp-sec-title">사이트</div>
+            <div class="tdp-row"><span class="tdp-label">접근</span><span class="tdp-val">${esc(sites.approach ?? 0)}</span><span class="tdp-label">중앙</span><span class="tdp-val">${esc(sites.center ?? 0)}</span></div>
+        </div>
+        <div class="tdp-section">
+            <div class="tdp-sec-title">밴딧</div>
+            <div class="tdp-row"><span class="tdp-label">접근</span><span class="tdp-val">${esc(bandits.approach ?? 0)}</span><span class="tdp-label">중앙</span><span class="tdp-val">${esc(bandits.center ?? 0)}</span></div>
+        </div>
+        <div class="tdp-section">
+            <div class="tdp-sec-title">파괴 보상</div>
+            <div class="tdp-row">
+                <span class="tdp-label">VP</span><span class="tdp-val">${esc(rew.vp ?? 0)}</span>
+                <span class="tdp-label">Recon</span><span class="tdp-val">${esc(rew.recon ?? 0)}</span>
+                <span class="tdp-label">Intel</span><span class="tdp-val">${esc(rew.intel ?? 0)}</span>
+                <span class="tdp-label">Infra</span><span class="tdp-val">${esc(rew.infra ?? 0)}</span>
+            </div>
+        </div>
+        ${traits.length ? `<div class="tdp-section">
+            <div class="tdp-sec-title">특성</div>
+            <div class="tdp-traits">${traits.map(t => `<span class="tdp-trait">${esc(t)}</span>`).join('')}</div>
+        </div>` : ''}
+        ${entry.nighttimeMission === 'true' ? `<div class="tdp-section"><span class="tdp-night">야간 작전 가능</span></div>` : ''}
+        ${entry.objective ? `<div class="tdp-section">
+            <div class="tdp-sec-title">구성</div>
+            <div class="tdp-text">${esc(entry.objective)}</div>
+        </div>` : ''}
+        ${entry.improvement ? `<div class="tdp-section">
+            <div class="tdp-sec-title">Improvement</div>
+            <div class="tdp-text">${esc(entry.improvement)}</div>
+        </div>` : ''}
+        ${campaignOverride ? `<div class="tdp-section tdp-campaign">
+            <div class="tdp-sec-title">캠페인 보정 (${esc(campaignOverride.key)})</div>
+            <div class="tdp-text">${Object.entries(campaignOverride.data).map(([k,v]) => `${esc(k)}: ${esc(v)}`).join(', ')}</div>
+        </div>` : ''}
+    `;
+
+    panel.style.display = 'block';
+    // Position next to the anchor card
+    const rect = anchorEl.getBoundingClientRect();
+    const pw = panel.offsetWidth;
+    const ph = panel.offsetHeight;
+    const vw = window.innerWidth;
+    const vh = window.innerHeight;
+    const gap = 8;
+
+    let left = rect.right + gap;
+    if (left + pw > vw - 8) {
+        left = rect.left - pw - gap;
+        if (left < 8) left = Math.max(8, vw - pw - 8);
+    }
+    let top = rect.top;
+    if (top + ph > vh - 8) top = Math.max(8, vh - ph - 8);
+    if (top < 8) top = 8;
+
+    panel.style.left = left + 'px';
+    panel.style.top = top + 'px';
+}
+
+function hideTargetDetailPanel() {
+    const panel = document.getElementById('target-detail-panel');
+    if (panel) panel.style.display = 'none';
 }
 
 function handleCardClick(state, source, idx, hasSecondary) {
