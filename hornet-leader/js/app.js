@@ -704,14 +704,39 @@ function updatePilotForRank(pilot, resetStress) {
     }
 }
 
+function getCurrentDayIdxForPromotion() {
+    // Find the EARLIEST non-downtime day that hasn't had recovery applied yet.
+    // (Future days are also not-recovered, so we must scan forward, not backward.)
+    if (!campaign || !campaign.missions) return -1;
+    for (let i = 0; i < campaign.missions.length; i++) {
+        const mi = campaign.missions[i];
+        if (mi.downTime) continue;
+        if (!mi.recoveryApplied) return i;
+    }
+    return -1;
+}
+
 function promoteIfReady(pilot) {
     const xpNeeded = getXpToPromote(pilot);
     if (xpNeeded !== null && pilot.xp >= xpNeeded) {
         const nextRank = getNextRank(pilot.rank);
         if (nextRank) {
+            const fromRank = pilot.rank;
             pilot.rank = nextRank;
             updatePilotForRank(pilot, false);
             pilot.xp = 0;
+            // Persist on current day's mission so it survives reloads
+            const dIdx = getCurrentDayIdxForPromotion();
+            if (dIdx >= 0) {
+                const m = campaign.missions[dIdx];
+                if (!m.pendingPromotions) m.pendingPromotions = [];
+                m.pendingPromotions.push({
+                    name: pilot.name,
+                    aircraft: pilot.aircraft,
+                    fromRank,
+                    toRank: nextRank
+                });
+            }
         }
     }
 }
@@ -2700,7 +2725,7 @@ function renderMissions() {
     const allRecovered = campaign.missions.every(mi =>
         mi.downTime || mi.recoveryApplied
     );
-    if ((allDone && allRecovered) || campaign.campaignFailed) {
+    if (((allDone && allRecovered) || campaign.campaignFailed) && !campaign.resultPending) {
         const vpEl = document.getElementById('track-vp');
         const totalVP = parseInt(vpEl?.textContent) || 0;
         const rank = getVictoryRank(totalVP);
@@ -4134,13 +4159,29 @@ function showDebriefModal(dayIdx) {
 
         const finalize = () => {
             m.collapsed = true;
-            renderAll();
-            autoSave();
             const allDone = campaign.missions.every(mi =>
                 mi.downTime || mi.targets.every(t => t.resolved)
             );
-            if (allDone && !campaign.campaignFailed) {
-                setTimeout(() => showVictoryModal(), 200);
+            const isFinal = (allDone && !campaign.campaignFailed);
+            if (isFinal) {
+                // Hide result box until victory modal is dismissed
+                campaign.resultPending = true;
+            }
+            // Capture promotions accumulated during this day (stored on mission)
+            const promos = (m.pendingPromotions || []).slice();
+            m.pendingPromotions = [];
+            renderAll();
+            autoSave();
+
+            const proceedToResult = () => {
+                if (isFinal) {
+                    setTimeout(() => showVictoryModal(), 200);
+                }
+            };
+            if (promos.length > 0) {
+                showPromotionModal(promos, proceedToResult);
+            } else {
+                proceedToResult();
             }
         };
 
@@ -4208,6 +4249,68 @@ function showVictoryModal() {
         <p class="victory-scenario">${campaign.scenarioName} — ${campaign.lengthDesc}</p>
     `;
     overlay.style.display = 'flex';
+}
+
+// ─── Promotion Modal ───
+
+function showPromotionModal(promotions, onComplete) {
+    if (!promotions || promotions.length === 0) {
+        if (onComplete) onComplete();
+        return;
+    }
+    const overlay = document.getElementById('promotion-modal');
+    const body = document.getElementById('promotion-modal-body');
+    const counter = document.getElementById('promotion-counter');
+    overlay.style.display = 'flex';
+
+    let i = 0;
+    const showNext = () => {
+        if (i >= promotions.length) {
+            overlay.style.display = 'none';
+            if (onComplete) onComplete();
+            return;
+        }
+        const p = promotions[i];
+        counter.textContent = `${i + 1} / ${promotions.length}`;
+        const fromCls = RANK_CLASSES[p.fromRank] || '';
+        const toCls = RANK_CLASSES[p.toRank] || '';
+        body.innerHTML = `
+            <div class="promo-card">
+                <div class="promo-pilot">
+                    <span class="promo-name">${p.name}</span>
+                    <span class="promo-ac">${p.aircraft}</span>
+                </div>
+                <div class="promo-rank-row">
+                    <div class="promo-rank-slot promo-rank-from ${fromCls}">
+                        <span class="promo-rank-label">BEFORE</span>
+                        <span class="promo-rank-text">${p.fromRank}</span>
+                    </div>
+                    <div class="promo-arrow">➜</div>
+                    <div class="promo-rank-slot promo-rank-to ${toCls}">
+                        <span class="promo-rank-label">AFTER</span>
+                        <span class="promo-rank-text">?</span>
+                    </div>
+                </div>
+                <div class="promo-burst" aria-hidden="true">
+                    ${Array.from({length: 12}).map((_, k) => `<span class="promo-particle" style="--a:${k * 30}deg"></span>`).join('')}
+                </div>
+            </div>
+        `;
+        // Trigger "팍!" reveal after a short delay
+        setTimeout(() => {
+            const card = body.querySelector('.promo-card');
+            const toSlot = body.querySelector('.promo-rank-to');
+            const toText = toSlot.querySelector('.promo-rank-text');
+            const burst = body.querySelector('.promo-burst');
+            toText.textContent = p.toRank;
+            toSlot.classList.add('promo-reveal');
+            burst.classList.add('promo-burst-active');
+            card.classList.add('promo-card-flash');
+        }, 900);
+        i++;
+        setTimeout(showNext, 3000);
+    };
+    showNext();
 }
 
 // ─── Overkill Modal ───
@@ -4334,6 +4437,12 @@ function showCampaignFailModal(failCount, maxFails, lengthKey) {
 
 function closeCampaignFailModal() {
     document.getElementById('campaign-fail-modal').style.display = 'none';
+    // Reveal campaign result box in mission board after modal is dismissed
+    if (campaign && campaign.resultPending) {
+        campaign.resultPending = false;
+        renderMissions();
+        autoSave();
+    }
 }
 
 function onAddTarget(e) {
@@ -5104,6 +5213,7 @@ function resolveTarget(dayIdx, tIdx) {
             });
             if (failCount >= maxFails) {
                 campaign.campaignFailed = true;
+                campaign.resultPending = true;
                 setTimeout(() => showCampaignFailModal(failCount, maxFails, lengthKey), 100);
             }
         }
