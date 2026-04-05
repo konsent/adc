@@ -4549,7 +4549,7 @@ function onDamage(e) {
         ap.damaged = true;
         ap.jettisoned = true;
         ap.usedSA = 0;
-        ap.tempStress = (ap.tempStress || 0) + 2;
+        ap.missionStress = (ap.missionStress || 0) + 2;
     } else {
         // 2nd click: shot down
         ap.shotDown = true;
@@ -4564,8 +4564,8 @@ function onEvade(e) {
     const apIdx = parseInt(e.target.dataset.apidx);
     const ap = campaign.missions[dayIdx].targets[tIdx].assignedPilots[apIdx];
     const pilot = campaign.squadron[ap.pilotIdx];
-    // +2 stress
-    ap.tempStress = (ap.tempStress || 0) + 2;
+    // +2 stress (반영: 임무 스트레스에 직접 누적)
+    ap.missionStress = (ap.missionStress || 0) + 2;
     renderAll();
     autoSave();
     // Show evade modal with dice
