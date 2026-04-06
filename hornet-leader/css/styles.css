@@ -1484,6 +1484,72 @@ html.zone-page-zoom {
 #squadron-table th:nth-child(7) { width: 8%; }
 #squadron-table td { overflow: hidden; text-overflow: ellipsis; }
 
+/* ─── Paid Promotion Modal ─── */
+.paid-promote-modal {
+    background: #2a2d25;
+    border: 1px solid #5a5e50;
+    border-radius: 8px;
+    min-width: 460px;
+    max-width: 560px;
+    max-height: 80vh;
+    display: flex;
+    flex-direction: column;
+}
+.paid-promote-header {
+    display: flex;
+    align-items: center;
+    gap: 0.8rem;
+    padding: 0.7rem 1rem;
+    border-bottom: 1px solid #43463f;
+}
+.paid-promote-header h3 { margin: 0; font-size: 1rem; color: #e0ddd5; }
+.paid-promote-cost-info {
+    color: #c8b040;
+    font-size: 0.8rem;
+    margin-left: auto;
+    margin-right: 0.5rem;
+}
+.paid-promote-body {
+    padding: 0.5rem;
+    overflow-y: auto;
+}
+.paid-promote-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.8rem;
+}
+.paid-promote-table th {
+    text-align: left;
+    padding: 0.3rem 0.5rem;
+    color: #999;
+    border-bottom: 1px solid #43463f;
+    font-weight: 600;
+}
+.paid-promote-table td {
+    padding: 0.35rem 0.5rem;
+    border-bottom: 1px solid #3a3d35;
+}
+.paid-promote-table tr:hover { background: rgba(255,255,255,0.03); }
+.btn-paid-promote-select {
+    background: #3a3520;
+    border-color: #8b7a2e;
+    color: #c8b040;
+    font-size: 0.75rem;
+    padding: 0.15rem 0.5rem;
+}
+.btn-paid-promote-select:hover { background: #4a4530; border-color: #c8b040; }
+
+.section-header-actions {
+    display: flex;
+    gap: 0.4rem;
+}
+#paid-promote-btn {
+    background: #3a3520;
+    border-color: #8b7a2e;
+    color: #c8b040;
+}
+#paid-promote-btn:hover { background: #4a4530; border-color: #c8b040; }
+
 tr.pilot-unfit td { background: rgba(192, 60, 50, 0.1) !important; }
 tr.pilot-unfit { position: relative; }
 

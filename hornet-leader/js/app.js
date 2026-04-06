@@ -741,6 +741,91 @@ function promoteIfReady(pilot) {
     }
 }
 
+function showPaidPromoteModal() {
+    const cost = PAID_PROMOTION_SO_COST[campaign.lengthIdx] || 6;
+    const dayIdx = getCurrentDayIdxForPromotion();
+    if (dayIdx < 0) return;
+    const m = campaign.missions[dayIdx];
+    const remainSO = (parseFloat(m.startSO) || 0) - (parseFloat(m.usedSO) || 0);
+
+    const overlay = document.getElementById('paid-promote-modal');
+    const body = document.getElementById('paid-promote-body');
+    const costInfo = document.getElementById('paid-promote-cost-info');
+    costInfo.textContent = `SO ${cost} / 잔여 SO: ${remainSO}`;
+
+    body.innerHTML = '';
+    const tbl = document.createElement('table');
+    tbl.className = 'paid-promote-table';
+    tbl.innerHTML = `<thead><tr><th>콜사인</th><th>기체</th><th>현재 계급</th><th>진급 후</th><th></th></tr></thead>`;
+    const tbody = document.createElement('tbody');
+
+    campaign.squadron.forEach((pilot, idx) => {
+        const nextRank = getNextRank(pilot.rank);
+        const canPromote = !pilot.shotDown && nextRank && remainSO >= cost;
+        const tr = document.createElement('tr');
+        if (pilot.shotDown) tr.classList.add('pilot-unfit');
+        const rankCls = RANK_CLASSES[pilot.rank] || '';
+        const nextCls = nextRank ? (RANK_CLASSES[nextRank] || '') : '';
+        tr.innerHTML = `
+            <td class="pilot-name">${pilot.name}</td>
+            <td class="pilot-aircraft">${pilot.aircraft}</td>
+            <td class="${rankCls}">${pilot.rank}</td>
+            <td class="${nextCls}">${nextRank || '—'}</td>
+            <td>${canPromote ? `<button class="btn btn-small btn-paid-promote-select" data-idx="${idx}">진급</button>` : ''}</td>
+        `;
+        tbody.appendChild(tr);
+    });
+
+    tbl.appendChild(tbody);
+    body.appendChild(tbl);
+
+    // Attach select handlers
+    body.querySelectorAll('.btn-paid-promote-select').forEach(btn => {
+        btn.addEventListener('click', () => {
+            const pilotIdx = parseInt(btn.dataset.idx);
+            executePaidPromotion(pilotIdx, dayIdx, cost);
+        });
+    });
+
+    overlay.style.display = 'flex';
+    document.getElementById('paid-promote-close').onclick = () => {
+        overlay.style.display = 'none';
+    };
+}
+
+function executePaidPromotion(pilotIdx, dayIdx, cost) {
+    const pilot = campaign.squadron[pilotIdx];
+    if (!pilot || pilot.shotDown) return;
+    const nextRank = getNextRank(pilot.rank);
+    if (!nextRank) return;
+    const m = campaign.missions[dayIdx];
+    const remainSO = (parseFloat(m.startSO) || 0) - (parseFloat(m.usedSO) || 0);
+    if (remainSO < cost) return;
+
+    // Deduct SO
+    m.usedSO = (parseFloat(m.usedSO) || 0) + cost;
+
+    // Promote
+    const fromRank = pilot.rank;
+    pilot.rank = nextRank;
+    updatePilotForRank(pilot, false);
+    pilot.xp = 0;
+
+    // Close select modal
+    document.getElementById('paid-promote-modal').style.display = 'none';
+
+    renderAll();
+    autoSave();
+
+    // Show promotion animation modal
+    showPromotionModal([{
+        name: pilot.name,
+        aircraft: pilot.aircraft,
+        fromRank,
+        toRank: nextRank
+    }], null);
+}
+
 function recoverPilots(filter) {
     campaign.squadron.forEach((pilot, idx) => {
         if (pilot.shotDown) return;
@@ -836,6 +921,7 @@ const RANDOM_SO_BONUS = [6, 12, 18]; // Short / Medium / Long
 const FLYING_MORE_LESS_SO_COST = [3, 6, 9]; // Short / Medium / Long
 const DAMAGED_TARGET_SO_COST = [3, 6, 9]; // Short / Medium / Long
 const INTENSE_STRESS_SO_COST = [3, 6, 9]; // Short / Medium / Long
+const PAID_PROMOTION_SO_COST = [6, 12, 18]; // Short / Medium / Long
 const PILOT_SA = {
     'Tigger':[0,0,0,0,0,0],'Gizmo':[0,0,0,0,0,0],'Tonto':[0,0,0,0,0,1],'Bigfoot':[0,0,0,1,1,2],
     'Slick':[0,1,1,2,2,3],'Toon':[0,0,1,0,1,2],'Caveman':[0,0,1,2,2,2],'Tango':[0,0,0,0,0,0],
@@ -1746,6 +1832,22 @@ function renderSquadron() {
 
     const tbody = document.getElementById('squadron-body');
     tbody.innerHTML = '';
+
+    // Paid promotion button in header
+    const promoCost = PAID_PROMOTION_SO_COST[campaign.lengthIdx] || 6;
+    const activeDayIdx = getCurrentDayIdxForPromotion();
+    const activeM = activeDayIdx >= 0 ? campaign.missions[activeDayIdx] : null;
+    const remainSO = activeM ? (parseFloat(activeM.startSO) || 0) - (parseFloat(activeM.usedSO) || 0) : 0;
+    const hasPromotable = activeM && campaign.squadron.some(p => !p.shotDown && getNextRank(p.rank));
+    const promoBtn = document.getElementById('paid-promote-btn');
+    if (promoBtn) {
+        if (hasPromotable && remainSO >= promoCost) {
+            promoBtn.style.display = '';
+            promoBtn.textContent = `파일럿 진급 (${promoCost} SO)`;
+        } else {
+            promoBtn.style.display = 'none';
+        }
+    }
 
     campaign.squadron.forEach((pilot, idx) => {
         const status = pilot.shotDown ? 'MIA' : getStatus(pilot);
@@ -5888,6 +5990,8 @@ document.addEventListener('DOMContentLoaded', () => {
             e.target.value = '';
         }
     });
+
+    document.getElementById('paid-promote-btn').addEventListener('click', showPaidPromoteModal);
 
     document.getElementById('reroll-btn').addEventListener('click', () => {
         if (!campaign) return;
