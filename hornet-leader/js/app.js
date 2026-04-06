@@ -1011,6 +1011,7 @@ function migrateCampaign(c) {
             if (!('recon' in t)) t.recon = '';
             if (!('intel' in t)) t.intel = '';
             if (!('infra' in t)) t.infra = '';
+            if (!('tankerPriority' in t)) t.tankerPriority = false;
             t.assignedPilots.forEach(ap => {
                 if (!('missionXp' in ap)) ap.missionXp = 0;
                 if (ap.shotDown && !('sarResult' in ap)) ap.sarResult = '';
@@ -1020,6 +1021,7 @@ function migrateCampaign(c) {
         if (!('rnrApplied' in m)) m.rnrApplied = false;
         if (!('downTime' in m)) m.downTime = false;
         if (!('collapsed' in m)) m.collapsed = false;
+        if (!('freeRefueling' in m)) m.freeRefueling = false;
     });
     if (!c.diffRules) c.diffRules = { level: 'average' };
     if (!('isUSMC' in c)) c.isUSMC = (c.scenarioName || '').includes('(USMC)');
@@ -2239,7 +2241,8 @@ function renderMissions() {
             // ── Target Card Layout ──
             const campDetail = getTargetCampaignDetails(t.targetNumber);
             const wpPenalty = getImprovementWPPenalty();
-            const effectiveWP = campDetail ? campDetail.wp - wpPenalty : null;
+            const rawWP = campDetail ? campDetail.wp : null;
+            const effectiveWP = rawWP != null ? (t.tankerPriority ? 0 : rawWP) - wpPenalty : null;
             const hits = getTargetHits(t.targetNumber);
             const targetEntry = getTargetEntry(t.targetNumber);
             const targetName = targetEntry ? targetEntry.targetName : '';
@@ -2355,6 +2358,33 @@ function renderMissions() {
                 </div>
             `;
             tBlock.appendChild(rewardRow);
+
+            // Tanker Priority toggle (after pilot assignment, before arming)
+            if (pilots.length > 0 && !t.resolved) {
+                const campDetailTP = getTargetCampaignDetails(t.targetNumber);
+                const hasWPPenalty = campDetailTP && campDetailTP.wp != null && campDetailTP.wp < 0;
+                if (hasWPPenalty) {
+                    const m = campaign.missions[dayIdx];
+                    const tankerCost = pilots.length; // 1 SO per aircraft (including support)
+                    const isFree = !!m.freeRefueling;
+                    const isActive = !!t.tankerPriority;
+                    const actualCost = isFree ? 0 : tankerCost;
+                    const tankerDiv = document.createElement('div');
+                    tankerDiv.className = 'tanker-priority-row' + (isActive ? ' active' : '');
+                    tankerDiv.innerHTML = `
+                        <label class="tanker-priority-label">
+                            <input type="checkbox" class="tanker-priority-cb" data-day="${dayIdx}" data-tidx="${tIdx}" ${isActive ? 'checked' : ''}>
+                            <span class="tanker-priority-text">공중급유 우선권</span>
+                            <span class="tanker-priority-cost">${isFree ? '무료 (Aerial Refueling 이벤트)' : `SO ${actualCost} (${pilots.length}대 × 1)`}</span>
+                        </label>
+                        <label class="tanker-free-label" title="이전 미션 홈바운드에서 Aerial Refueling 이벤트 카드를 뽑은 경우 체크">
+                            <input type="checkbox" class="tanker-free-cb" data-day="${dayIdx}" ${isFree ? 'checked' : ''}>
+                            <span>무료 급유</span>
+                        </label>
+                    `;
+                    tBlock.appendChild(tankerDiv);
+                }
+            }
 
             // Assigned pilots for this target
             if (pilots.length > 0) {
@@ -2808,6 +2838,10 @@ function attachMissionEvents(container) {
         el.addEventListener('click', onToggleFlightLeader));
     container.querySelectorAll('.sa-pilot-arrow').forEach(el =>
         el.addEventListener('click', onSAPilotArrow));
+    container.querySelectorAll('.tanker-priority-cb').forEach(el =>
+        el.addEventListener('change', onToggleTankerPriority));
+    container.querySelectorAll('.tanker-free-cb').forEach(el =>
+        el.addEventListener('change', onToggleFreeRefueling));
     container.querySelectorAll('.btn-armament').forEach(el =>
         el.addEventListener('click', e => {
             const { day, tidx, apidx } = e.target.dataset;
@@ -2902,6 +2936,7 @@ function ensureDeckHasCards(needed) {
 
 // Snapshot of deck state before drawing — restored on cancel
 let _deckSnapshot = null;
+let _drawModalState = null;
 
 function openTargetDrawModal(dayIdx) {
     const drawCount = getReconDrawCount();
@@ -2964,9 +2999,11 @@ function openTargetDrawModal(dayIdx) {
         selectedPrimary: scrambleIdx >= 0 ? scrambleIdx : -1,
         selectedSecondary: -1,
         selectedPrimarySource: scrambleIdx >= 0 ? 'drawn' : null,
-        selectedSecondarySource: null
+        selectedSecondarySource: null,
+        extraDrawSO: 0
     };
 
+    _drawModalState = state;
     renderDrawModal(state);
 }
 
@@ -3082,7 +3119,19 @@ function renderDrawModal(state) {
     cancelBtn.textContent = '취소';
     cancelBtn.addEventListener('click', closeDrawModal);
 
+    // Extra draw button (2 SO for 2 more cards, repeatable)
+    const hasScramble = state.scrambleIdx >= 0;
+    const m = campaign.missions[state.dayIdx];
+    const remainSO = (parseFloat(m.startSO) || 0) - (parseFloat(m.usedSO) || 0);
+    const extraDrawBtn = document.createElement('button');
+    extraDrawBtn.className = 'btn btn-small btn-extra-draw';
+    extraDrawBtn.textContent = `추가 드로우 (SO 2) [잔여 SO: ${remainSO}]`;
+    extraDrawBtn.disabled = remainSO < 2 || hasScramble;
+    if (hasScramble) extraDrawBtn.title = 'Scramble 발생 시 추가 드로우 불가';
+    extraDrawBtn.addEventListener('click', () => onExtraDraw(state));
+
     actions.appendChild(cancelBtn);
+    actions.appendChild(extraDrawBtn);
     actions.appendChild(confirmBtn);
 
     overlay.style.display = 'flex';
@@ -3281,6 +3330,7 @@ function applyDrawSelection(state) {
     }
 
     _deckSnapshot = null;  // Confirm: don't restore deck on close
+    _drawModalState = null;
     closeDrawModal();
     renderMissions();
     updateBadges();
@@ -3307,13 +3357,64 @@ function fillTargetFromCard(t, targetNumber) {
     }
 }
 
+function onExtraDraw(state) {
+    const m = campaign.missions[state.dayIdx];
+    const remainSO = (parseFloat(m.startSO) || 0) - (parseFloat(m.usedSO) || 0);
+    if (remainSO < 2) return;
+
+    const dayUsed = getDayUsedTargets(state.dayIdx, -1);
+    const alreadyDrawn = new Set(state.drawnCards.map(c => c.num));
+    const extraCount = 2;
+
+    m.usedSO = (parseFloat(m.usedSO) || 0) + 2;
+    state.extraDrawSO += 2;
+
+    if (campaign.targetDeck) {
+        ensureDeckHasCards(extraCount);
+        const available = campaign.targetDeck.filter(n => !dayUsed.has(n) && !alreadyDrawn.has(n));
+        const toDraw = Math.min(extraCount, available.length);
+        for (let i = 0; i < toDraw; i++) {
+            const num = available[i];
+            const deckIdx = campaign.targetDeck.indexOf(num);
+            if (deckIdx >= 0) campaign.targetDeck.splice(deckIdx, 1);
+            const entry = getTargetEntry(num);
+            state.drawnCards.push({ num, entry });
+            if (entry && entry.traits && entry.traits.includes('Scramble')) {
+                state.scrambleIdx = state.drawnCards.length - 1;
+                break;
+            }
+        }
+    } else {
+        const destroyed = getDestroyedTargets();
+        const pool = getAvailableTargetPool(state.dayIdx).filter(n => !alreadyDrawn.has(n));
+        const shuffled = shuffleArray(pool);
+        for (let i = 0; i < Math.min(extraCount, shuffled.length); i++) {
+            const num = shuffled[i];
+            const entry = getTargetEntry(num);
+            state.drawnCards.push({ num, entry });
+            if (entry && entry.traits && entry.traits.includes('Scramble')) {
+                state.scrambleIdx = state.drawnCards.length - 1;
+                break;
+            }
+        }
+    }
+
+    renderDrawModal(state);
+}
+
 function closeDrawModal() {
     // Restore deck state if cancelled (cards were removed from deck on draw)
     if (_deckSnapshot && campaign.targetDeck) {
         campaign.targetDeck = _deckSnapshot.targetDeck;
         campaign.discardPile = _deckSnapshot.discardPile;
+        // Rollback extra draw SO on cancel
+        if (_drawModalState && _drawModalState.extraDrawSO > 0) {
+            const m = campaign.missions[_drawModalState.dayIdx];
+            m.usedSO = (parseFloat(m.usedSO) || 0) - _drawModalState.extraDrawSO;
+        }
     }
     _deckSnapshot = null;
+    _drawModalState = null;
     document.getElementById('target-draw-modal').style.display = 'none';
 }
 
@@ -3410,7 +3511,8 @@ function showArmamentModal(dayIdx, tIdx, apIdx) {
     const aircraftWP = acData.aircraft_wp || 0;
     const campDetail = getTargetCampaignDetails(target.targetNumber);
     const wpPenalty = getImprovementWPPenalty();
-    const targetWPMod = campDetail && campDetail.wp != null ? campDetail.wp : 0;
+    const rawTargetWPMod = campDetail && campDetail.wp != null ? campDetail.wp : 0;
+    const targetWPMod = target.tankerPriority ? 0 : rawTargetWPMod;
     const maxWP = aircraftWP + targetWPMod - wpPenalty;
 
     const restrictions = AIRCRAFT_RESTRICTIONS[armKey] || {};
@@ -4618,7 +4720,14 @@ function onConfirmAssign(e) {
         if (!isE2C(pilot)) nonE2CCount++;
     });
 
+    // Recalculate tanker priority SO before changing assignedPilots
+    const oldTankerSO = calcTankerPrioritySO(dayIdx);
     target.assignedPilots = newAssigned;
+    const newTankerSO = calcTankerPrioritySO(dayIdx);
+    if (newTankerSO !== oldTankerSO) {
+        const m = campaign.missions[dayIdx];
+        m.usedSO = (parseFloat(m.usedSO) || 0) + (newTankerSO - oldTankerSO);
+    }
     assignFlightLeader(dayIdx, tIdx);
 
     openAssignPanels.delete(key);
@@ -4632,6 +4741,43 @@ function onCancelAssign(e) {
     openAssignPanels.delete(key);
     delete assignStaging[key];
     renderMissions();
+}
+
+// ─── Tanker Priority ───
+
+function calcTankerPrioritySO(dayIdx) {
+    const m = campaign.missions[dayIdx];
+    if (!m) return 0;
+    if (m.freeRefueling) return 0;
+    let total = 0;
+    m.targets.forEach(t => {
+        if (t.tankerPriority) total += (t.assignedPilots || []).length;
+    });
+    return total;
+}
+
+function onToggleTankerPriority(e) {
+    const dayIdx = parseInt(e.target.dataset.day);
+    const tIdx = parseInt(e.target.dataset.tidx);
+    const m = campaign.missions[dayIdx];
+    const target = m.targets[tIdx];
+    const oldSO = calcTankerPrioritySO(dayIdx);
+    target.tankerPriority = e.target.checked;
+    const newSO = calcTankerPrioritySO(dayIdx);
+    m.usedSO = (parseFloat(m.usedSO) || 0) + (newSO - oldSO);
+    renderAll();
+    autoSave();
+}
+
+function onToggleFreeRefueling(e) {
+    const dayIdx = parseInt(e.target.dataset.day);
+    const m = campaign.missions[dayIdx];
+    const oldSO = calcTankerPrioritySO(dayIdx);
+    m.freeRefueling = e.target.checked;
+    const newSO = calcTankerPrioritySO(dayIdx);
+    m.usedSO = (parseFloat(m.usedSO) || 0) + (newSO - oldSO);
+    renderAll();
+    autoSave();
 }
 
 function onToggleShotDown(e) {

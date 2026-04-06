@@ -744,6 +744,50 @@ select:focus, input:focus { outline: none; border-color: #8b7a2e; box-shadow: in
 }
 .target-remove:hover { color: #c06050; border-color: #c06050; }
 
+/* ─── Tanker Priority ─── */
+.tanker-priority-row {
+    display: flex;
+    align-items: center;
+    gap: 0.8rem;
+    padding: 0.35rem 0.7rem;
+    border-top: 1px solid #3a3d35;
+    background: #2a2d25;
+    font-size: 0.8rem;
+}
+.tanker-priority-row.active {
+    background: #2a3328;
+    border-top-color: #4a6a3a;
+}
+.tanker-priority-label {
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    cursor: pointer;
+    color: #bbb;
+}
+.tanker-priority-row.active .tanker-priority-label {
+    color: #d0e8c0;
+}
+.tanker-priority-text { font-weight: 600; }
+.tanker-priority-cost {
+    color: #c8b040;
+    font-size: 0.75rem;
+    margin-left: 0.2rem;
+}
+.tanker-priority-row.active .tanker-priority-cost {
+    color: #e8d860;
+}
+.tanker-free-label {
+    display: flex;
+    align-items: center;
+    gap: 0.3rem;
+    cursor: pointer;
+    color: #888;
+    font-size: 0.75rem;
+    margin-left: auto;
+}
+.tanker-free-label span { white-space: nowrap; }
+
 /* ─── Assigned Pilots ─── */
 .target-pilots {
     padding: 0.15rem 0.7rem;
@@ -2277,6 +2321,14 @@ tr.pilot-unfit { position: relative; }
     border-top: 1px solid #43463f;
 }
 .draw-actions .btn { min-width: 5rem; }
+.btn-extra-draw {
+    background: #3a3520;
+    border-color: #8b7a2e;
+    color: #c8b040;
+    margin-right: auto;
+}
+.btn-extra-draw:hover:not(:disabled) { background: #4a4530; border-color: #c8b040; }
+.btn-extra-draw:disabled { opacity: 0.4; cursor: not-allowed; }
 
 /* ─── Replacement Pilot ─── */
 .mia-actions {
