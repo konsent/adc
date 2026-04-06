@@ -1590,7 +1590,7 @@ function renderCarrierMarkers() {
 
     // Aircraft to counter image mapping
     const AIRCRAFT_IMG = {
-        'F/A-18C': 'f18c.png', 'F/A-18E': 'f18e.png', 'F/A-18F': 'f18.png',
+        'F/A-18C': 'f18c.png', 'F/A-18E': 'f18e.png', 'F/A-18F': 'f18f.png',
         'F-14': 'f14.png', 'EA-6B': 'ea6b.png', 'EA-18G': 'ea18g.png',
         'E-2C': 'e2c.png', 'F-35A/C': 'f35.png', 'AV-8B': 'av8b.png',
         'A-6': 'a6.png', 'A-7': 'a7.png',
