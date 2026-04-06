@@ -2052,27 +2052,52 @@ function getIntelModifier() {
     return intelArr[intelTrack];
 }
 
-function getIntelDisplayInfo() {
-    const intelStr = getIntelModifier();
-    if (!intelStr || intelStr === '-') return null;
-    const match = intelStr.match(/^([+-]\d+)\s+(Center\s+)?(Bandit(?:\s+(?:or|and)\s+Site)?|Site)$/i);
+function resolveIntelModifier() {
+    const raw = getIntelModifier();
+    if (!raw || raw === '-') return null;
+    const match = raw.match(/^([+-]\d+)\s+(Center\s+)?(Bandit(?:\s+(?:or|and)\s+Site)?|Site)$/i);
     if (!match) return null;
     const num = match[1];
     const isCenter = !!match[2];
-    const target = match[3];
-    let tooltip = 'Intel: ';
-    if (isCenter) tooltip += '중앙 ';
-    const tl = target.toLowerCase();
-    if (tl === 'bandit and site') tooltip += '밴딧 및 사이트';
-    else if (tl === 'bandit or site') tooltip += '밴딧 또는 사이트';
-    else if (tl === 'bandit') tooltip += '밴딧';
-    else if (tl === 'site') tooltip += '사이트';
-    tooltip += ' ' + num;
+    const target = match[3].toLowerCase();
+    const pickZone = () => isCenter ? 'center' : (Math.random() < 0.5 ? 'approach' : 'center');
+    const zoneKr = z => z === 'center' ? '중앙' : '접근';
+    let effects = [];
+    let banditParts = [], siteParts = [];
+    if (target === 'bandit or site') {
+        const zone = pickZone();
+        if (Math.random() < 0.5) {
+            effects.push({ type: 'bandit', zone });
+            banditParts.push(`${zoneKr(zone)} 밴딧 ${num}`);
+        } else {
+            effects.push({ type: 'site', zone });
+            siteParts.push(`${zoneKr(zone)} 사이트 ${num}`);
+        }
+    } else if (target === 'bandit and site') {
+        const bz = pickZone(), sz = pickZone();
+        effects.push({ type: 'bandit', zone: bz });
+        effects.push({ type: 'site', zone: sz });
+        banditParts.push(`${zoneKr(bz)} 밴딧 ${num}`);
+        siteParts.push(`${zoneKr(sz)} 사이트 ${num}`);
+    } else if (target === 'bandit') {
+        const zone = pickZone();
+        effects.push({ type: 'bandit', zone });
+        banditParts.push(`${zoneKr(zone)} 밴딧 ${num}`);
+    } else if (target === 'site') {
+        const zone = pickZone();
+        effects.push({ type: 'site', zone });
+        siteParts.push(`${zoneKr(zone)} 사이트 ${num}`);
+    }
+    const allParts = [...banditParts, ...siteParts];
     return {
-        tooltip,
-        affectsSites: tl.includes('site'),
-        affectsBandits: tl.includes('bandit'),
-        raw: intelStr
+        raw,
+        resolvedText: allParts.join(', '),
+        banditText: banditParts.join(', '),
+        siteText: siteParts.join(', '),
+        tooltip: 'Intel: ' + allParts.join(', '),
+        effects,
+        affectsSites: effects.some(e => e.type === 'site'),
+        affectsBandits: effects.some(e => e.type === 'bandit')
     };
 }
 
@@ -2398,7 +2423,7 @@ function renderMissions() {
             if (targetEntry) {
                 const titleEl = header.querySelector('.tc-title-hover');
                 if (titleEl) {
-                    titleEl.addEventListener('mouseenter', () => showTargetDetailPanel(targetEntry, t.targetNumber, titleEl));
+                    titleEl.addEventListener('mouseenter', () => showTargetDetailPanel(targetEntry, t.targetNumber, titleEl, m.resolvedIntel));
                     titleEl.addEventListener('mouseleave', hideTargetDetailPanel);
                 }
             }
@@ -3136,7 +3161,8 @@ function openTargetDrawModal(dayIdx) {
         selectedSecondary: -1,
         selectedPrimarySource: scrambleIdx >= 0 ? 'drawn' : null,
         selectedSecondarySource: null,
-        extraDrawSO: 0
+        extraDrawSO: 0,
+        resolvedIntel: resolveIntelModifier()
     };
 
     _drawModalState = state;
@@ -3172,7 +3198,7 @@ function renderDrawModal(state) {
         const hits = getTargetHits(card.num);
         const bandInfo = getTargetBandInfo(card.num);
         const wpPen = getImprovementWPPenalty();
-        const intelInfo = getIntelDisplayInfo();
+        const intelInfo = state.resolvedIntel;
 
         const div = document.createElement('div');
         div.className = 'draw-card'
@@ -3189,8 +3215,8 @@ function renderDrawModal(state) {
             </div>
             <div class="draw-card-detail">
                 <span>기체: ${entry ? entry.aircraftCount : '?'}</span>
-                <span ${intelInfo && intelInfo.affectsSites ? `class="intel-highlight" title="${intelInfo.tooltip}"` : ''}>Sites: ${entry ? `접근 ${entry.sites.approach} / 중심 ${entry.sites.center}` : '?'}</span>
-                <span ${intelInfo && intelInfo.affectsBandits ? `class="intel-highlight" title="${intelInfo.tooltip}"` : ''}>Bandits: ${entry ? `접근 ${entry.bandits.approach} / 중심 ${entry.bandits.center}` : '?'}</span>
+                <span ${intelInfo && intelInfo.affectsSites ? `class="intel-highlight" title="${intelInfo.raw} → ${intelInfo.siteText}"` : ''}>Sites: ${entry ? `접근 ${entry.sites.approach} / 중심 ${entry.sites.center}` : '?'}</span>
+                <span ${intelInfo && intelInfo.affectsBandits ? `class="intel-highlight" title="${intelInfo.raw} → ${intelInfo.banditText}"` : ''}>Bandits: ${entry ? `접근 ${entry.bandits.approach} / 중심 ${entry.bandits.center}` : '?'}</span>
                 ${entry && entry.nighttimeMission === 'true' ? '<span style="color:#8090c0">야간 가능</span>' : ''}
             </div>
             <div class="draw-card-traits">
@@ -3208,7 +3234,7 @@ function renderDrawModal(state) {
             renderDrawModal(state);
         });
         if (entry) {
-            div.addEventListener('mouseenter', () => showTargetDetailPanel(entry, card.num, div));
+            div.addEventListener('mouseenter', () => showTargetDetailPanel(entry, card.num, div, intelInfo));
             div.addEventListener('mouseleave', hideTargetDetailPanel);
         }
 
@@ -3275,7 +3301,7 @@ function renderDrawModal(state) {
     document.getElementById('draw-modal-close').onclick = closeDrawModal;
 }
 
-function showTargetDetailPanel(entry, cardNum, anchorEl) {
+function showTargetDetailPanel(entry, cardNum, anchorEl, resolvedIntel) {
     const panel = document.getElementById('target-detail-panel');
     if (!panel) return;
 
@@ -3289,7 +3315,7 @@ function showTargetDetailPanel(entry, cardNum, anchorEl) {
     const sites = entry.sites || {};
     const bandits = entry.bandits || {};
     const rew = entry.destroyedRewards || {};
-    const intelInfo = getIntelDisplayInfo();
+    const intelInfo = resolvedIntel || null;
 
     // Campaign-specific override
     let campaignOverride = null;
@@ -3317,12 +3343,12 @@ function showTargetDetailPanel(entry, cardNum, anchorEl) {
             ${baseStress != null ? `<div class="tdp-stat"><span class="tdp-label">기본 ST</span><span class="tdp-val">${baseStress}</span></div>` : ''}
             ${bonusXP ? `<div class="tdp-stat"><span class="tdp-label">보너스 XP</span><span class="tdp-val">+${bonusXP}</span></div>` : ''}
         </div>
-        <div class="tdp-section ${intelInfo && intelInfo.affectsSites ? 'intel-highlight' : ''}" ${intelInfo && intelInfo.affectsSites ? `title="${esc(intelInfo.tooltip)}"` : ''}>
-            <div class="tdp-sec-title">사이트${intelInfo && intelInfo.affectsSites ? ` <span class="intel-badge">${esc(intelInfo.raw)}</span>` : ''}</div>
+        <div class="tdp-section ${intelInfo && intelInfo.affectsSites ? 'intel-highlight' : ''}" ${intelInfo && intelInfo.affectsSites ? `title="${esc(intelInfo.raw)} → ${esc(intelInfo.siteText)}"` : ''}>
+            <div class="tdp-sec-title">사이트${intelInfo && intelInfo.affectsSites ? ` <span class="intel-badge">${esc(intelInfo.siteText)}</span>` : ''}</div>
             <div class="tdp-row"><span class="tdp-label">접근</span><span class="tdp-val">${esc(sites.approach ?? 0)}</span><span class="tdp-label">중앙</span><span class="tdp-val">${esc(sites.center ?? 0)}</span></div>
         </div>
-        <div class="tdp-section ${intelInfo && intelInfo.affectsBandits ? 'intel-highlight' : ''}" ${intelInfo && intelInfo.affectsBandits ? `title="${esc(intelInfo.tooltip)}"` : ''}>
-            <div class="tdp-sec-title">밴딧${intelInfo && intelInfo.affectsBandits ? ` <span class="intel-badge">${esc(intelInfo.raw)}</span>` : ''}</div>
+        <div class="tdp-section ${intelInfo && intelInfo.affectsBandits ? 'intel-highlight' : ''}" ${intelInfo && intelInfo.affectsBandits ? `title="${esc(intelInfo.raw)} → ${esc(intelInfo.banditText)}"` : ''}>
+            <div class="tdp-sec-title">밴딧${intelInfo && intelInfo.affectsBandits ? ` <span class="intel-badge">${esc(intelInfo.banditText)}</span>` : ''}</div>
             <div class="tdp-row"><span class="tdp-label">접근</span><span class="tdp-val">${esc(bandits.approach ?? 0)}</span><span class="tdp-label">중앙</span><span class="tdp-val">${esc(bandits.center ?? 0)}</span></div>
         </div>
         <div class="tdp-section">
@@ -3423,6 +3449,7 @@ function applyDrawSelection(state) {
     try {
     const dayIdx = state.dayIdx;
     const m = campaign.missions[dayIdx];
+    m.resolvedIntel = state.resolvedIntel || null;
     const cardList = { drawn: state.drawnCards, imp: state.impCards || [] };
 
     const srcList = cardList[state.selectedPrimarySource];
