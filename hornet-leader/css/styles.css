@@ -2343,6 +2343,21 @@ tr.pilot-unfit { position: relative; }
     margin-bottom: 0.3rem;
 }
 .draw-card-detail span { white-space: nowrap; }
+
+/* Intel modifier highlight */
+.intel-highlight {
+    background-color: rgba(255, 220, 40, 0.25);
+    border-radius: 3px;
+    padding: 1px 5px;
+    cursor: help;
+    border: 1px solid rgba(255, 220, 40, 0.4);
+}
+.intel-badge {
+    font-size: 0.6rem;
+    color: #e8d44d;
+    font-weight: 600;
+    margin-left: 0.3em;
+}
 .draw-card-traits {
     display: flex; flex-wrap: wrap; gap: 0.25rem;
 }

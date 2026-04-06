@@ -377,7 +377,8 @@
                 }
             ],
             "Recon": [3, 3, 3, 4, 4, 4, 4, 5, 5],
-            "Infra": [0, 0, -1, -1, -1, -1, -2, -2, -3]
+            "Infra": [0, 0, -1, -1, -1, -1, -2, -2, -3],
+            "Intel": ["-", "-1 Center Site", "-1 Center Site", "-1 Bandit", "-1 Bandit", "-1 Bandit or Site", "-1 Bandit or Site", "-1 Bandit and Site", "-1 Bandit and Site"]
         },
         {
             "Name": "Iraq 1991 (USMC)",
@@ -518,7 +519,8 @@
                 }
             ],
             "Recon": [3, 3, 3, 4, 4, 4, 4, 5, 5],
-            "Infra": [0, 0, -1, -1, -1, -1, -2, -2, -3]
+            "Infra": [0, 0, -1, -1, -1, -1, -2, -2, -3],
+            "Intel": ["-", "-1 Center Site", "-1 Center Site", "-1 Bandit", "-1 Bandit", "-1 Bandit or Site", "-1 Bandit or Site", "-1 Bandit and Site", "-1 Bandit and Site"]
         },
         {
             "Name": "Egyptian Defense 2015 (USN)",
@@ -2051,7 +2053,8 @@
                 -2,
                 -3,
                 -3
-            ]
+            ],
+            "Intel": ["+1 Center Site", "-", "-", "-", "-", "-1 Center Site", "-1 Bandit", "-1 Bandit", "-1 Bandit or Site"]
         },
         {
             "Name": "Syria 2004 (USMC)",
@@ -2261,7 +2264,8 @@
                 -2,
                 -3,
                 -3
-            ]
+            ],
+            "Intel": ["+1 Center Site", "-", "-", "-", "-", "-1 Center Site", "-1 Bandit", "-1 Bandit", "-1 Bandit or Site"]
         },
         {
             "Name": "Taiwan Defense 2008 (USN)",
@@ -2471,7 +2475,8 @@
                 -1,
                 -2,
                 -2
-            ]
+            ],
+            "Intel": ["-", "-", "-", "-", "-1 Center Site", "-1 Center Site", "-1 Bandit", "-1 Bandit", "-1 Bandit or Site"]
         },
         {
             "Name": "Taiwan Defense 2008 (USMC)",
@@ -2677,7 +2682,8 @@
                 -1,
                 -2,
                 -2
-            ]
+            ],
+            "Intel": ["-", "-", "-", "-", "-1 Center Site", "-1 Center Site", "-1 Bandit", "-1 Bandit", "-1 Bandit or Site"]
         },
         {
             "Name": "Iran 2014 (USN)",
@@ -2887,7 +2893,8 @@
                 -2,
                 -2,
                 -3
-            ]
+            ],
+            "Intel": ["+1 Center Site", "+1 Center Site", "-", "-", "-", "-1 Center Site", "-1 Bandit", "-1 Bandit", "-1 Bandit or Site"]
         },
         {
             "Name": "Iran 2014 (USMC)",
@@ -3094,7 +3101,8 @@
                 -2,
                 -2,
                 -3
-            ]
+            ],
+            "Intel": ["+1 Center Site", "+1 Center Site", "-", "-", "-", "-1 Center Site", "-1 Bandit", "-1 Bandit", "-1 Bandit or Site"]
         },
         {
             "Name": "Libya 1984 (USN)",
@@ -3292,7 +3300,8 @@
                 -1,
                 -1,
                 -2
-            ]
+            ],
+            "Intel": ["-", "-", "-", "-1 Center Site", "-1 Center Site", "-1 Bandit", "-1 Bandit", "-1 Bandit or Site", "-1 Bandit or Site"]
         },
         {
             "Name": "Libya 1984 (USMC)",
@@ -3492,7 +3501,8 @@
                 -1,
                 -1,
                 -2
-            ]
+            ],
+            "Intel": ["-", "-", "-", "-1 Center Site", "-1 Center Site", "-1 Bandit", "-1 Bandit", "-1 Bandit or Site", "-1 Bandit or Site"]
         },
         {
             "Name": "Silent Aurora Antarctica (USN)",
@@ -4270,7 +4280,8 @@
                 -1,
                 -2,
                 -2
-            ]
+            ],
+            "Intel": ["+2 Center Site", "+2 Center Site", "+1 Center Site", "+1 Center Site", "-", "-", "-", "-1 Bandit", "-1 Bandit or Site"]
         },
         {
             "Name": "North Korea 2011 (USMC)",
@@ -4480,7 +4491,8 @@
                 -1,
                 -2,
                 -2
-            ]
+            ],
+            "Intel": ["+2 Center Site", "+2 Center Site", "+1 Center Site", "+1 Center Site", "-", "-", "-", "-1 Bandit", "-1 Bandit or Site"]
         },
         {
             "Name": "Israel Defense (USN)",
@@ -4686,7 +4698,8 @@
                 -1,
                 -1,
                 -2
-            ]
+            ],
+            "Intel": ["+1 Center Bandit and Site", "+1 Center Bandit", "+1 Center Bandit", "-", "-", "-", "-1 Bandit", "-1 Bandit", "-1 Bandit or Site"]
         },
         {
             "Name": "Israel Defense (USMC)",
@@ -4886,7 +4899,8 @@
                 -1,
                 -1,
                 -2
-            ]
+            ],
+            "Intel": ["+1 Center Bandit and Site", "+1 Center Bandit", "+1 Center Bandit", "-", "-", "-", "-1 Bandit", "-1 Bandit", "-1 Bandit or Site"]
         },
         {
             "Name": "North Korea (USN)",
@@ -5330,7 +5344,8 @@
                 -1,
                 -1,
                 -2
-            ]
+            ],
+            "Intel": ["+3 Center Bandit", "+2 Center Bandit", "+2 Center Bandit", "+1 Center Bandit", "+1 Center Bandit", "-", "-", "-1 Bandit", "-1 Bandit or Site"]
         },
         {
             "Name": "WWIII North Atlantic 1986 (USMC)",
@@ -5531,7 +5546,8 @@
                 -1,
                 -1,
                 -2
-            ]
+            ],
+            "Intel": ["+3 Center Bandit", "+2 Center Bandit", "+2 Center Bandit", "+1 Center Bandit", "+1 Center Bandit", "-", "-", "-1 Bandit", "-1 Bandit or Site"]
         },
         {
             "Name": "R'Lyeh (USN)",
