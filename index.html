@@ -232,6 +232,24 @@
     .game-card.silentvictory .card-desc { color: #4a6a7a; }
     .game-card.silentvictory .card-enter { color: #5a9ab0; }
 
+    /* Air & Armor card — cold war desert sand theme */
+    .game-card.airarmor {
+      background: linear-gradient(160deg, #1a1408 0%, #241c0a 60%, #1a1408 100%);
+      border: 1px solid #4a3a1a;
+      box-shadow: 0 4px 24px rgba(0,0,0,0.5), inset 0 0 40px rgba(180,140,60,0.04);
+    }
+    .game-card.airarmor:hover {
+      border-color: #8a6a2a;
+      box-shadow: 0 8px 40px rgba(180,140,60,0.15), inset 0 0 40px rgba(180,140,60,0.06);
+    }
+    .game-card.airarmor .card-image::after {
+      background: linear-gradient(to top, #1a1408, transparent);
+    }
+    .game-card.airarmor .card-era { color: #9a7a3a; }
+    .game-card.airarmor .card-title { color: #d4a84a; }
+    .game-card.airarmor .card-desc { color: #7a6a3a; }
+    .game-card.airarmor .card-enter { color: #c49840; }
+
     /* Hornet Leader card — carrier navy steel theme */
     .game-card.hornetleader {
       background: linear-gradient(160deg, #0a1210 0%, #0e1e1a 60%, #0a1210 100%);
@@ -336,6 +354,18 @@
         <div class="card-era">Pacific · 1941–1945</div>
         <div class="card-title">Silent Victory</div>
         <div class="card-desc">U.S. Submarine — 태평양 전쟁 미 잠수함 작전</div>
+        <div class="card-enter">Enter <span class="arrow">→</span></div>
+      </div>
+    </a>
+    <!-- Air & Armor -->
+    <a class="game-card airarmor" href="air_armor/index.html">
+      <div class="card-image">
+        <img src="air_armor/air_armor_thumb.png" alt="Air & Armor" />
+      </div>
+      <div class="card-body">
+        <div class="card-era">Cold War · 1980s Central Europe</div>
+        <div class="card-title">Air &amp; Armor</div>
+        <div class="card-desc">NATO vs Warsaw Pact — 냉전 중부 유럽 지상·공중 헥스 워게임</div>
         <div class="card-enter">Enter <span class="arrow">→</span></div>
       </div>
     </a>
