@@ -63,9 +63,65 @@ header h1 {
 .breadcrumb { font-size: 0.7rem; color: var(--text-dim); letter-spacing: 0.5px; }
 .breadcrumb a { color: var(--green-lt); text-decoration: none; cursor: pointer; }
 .breadcrumb a:hover { color: var(--nato); }
+.breadcrumb a.bc-step { color: var(--text-dim); font-size: 0.65rem; }
+.breadcrumb a.bc-step:hover { color: var(--nato); }
 .breadcrumb .sep { margin: 0 6px; color: var(--border2); }
 .breadcrumb .current { color: var(--nato); font-weight: 600; }
 .kbd-hint { font-size: 0.63rem; color: var(--text-dim); white-space: nowrap; letter-spacing: 1px; }
+
+/* ── 턴/사이클 카운터 ── */
+.counter-group {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+.counter-item {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.counter-label {
+  font-size: 0.6rem;
+  color: var(--text-dim);
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+.counter-ctrl {
+  display: flex;
+  align-items: center;
+  gap: 0;
+}
+.counter-btn {
+  background: transparent;
+  border: 1px solid var(--border2);
+  color: var(--text-dim);
+  font-family: var(--mono);
+  font-size: 0.7rem;
+  width: 20px;
+  height: 20px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.1s;
+  padding: 0;
+  line-height: 1;
+}
+.counter-btn:hover { border-color: var(--nato); color: var(--nato); }
+.counter-val {
+  font-family: var(--mono);
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: var(--nato);
+  min-width: 24px;
+  text-align: center;
+  border-top: 1px solid var(--border2);
+  border-bottom: 1px solid var(--border2);
+  height: 20px;
+  line-height: 20px;
+  padding: 0 4px;
+}
 
 /* ── 진행도 ── */
 .progress-wrap {
@@ -129,17 +185,7 @@ main {
   flex-direction: column;
   overflow: hidden;
 }
-.panel-label {
-  padding: 6px 16px;
-  font-size: 0.6rem;
-  color: var(--text-dim);
-  letter-spacing: 2px;
-  text-transform: uppercase;
-  font-weight: 600;
-  border-bottom: 1px solid var(--border);
-  flex-shrink: 0;
-  font-family: var(--mono);
-}
+.panel-label { display: none; }
 .step-scroll {
   flex: 1;
   overflow-y: auto;
@@ -156,24 +202,82 @@ main {
   border: 1px solid var(--green);
   padding: 2px 8px;
 }
-.step-num {
-  font-family: var(--title);
-  font-size: 3.4rem;
+
+/* ── 행동 주체 배지 ── */
+.actor-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 14px;
+}
+.actor-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  font-family: var(--mono);
+  font-size: 0.68rem;
   font-weight: 700;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  padding: 3px 10px;
+  border-width: 1px;
+  border-style: solid;
+}
+.actor-badge.wp {
+  background: rgba(139,26,26,0.18);
+  border-color: var(--wp-bright);
+  color: #e87070;
+}
+.actor-badge.nato {
+  background: rgba(212,174,85,0.12);
+  border-color: var(--nato);
   color: var(--nato);
+}
+.actor-badge.both {
+  background: rgba(106,142,72,0.15);
+  border-color: var(--green);
+  color: var(--green-lt);
+}
+.actor-badge.active {
+  background: rgba(212,174,85,0.12);
+  border-color: var(--nato);
+  color: var(--nato);
+}
+.actor-badge.inactive {
+  background: rgba(139,26,26,0.18);
+  border-color: var(--wp-bright);
+  color: #e87070;
+}
+.actor-dot {
+  width: 6px; height: 6px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+.actor-badge.wp .actor-dot,
+.actor-badge.inactive .actor-dot { background: var(--wp-bright); }
+.actor-badge.nato .actor-dot,
+.actor-badge.active .actor-dot { background: var(--nato); }
+.actor-badge.both .actor-dot { background: var(--green-lt); }
+.step-num {
+  font-family: var(--mono);
+  font-size: 0.7rem;
+  font-weight: 700;
+  color: var(--text-dim);
   line-height: 1;
-  margin-bottom: 4px;
+  margin-bottom: 6px;
+  letter-spacing: 1px;
 }
 .step-title {
   font-family: var(--title);
-  font-size: 1.3rem;
-  font-weight: 600;
-  color: #e8e4c8;
+  font-size: 1.8rem;
+  font-weight: 700;
+  color: var(--nato);
   margin-bottom: 16px;
   letter-spacing: 1px;
   text-transform: uppercase;
   border-bottom: 1px solid var(--border2);
   padding-bottom: 12px;
+  line-height: 1.2;
 }
 /* step-body 내 문장 단위 아이템 */
 .step-body {
@@ -183,13 +287,39 @@ main {
   display: flex;
   gap: 10px;
   align-items: flex-start;
-  font-size: 0.95rem;
+  font-size: 1.05rem;
   line-height: 1.75;
   color: var(--text);
   padding: 5px 0;
   border-bottom: 1px solid var(--border);
+  cursor: pointer;
+  user-select: none;
+  transition: background 0.1s;
 }
+.step-body-item:hover { background: rgba(255,255,255,0.03); }
 .step-body-item:last-child { border-bottom: none; }
+.step-body-item.checked { opacity: 0.38; }
+.step-body-item.checked .step-body-text { text-decoration: line-through; }
+
+.step-check {
+  flex-shrink: 0;
+  width: 15px;
+  height: 15px;
+  border: 1px solid var(--border2);
+  margin-top: 6px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.12s;
+  font-size: 0.6rem;
+  color: transparent;
+}
+.step-body-item.checked .step-check {
+  background: var(--green);
+  border-color: var(--green);
+  color: #1a2a10;
+}
+
 .step-body-bullet {
   color: var(--nato);
   flex-shrink: 0;
@@ -198,6 +328,23 @@ main {
   opacity: 0.7;
 }
 .step-body-text { flex: 1; }
+
+/* 스텝 완료 배너 */
+.step-complete-banner {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 16px;
+  padding: 8px 12px;
+  background: rgba(106,142,72,0.15);
+  border: 1px solid var(--green);
+  color: var(--green-lt);
+  font-size: 0.75rem;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  font-family: var(--mono);
+}
+.step-complete-banner.hidden { display: none; }
 .step-note {
   background: rgba(139,26,26,0.15);
   border-left: 3px solid var(--wp-bright);
@@ -218,18 +365,20 @@ main {
   letter-spacing: 2px;
   margin-bottom: 9px;
 }
-.op-btns { display: flex; flex-wrap: wrap; gap: 7px; }
+.op-btns { display: flex; flex-direction: column; gap: 6px; }
 .op-btn {
-  padding: 7px 13px;
+  padding: 11px 16px;
   background: transparent;
   border: 1px solid var(--border2);
   color: var(--text);
-  font-size: 0.78rem;
+  font-size: 0.88rem;
   cursor: pointer;
   transition: all 0.12s;
   font-family: var(--mono);
   letter-spacing: 0.5px;
   text-transform: uppercase;
+  text-align: left;
+  width: 100%;
 }
 .op-btn:hover { background: rgba(200,168,75,0.1); border-color: var(--nato); color: var(--nato); }
 .op-btn.active { background: rgba(200,168,75,0.15); border-color: var(--nato); color: var(--nato); font-weight: 700; }
@@ -302,7 +451,7 @@ main {
   white-space: nowrap;
 }
 .rule-title {
-  font-size: 0.82rem;
+  font-size: 0.92rem;
   font-weight: 600;
   color: #e8e4c8;
   letter-spacing: 0.5px;
@@ -311,7 +460,7 @@ main {
 }
 .rule-card-body {
   padding: 11px 13px;
-  font-size: 0.8rem;
+  font-size: 0.9rem;
   line-height: 1.75;
   color: var(--text);
 }
@@ -340,7 +489,7 @@ main {
   letter-spacing: 0.5px;
 }
 .rule-sub-title {
-  font-size: 0.75rem;
+  font-size: 0.85rem;
   font-weight: 600;
   color: var(--green-lt);
   font-family: var(--title);
@@ -404,7 +553,7 @@ footer {
 
 /* 인라인 소제목 (볼드 헤더) */
 .rule-subhead {
-  font-size: 0.8rem;
+  font-size: 0.9rem;
   line-height: 1.7;
   color: var(--text);
   margin-bottom: 6px;
@@ -431,7 +580,7 @@ footer {
   font-family: var(--title);
 }
 .rule-seg-body {
-  font-size: 0.8rem;
+  font-size: 0.9rem;
   line-height: 1.72;
   color: var(--text);
 }
@@ -442,7 +591,7 @@ footer {
   display: flex;
   gap: 8px;
   margin-bottom: 5px;
-  font-size: 0.8rem;
+  font-size: 0.9rem;
   line-height: 1.7;
   color: var(--text);
 }
@@ -459,7 +608,7 @@ footer {
   background: rgba(90,122,58,0.12);
   border-left: 2px solid var(--green);
   padding: 7px 10px;
-  font-size: 0.76rem;
+  font-size: 0.86rem;
   color: #a8c080;
   margin: 8px 0;
   line-height: 1.65;
@@ -633,7 +782,17 @@ footer {
     <h1>▶ AIR &amp; ARMOR · SOP</h1>
     <div class="breadcrumb" id="breadcrumb"></div>
   </div>
-  <div class="kbd-hint">← → 화살표 키로 이동</div>
+  <div class="counter-group">
+    <div class="counter-item">
+      <span class="counter-label">턴</span>
+      <div class="counter-ctrl">
+        <button class="counter-btn" onclick="adjustCounter('turn', -1)">−</button>
+        <span class="counter-val" id="counter-turn">1</span>
+        <button class="counter-btn" onclick="adjustCounter('turn', 1)">+</button>
+      </div>
+    </div>
+    <div class="kbd-hint">← → 화살표 키로 이동</div>
+  </div>
 </header>
 
 <div class="progress-wrap">
@@ -646,11 +805,9 @@ footer {
 
 <main>
   <div class="panel-left">
-    <div class="panel-label">현재 스텝</div>
     <div class="step-scroll" id="step-panel"></div>
   </div>
   <div class="panel-right">
-    <div class="panel-label">규칙 참조</div>
     <div class="rules-scroll" id="rules-panel"></div>
   </div>
 </main>
@@ -713,6 +870,14 @@ let stepIndex = 0;
 // PDF 뷰어 상태
 let pdfCurrentPage = 1;
 let pdfCurrentRef = null;  // 현재 탭에 표시 중인 ref id
+
+// 턴 카운터
+const counters = { turn: 1 };
+
+function adjustCounter(key, delta) {
+  counters[key] = Math.max(1, counters[key] + delta);
+  document.getElementById(`counter-${key}`).textContent = counters[key];
+}
 
 // ──────────────────────────────────────────
 // 로드
@@ -846,13 +1011,16 @@ function renderBreadcrumb(phase, step) {
   const bc = document.getElementById('breadcrumb');
   const parts = [];
 
-  // 스택에 있는 이전 페이즈들
-  for (const frame of stack) {
+  for (let i = 0; i < stack.length; i++) {
+    const frame = stack[i];
     const p = getPhase(frame.phaseId);
     const s = p.steps[frame.stepIndex];
-    parts.push(`<a onclick="popToStack(${stack.indexOf(frame)})">${p.title}</a><span class="sep">›</span>`);
+    parts.push(`<a onclick="popToStack(${i})">${p.title}</a>`);
+    // 상위 스텝 제목 표시
+    parts.push(`<span class="sep">›</span>`);
+    parts.push(`<a onclick="popToStack(${i})" class="bc-step">${s.num}. ${s.title}</a>`);
+    parts.push(`<span class="sep">›</span>`);
   }
-  // 현재
   parts.push(`<span class="current">${phase.title}</span>`);
 
   bc.innerHTML = parts.join('');
@@ -883,23 +1051,51 @@ function renderProgress(phase) {
 // 스텝 본문을 문장 단위 불릿으로 분리
 function renderStepBody(body) {
   if (!body) return '';
-  // 마침표+공백 또는 마침표+끝으로 문장 분리
-  // 단, 괄호 안 마침표(참조 표기 등)는 분리하지 않음
   const sentences = body
     .split(/(?<=[^0-9])\.\s+(?=[가-힣A-Z])/)
     .map(s => s.replace(/\.$/, '').trim())
     .filter(Boolean);
 
   if (sentences.length <= 1) {
-    // 단일 문장은 그냥 표시
-    return `<div class="step-body-item"><span class="step-body-text">${escHtml(body)}</span></div>`;
+    return `<div class="step-body-item" onclick="toggleCheck(this)">
+      <span class="step-check">✓</span>
+      <span class="step-body-text">${escHtml(body)}</span>
+    </div>`;
   }
   return sentences.map(s =>
-    `<div class="step-body-item">
-      <span class="step-body-bullet">▸</span>
+    `<div class="step-body-item" onclick="toggleCheck(this)">
+      <span class="step-check">✓</span>
       <span class="step-body-text">${escHtml(s)}.</span>
     </div>`
   ).join('');
+}
+
+function toggleCheck(el) {
+  el.classList.toggle('checked');
+  updateCompleteBanner();
+}
+
+function updateCompleteBanner() {
+  const items = document.querySelectorAll('.step-body-item');
+  const banner = document.getElementById('step-complete-banner');
+  if (!banner || items.length === 0) return;
+  const allDone = [...items].every(el => el.classList.contains('checked'));
+  banner.classList.toggle('hidden', !allDone);
+}
+
+function renderActorBadge(actor) {
+  const MAP = {
+    wp:       { label: 'WP',          desc: '바르샤바 조약군' },
+    nato:     { label: 'NATO',        desc: 'NATO군' },
+    both:     { label: 'WP · NATO',   desc: '양측 동시' },
+    active:   { label: '활성 플레이어', desc: '현재 작전 수행 측' },
+    inactive: { label: '비활성 플레이어', desc: '방어 측' },
+  };
+  const a = actor || 'both';
+  const { label, desc } = MAP[a] || MAP.both;
+  return `<span class="actor-badge ${a}" title="${desc}">
+    <span class="actor-dot"></span>${label}
+  </span>`;
 }
 
 function renderStepPanel(phase, step) {
@@ -907,9 +1103,10 @@ function renderStepPanel(phase, step) {
   let html = '';
 
   html += `<div class="step-phase-tag">${phase.title} · ${phase.ref}</div>`;
-  html += `<div class="step-num">${step.num}</div>`;
   html += `<div class="step-title">${step.title}</div>`;
+  html += `<div class="actor-row">${renderActorBadge(step.actor)}</div>`;
   html += `<div class="step-body">${renderStepBody(step.body)}</div>`;
+  html += `<div id="step-complete-banner" class="step-complete-banner hidden">✔ 스텝 완료 — 다음으로 이동하세요</div>`;
 
   if (step.note) {
     html += `<div class="step-note"><strong>주의:</strong> ${step.note}</div>`;
