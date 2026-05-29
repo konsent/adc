@@ -655,11 +655,9 @@ footer {
   position: fixed;
   inset: 0;
   z-index: 300;
-  background: rgba(20,23,18,0.7);
-  align-items: center;
-  justify-content: flex-end;
+  pointer-events: none;
 }
-#pdf-overlay.open { display: flex; }
+#pdf-overlay.open { display: block; }
 
 #pdf-modal {
   background: var(--surface);
@@ -667,10 +665,13 @@ footer {
   border-right: none;
   display: flex;
   flex-direction: column;
-  width: min(720px, 58vw);
+  width: 64%;
   height: 100vh;
   box-shadow: -8px 0 40px rgba(0,0,0,0.7);
-  position: relative;
+  position: fixed;
+  top: 0;
+  right: 0;
+  pointer-events: all;
 }
 
 .pdf-modal-header {
@@ -813,7 +814,7 @@ footer {
 </main>
 
 <!-- PDF 오버레이 -->
-<div id="pdf-overlay" onclick="closePdfOnBackdrop(event)">
+<div id="pdf-overlay">
   <div id="pdf-modal">
     <div class="pdf-modal-header">
       <div>
