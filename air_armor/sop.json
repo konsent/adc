@@ -218,7 +218,9 @@
           "num": 1,
           "title": "투입 스텝",
           "body": "참가하는 WP 연대/사단 기지 또는 NATO 유닛/부대를 선언합니다.",
-          "refs": [],
+          "refs": [
+            "13.2"
+          ],
           "sub_sequence": null,
           "actor": "active"
         },
@@ -238,7 +240,9 @@
           "num": 3,
           "title": "완료 스텝",
           "body": "작전에 참여한 유닛을 사용면으로 뒤집습니다.",
-          "refs": [],
+          "refs": [
+            "13.2"
+          ],
           "sub_sequence": null,
           "actor": "active"
         }
@@ -385,7 +389,9 @@
           "num": 12,
           "title": "완료 스텝",
           "body": "참가 유닛을 사용면으로 뒤집고, 선도 유닛 마커와 목표 마커를 제거합니다.",
-          "refs": [],
+          "refs": [
+            "13.3"
+          ],
           "sub_sequence": null,
           "actor": "active"
         }
@@ -541,7 +547,9 @@
           "num": 13,
           "title": "완료 스텝",
           "body": "참가 유닛을 사용면으로 뒤집고, 공격 헬기를 회수 박스로 되돌리고, 마커를 제거합니다.",
-          "refs": [],
+          "refs": [
+            "13.4"
+          ],
           "sub_sequence": null,
           "actor": "active"
         }
@@ -557,7 +565,9 @@
           "num": 1,
           "title": "투입 스텝",
           "body": "참가하는 연대/태스크 포스를 선언합니다. NATO는 CP 1개를 소비하고 선도 유닛 마커를 배치합니다.",
-          "refs": [],
+          "refs": [
+            "13.7"
+          ],
           "sub_sequence": null,
           "actor": "active"
         },
@@ -566,7 +576,10 @@
           "num": 2,
           "title": "이동 스텝",
           "body": "지상 이동으로만 이동합니다. 이동력 3MP, 도로 이동 가능. 공중 이동은 허용되지 않습니다.",
-          "refs": [],
+          "refs": [
+            "13.7",
+            "16.1"
+          ],
           "sub_sequence": null,
           "actor": "active"
         },
@@ -575,7 +588,9 @@
           "num": 3,
           "title": "완료 스텝",
           "body": "참가 유닛을 사용면으로 뒤집고 선도 유닛 마커를 제거합니다.",
-          "refs": [],
+          "refs": [
+            "13.7"
+          ],
           "sub_sequence": null,
           "actor": "active"
         }
@@ -636,7 +651,9 @@
           "num": 5,
           "title": "화력 지원 자산 선언",
           "body": "호출할 특정 화력 지원 자산을 선언합니다.",
-          "refs": [],
+          "refs": [
+            "21.1"
+          ],
           "sub_sequence": null,
           "actor": "active"
         },
@@ -656,7 +673,10 @@
           "num": 7,
           "title": "공중/공격헬기 편성",
           "body": "호출된 공중 유닛 또는 공격헬기 유닛을 편성합니다.",
-          "refs": [],
+          "refs": [
+            "24.3",
+            "25.1"
+          ],
           "sub_sequence": null,
           "actor": "active"
         },
@@ -665,7 +685,9 @@
           "num": 8,
           "title": "사격 위치로 이동",
           "body": "호출된 공중 유닛 또는 공격헬기 유닛을 지도 위의 사격 위치로 가져옵니다.",
-          "refs": [],
+          "refs": [
+            "22.2"
+          ],
           "sub_sequence": null,
           "actor": "active"
         },
@@ -685,7 +707,9 @@
           "num": 10,
           "title": "조정 사격 전투력 결정",
           "body": "Fire Effects Chart의 화력 타격 효과 열을 사용하여 각 참가 유닛의 조정된 사격 전투력을 결정합니다.",
-          "refs": [],
+          "refs": [
+            "18.2"
+          ],
           "sub_sequence": null,
           "actor": "active"
         },
@@ -694,7 +718,9 @@
           "num": 11,
           "title": "전투력 합산",
           "body": "모든 참가 유닛의 조정된 사격 전투력을 합산합니다.",
-          "refs": [],
+          "refs": [
+            "18.2"
+          ],
           "sub_sequence": null,
           "actor": "active"
         },
@@ -703,7 +729,9 @@
           "num": 12,
           "title": "소수점 버림",
           "body": "합산값의 소수점 이하는 버립니다.",
-          "refs": [],
+          "refs": [
+            "18.2"
+          ],
           "sub_sequence": null,
           "actor": "active"
         },
@@ -712,7 +740,9 @@
           "num": 13,
           "title": "2로 나누기",
           "body": "2로 나누고 다시 소수점 이하는 버립니다. 이렇게 산출한 값이 유효 화력 강도입니다.",
-          "refs": [],
+          "refs": [
+            "18.2"
+          ],
           "sub_sequence": null,
           "actor": "active"
         },
@@ -721,7 +751,9 @@
           "num": 14,
           "title": "CRT 주사위",
           "body": "CRT에서 주사위를 굴려 명중 보정 수치를 결정합니다.",
-          "refs": [],
+          "refs": [
+            "18.2"
+          ],
           "sub_sequence": null,
           "actor": "active"
         },
@@ -730,7 +762,9 @@
           "num": 15,
           "title": "총 명중 수 결정",
           "body": "명중 보정 수치를 유효 사격 전투력에 더해 총 명중 수를 결정합니다.",
-          "refs": [],
+          "refs": [
+            "18.2"
+          ],
           "sub_sequence": null,
           "actor": "active"
         },
@@ -761,7 +795,9 @@
           "num": 18,
           "title": "사격 완료 마커",
           "body": "참가한 포병 유닛에 사격 완료 마커를 배치합니다.",
-          "refs": [],
+          "refs": [
+            "22.5"
+          ],
           "sub_sequence": null,
           "actor": "active"
         },
@@ -770,7 +806,9 @@
           "num": 19,
           "title": "공격헬기 회수",
           "body": "공격헬기 유닛이 있다면 아군 지도 가장자리로 이동시킨 뒤 회복 박스로 이동시킵니다.",
-          "refs": [],
+          "refs": [
+            "25.5"
+          ],
           "sub_sequence": null,
           "actor": "active"
         },
@@ -779,7 +817,9 @@
           "num": 20,
           "title": "공중 유닛 제거",
           "body": "공중 유닛이 있다면 지도에서 제거합니다.",
-          "refs": [],
+          "refs": [
+            "24.4"
+          ],
           "sub_sequence": null,
           "actor": "active"
         },
