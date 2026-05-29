@@ -470,6 +470,155 @@ footer {
 ::-webkit-scrollbar-track { background: var(--bg); }
 ::-webkit-scrollbar-thumb { background: var(--border2); }
 ::-webkit-scrollbar-thumb:hover { background: var(--nato); }
+
+/* ── 규칙서 버튼 (footer 내) ── */
+#rulebook-btn {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  padding: 7px 14px;
+  background: rgba(212,174,85,0.08);
+  border: 1px solid var(--nato);
+  color: var(--nato);
+  font-family: var(--mono);
+  font-size: 0.78rem;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: background 0.12s;
+}
+#rulebook-btn:hover { background: rgba(212,174,85,0.18); }
+#rulebook-btn .rb-icon { font-size: 1rem; }
+#rulebook-btn .rb-badge {
+  background: var(--nato);
+  color: #1a1600;
+  font-size: 0.6rem;
+  font-weight: 700;
+  padding: 1px 6px;
+  border-radius: 0;
+  display: none;
+}
+#rulebook-btn.has-page .rb-badge { display: inline-block; }
+
+/* ── PDF 오버레이 ── */
+#pdf-overlay {
+  display: none;
+  position: fixed;
+  inset: 0;
+  z-index: 300;
+  background: rgba(20,23,18,0.7);
+  align-items: center;
+  justify-content: flex-end;
+}
+#pdf-overlay.open { display: flex; }
+
+#pdf-modal {
+  background: var(--surface);
+  border: 1px solid var(--nato);
+  border-right: none;
+  display: flex;
+  flex-direction: column;
+  width: min(720px, 58vw);
+  height: 100vh;
+  box-shadow: -8px 0 40px rgba(0,0,0,0.7);
+  position: relative;
+}
+
+.pdf-modal-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 8px 14px;
+  background: rgba(212,174,85,0.07);
+  border-bottom: 1px solid var(--nato);
+  flex-shrink: 0;
+}
+.pdf-modal-title {
+  font-family: var(--title);
+  font-size: 0.85rem;
+  color: var(--nato);
+  letter-spacing: 3px;
+  text-transform: uppercase;
+}
+.pdf-modal-meta {
+  font-size: 0.65rem;
+  color: var(--text-dim);
+  letter-spacing: 1px;
+}
+.pdf-modal-controls {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.pdf-page-nav {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+.pdf-page-btn {
+  background: transparent;
+  border: 1px solid var(--border2);
+  color: var(--text);
+  font-family: var(--mono);
+  font-size: 0.7rem;
+  padding: 3px 9px;
+  cursor: pointer;
+  transition: all 0.1s;
+}
+.pdf-page-btn:hover:not(:disabled) { border-color: var(--nato); color: var(--nato); }
+.pdf-page-btn:disabled { opacity: 0.25; cursor: default; }
+.pdf-page-input {
+  background: var(--bg);
+  border: 1px solid var(--border2);
+  color: var(--nato);
+  font-family: var(--mono);
+  font-size: 0.72rem;
+  width: 44px;
+  text-align: center;
+  padding: 3px 4px;
+}
+.pdf-page-input:focus { outline: none; border-color: var(--nato); }
+.pdf-ref-tabs {
+  display: flex;
+  gap: 4px;
+}
+.pdf-ref-tab {
+  background: transparent;
+  border: 1px solid var(--border2);
+  color: var(--text-dim);
+  font-family: var(--mono);
+  font-size: 0.62rem;
+  padding: 3px 8px;
+  cursor: pointer;
+  letter-spacing: 0.5px;
+  transition: all 0.1s;
+}
+.pdf-ref-tab:hover { border-color: var(--nato); color: var(--nato); }
+.pdf-ref-tab.active { background: rgba(212,174,85,0.15); border-color: var(--nato); color: var(--nato); font-weight: 700; }
+.pdf-close-btn {
+  background: transparent;
+  border: 1px solid var(--border2);
+  color: var(--text-dim);
+  font-size: 0.8rem;
+  padding: 3px 10px;
+  cursor: pointer;
+  font-family: var(--mono);
+  transition: all 0.1s;
+}
+.pdf-close-btn:hover { border-color: var(--wp-bright); color: var(--wp-bright); }
+
+#pdf-frame-wrap {
+  flex: 1;
+  width: 100%;
+  background: #fff;
+  overflow: hidden;
+}
+#pdf-frame-wrap embed {
+  width: 100%;
+  height: 100%;
+  border: none;
+  display: block;
+}
 </style>
 </head>
 <body>
@@ -506,6 +655,29 @@ footer {
   </div>
 </main>
 
+<!-- PDF 오버레이 -->
+<div id="pdf-overlay" onclick="closePdfOnBackdrop(event)">
+  <div id="pdf-modal">
+    <div class="pdf-modal-header">
+      <div>
+        <div class="pdf-modal-title">▶ AIR &amp; ARMOR — 규칙서</div>
+        <div class="pdf-modal-meta" id="pdf-modal-meta"></div>
+      </div>
+      <div class="pdf-modal-controls">
+        <div class="pdf-ref-tabs" id="pdf-ref-tabs"></div>
+        <div class="pdf-page-nav">
+          <button class="pdf-page-btn" id="pdf-prev-btn" onclick="pdfChangePage(-1)">◀</button>
+          <input class="pdf-page-input" id="pdf-page-input" type="number" min="1"
+            onchange="pdfGoToPage(parseInt(this.value))" />
+          <button class="pdf-page-btn" id="pdf-next-btn" onclick="pdfChangePage(1)">▶</button>
+        </div>
+        <button class="pdf-close-btn" onclick="closePdf()">✕</button>
+      </div>
+    </div>
+    <div id="pdf-frame-wrap" style="flex:1;width:100%;background:#fff;overflow:hidden;"></div>
+  </div>
+</div>
+
 <footer>
   <button class="nav-btn" id="btn-prev" onclick="navigate(-1)">
     <span class="arrow">←</span> 이전
@@ -514,9 +686,16 @@ footer {
     <div class="step-counter"><strong id="cur-num">1</strong> / <span id="tot-num">1</span></div>
     <div class="kbd-hint-foot">← → 화살표 키</div>
   </div>
-  <button class="nav-btn" id="btn-next" onclick="navigate(1)">
-    다음 <span class="arrow">→</span>
-  </button>
+  <div style="display:flex;align-items:center;gap:10px;">
+    <button id="rulebook-btn" onclick="openRulebook()">
+      <span class="rb-icon">📖</span>
+      <span>규칙서</span>
+      <span class="rb-badge" id="rb-badge">p.1</span>
+    </button>
+    <button class="nav-btn" id="btn-next" onclick="navigate(1)">
+      다음 <span class="arrow">→</span>
+    </button>
+  </div>
 </footer>
 
 <script>
@@ -524,25 +703,31 @@ footer {
 // 상태
 // ──────────────────────────────────────────
 let SOP = null;
-let RULES = null;  // { sectionId: { id, title, text, children } }
+let RULES = null;   // { sectionId: { id, title, text, children } }
+let TOC = null;     // { "1.1": { title, page }, ... }
 
 let stack = [];   // [{phaseId, stepIndex}]  네비게이션 스택
 let phaseId = 'phase_1';
 let stepIndex = 0;
 
+// PDF 뷰어 상태
+let pdfCurrentPage = 1;
+let pdfCurrentRef = null;  // 현재 탭에 표시 중인 ref id
+
 // ──────────────────────────────────────────
 // 로드
 // ──────────────────────────────────────────
 async function loadData() {
-  const base = location.pathname.replace(/\/[^/]*$/, '/');
-  const [sopRes, rulesRes] = await Promise.all([
+  const [sopRes, rulesRes, tocRes] = await Promise.all([
     fetch('sop.json'),
-    fetch('rules.json')
+    fetch('rules.json'),
+    fetch('toc_map.json')
   ]);
   SOP = await sopRes.json();
   const rulesArr = await rulesRes.json();
   RULES = {};
   for (const r of rulesArr) RULES[r.id] = r;
+  TOC = await tocRes.json();
 }
 
 function getPhase(id) {
@@ -561,6 +746,100 @@ function render() {
   renderStepPanel(phase, step);
   renderRulesPanel(step);
   renderNav(phase);
+  renderRulebookBtn(step);
+}
+
+// ──────────────────────────────────────────
+// 규칙서 플로팅 버튼
+// ──────────────────────────────────────────
+function renderRulebookBtn(step) {
+  const refs = (step.refs || []).filter(r => TOC && TOC[r]);
+  const btn = document.getElementById('rulebook-btn');
+  const badge = document.getElementById('rb-badge');
+
+  if (refs.length > 0) {
+    const firstPage = TOC[refs[0]].page;
+    badge.textContent = `p.${firstPage}`;
+    btn.classList.add('has-page');
+  } else {
+    btn.classList.remove('has-page');
+  }
+}
+
+function openRulebook() {
+  const phase = getPhase(phaseId);
+  const step = phase.steps[stepIndex];
+  const refs = (step.refs || []).filter(r => TOC && TOC[r]);
+
+  const overlay = document.getElementById('pdf-overlay');
+  overlay.classList.add('open');
+
+  // 탭 렌더
+  const tabsEl = document.getElementById('pdf-ref-tabs');
+  tabsEl.innerHTML = '';
+  if (refs.length === 0) {
+    // refs 없으면 1페이지로
+    pdfGoToPage(1);
+    return;
+  }
+
+  refs.forEach((ref, i) => {
+    const entry = TOC[ref];
+    const btn = document.createElement('button');
+    btn.className = 'pdf-ref-tab' + (i === 0 ? ' active' : '');
+    btn.textContent = `[${ref}]`;
+    btn.title = entry.title;
+    btn.onclick = () => {
+      document.querySelectorAll('.pdf-ref-tab').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      pdfCurrentRef = ref;
+      pdfGoToPage(entry.page);
+    };
+    tabsEl.appendChild(btn);
+  });
+
+  // 첫 번째 ref 페이지로
+  pdfCurrentRef = refs[0];
+  pdfGoToPage(TOC[refs[0]].page);
+}
+
+function pdfGoToPage(page) {
+  pdfCurrentPage = page;
+  document.getElementById('pdf-page-input').value = page;
+
+  // embed를 매번 새로 생성해야 #page=N이 반영됨
+  const wrap = document.getElementById('pdf-frame-wrap');
+  const pdfPath = '[KOR]air_armor v1.1.pdf';
+  const url = `${encodeURIComponent(pdfPath)}#page=${page}`;
+
+  wrap.innerHTML = '';
+  const embed = document.createElement('embed');
+  embed.type = 'application/pdf';
+  embed.src = url;
+  embed.style.cssText = 'width:100%;height:100%;border:none;display:block;';
+  wrap.appendChild(embed);
+
+  // 메타 텍스트 업데이트
+  const meta = document.getElementById('pdf-modal-meta');
+  if (pdfCurrentRef && TOC && TOC[pdfCurrentRef]) {
+    const entry = TOC[pdfCurrentRef];
+    meta.textContent = `[${pdfCurrentRef}] ${entry.title} — p.${entry.page}`;
+  } else {
+    meta.textContent = `p.${page}`;
+  }
+}
+
+function pdfChangePage(delta) {
+  pdfGoToPage(Math.max(1, pdfCurrentPage + delta));
+}
+
+function closePdf() {
+  document.getElementById('pdf-overlay').classList.remove('open');
+  document.getElementById('pdf-frame-wrap').innerHTML = '';
+}
+
+function closePdfOnBackdrop(e) {
+  if (e.target === document.getElementById('pdf-overlay')) closePdf();
 }
 
 function renderBreadcrumb(phase, step) {
@@ -894,6 +1173,8 @@ function popToStack(idx) {
 // 키보드
 // ──────────────────────────────────────────
 document.addEventListener('keydown', e => {
+  if (e.key === 'Escape') { closePdf(); return; }
+  if (document.getElementById('pdf-overlay').classList.contains('open')) return;
   if (e.key === 'ArrowRight') navigate(1);
   else if (e.key === 'ArrowLeft') navigate(-1);
 });
