@@ -300,6 +300,8 @@ main {
 .step-body-item:last-child { border-bottom: none; }
 .step-body-item.checked { opacity: 0.38; }
 .step-body-item.checked .step-body-text { text-decoration: line-through; }
+.step-body-item.initiative-item.checked { opacity: 1; }
+.step-body-item.initiative-item.checked .step-body-text { text-decoration: none; }
 
 .step-check {
   flex-shrink: 0;
@@ -345,6 +347,27 @@ main {
   font-family: var(--mono);
 }
 .step-complete-banner.hidden { display: none; }
+
+/* ── 주도권 굴림 ── */
+.initiative-item { cursor: pointer; }
+.initiative-item:hover { background: rgba(212,174,85,0.08); }
+.initiative-result {
+  display: inline-block;
+  font-weight: 700;
+  font-size: 1rem;
+  margin-left: 10px;
+  padding: 1px 8px;
+  border-radius: 0;
+  letter-spacing: 1px;
+  vertical-align: middle;
+  animation: pop-in 0.15s ease;
+}
+.initiative-result.wp  { color: #e87070; border: 1px solid var(--wp-bright); background: rgba(139,26,26,0.18); }
+.initiative-result.nato { color: #6ab0e8; border: 1px solid #4a90d9; background: rgba(40,80,160,0.18); }
+@keyframes pop-in {
+  from { transform: scale(0.7); opacity: 0; }
+  to   { transform: scale(1);   opacity: 1; }
+}
 .step-note {
   background: rgba(139,26,26,0.15);
   border-left: 3px solid var(--wp-bright);
@@ -385,15 +408,17 @@ main {
 
 /* 하위 시퀀스 진입 버튼 */
 .sub-enter-btn {
-  margin-top: 16px;
-  display: inline-flex;
+  margin-top: 20px;
+  display: flex;
   align-items: center;
-  gap: 8px;
-  padding: 8px 18px;
+  justify-content: center;
+  gap: 10px;
+  width: 100%;
+  padding: 14px 20px;
   background: var(--nato);
   color: #1a1600;
   border: none;
-  font-size: 0.8rem;
+  font-size: 1rem;
   font-weight: 700;
   cursor: pointer;
   transition: all 0.12s;
@@ -402,7 +427,7 @@ main {
   text-transform: uppercase;
 }
 .sub-enter-btn:hover { background: #e0c060; }
-.sub-enter-btn .arrow { font-size: 1rem; }
+.sub-enter-btn .arrow { font-size: 1.2rem; }
 
 /* ── 오른쪽 패널 ── */
 .panel-right {
@@ -1050,6 +1075,8 @@ function renderProgress(phase) {
 }
 
 // 스텝 본문을 문장 단위 불릿으로 분리
+const INITIATIVE_RE = /홀수면 WP[,，]\s*짝수면 NATO가 주도권을 가집니다/;
+
 function renderStepBody(body) {
   if (!body) return '';
   const sentences = body
@@ -1057,18 +1084,45 @@ function renderStepBody(body) {
     .map(s => s.replace(/\.$/, '').trim())
     .filter(Boolean);
 
-  if (sentences.length <= 1) {
+  const render = (s) => {
+    const text = s.endsWith('.') ? s : s + '.';
+    if (INITIATIVE_RE.test(s)) {
+      return `<div class="step-body-item initiative-item" onclick="rollInitiative(this)">
+        <span class="step-check">✓</span>
+        <span class="step-body-text">${escHtml(text)}</span>
+      </div>`;
+    }
     return `<div class="step-body-item" onclick="toggleCheck(this)">
       <span class="step-check">✓</span>
-      <span class="step-body-text">${escHtml(body)}</span>
+      <span class="step-body-text">${escHtml(text)}</span>
     </div>`;
+  };
+
+  if (sentences.length <= 1) return render(body);
+  return sentences.map(render).join('');
+}
+
+function rollInitiative(el) {
+  // 이미 체크된 상태면 해제하고 배지 제거
+  if (el.classList.contains('checked')) {
+    el.classList.remove('checked');
+    const prev = el.querySelector('.initiative-result');
+    if (prev) prev.remove();
+    updateCompleteBanner();
+    return;
   }
-  return sentences.map(s =>
-    `<div class="step-body-item" onclick="toggleCheck(this)">
-      <span class="step-check">✓</span>
-      <span class="step-body-text">${escHtml(s)}.</span>
-    </div>`
-  ).join('');
+
+  const isWP = Math.random() < 0.5;
+  const side = isWP ? 'WP' : 'NATO';
+  const cls  = isWP ? 'wp' : 'nato';
+
+  const badge = document.createElement('span');
+  badge.className = `initiative-result ${cls}`;
+  badge.textContent = side + ' 주도권';
+  el.querySelector('.step-body-text').appendChild(badge);
+
+  el.classList.add('checked');
+  updateCompleteBanner();
 }
 
 function toggleCheck(el) {
