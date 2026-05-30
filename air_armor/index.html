@@ -739,6 +739,22 @@ footer {
   pointer-events: all;
 }
 
+#pdf-resize-handle {
+  position: absolute;
+  left: -3px;
+  top: 0;
+  width: 6px;
+  height: 100%;
+  cursor: ew-resize;
+  z-index: 10;
+  background: transparent;
+  transition: background 0.15s;
+}
+#pdf-resize-handle:hover,
+#pdf-resize-handle.dragging {
+  background: rgba(212,174,85,0.35);
+}
+
 .pdf-modal-header {
   display: flex;
   flex-direction: column;
@@ -911,6 +927,7 @@ footer {
 <!-- PDF 오버레이 -->
 <div id="pdf-overlay">
   <div id="pdf-modal">
+    <div id="pdf-resize-handle"></div>
     <div class="pdf-modal-header">
       <div class="pdf-doc-tabs">
         <button class="pdf-doc-tab active" id="pdf-tab-rules" onclick="switchPdfDoc('rules')">▶ 규칙서</button>
@@ -1567,6 +1584,39 @@ function escHtml(str) {
     .replace(/>/g, '&gt;')
     .replace(/"/g, '&quot;');
 }
+
+// ──────────────────────────────────────────
+// PDF 모달 리사이즈
+// ──────────────────────────────────────────
+(function() {
+  const handle = document.getElementById('pdf-resize-handle');
+  const modal  = document.getElementById('pdf-modal');
+  let dragging = false;
+
+  handle.addEventListener('mousedown', e => {
+    e.preventDefault();
+    dragging = true;
+    handle.classList.add('dragging');
+    document.body.style.cursor = 'ew-resize';
+    document.body.style.userSelect = 'none';
+  });
+
+  document.addEventListener('mousemove', e => {
+    if (!dragging) return;
+    const vw = window.innerWidth;
+    const newWidth = vw - e.clientX;
+    const pct = (newWidth / vw) * 100;
+    modal.style.width = Math.min(90, Math.max(30, pct)) + '%';
+  });
+
+  document.addEventListener('mouseup', () => {
+    if (!dragging) return;
+    dragging = false;
+    handle.classList.remove('dragging');
+    document.body.style.cursor = '';
+    document.body.style.userSelect = '';
+  });
+})();
 
 // ──────────────────────────────────────────
 // 초기화
