@@ -368,6 +368,46 @@ main {
   from { transform: scale(0.7); opacity: 0; }
   to   { transform: scale(1);   opacity: 1; }
 }
+/* ── 스텝 상세 정보 ── */
+.step-detail {
+  margin-top: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+.step-detail-section {
+  background: rgba(0,0,0,0.15);
+  border-left: 2px solid var(--border2);
+  padding: 10px 12px;
+}
+.step-detail-title {
+  font-size: 0.72rem;
+  font-weight: 700;
+  color: var(--text-dim);
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  margin-bottom: 8px;
+}
+.step-detail-list {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+.step-detail-list li {
+  font-size: 0.88rem;
+  line-height: 1.55;
+  color: var(--text);
+  display: flex;
+  gap: 8px;
+}
+.step-detail-list li::before {
+  content: '·';
+  color: var(--nato);
+  flex-shrink: 0;
+  font-weight: 700;
+}
+
 .step-note {
   background: rgba(139,26,26,0.15);
   border-left: 3px solid var(--wp-bright);
@@ -701,12 +741,42 @@ footer {
 
 .pdf-modal-header {
   display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 8px 14px;
+  flex-direction: column;
   background: rgba(212,174,85,0.07);
   border-bottom: 1px solid var(--nato);
   flex-shrink: 0;
+}
+.pdf-doc-tabs {
+  display: flex;
+  border-bottom: 1px solid var(--border);
+}
+.pdf-doc-tab {
+  padding: 7px 16px;
+  font-family: var(--mono);
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  cursor: pointer;
+  color: var(--text-dim);
+  border: none;
+  border-right: 1px solid var(--border);
+  background: transparent;
+  transition: all 0.1s;
+  white-space: nowrap;
+}
+.pdf-doc-tab:hover { color: var(--nato); background: rgba(212,174,85,0.06); }
+.pdf-doc-tab.active {
+  color: var(--nato);
+  background: rgba(212,174,85,0.12);
+  border-bottom: 2px solid var(--nato);
+  margin-bottom: -1px;
+}
+.pdf-modal-subheader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 6px 14px;
 }
 .pdf-modal-title {
   font-family: var(--title);
@@ -842,19 +912,24 @@ footer {
 <div id="pdf-overlay">
   <div id="pdf-modal">
     <div class="pdf-modal-header">
-      <div>
-        <div class="pdf-modal-title">▶ AIR &amp; ARMOR — 규칙서</div>
-        <div class="pdf-modal-meta" id="pdf-modal-meta"></div>
+      <div class="pdf-doc-tabs">
+        <button class="pdf-doc-tab active" id="pdf-tab-rules" onclick="switchPdfDoc('rules')">▶ 규칙서</button>
+        <button class="pdf-doc-tab" id="pdf-tab-sop" onclick="switchPdfDoc('sop')">▶ 참조표</button>
       </div>
-      <div class="pdf-modal-controls">
-        <div class="pdf-ref-tabs" id="pdf-ref-tabs"></div>
-        <div class="pdf-page-nav">
-          <button class="pdf-page-btn" id="pdf-prev-btn" onclick="pdfChangePage(-1)">◀</button>
-          <input class="pdf-page-input" id="pdf-page-input" type="number" min="1"
-            onchange="pdfGoToPage(parseInt(this.value))" />
-          <button class="pdf-page-btn" id="pdf-next-btn" onclick="pdfChangePage(1)">▶</button>
+      <div class="pdf-modal-subheader">
+        <div>
+          <div class="pdf-modal-meta" id="pdf-modal-meta"></div>
         </div>
-        <button class="pdf-close-btn" onclick="closePdf()">✕</button>
+        <div class="pdf-modal-controls">
+          <div class="pdf-ref-tabs" id="pdf-ref-tabs"></div>
+          <div class="pdf-page-nav">
+            <button class="pdf-page-btn" id="pdf-prev-btn" onclick="pdfChangePage(-1)">◀</button>
+            <input class="pdf-page-input" id="pdf-page-input" type="number" min="1"
+              onchange="pdfGoToPage(parseInt(this.value))" />
+            <button class="pdf-page-btn" id="pdf-next-btn" onclick="pdfChangePage(1)">▶</button>
+          </div>
+          <button class="pdf-close-btn" onclick="closePdf()">✕</button>
+        </div>
       </div>
     </div>
     <div id="pdf-frame-wrap" style="flex:1;width:100%;background:#fff;overflow:hidden;"></div>
@@ -896,6 +971,16 @@ let stepIndex = 0;
 // PDF 뷰어 상태
 let pdfCurrentPage = 1;
 let pdfCurrentRef = null;  // 현재 탭에 표시 중인 ref id
+let pdfCurrentDoc = 'rules'; // 'rules' | 'sop'
+const PDF_DOCS = {
+  rules: '[KOR]air_armor v1.1.pdf',
+  sop:   '[KOR]air_armor_SOP v1.0.pdf',
+};
+// 탭별 마지막 위치 저장
+const pdfDocState = {
+  rules: { page: 1, ref: null },
+  sop:   { page: 1, ref: null },
+};
 
 // 턴 카운터
 const counters = { turn: 1 };
@@ -965,6 +1050,12 @@ function openRulebook() {
   const overlay = document.getElementById('pdf-overlay');
   overlay.classList.add('open');
 
+  // 항상 규칙서 탭으로 시작
+  pdfCurrentDoc = 'rules';
+  document.getElementById('pdf-tab-rules').classList.add('active');
+  document.getElementById('pdf-tab-sop').classList.remove('active');
+  document.getElementById('pdf-ref-tabs').style.display = '';
+
   // 탭 렌더
   const tabsEl = document.getElementById('pdf-ref-tabs');
   tabsEl.innerHTML = '';
@@ -996,11 +1087,12 @@ function openRulebook() {
 
 function pdfGoToPage(page) {
   pdfCurrentPage = page;
+  pdfDocState[pdfCurrentDoc].page = page;
+  pdfDocState[pdfCurrentDoc].ref = pdfCurrentRef;
   document.getElementById('pdf-page-input').value = page;
 
-  // embed를 매번 새로 생성해야 #page=N이 반영됨
   const wrap = document.getElementById('pdf-frame-wrap');
-  const pdfPath = '[KOR]air_armor v1.1.pdf';
+  const pdfPath = PDF_DOCS[pdfCurrentDoc];
   const url = `${encodeURIComponent(pdfPath)}#page=${page}`;
 
   wrap.innerHTML = '';
@@ -1012,7 +1104,7 @@ function pdfGoToPage(page) {
 
   // 메타 텍스트 업데이트
   const meta = document.getElementById('pdf-modal-meta');
-  if (pdfCurrentRef && TOC && TOC[pdfCurrentRef]) {
+  if (pdfCurrentDoc === 'rules' && pdfCurrentRef && TOC && TOC[pdfCurrentRef]) {
     const entry = TOC[pdfCurrentRef];
     meta.textContent = `[${pdfCurrentRef}] ${entry.title} — p.${entry.page}`;
   } else {
@@ -1022,6 +1114,27 @@ function pdfGoToPage(page) {
 
 function pdfChangePage(delta) {
   pdfGoToPage(Math.max(1, pdfCurrentPage + delta));
+}
+
+function switchPdfDoc(doc) {
+  if (pdfCurrentDoc === doc) return;
+
+  // 현재 doc 상태 저장
+  pdfDocState[pdfCurrentDoc].page = pdfCurrentPage;
+  pdfDocState[pdfCurrentDoc].ref  = pdfCurrentRef;
+
+  pdfCurrentDoc = doc;
+
+  // 탭 활성화
+  document.getElementById('pdf-tab-rules').classList.toggle('active', doc === 'rules');
+  document.getElementById('pdf-tab-sop').classList.toggle('active', doc === 'sop');
+
+  // 참조표 탭일 때는 ref 탭 숨김
+  document.getElementById('pdf-ref-tabs').style.display = doc === 'sop' ? 'none' : '';
+
+  // 해당 doc의 마지막 위치로 복원
+  pdfCurrentRef = pdfDocState[doc].ref;
+  pdfGoToPage(pdfDocState[doc].page);
 }
 
 function closePdf() {
@@ -1162,6 +1275,19 @@ function renderStepPanel(phase, step) {
   html += `<div class="actor-row">${renderActorBadge(step.actor)}</div>`;
   html += `<div class="step-body">${renderStepBody(step.body)}</div>`;
   html += `<div id="step-complete-banner" class="step-complete-banner hidden">✔ 스텝 완료 — 다음으로 이동하세요</div>`;
+
+  if (step.detail) {
+    html += `<div class="step-detail">`;
+    for (const sec of step.detail.sections) {
+      html += `<div class="step-detail-section">
+        <div class="step-detail-title">${escHtml(sec.title)}</div>
+        <ul class="step-detail-list">
+          ${sec.items.map(item => `<li>${escHtml(item)}</li>`).join('')}
+        </ul>
+      </div>`;
+    }
+    html += `</div>`;
+  }
 
   if (step.note) {
     html += `<div class="step-note"><strong>주의:</strong> ${step.note}</div>`;
