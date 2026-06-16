@@ -59,6 +59,25 @@ localStorage.removeItem('airArmorTrackerState');
 const fresh = loadState();
 assertEqual(fresh.nato.hqs.ca_4cmbg.rp, 0, 'loadState falls back to defaults when empty');
 
+// --- loadState migrates old schema missing newer fields (e.g. divisions) ---
+localStorage.setItem('airArmorTrackerState', JSON.stringify({
+  nato: {
+    hqs: { ca_4cmbg: { rp: 2, cp: 1 } },
+    offmap: { cp: 1, rp: 0 },
+    cs: { nato: { mine: 5 } },
+    vp: 3,
+    sam: 2
+  },
+  wp: {}
+}));
+const migrated = loadState();
+assertEqual(migrated.nato.hqs.ca_4cmbg.rp, 2, 'migration preserves existing saved value');
+assertEqual(migrated.nato.vp, 3, 'migration preserves saved VP');
+assertEqual(migrated.nato.divisions.us_3rd_inf.units.fwd.cp, 0, 'migration backfills missing divisions field with defaults');
+assertEqual(migrated.nato.cs.nato.adm, 0, 'migration backfills missing CSP type with default');
+assertEqual(migrated.wp.offmap.cp, 0, 'migration backfills entirely missing faction state with defaults');
+localStorage.removeItem('airArmorTrackerState');
+
 // --- clampCounter ---
 assertEqual(clampCounter(-1), 0, 'clampCounter prevents negative');
 assertEqual(clampCounter(5), 5, 'clampCounter allows positive');

@@ -40,13 +40,31 @@ function saveState(state) {
   localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
 }
 
+function mergeState(defaults, saved) {
+  if (!saved || typeof saved !== 'object') return defaults;
+  const merged = {};
+  for (const key of Object.keys(defaults)) {
+    const defaultVal = defaults[key];
+    const savedVal = saved[key];
+    if (defaultVal !== null && typeof defaultVal === 'object' && !Array.isArray(defaultVal)) {
+      merged[key] = mergeState(defaultVal, savedVal);
+    } else if (typeof savedVal === typeof defaultVal) {
+      merged[key] = savedVal;
+    } else {
+      merged[key] = defaultVal;
+    }
+  }
+  return merged;
+}
+
 function loadState() {
+  const defaults = createDefaultState();
   const raw = localStorage.getItem(STORAGE_KEY);
-  if (!raw) return createDefaultState();
+  if (!raw) return defaults;
   try {
-    return JSON.parse(raw);
+    return mergeState(defaults, JSON.parse(raw));
   } catch (e) {
-    return createDefaultState();
+    return defaults;
   }
 }
 
