@@ -36,9 +36,7 @@ VII Corps Offmap 트랙 (칸 클릭형):
 - Offmap CP: 0–2
 - Offmap RP: 0–2
 
-CSP (전투 지원 포인트, +/- 버튼형), 국가별로 별도 카운터: **US / 서독 / 캐나다** 3개 국적 세트
-- Mine, ADM, Air Point, Bridge → 각 국적마다 독립 카운터
-- Gas-Persistent, Gas-Non-Persistent → 국적별 분리 없이 시나리오 규정상 미군만 보유하지만, 입력 편의상 국적별 카운터로 동일하게 제공 (값 0으로 두면 미보유와 동일)
+CSP (전투 지원 포인트, +/- 버튼형): 국가별 분리 없이 NATO 단일 풀 (Mine, ADM, Gas-Persistent, Gas-Non-Persistent, Air Point, Bridge)
 
 VP: +/- 버튼형, 단일 카운터
 

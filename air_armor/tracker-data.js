@@ -11,9 +11,7 @@ const TRACKER_DATA = {
     ],
     offmap: { cpMax: 2, rpMax: 2, label: 'VII Corps' },
     nations: [
-      { id: 'us', label: 'US' },
-      { id: 'wg', label: '서독' },
-      { id: 'ca', label: '캐나다' }
+      { id: 'nato', label: 'NATO' }
     ],
     csTypes: ['mine', 'adm', 'gasPersistent', 'gasNonPersistent', 'airPoint', 'bridge'],
     samMax: 4
