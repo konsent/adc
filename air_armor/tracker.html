@@ -75,6 +75,12 @@ main {
 .faction-nato h2 { color: var(--nato); }
 .faction-wp h2 { color: var(--wp-bright); }
 
+.group-box {
+  border: 1px solid var(--surface2);
+  padding: 10px 12px;
+  margin-bottom: 12px;
+}
+
 .hq-row, .offmap-row, .sam-row, .vp-row {
   display: flex;
   align-items: center;
@@ -82,6 +88,12 @@ main {
   padding: 6px 0;
   border-bottom: 1px solid var(--surface2);
   flex-wrap: wrap;
+}
+.group-box .hq-row:last-child,
+.group-box .offmap-row:last-child,
+.group-box .sam-row:last-child,
+.group-box .vp-row:last-child {
+  border-bottom: none;
 }
 .hq-name { min-width: 120px; font-weight: 600; }
 .track-wrap { display: flex; align-items: center; gap: 6px; }
@@ -101,7 +113,7 @@ main {
 .track-cell.active { background: var(--nato); color: var(--bg); font-weight: 700; border-color: var(--nato); }
 .faction-wp .track-cell.active { background: var(--wp-bright); color: #fff; border-color: var(--wp-bright); }
 
-.cs-section { display: flex; flex-wrap: wrap; gap: 8px; margin: 10px 0; }
+.cs-section { display: flex; flex-wrap: wrap; gap: 8px; }
 .cs-item {
   display: flex;
   align-items: center;

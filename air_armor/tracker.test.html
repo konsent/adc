@@ -111,6 +111,16 @@ renderFactionPanel(wpPanelEl, 'wp', panelState, () => {});
 assertEqual(wpPanelEl.querySelectorAll('.hq-row').length, 0, 'WP has no HQ rows');
 assertEqual(wpPanelEl.querySelectorAll('.cs-item').length, 1 * 6, 'WP CSP is single nation pool');
 
+// --- group-box grouping ---
+assertEqual(panelEl.querySelectorAll('.group-box').length, 4, 'NATO has 4 group boxes (HQ, offmap+SAM, CSP, VP)');
+assertEqual(wpPanelEl.querySelectorAll('.group-box').length, 3, 'WP has 3 group boxes (no HQ box)');
+assertEqual(!!panelEl.querySelector('.group-box .hq-row'), true, 'NATO HQ rows live inside a group-box');
+assertEqual(!!panelEl.querySelector('.group-box .offmap-row'), true, 'offmap row lives inside a group-box');
+assertEqual(!!panelEl.querySelector('.group-box .sam-row'), true, 'SAM row lives inside a group-box');
+assertEqual(panelEl.querySelector('.group-box:has(.offmap-row)') === panelEl.querySelector('.group-box:has(.sam-row)'), true, 'offmap and SAM share the same group-box');
+assertEqual(!!panelEl.querySelector('.group-box .cs-section'), true, 'CSP section lives inside a group-box');
+assertEqual(!!panelEl.querySelector('.group-box .vp-row'), true, 'VP row lives inside a group-box');
+
 document.title = `Tracker Tests — ${passCount} pass, ${failCount} fail`;
 </script>
 </body>

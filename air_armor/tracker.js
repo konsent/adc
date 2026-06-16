@@ -102,39 +102,49 @@ function renderFactionPanel(panelEl, factionId, state, onChange) {
   title.textContent = faction.label;
   panelEl.appendChild(title);
 
-  for (const hq of faction.hqs) {
-    const row = document.createElement('div');
-    row.className = 'hq-row';
+  if (faction.hqs.length > 0) {
+    const hqBox = document.createElement('div');
+    hqBox.className = 'group-box';
 
-    const name = document.createElement('span');
-    name.className = 'hq-name';
-    name.textContent = hq.name;
-    row.appendChild(name);
+    for (const hq of faction.hqs) {
+      const row = document.createElement('div');
+      row.className = 'hq-row';
 
-    const rpWrap = document.createElement('div');
-    rpWrap.className = 'track-wrap';
-    rpWrap.appendChild(Object.assign(document.createElement('span'), { className: 'label', textContent: 'RP' }));
-    const rpCells = document.createElement('div');
-    renderTrackCells(rpCells, hq.rpMax, factionState.hqs[hq.id].rp, (v) => {
-      factionState.hqs[hq.id].rp = v;
-      onChange();
-    });
-    rpWrap.appendChild(rpCells);
-    row.appendChild(rpWrap);
+      const name = document.createElement('span');
+      name.className = 'hq-name';
+      name.textContent = hq.name;
+      row.appendChild(name);
 
-    const cpWrap = document.createElement('div');
-    cpWrap.className = 'track-wrap';
-    cpWrap.appendChild(Object.assign(document.createElement('span'), { className: 'label', textContent: 'CP' }));
-    const cpCells = document.createElement('div');
-    renderTrackCells(cpCells, hq.cpMax, factionState.hqs[hq.id].cp, (v) => {
-      factionState.hqs[hq.id].cp = v;
-      onChange();
-    });
-    cpWrap.appendChild(cpCells);
-    row.appendChild(cpWrap);
+      const rpWrap = document.createElement('div');
+      rpWrap.className = 'track-wrap';
+      rpWrap.appendChild(Object.assign(document.createElement('span'), { className: 'label', textContent: 'RP' }));
+      const rpCells = document.createElement('div');
+      renderTrackCells(rpCells, hq.rpMax, factionState.hqs[hq.id].rp, (v) => {
+        factionState.hqs[hq.id].rp = v;
+        onChange();
+      });
+      rpWrap.appendChild(rpCells);
+      row.appendChild(rpWrap);
 
-    panelEl.appendChild(row);
+      const cpWrap = document.createElement('div');
+      cpWrap.className = 'track-wrap';
+      cpWrap.appendChild(Object.assign(document.createElement('span'), { className: 'label', textContent: 'CP' }));
+      const cpCells = document.createElement('div');
+      renderTrackCells(cpCells, hq.cpMax, factionState.hqs[hq.id].cp, (v) => {
+        factionState.hqs[hq.id].cp = v;
+        onChange();
+      });
+      cpWrap.appendChild(cpCells);
+      row.appendChild(cpWrap);
+
+      hqBox.appendChild(row);
+    }
+
+    panelEl.appendChild(hqBox);
   }
+
+  const offmapBox = document.createElement('div');
+  offmapBox.className = 'group-box';
 
   const offmapRow = document.createElement('div');
   offmapRow.className = 'offmap-row';
@@ -165,7 +175,7 @@ function renderFactionPanel(panelEl, factionId, state, onChange) {
   offmapRpWrap.appendChild(offmapRpCells);
   offmapRow.appendChild(offmapRpWrap);
 
-  panelEl.appendChild(offmapRow);
+  offmapBox.appendChild(offmapRow);
 
   const samRow = document.createElement('div');
   samRow.className = 'sam-row';
@@ -176,8 +186,12 @@ function renderFactionPanel(panelEl, factionId, state, onChange) {
     onChange();
   });
   samRow.appendChild(samCells);
-  panelEl.appendChild(samRow);
+  offmapBox.appendChild(samRow);
 
+  panelEl.appendChild(offmapBox);
+
+  const csBox = document.createElement('div');
+  csBox.className = 'group-box';
   const csSection = document.createElement('div');
   csSection.className = 'cs-section';
   for (const nation of faction.nations) {
@@ -197,8 +211,11 @@ function renderFactionPanel(panelEl, factionId, state, onChange) {
       csSection.appendChild(item);
     }
   }
-  panelEl.appendChild(csSection);
+  csBox.appendChild(csSection);
+  panelEl.appendChild(csBox);
 
+  const vpBox = document.createElement('div');
+  vpBox.className = 'group-box';
   const vpRow = document.createElement('div');
   vpRow.className = 'vp-row';
   vpRow.appendChild(Object.assign(document.createElement('span'), { className: 'hq-name', textContent: 'VP' }));
@@ -208,7 +225,8 @@ function renderFactionPanel(panelEl, factionId, state, onChange) {
     onChange();
   });
   vpRow.appendChild(vpCounterEl);
-  panelEl.appendChild(vpRow);
+  vpBox.appendChild(vpRow);
+  panelEl.appendChild(vpBox);
 }
 
 function initTrackerPage() {
