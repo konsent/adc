@@ -148,6 +148,19 @@ renderFactionPanel(wpPanelEl, 'wp', panelState, () => {});
 assertEqual(wpPanelEl.querySelectorAll('.hq-row').length, 0, 'WP has no HQ rows');
 assertEqual(wpPanelEl.querySelectorAll('.cs-item').length, 1 * 6, 'WP CSP is single nation pool');
 
+// --- division boxes come before standalone HQ box, brigades are indented ---
+const groupBoxes = [...panelEl.querySelectorAll('.group-box')];
+const divisionBoxIndexes = groupBoxes
+  .map((b, i) => b.querySelector('.division-title') ? i : -1)
+  .filter(i => i !== -1);
+const hqBoxIndex = groupBoxes.findIndex(b => !b.querySelector('.division-title') && b.querySelector('.hq-row'));
+assertEqual(Math.max(...divisionBoxIndexes) < hqBoxIndex, true, 'division boxes render before the standalone HQ box');
+
+const b1_3Row = [...panelEl.querySelectorAll('.hq-row')].find(r => r.querySelector('.hq-name').textContent === '1/3');
+const mnRow = [...panelEl.querySelectorAll('.hq-row')].find(r => r.querySelector('.hq-name').textContent === 'Mn HQ');
+assertEqual(b1_3Row.classList.contains('hq-row-indent'), true, 'brigade row (1/3) is indented');
+assertEqual(mnRow.classList.contains('hq-row-indent'), false, 'Mn HQ row is not indented');
+
 // --- group-box grouping ---
 assertEqual(panelEl.querySelectorAll('.group-box').length, 6, 'NATO has 6 group boxes (HQ, 2 divisions, offmap+SAM, CSP, VP)');
 assertEqual(wpPanelEl.querySelectorAll('.group-box').length, 3, 'WP has 3 group boxes (no HQ box)');

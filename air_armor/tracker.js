@@ -126,9 +126,9 @@ function renderCounter(container, value, onChange) {
   container.appendChild(plusBtn);
 }
 
-function renderUnitTrackRow(name, rpMax, cpMax, rpValue, cpValue, onRpChange, onCpChange, cpOnly) {
+function renderUnitTrackRow(name, rpMax, cpMax, rpValue, cpValue, onRpChange, onCpChange, cpOnly, indent) {
   const row = document.createElement('div');
-  row.className = 'hq-row';
+  row.className = 'hq-row' + (indent ? ' hq-row-indent' : '');
 
   const nameEl = document.createElement('span');
   nameEl.className = 'hq-name';
@@ -166,23 +166,6 @@ function renderFactionPanel(panelEl, factionId, state, onChange) {
   title.textContent = faction.label;
   panelEl.appendChild(title);
 
-  if (faction.hqs.length > 0) {
-    const hqBox = document.createElement('div');
-    hqBox.className = 'group-box';
-
-    for (const hq of faction.hqs) {
-      const row = renderUnitTrackRow(
-        hq.name, hq.rpMax, hq.cpMax,
-        factionState.hqs[hq.id].rp, factionState.hqs[hq.id].cp,
-        (v) => { factionState.hqs[hq.id].rp = v; onChange(); },
-        (v) => { factionState.hqs[hq.id].cp = v; onChange(); }
-      );
-      hqBox.appendChild(row);
-    }
-
-    panelEl.appendChild(hqBox);
-  }
-
   for (const division of faction.divisions || []) {
     const divisionBox = document.createElement('div');
     divisionBox.className = 'group-box';
@@ -199,12 +182,30 @@ function renderFactionPanel(panelEl, factionId, state, onChange) {
         divisionState.units[unit.id].rp, divisionState.units[unit.id].cp,
         (v) => { divisionState.units[unit.id].rp = v; onChange(); },
         (v) => { divisionState.units[unit.id].cp = v; onChange(); },
-        unit.cpOnly
+        unit.cpOnly,
+        unit.indent
       );
       divisionBox.appendChild(row);
     }
 
     panelEl.appendChild(divisionBox);
+  }
+
+  if (faction.hqs.length > 0) {
+    const hqBox = document.createElement('div');
+    hqBox.className = 'group-box';
+
+    for (const hq of faction.hqs) {
+      const row = renderUnitTrackRow(
+        hq.name, hq.rpMax, hq.cpMax,
+        factionState.hqs[hq.id].rp, factionState.hqs[hq.id].cp,
+        (v) => { factionState.hqs[hq.id].rp = v; onChange(); },
+        (v) => { factionState.hqs[hq.id].cp = v; onChange(); }
+      );
+      hqBox.appendChild(row);
+    }
+
+    panelEl.appendChild(hqBox);
   }
 
   const offmapBox = document.createElement('div');
