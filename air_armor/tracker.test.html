@@ -94,6 +94,23 @@ const plusBtn = counterEl.querySelectorAll('button')[1];
 assertEqual(minusBtn.textContent, '−', 'first button is minus');
 assertEqual(plusBtn.textContent, '+', 'second button is plus');
 
+// --- renderFactionPanel ---
+localStorage.removeItem('airArmorTrackerState');
+const panelState = createDefaultState();
+const panelEl = document.createElement('div');
+renderFactionPanel(panelEl, 'nato', panelState, () => {});
+
+assertEqual(panelEl.querySelectorAll('.hq-row').length, 5, 'renders one row per NATO HQ');
+assertEqual(panelEl.querySelectorAll('.cs-item').length, 3 * 6, 'renders CSP item per nation x csType for NATO');
+assertEqual(!!panelEl.querySelector('.offmap-row'), true, 'renders offmap row');
+assertEqual(!!panelEl.querySelector('.sam-row'), true, 'renders SAM row');
+assertEqual(!!panelEl.querySelector('.vp-row'), true, 'renders VP row');
+
+const wpPanelEl = document.createElement('div');
+renderFactionPanel(wpPanelEl, 'wp', panelState, () => {});
+assertEqual(wpPanelEl.querySelectorAll('.hq-row').length, 0, 'WP has no HQ rows');
+assertEqual(wpPanelEl.querySelectorAll('.cs-item').length, 1 * 6, 'WP CSP is single nation pool');
+
 document.title = `Tracker Tests — ${passCount} pass, ${failCount} fail`;
 </script>
 </body>

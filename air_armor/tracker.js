@@ -91,3 +91,122 @@ function renderCounter(container, value, onChange) {
   container.appendChild(valSpan);
   container.appendChild(plusBtn);
 }
+
+function renderFactionPanel(panelEl, factionId, state, onChange) {
+  const faction = TRACKER_DATA[factionId];
+  const factionState = state[factionId];
+  panelEl.innerHTML = '';
+  panelEl.classList.add('faction-panel', 'faction-' + factionId);
+
+  const title = document.createElement('h2');
+  title.textContent = faction.label;
+  panelEl.appendChild(title);
+
+  for (const hq of faction.hqs) {
+    const row = document.createElement('div');
+    row.className = 'hq-row';
+
+    const name = document.createElement('span');
+    name.className = 'hq-name';
+    name.textContent = hq.name;
+    row.appendChild(name);
+
+    const rpWrap = document.createElement('div');
+    rpWrap.className = 'track-wrap';
+    rpWrap.appendChild(Object.assign(document.createElement('span'), { className: 'label', textContent: 'RP' }));
+    const rpCells = document.createElement('div');
+    renderTrackCells(rpCells, hq.rpMax, factionState.hqs[hq.id].rp, (v) => {
+      factionState.hqs[hq.id].rp = v;
+      onChange();
+    });
+    rpWrap.appendChild(rpCells);
+    row.appendChild(rpWrap);
+
+    const cpWrap = document.createElement('div');
+    cpWrap.className = 'track-wrap';
+    cpWrap.appendChild(Object.assign(document.createElement('span'), { className: 'label', textContent: 'CP' }));
+    const cpCells = document.createElement('div');
+    renderTrackCells(cpCells, hq.cpMax, factionState.hqs[hq.id].cp, (v) => {
+      factionState.hqs[hq.id].cp = v;
+      onChange();
+    });
+    cpWrap.appendChild(cpCells);
+    row.appendChild(cpWrap);
+
+    panelEl.appendChild(row);
+  }
+
+  const offmapRow = document.createElement('div');
+  offmapRow.className = 'offmap-row';
+  const offmapTitle = document.createElement('span');
+  offmapTitle.className = 'hq-name';
+  offmapTitle.textContent = faction.offmap.label + ' (Offmap)';
+  offmapRow.appendChild(offmapTitle);
+
+  const offmapCpWrap = document.createElement('div');
+  offmapCpWrap.className = 'track-wrap';
+  offmapCpWrap.appendChild(Object.assign(document.createElement('span'), { className: 'label', textContent: 'CP' }));
+  const offmapCpCells = document.createElement('div');
+  renderTrackCells(offmapCpCells, faction.offmap.cpMax, factionState.offmap.cp, (v) => {
+    factionState.offmap.cp = v;
+    onChange();
+  });
+  offmapCpWrap.appendChild(offmapCpCells);
+  offmapRow.appendChild(offmapCpWrap);
+
+  const offmapRpWrap = document.createElement('div');
+  offmapRpWrap.className = 'track-wrap';
+  offmapRpWrap.appendChild(Object.assign(document.createElement('span'), { className: 'label', textContent: 'RP' }));
+  const offmapRpCells = document.createElement('div');
+  renderTrackCells(offmapRpCells, faction.offmap.rpMax, factionState.offmap.rp, (v) => {
+    factionState.offmap.rp = v;
+    onChange();
+  });
+  offmapRpWrap.appendChild(offmapRpCells);
+  offmapRow.appendChild(offmapRpWrap);
+
+  panelEl.appendChild(offmapRow);
+
+  const samRow = document.createElement('div');
+  samRow.className = 'sam-row';
+  samRow.appendChild(Object.assign(document.createElement('span'), { className: 'hq-name', textContent: 'SAM Strength' }));
+  const samCells = document.createElement('div');
+  renderTrackCells(samCells, faction.samMax, factionState.sam, (v) => {
+    factionState.sam = v;
+    onChange();
+  });
+  samRow.appendChild(samCells);
+  panelEl.appendChild(samRow);
+
+  const csSection = document.createElement('div');
+  csSection.className = 'cs-section';
+  for (const nation of faction.nations) {
+    for (const csType of faction.csTypes) {
+      const item = document.createElement('div');
+      item.className = 'cs-item';
+      item.appendChild(Object.assign(document.createElement('span'), {
+        className: 'cs-label',
+        textContent: CS_TYPE_LABELS[csType] + (faction.nations.length > 1 ? ` (${nation.label})` : '')
+      }));
+      const counterEl = document.createElement('div');
+      renderCounter(counterEl, factionState.cs[nation.id][csType], (v) => {
+        factionState.cs[nation.id][csType] = v;
+        onChange();
+      });
+      item.appendChild(counterEl);
+      csSection.appendChild(item);
+    }
+  }
+  panelEl.appendChild(csSection);
+
+  const vpRow = document.createElement('div');
+  vpRow.className = 'vp-row';
+  vpRow.appendChild(Object.assign(document.createElement('span'), { className: 'hq-name', textContent: 'VP' }));
+  const vpCounterEl = document.createElement('div');
+  renderCounter(vpCounterEl, factionState.vp, (v) => {
+    factionState.vp = v;
+    onChange();
+  });
+  vpRow.appendChild(vpCounterEl);
+  panelEl.appendChild(vpRow);
+}
