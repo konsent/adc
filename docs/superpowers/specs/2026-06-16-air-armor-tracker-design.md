@@ -13,10 +13,10 @@ Air & Armor(보드게임) Tracks Card(`air_armor/assets/nato_track.png`, `wp_tra
 - NATO 군단 / WP 군 단위 Offmap CP, Offmap RP 트랙
 - 전투 지원 포인트(CSP): Mine, ADM, Gas-Persistent, Gas-Non-Persistent, Air Point, Bridge
 - VP(승리 포인트) 카운터
+- SAM Strength Track
 
 제외 (이번 범위 아님):
 - Helicopter Track (Ready / Rearm&Refuel / Recovery)
-- SAM Strength Track
 
 ## 데이터 모델
 
@@ -42,6 +42,8 @@ CSP (전투 지원 포인트, +/- 버튼형), 국가별로 별도 카운터: **U
 
 VP: +/- 버튼형, 단일 카운터
 
+SAM Strength: 칸 클릭형, 트랙 카드 인쇄값 그대로 1–4 (칸: 1/3/4)
+
 ### WP 진영 (바르샤바 조약군)
 
 HQ별 RP/CP 트랙 없음 — 군(8th Guards Army) 단위 Offmap 트랙만 관리 (칸 클릭형):
@@ -53,10 +55,12 @@ CSP: 국적 구분 없이 WP 단일 풀, +/- 버튼형
 
 VP: +/- 버튼형, 단일 카운터
 
+SAM Strength: 칸 클릭형, 트랙 카드 인쇄값 그대로 1–4 (칸: 1/3/4)
+
 ### 공통 동작
 
 - 각 카운터에는 시나리오별 초기값을 다시 세팅할 수 있는 수단이 필요하지만, 이번 범위에서는 "전체 리셋(0)" 버튼 하나로 충분 (시나리오별 프리셋 저장/불러오기는 범위 밖)
-- "RP/CP/Offmap 리셋" 버튼: RP/CP/Offmap CP/Offmap RP 트랙만 0으로 되돌림 (매 턴 갱신되는 룰 반영). CSP/VP는 영향받지 않음 (소모성 풀이므로)
+- "RP/CP/Offmap 리셋" 버튼: RP/CP/Offmap CP/Offmap RP 트랙만 0으로 되돌림 (매 턴 갱신되는 룰 반영). CSP/VP/SAM Strength는 영향받지 않음 (CSP/VP는 소모성 풀, SAM Strength는 손실로만 줄어드는 값이라 턴 갱신 대상이 아님)
 
 ## UI 구성
 
