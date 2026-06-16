@@ -9,6 +9,14 @@ function createDefaultState() {
     for (const hq of faction.hqs) {
       hqs[hq.id] = { rp: 0, cp: 0 };
     }
+    const divisions = {};
+    for (const division of faction.divisions || []) {
+      const units = {};
+      for (const unit of division.units) {
+        units[unit.id] = { rp: 0, cp: 0 };
+      }
+      divisions[division.id] = { units };
+    }
     const cs = {};
     for (const nation of faction.nations) {
       cs[nation.id] = {};
@@ -18,6 +26,7 @@ function createDefaultState() {
     }
     state[factionId] = {
       hqs,
+      divisions,
       offmap: { cp: 0, rp: 0 },
       cs,
       vp: 0,
@@ -51,6 +60,13 @@ function resetTurnTracks(state) {
     for (const hqId of Object.keys(faction.hqs)) {
       faction.hqs[hqId].rp = 0;
       faction.hqs[hqId].cp = 0;
+    }
+    for (const divisionId of Object.keys(faction.divisions || {})) {
+      const division = faction.divisions[divisionId];
+      for (const unitId of Object.keys(division.units)) {
+        division.units[unitId].rp = 0;
+        division.units[unitId].cp = 0;
+      }
     }
     faction.offmap.cp = 0;
     faction.offmap.rp = 0;
@@ -92,6 +108,36 @@ function renderCounter(container, value, onChange) {
   container.appendChild(plusBtn);
 }
 
+function renderUnitTrackRow(name, rpMax, cpMax, rpValue, cpValue, onRpChange, onCpChange, cpOnly) {
+  const row = document.createElement('div');
+  row.className = 'hq-row';
+
+  const nameEl = document.createElement('span');
+  nameEl.className = 'hq-name';
+  nameEl.textContent = name;
+  row.appendChild(nameEl);
+
+  if (!cpOnly) {
+    const rpWrap = document.createElement('div');
+    rpWrap.className = 'track-wrap';
+    rpWrap.appendChild(Object.assign(document.createElement('span'), { className: 'label', textContent: 'RP' }));
+    const rpCells = document.createElement('div');
+    renderTrackCells(rpCells, rpMax, rpValue, onRpChange);
+    rpWrap.appendChild(rpCells);
+    row.appendChild(rpWrap);
+  }
+
+  const cpWrap = document.createElement('div');
+  cpWrap.className = 'track-wrap';
+  cpWrap.appendChild(Object.assign(document.createElement('span'), { className: 'label', textContent: 'CP' }));
+  const cpCells = document.createElement('div');
+  renderTrackCells(cpCells, cpMax, cpValue, onCpChange);
+  cpWrap.appendChild(cpCells);
+  row.appendChild(cpWrap);
+
+  return row;
+}
+
 function renderFactionPanel(panelEl, factionId, state, onChange) {
   const faction = TRACKER_DATA[factionId];
   const factionState = state[factionId];
@@ -107,40 +153,40 @@ function renderFactionPanel(panelEl, factionId, state, onChange) {
     hqBox.className = 'group-box';
 
     for (const hq of faction.hqs) {
-      const row = document.createElement('div');
-      row.className = 'hq-row';
-
-      const name = document.createElement('span');
-      name.className = 'hq-name';
-      name.textContent = hq.name;
-      row.appendChild(name);
-
-      const rpWrap = document.createElement('div');
-      rpWrap.className = 'track-wrap';
-      rpWrap.appendChild(Object.assign(document.createElement('span'), { className: 'label', textContent: 'RP' }));
-      const rpCells = document.createElement('div');
-      renderTrackCells(rpCells, hq.rpMax, factionState.hqs[hq.id].rp, (v) => {
-        factionState.hqs[hq.id].rp = v;
-        onChange();
-      });
-      rpWrap.appendChild(rpCells);
-      row.appendChild(rpWrap);
-
-      const cpWrap = document.createElement('div');
-      cpWrap.className = 'track-wrap';
-      cpWrap.appendChild(Object.assign(document.createElement('span'), { className: 'label', textContent: 'CP' }));
-      const cpCells = document.createElement('div');
-      renderTrackCells(cpCells, hq.cpMax, factionState.hqs[hq.id].cp, (v) => {
-        factionState.hqs[hq.id].cp = v;
-        onChange();
-      });
-      cpWrap.appendChild(cpCells);
-      row.appendChild(cpWrap);
-
+      const row = renderUnitTrackRow(
+        hq.name, hq.rpMax, hq.cpMax,
+        factionState.hqs[hq.id].rp, factionState.hqs[hq.id].cp,
+        (v) => { factionState.hqs[hq.id].rp = v; onChange(); },
+        (v) => { factionState.hqs[hq.id].cp = v; onChange(); }
+      );
       hqBox.appendChild(row);
     }
 
     panelEl.appendChild(hqBox);
+  }
+
+  for (const division of faction.divisions || []) {
+    const divisionBox = document.createElement('div');
+    divisionBox.className = 'group-box';
+
+    const divisionTitle = document.createElement('h3');
+    divisionTitle.className = 'division-title';
+    divisionTitle.textContent = division.name;
+    divisionBox.appendChild(divisionTitle);
+
+    const divisionState = factionState.divisions[division.id];
+    for (const unit of division.units) {
+      const row = renderUnitTrackRow(
+        unit.name, unit.rpMax, unit.cpMax,
+        divisionState.units[unit.id].rp, divisionState.units[unit.id].cp,
+        (v) => { divisionState.units[unit.id].rp = v; onChange(); },
+        (v) => { divisionState.units[unit.id].cp = v; onChange(); },
+        unit.cpOnly
+      );
+      divisionBox.appendChild(row);
+    }
+
+    panelEl.appendChild(divisionBox);
   }
 
   const offmapBox = document.createElement('div');

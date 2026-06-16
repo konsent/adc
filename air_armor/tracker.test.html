@@ -32,8 +32,8 @@ function assertEqual(actual, expected, label) {
 
 // --- createDefaultState ---
 const state = createDefaultState();
-assertEqual(state.nato.hqs.us_3rd_inf.rp, 0, 'default RP is 0');
-assertEqual(state.nato.hqs.us_3rd_inf.cp, 0, 'default CP is 0');
+assertEqual(state.nato.hqs.ca_4cmbg.rp, 0, 'default RP is 0');
+assertEqual(state.nato.hqs.ca_4cmbg.cp, 0, 'default CP is 0');
 assertEqual(state.nato.offmap.cp, 0, 'default offmap CP is 0');
 assertEqual(state.nato.cs.nato.mine, 0, 'default CSP mine is 0');
 assertEqual(state.wp.offmap.rp, 0, 'default WP offmap RP is 0');
@@ -42,15 +42,22 @@ assertEqual(state.nato.vp, 0, 'default VP is 0');
 
 // --- saveState / loadState round-trip ---
 localStorage.removeItem('airArmorTrackerState');
-state.nato.hqs.us_3rd_inf.rp = 2;
+state.nato.hqs.ca_4cmbg.rp = 2;
 saveState(state);
 const loaded = loadState();
-assertEqual(loaded.nato.hqs.us_3rd_inf.rp, 2, 'loadState restores saved value');
+assertEqual(loaded.nato.hqs.ca_4cmbg.rp, 2, 'loadState restores saved value');
+
+// --- division units in default state ---
+assertEqual(state.nato.divisions.us_3rd_inf.units.fwd.cp, 0, 'default 3rd Inf Fwd HQ CP is 0');
+assertEqual(state.nato.divisions.us_3rd_inf.units.mn.rp, 0, 'default 3rd Inf Mn HQ RP is 0');
+assertEqual(state.nato.divisions.us_3rd_inf.units.b1_3.rp, 0, 'default 3rd Inf 1/3 RP is 0');
+assertEqual(state.nato.divisions.wg_12th_pz.units.mn.cp, 0, 'default 12th Pz Mn HQ CP is 0');
+assertEqual(state.nato.divisions.wg_12th_pz.units.b34_12.cp, 0, 'default 12th Pz 34/12 CP is 0');
 
 // --- loadState with no prior save returns defaults ---
 localStorage.removeItem('airArmorTrackerState');
 const fresh = loadState();
-assertEqual(fresh.nato.hqs.us_3rd_inf.rp, 0, 'loadState falls back to defaults when empty');
+assertEqual(fresh.nato.hqs.ca_4cmbg.rp, 0, 'loadState falls back to defaults when empty');
 
 // --- clampCounter ---
 assertEqual(clampCounter(-1), 0, 'clampCounter prevents negative');
@@ -59,16 +66,22 @@ assertEqual(clampCounter(5), 5, 'clampCounter allows positive');
 // --- resetTurnTracks ---
 localStorage.removeItem('airArmorTrackerState');
 const s2 = createDefaultState();
-s2.nato.hqs.us_3rd_inf.rp = 2;
-s2.nato.hqs.us_3rd_inf.cp = 1;
+s2.nato.hqs.ca_4cmbg.rp = 2;
+s2.nato.hqs.ca_4cmbg.cp = 1;
+s2.nato.divisions.us_3rd_inf.units.fwd.cp = 1;
+s2.nato.divisions.us_3rd_inf.units.b1_3.rp = 1;
+s2.nato.divisions.wg_12th_pz.units.b34_12.cp = 2;
 s2.nato.offmap.cp = 1;
 s2.wp.offmap.rp = 1;
 s2.nato.cs.nato.mine = 3;
 s2.nato.vp = 2;
 s2.nato.sam = 3;
 resetTurnTracks(s2);
-assertEqual(s2.nato.hqs.us_3rd_inf.rp, 0, 'reset zeroes HQ RP');
-assertEqual(s2.nato.hqs.us_3rd_inf.cp, 0, 'reset zeroes HQ CP');
+assertEqual(s2.nato.hqs.ca_4cmbg.rp, 0, 'reset zeroes HQ RP');
+assertEqual(s2.nato.hqs.ca_4cmbg.cp, 0, 'reset zeroes HQ CP');
+assertEqual(s2.nato.divisions.us_3rd_inf.units.fwd.cp, 0, 'reset zeroes 3rd Inf Fwd HQ CP');
+assertEqual(s2.nato.divisions.us_3rd_inf.units.b1_3.rp, 0, 'reset zeroes 3rd Inf 1/3 RP');
+assertEqual(s2.nato.divisions.wg_12th_pz.units.b34_12.cp, 0, 'reset zeroes 12th Pz 34/12 CP');
 assertEqual(s2.nato.offmap.cp, 0, 'reset zeroes offmap CP');
 assertEqual(s2.wp.offmap.rp, 0, 'reset zeroes WP offmap RP');
 assertEqual(s2.nato.cs.nato.mine, 3, 'reset leaves CSP untouched');
@@ -100,7 +113,12 @@ const panelState = createDefaultState();
 const panelEl = document.createElement('div');
 renderFactionPanel(panelEl, 'nato', panelState, () => {});
 
-assertEqual(panelEl.querySelectorAll('.hq-row').length, 5, 'renders one row per NATO HQ');
+assertEqual(panelEl.querySelectorAll('.hq-row').length, 13, 'renders one row per standalone HQ (3) plus division units (6 + 4)');
+assertEqual(panelEl.querySelectorAll('.division-title').length, 2, 'renders one division box per NATO division');
+assertEqual([...panelEl.querySelectorAll('.group-box')].filter(b => b.querySelector('.division-title')).reduce((sum, b) => sum + b.querySelectorAll('.hq-row').length, 0), 10, 'division boxes render one row per unit (6 + 4)');
+const fwdRow = [...panelEl.querySelectorAll('.hq-row')].find(r => r.querySelector('.hq-name').textContent === 'Fwd HQ');
+assertEqual(fwdRow.querySelectorAll('.track-wrap').length, 1, 'cpOnly unit renders only one track (CP)');
+assertEqual(fwdRow.querySelector('.label').textContent, 'CP', 'cpOnly unit track is labeled CP');
 assertEqual(panelEl.querySelectorAll('.cs-item').length, 1 * 6, 'renders single unified CSP pool for NATO');
 assertEqual(!!panelEl.querySelector('.offmap-row'), true, 'renders offmap row');
 assertEqual(!!panelEl.querySelector('.sam-row'), true, 'renders SAM row');
@@ -112,7 +130,7 @@ assertEqual(wpPanelEl.querySelectorAll('.hq-row').length, 0, 'WP has no HQ rows'
 assertEqual(wpPanelEl.querySelectorAll('.cs-item').length, 1 * 6, 'WP CSP is single nation pool');
 
 // --- group-box grouping ---
-assertEqual(panelEl.querySelectorAll('.group-box').length, 4, 'NATO has 4 group boxes (HQ, offmap+SAM, CSP, VP)');
+assertEqual(panelEl.querySelectorAll('.group-box').length, 6, 'NATO has 6 group boxes (HQ, 2 divisions, offmap+SAM, CSP, VP)');
 assertEqual(wpPanelEl.querySelectorAll('.group-box').length, 3, 'WP has 3 group boxes (no HQ box)');
 assertEqual(!!panelEl.querySelector('.group-box .hq-row'), true, 'NATO HQ rows live inside a group-box');
 assertEqual(!!panelEl.querySelector('.group-box .offmap-row'), true, 'offmap row lives inside a group-box');
