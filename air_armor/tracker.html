@@ -24,19 +24,26 @@
   --title: 'Noto Sans KR', 'Oswald', sans-serif;
 }
 * { box-sizing: border-box; margin: 0; padding: 0; }
-body {
+html, body {
   font-family: var(--mono);
   background: var(--bg);
   color: var(--text);
-  min-height: 100vh;
+  height: 100vh;
+  overflow: hidden;
+  font-size: 13px;
+}
+body {
+  display: flex;
+  flex-direction: column;
 }
 header {
   background: var(--surface);
   border-bottom: 2px solid var(--nato);
-  padding: 8px 18px;
+  padding: 6px 18px;
   display: flex;
   align-items: center;
   justify-content: space-between;
+  flex-shrink: 0;
 }
 header h1 {
   font-family: var(--title);
@@ -60,14 +67,20 @@ header a:hover { color: var(--nato); }
 
 main {
   display: flex;
-  gap: 16px;
-  padding: 16px;
+  gap: 12px;
+  padding: 10px;
+  flex: 1;
+  min-height: 0;
+  overflow: hidden;
 }
 .faction-panel {
   flex: 1;
   background: var(--surface);
   border: 1px solid var(--border);
-  padding: 12px;
+  padding: 10px;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
 }
 .faction-nato { border-top: 3px solid var(--nato); }
 .faction-wp { border-top: 3px solid var(--wp); }
@@ -85,19 +98,27 @@ main {
 
 .group-box {
   border: 1px solid var(--surface2);
-  padding: 10px 12px;
-  margin-bottom: 12px;
+  padding: 6px 10px;
+  margin-bottom: 8px;
 }
+
+.divisions-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+  margin-bottom: 8px;
+}
+.divisions-row .group-box { margin-bottom: 0; }
 
 .hq-row, .offmap-row, .sam-row, .vp-row {
   display: flex;
   align-items: center;
-  gap: 12px;
-  padding: 6px 0;
+  gap: 10px;
+  padding: 3px 0;
   border-bottom: 1px solid var(--surface2);
   flex-wrap: wrap;
 }
-.hq-row-indent { padding-left: 24px; }
+.hq-row-indent { padding-left: 20px; }
 .hq-row-indent .hq-name { font-weight: 400; color: var(--text-dim); }
 .group-box .hq-row:last-child,
 .group-box .offmap-row:last-child,
@@ -105,36 +126,37 @@ main {
 .group-box .vp-row:last-child {
   border-bottom: none;
 }
-.hq-name { min-width: 120px; font-weight: 600; }
-.track-wrap { display: flex; align-items: center; gap: 6px; }
-.track-wrap .label { font-size: 0.7rem; color: var(--text-dim); width: 22px; }
+.hq-name { min-width: 100px; font-weight: 600; }
+.track-wrap { display: flex; align-items: center; gap: 5px; }
+.track-wrap .label { font-size: 0.68rem; color: var(--text-dim); width: 18px; }
 
-.track-cells { display: flex; gap: 3px; }
+.track-cells { display: flex; gap: 2px; }
 .track-cell {
   background: transparent;
   border: 1px solid var(--border2);
   color: var(--text-dim);
   font-family: var(--mono);
-  width: 24px;
-  height: 24px;
+  font-size: 0.75rem;
+  width: 20px;
+  height: 20px;
   cursor: pointer;
 }
 .track-cell:hover { border-color: var(--nato); color: var(--nato); }
 .track-cell.active { background: var(--nato); color: var(--bg); font-weight: 700; border-color: var(--nato); }
 .faction-wp .track-cell.active { background: var(--wp-bright); color: #fff; border-color: var(--wp-bright); }
 
-.cs-section { display: flex; flex-wrap: wrap; gap: 8px; }
+.cs-section { display: flex; flex-wrap: wrap; gap: 6px; }
 .cs-item {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 8px;
+  gap: 6px;
   border: 1px solid var(--surface2);
-  padding: 4px 8px;
-  flex: 1 1 calc(50% - 8px);
-  min-width: 200px;
+  padding: 3px 6px;
+  flex: 1 1 calc(50% - 6px);
+  min-width: 180px;
 }
-.cs-label { font-size: 0.75rem; }
+.cs-label { font-size: 0.72rem; }
 
 .counter-ctrl { display: flex; align-items: center; gap: 0; }
 .counter-btn {
@@ -142,21 +164,21 @@ main {
   border: 1px solid var(--border2);
   color: var(--text-dim);
   font-family: var(--mono);
-  font-size: 0.8rem;
-  width: 22px;
-  height: 22px;
+  font-size: 0.75rem;
+  width: 20px;
+  height: 20px;
   cursor: pointer;
 }
 .counter-btn:hover { border-color: var(--nato); color: var(--nato); }
 .counter-val {
   font-weight: 700;
   color: var(--nato);
-  min-width: 28px;
+  min-width: 26px;
   text-align: center;
   border-top: 1px solid var(--border2);
   border-bottom: 1px solid var(--border2);
-  height: 22px;
-  line-height: 22px;
+  height: 20px;
+  line-height: 20px;
 }
 .faction-wp .counter-val { color: var(--wp-bright); }
 </style>

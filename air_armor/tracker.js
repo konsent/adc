@@ -166,29 +166,36 @@ function renderFactionPanel(panelEl, factionId, state, onChange) {
   title.textContent = faction.label;
   panelEl.appendChild(title);
 
-  for (const division of faction.divisions || []) {
-    const divisionBox = document.createElement('div');
-    divisionBox.className = 'group-box';
+  if (faction.divisions && faction.divisions.length > 0) {
+    const divisionsRow = document.createElement('div');
+    divisionsRow.className = 'divisions-row';
 
-    const divisionTitle = document.createElement('h3');
-    divisionTitle.className = 'division-title';
-    divisionTitle.textContent = division.name;
-    divisionBox.appendChild(divisionTitle);
+    for (const division of faction.divisions) {
+      const divisionBox = document.createElement('div');
+      divisionBox.className = 'group-box';
 
-    const divisionState = factionState.divisions[division.id];
-    for (const unit of division.units) {
-      const row = renderUnitTrackRow(
-        unit.name, unit.rpMax, unit.cpMax,
-        divisionState.units[unit.id].rp, divisionState.units[unit.id].cp,
-        (v) => { divisionState.units[unit.id].rp = v; onChange(); },
-        (v) => { divisionState.units[unit.id].cp = v; onChange(); },
-        unit.cpOnly,
-        unit.indent
-      );
-      divisionBox.appendChild(row);
+      const divisionTitle = document.createElement('h3');
+      divisionTitle.className = 'division-title';
+      divisionTitle.textContent = division.name;
+      divisionBox.appendChild(divisionTitle);
+
+      const divisionState = factionState.divisions[division.id];
+      for (const unit of division.units) {
+        const row = renderUnitTrackRow(
+          unit.name, unit.rpMax, unit.cpMax,
+          divisionState.units[unit.id].rp, divisionState.units[unit.id].cp,
+          (v) => { divisionState.units[unit.id].rp = v; onChange(); },
+          (v) => { divisionState.units[unit.id].cp = v; onChange(); },
+          unit.cpOnly,
+          unit.indent
+        );
+        divisionBox.appendChild(row);
+      }
+
+      divisionsRow.appendChild(divisionBox);
     }
 
-    panelEl.appendChild(divisionBox);
+    panelEl.appendChild(divisionsRow);
   }
 
   if (faction.hqs.length > 0) {
