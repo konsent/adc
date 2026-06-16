@@ -75,6 +75,14 @@ assertEqual(s2.nato.cs.us.mine, 3, 'reset leaves CSP untouched');
 assertEqual(s2.nato.vp, 2, 'reset leaves VP untouched');
 assertEqual(s2.nato.sam, 3, 'reset leaves SAM untouched');
 
+// --- renderTrackCells ---
+const container = document.createElement('div');
+renderTrackCells(container, 2, 1, (newVal) => { container.dataset.clicked = newVal; });
+assertEqual(container.querySelectorAll('.track-cell').length, 3, 'renderTrackCells creates max+1 cells');
+assertEqual(container.querySelector('.track-cell.active').textContent, '1', 'active cell matches current value');
+container.querySelectorAll('.track-cell')[2].click();
+assertEqual(container.dataset.clicked, '2', 'clicking a cell invokes callback with that value');
+
 document.title = `Tracker Tests — ${passCount} pass, ${failCount} fail`;
 </script>
 </body>

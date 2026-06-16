@@ -56,3 +56,15 @@ function resetTurnTracks(state) {
     faction.offmap.rp = 0;
   }
 }
+
+function renderTrackCells(container, maxValue, currentValue, onSelect) {
+  container.innerHTML = '';
+  container.classList.add('track-cells');
+  for (let i = 0; i <= maxValue; i++) {
+    const cell = document.createElement('button');
+    cell.className = 'track-cell' + (i === currentValue ? ' active' : '');
+    cell.textContent = String(i);
+    cell.addEventListener('click', () => onSelect(i));
+    container.appendChild(cell);
+  }
+}
