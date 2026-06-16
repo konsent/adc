@@ -68,3 +68,26 @@ function renderTrackCells(container, maxValue, currentValue, onSelect) {
     container.appendChild(cell);
   }
 }
+
+function renderCounter(container, value, onChange) {
+  container.innerHTML = '';
+  container.classList.add('counter-ctrl');
+
+  const minusBtn = document.createElement('button');
+  minusBtn.className = 'counter-btn';
+  minusBtn.textContent = '−';
+  minusBtn.addEventListener('click', () => onChange(clampCounter(value - 1)));
+
+  const valSpan = document.createElement('span');
+  valSpan.className = 'counter-val';
+  valSpan.textContent = String(value);
+
+  const plusBtn = document.createElement('button');
+  plusBtn.className = 'counter-btn';
+  plusBtn.textContent = '+';
+  plusBtn.addEventListener('click', () => onChange(value + 1));
+
+  container.appendChild(minusBtn);
+  container.appendChild(valSpan);
+  container.appendChild(plusBtn);
+}

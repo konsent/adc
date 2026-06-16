@@ -83,6 +83,17 @@ assertEqual(container.querySelector('.track-cell.active').textContent, '1', 'act
 container.querySelectorAll('.track-cell')[2].click();
 assertEqual(container.dataset.clicked, '2', 'clicking a cell invokes callback with that value');
 
+// --- renderCounter ---
+const counterEl = document.createElement('div');
+let counterVal = 3;
+renderCounter(counterEl, counterVal, (newVal) => { counterVal = newVal; renderCounter(counterEl, counterVal, arguments[2]); });
+assertEqual(counterEl.querySelector('.counter-val').textContent, '3', 'renderCounter shows initial value');
+
+const minusBtn = counterEl.querySelectorAll('button')[0];
+const plusBtn = counterEl.querySelectorAll('button')[1];
+assertEqual(minusBtn.textContent, '−', 'first button is minus');
+assertEqual(plusBtn.textContent, '+', 'second button is plus');
+
 document.title = `Tracker Tests — ${passCount} pass, ${failCount} fail`;
 </script>
 </body>
