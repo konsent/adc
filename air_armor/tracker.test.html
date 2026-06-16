@@ -1,0 +1,81 @@
+<!-- air_armor/tracker.test.html -->
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<title>Tracker Tests</title>
+<style>
+  body { font-family: monospace; background: #111; color: #ddd; padding: 20px; }
+  .pass { color: #6a8e48; }
+  .fail { color: #c0392b; font-weight: bold; }
+</style>
+</head>
+<body>
+<h1>Tracker Unit Tests</h1>
+<div id="results"></div>
+
+<script src="tracker-data.js"></script>
+<script src="tracker.js"></script>
+<script>
+const results = document.getElementById('results');
+let passCount = 0, failCount = 0;
+
+function assertEqual(actual, expected, label) {
+  const ok = JSON.stringify(actual) === JSON.stringify(expected);
+  const line = document.createElement('div');
+  line.className = ok ? 'pass' : 'fail';
+  line.textContent = (ok ? 'PASS ' : 'FAIL ') + label +
+    (ok ? '' : ` — expected ${JSON.stringify(expected)}, got ${JSON.stringify(actual)}`);
+  results.appendChild(line);
+  ok ? passCount++ : failCount++;
+}
+
+// --- createDefaultState ---
+const state = createDefaultState();
+assertEqual(state.nato.hqs.us_3rd_inf.rp, 0, 'default RP is 0');
+assertEqual(state.nato.hqs.us_3rd_inf.cp, 0, 'default CP is 0');
+assertEqual(state.nato.offmap.cp, 0, 'default offmap CP is 0');
+assertEqual(state.nato.cs.us.mine, 0, 'default CSP mine(us) is 0');
+assertEqual(state.wp.offmap.rp, 0, 'default WP offmap RP is 0');
+assertEqual(state.nato.sam, 1, 'default SAM strength is 1');
+assertEqual(state.nato.vp, 0, 'default VP is 0');
+
+// --- saveState / loadState round-trip ---
+localStorage.removeItem('airArmorTrackerState');
+state.nato.hqs.us_3rd_inf.rp = 2;
+saveState(state);
+const loaded = loadState();
+assertEqual(loaded.nato.hqs.us_3rd_inf.rp, 2, 'loadState restores saved value');
+
+// --- loadState with no prior save returns defaults ---
+localStorage.removeItem('airArmorTrackerState');
+const fresh = loadState();
+assertEqual(fresh.nato.hqs.us_3rd_inf.rp, 0, 'loadState falls back to defaults when empty');
+
+// --- clampCounter ---
+assertEqual(clampCounter(-1), 0, 'clampCounter prevents negative');
+assertEqual(clampCounter(5), 5, 'clampCounter allows positive');
+
+// --- resetTurnTracks ---
+localStorage.removeItem('airArmorTrackerState');
+const s2 = createDefaultState();
+s2.nato.hqs.us_3rd_inf.rp = 2;
+s2.nato.hqs.us_3rd_inf.cp = 1;
+s2.nato.offmap.cp = 1;
+s2.wp.offmap.rp = 1;
+s2.nato.cs.us.mine = 3;
+s2.nato.vp = 2;
+s2.nato.sam = 3;
+resetTurnTracks(s2);
+assertEqual(s2.nato.hqs.us_3rd_inf.rp, 0, 'reset zeroes HQ RP');
+assertEqual(s2.nato.hqs.us_3rd_inf.cp, 0, 'reset zeroes HQ CP');
+assertEqual(s2.nato.offmap.cp, 0, 'reset zeroes offmap CP');
+assertEqual(s2.wp.offmap.rp, 0, 'reset zeroes WP offmap RP');
+assertEqual(s2.nato.cs.us.mine, 3, 'reset leaves CSP untouched');
+assertEqual(s2.nato.vp, 2, 'reset leaves VP untouched');
+assertEqual(s2.nato.sam, 3, 'reset leaves SAM untouched');
+
+document.title = `Tracker Tests — ${passCount} pass, ${failCount} fail`;
+</script>
+</body>
+</html>
