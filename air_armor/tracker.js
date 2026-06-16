@@ -210,3 +210,20 @@ function renderFactionPanel(panelEl, factionId, state, onChange) {
   vpRow.appendChild(vpCounterEl);
   panelEl.appendChild(vpRow);
 }
+
+function initTrackerPage() {
+  const state = loadState();
+
+  function rerender() {
+    saveState(state);
+    renderFactionPanel(document.getElementById('panel-nato'), 'nato', state, rerender);
+    renderFactionPanel(document.getElementById('panel-wp'), 'wp', state, rerender);
+  }
+
+  document.getElementById('reset-turn-btn').addEventListener('click', () => {
+    resetTurnTracks(state);
+    rerender();
+  });
+
+  rerender();
+}

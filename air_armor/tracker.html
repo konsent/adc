@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AIR & ARMOR — Tracker</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;600;700;900&family=Share+Tech+Mono&family=Oswald:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg:       #2a2e26;
+  --surface:  #343830;
+  --surface2: #3c4038;
+  --border:   #4e5445;
+  --border2:  #606858;
+  --text:     #d8dcc4;
+  --text-dim: #8a9278;
+  --nato:     #d4ae55;
+  --wp:       #8b1a1a;
+  --wp-bright:#c0392b;
+  --green:    #6a8e48;
+  --green-lt: #90b860;
+  --mono: 'Noto Sans KR', 'Share Tech Mono', sans-serif;
+  --title: 'Noto Sans KR', 'Oswald', sans-serif;
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+  font-family: var(--mono);
+  background: var(--bg);
+  color: var(--text);
+  min-height: 100vh;
+}
+header {
+  background: var(--surface);
+  border-bottom: 2px solid var(--nato);
+  padding: 8px 18px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+header h1 {
+  font-family: var(--title);
+  font-size: 1.1rem;
+  color: var(--nato);
+  letter-spacing: 4px;
+  font-weight: 700;
+  text-transform: uppercase;
+}
+header a { color: var(--green-lt); text-decoration: none; font-size: 0.8rem; }
+header a:hover { color: var(--nato); }
+#reset-turn-btn {
+  background: transparent;
+  border: 1px solid var(--border2);
+  color: var(--text);
+  font-family: var(--mono);
+  padding: 6px 14px;
+  cursor: pointer;
+}
+#reset-turn-btn:hover { border-color: var(--nato); color: var(--nato); }
+
+main {
+  display: flex;
+  gap: 16px;
+  padding: 16px;
+}
+.faction-panel {
+  flex: 1;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  padding: 12px;
+}
+.faction-nato { border-top: 3px solid var(--nato); }
+.faction-wp { border-top: 3px solid var(--wp); }
+.faction-panel h2 { font-family: var(--title); margin-bottom: 10px; }
+.faction-nato h2 { color: var(--nato); }
+.faction-wp h2 { color: var(--wp-bright); }
+
+.hq-row, .offmap-row, .sam-row, .vp-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 6px 0;
+  border-bottom: 1px solid var(--surface2);
+  flex-wrap: wrap;
+}
+.hq-name { min-width: 120px; font-weight: 600; }
+.track-wrap { display: flex; align-items: center; gap: 6px; }
+.track-wrap .label { font-size: 0.7rem; color: var(--text-dim); width: 22px; }
+
+.track-cells { display: flex; gap: 3px; }
+.track-cell {
+  background: transparent;
+  border: 1px solid var(--border2);
+  color: var(--text-dim);
+  font-family: var(--mono);
+  width: 24px;
+  height: 24px;
+  cursor: pointer;
+}
+.track-cell:hover { border-color: var(--nato); color: var(--nato); }
+.track-cell.active { background: var(--nato); color: var(--bg); font-weight: 700; border-color: var(--nato); }
+.faction-wp .track-cell.active { background: var(--wp-bright); color: #fff; border-color: var(--wp-bright); }
+
+.cs-section { display: flex; flex-wrap: wrap; gap: 8px; margin: 10px 0; }
+.cs-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  border: 1px solid var(--surface2);
+  padding: 4px 8px;
+  flex: 1 1 calc(50% - 8px);
+  min-width: 200px;
+}
+.cs-label { font-size: 0.75rem; }
+
+.counter-ctrl { display: flex; align-items: center; gap: 0; }
+.counter-btn {
+  background: transparent;
+  border: 1px solid var(--border2);
+  color: var(--text-dim);
+  font-family: var(--mono);
+  font-size: 0.8rem;
+  width: 22px;
+  height: 22px;
+  cursor: pointer;
+}
+.counter-btn:hover { border-color: var(--nato); color: var(--nato); }
+.counter-val {
+  font-weight: 700;
+  color: var(--nato);
+  min-width: 28px;
+  text-align: center;
+  border-top: 1px solid var(--border2);
+  border-bottom: 1px solid var(--border2);
+  height: 22px;
+  line-height: 22px;
+}
+.faction-wp .counter-val { color: var(--wp-bright); }
+</style>
+</head>
+<body>
+
+<header>
+  <h1>▶ AIR &amp; ARMOR · TRACKER</h1>
+  <div>
+    <button id="reset-turn-btn">RP/CP/Offmap 리셋</button>
+    <a href="index.html">◀ SOP로 돌아가기</a>
+  </div>
+</header>
+
+<main>
+  <div id="panel-nato"></div>
+  <div id="panel-wp"></div>
+</main>
+
+<script src="tracker-data.js"></script>
+<script src="tracker.js"></script>
+<script>
+  initTrackerPage();
+</script>
+</body>
+</html>
