@@ -30,7 +30,7 @@ html, body {
   color: var(--text);
   height: 100vh;
   overflow: hidden;
-  font-size: 13px;
+  font-size: 17px;
 }
 body {
   display: flex;
@@ -39,7 +39,7 @@ body {
 header {
   background: var(--surface);
   border-bottom: 2px solid var(--nato);
-  padding: 6px 18px;
+  padding: 9px 22px;
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -67,7 +67,7 @@ header a:hover { color: var(--nato); }
 
 main {
   display: flex;
-  gap: 12px;
+  gap: 14px;
   padding: 10px;
   flex: 1;
   min-height: 0;
@@ -84,7 +84,7 @@ main {
 }
 .faction-nato { border-top: 3px solid var(--nato); }
 .faction-wp { border-top: 3px solid var(--wp); }
-.faction-panel h2 { font-family: var(--title); margin-bottom: 10px; }
+.faction-panel h2 { font-family: var(--title); margin-bottom: 8px; }
 .faction-nato h2 { color: var(--nato); }
 .faction-wp h2 { color: var(--wp-bright); }
 .division-title {
@@ -93,19 +93,30 @@ main {
   color: var(--text-dim);
   text-transform: uppercase;
   letter-spacing: 1px;
-  margin-bottom: 6px;
+  margin-bottom: 5px;
 }
+.divisions-row .hq-row {
+  gap: 8px;
+  padding: 4px 0;
+  font-size: 0.88rem;
+}
+.divisions-row .hq-row-indent { padding-left: 18px; }
+.divisions-row .hq-name { min-width: 70px; }
+.divisions-row .track-wrap { gap: 4px; }
+.divisions-row .track-wrap .label { font-size: 0.68rem; width: 16px; }
+.divisions-row .track-cell { width: 28px; height: 28px; font-size: 0.82rem; }
+.divisions-row .track-cells { gap: 3px; }
 
 .group-box {
   border: 1px solid var(--surface2);
-  padding: 6px 10px;
+  padding: 8px 12px;
   margin-bottom: 8px;
 }
 
 .divisions-row {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 8px;
+  gap: 10px;
   margin-bottom: 8px;
 }
 .divisions-row .group-box { margin-bottom: 0; }
@@ -113,32 +124,64 @@ main {
 .hq-row, .offmap-row, .sam-row, .vp-row {
   display: flex;
   align-items: center;
-  gap: 10px;
-  padding: 3px 0;
+  gap: 12px;
+  padding: 5px 0;
   border-bottom: 1px solid var(--surface2);
-  flex-wrap: wrap;
+  flex-wrap: nowrap;
 }
-.hq-row-indent { padding-left: 20px; }
+.hq-row-indent { padding-left: 22px; }
 .hq-row-indent .hq-name { font-weight: 400; color: var(--text-dim); }
+.unit-b1_3 .hq-name   { color: #7a8c5a; }
+.unit-b2_3 .hq-name   { color: #8b6347; }
+.unit-b3_3 .hq-name   { color: #7b5fa0; }
+.unit-acr_2_11 .hq-name { color: #5aadcc; }
+.unit-b34_12 .hq-name { color: #7ab857; }
+.unit-b35_12 .hq-name { color: #9b80c8; }
+.unit-b36_12 .hq-name { color: #d4813a; }
+
+.unit-b1_3    .track-cell.active { background: #7a8c5a; border-color: #7a8c5a; color: #fff; }
+.unit-b1_3    .track-cell:hover  { border-color: #7a8c5a; color: #7a8c5a; }
+.unit-b2_3    .track-cell.active { background: #8b6347; border-color: #8b6347; color: #fff; }
+.unit-b2_3    .track-cell:hover  { border-color: #8b6347; color: #8b6347; }
+.unit-b3_3    .track-cell.active { background: #7b5fa0; border-color: #7b5fa0; color: #fff; }
+.unit-b3_3    .track-cell:hover  { border-color: #7b5fa0; color: #7b5fa0; }
+.unit-acr_2_11 .track-cell.active { background: #5aadcc; border-color: #5aadcc; color: #fff; }
+.unit-acr_2_11 .track-cell:hover  { border-color: #5aadcc; color: #5aadcc; }
+.unit-b34_12  .track-cell.active { background: #7ab857; border-color: #7ab857; color: #fff; }
+.unit-b34_12  .track-cell:hover  { border-color: #7ab857; color: #7ab857; }
+.unit-b35_12  .track-cell.active { background: #9b80c8; border-color: #9b80c8; color: #fff; }
+.unit-b35_12  .track-cell:hover  { border-color: #9b80c8; color: #9b80c8; }
+.unit-b36_12  .track-cell.active { background: #d4813a; border-color: #d4813a; color: #fff; }
+.unit-b36_12  .track-cell:hover  { border-color: #d4813a; color: #d4813a; }
+
+.unit-ca_4cmbg .hq-name { color: #CC9092; }
+.unit-ca_4cmbg .track-cell.active { background: #CC9092; border-color: #CC9092; color: #2a2e26; }
+.unit-ca_4cmbg .track-cell:hover  { border-color: #CC9092; color: #CC9092; }
+.unit-wg_54hsb .hq-name { color: #c8bfa0; }
+.unit-wg_54hsb .track-cell.active { background: #c8bfa0; border-color: #c8bfa0; color: #2a2e26; }
+.unit-wg_54hsb .track-cell:hover  { border-color: #c8bfa0; color: #c8bfa0; }
+.unit-wg_26ll  .hq-name { color: #96a890; }
+.unit-wg_26ll  .track-cell.active { background: #96a890; border-color: #96a890; color: #2a2e26; }
+.unit-wg_26ll  .track-cell:hover  { border-color: #96a890; color: #96a890; }
 .group-box .hq-row:last-child,
 .group-box .offmap-row:last-child,
 .group-box .sam-row:last-child,
 .group-box .vp-row:last-child {
   border-bottom: none;
 }
-.hq-name { min-width: 100px; font-weight: 600; }
-.track-wrap { display: flex; align-items: center; gap: 5px; }
-.track-wrap .label { font-size: 0.68rem; color: var(--text-dim); width: 18px; }
+.hq-name { min-width: 80px; font-weight: 600; }
+.track-wrap { display: flex; align-items: center; gap: 6px; }
+.track-wrap .label { font-size: 0.72rem; color: var(--text-dim); width: 20px; }
 
-.track-cells { display: flex; gap: 2px; }
+.track-cells { display: flex; gap: 4px; }
 .track-cell {
   background: transparent;
   border: 1px solid var(--border2);
   color: var(--text-dim);
   font-family: var(--mono);
-  font-size: 0.75rem;
-  width: 20px;
-  height: 20px;
+  font-size: 0.9rem;
+  width: 32px;
+  height: 32px;
   cursor: pointer;
 }
 .track-cell:hover { border-color: var(--nato); color: var(--nato); }
@@ -150,13 +193,13 @@ main {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 6px;
+  gap: 8px;
   border: 1px solid var(--surface2);
-  padding: 3px 6px;
+  padding: 5px 8px;
   flex: 1 1 calc(50% - 6px);
-  min-width: 180px;
+  min-width: 200px;
 }
-.cs-label { font-size: 0.72rem; }
+.cs-label { font-size: 0.85rem; }
 
 .counter-ctrl { display: flex; align-items: center; gap: 0; }
 .counter-btn {
@@ -164,21 +207,21 @@ main {
   border: 1px solid var(--border2);
   color: var(--text-dim);
   font-family: var(--mono);
-  font-size: 0.75rem;
-  width: 20px;
-  height: 20px;
+  font-size: 0.9rem;
+  width: 32px;
+  height: 32px;
   cursor: pointer;
 }
 .counter-btn:hover { border-color: var(--nato); color: var(--nato); }
 .counter-val {
   font-weight: 700;
   color: var(--nato);
-  min-width: 26px;
+  min-width: 34px;
   text-align: center;
   border-top: 1px solid var(--border2);
   border-bottom: 1px solid var(--border2);
-  height: 20px;
-  line-height: 20px;
+  height: 32px;
+  line-height: 32px;
 }
 .faction-wp .counter-val { color: var(--wp-bright); }
 </style>

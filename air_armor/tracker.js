@@ -126,9 +126,9 @@ function renderCounter(container, value, onChange) {
   container.appendChild(plusBtn);
 }
 
-function renderUnitTrackRow(name, rpMax, cpMax, rpValue, cpValue, onRpChange, onCpChange, cpOnly, indent) {
+function renderUnitTrackRow(name, rpMax, cpMax, rpValue, cpValue, onRpChange, onCpChange, cpOnly, indent, unitId) {
   const row = document.createElement('div');
-  row.className = 'hq-row' + (indent ? ' hq-row-indent' : '');
+  row.className = 'hq-row' + (indent ? ' hq-row-indent' : '') + (unitId ? ' unit-' + unitId : '');
 
   const nameEl = document.createElement('span');
   nameEl.className = 'hq-name';
@@ -187,7 +187,8 @@ function renderFactionPanel(panelEl, factionId, state, onChange) {
           (v) => { divisionState.units[unit.id].rp = v; onChange(); },
           (v) => { divisionState.units[unit.id].cp = v; onChange(); },
           unit.cpOnly,
-          unit.indent
+          unit.indent,
+          unit.id
         );
         divisionBox.appendChild(row);
       }
@@ -207,7 +208,8 @@ function renderFactionPanel(panelEl, factionId, state, onChange) {
         hq.name, hq.rpMax, hq.cpMax,
         factionState.hqs[hq.id].rp, factionState.hqs[hq.id].cp,
         (v) => { factionState.hqs[hq.id].rp = v; onChange(); },
-        (v) => { factionState.hqs[hq.id].cp = v; onChange(); }
+        (v) => { factionState.hqs[hq.id].cp = v; onChange(); },
+        false, false, hq.id
       );
       hqBox.appendChild(row);
     }
