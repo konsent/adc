@@ -13,8 +13,8 @@ const TRACKER_DATA = {
         name: '3rd Inf Div',
         nation: 'us',
         units: [
-          { id: 'fwd', name: 'Fwd HQ', rpMax: 1, cpMax: 1, cpOnly: true },
-          { id: 'mn', name: 'Mn HQ', rpMax: 1, cpMax: 1 },
+          { id: 'fwd', name: 'Fwd HQ', rpMax: 2, cpMax: 2, cpOnly: true },
+          { id: 'mn', name: 'Mn HQ', rpMax: 2, cpMax: 2 },
           { id: 'b1_3', name: '1/3', rpMax: 1, cpMax: 1, indent: true },
           { id: 'b2_3', name: '2/3', rpMax: 1, cpMax: 1, indent: true },
           { id: 'b3_3', name: '3/3', rpMax: 1, cpMax: 1, indent: true },
