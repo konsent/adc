@@ -8,34 +8,57 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@300;400;500;600;700&family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
     <style>
+        /* ── StyleSeed §C0: one token per design axis ── */
         :root {
-            /* Exhibition Style Color Palette */
-            --bg-linen: #f2ede7;
-            --bg-cream: #faf8f5;
-            --text-primary: #161616;
-            --text-secondary: #535353;
-            --text-muted: #8a8a8a;
-            --border-light: #e5e0d8;
-            --border-medium: #d4cfc7;
-            --accent-warm: #c9a86c;
-            --accent-warm-light: #e8dcc0;
-            --note-bg: #f7f4f0;
-            --golden-bg: #fdf8e8;
-            --golden-border: #e8d9a8;
-            --danger: #c45c4a;
-            --danger-light: #f5e5e2;
-            --success: #5a8a6e;
-            --success-light: #e5f0e9;
-            --info: #5a7a9a;
-            --info-light: #e8eef5;
-            
-            --radius-sm: 4px;
-            --radius-md: 8px;
-            --radius-lg: 12px;
-            
-            --shadow-sm: 0 1px 2px rgba(22, 22, 22, 0.04);
-            --shadow-md: 0 4px 12px rgba(22, 22, 22, 0.08);
-            --shadow-lg: 0 8px 24px rgba(22, 22, 22, 0.12);
+            /* §C2 Typography: 5-level grayscale, never pure black */
+            --text-primary:   #1a1a1a;
+            --text-secondary: #4a4a4a;
+            --text-muted:     #787878;
+            --text-disabled:  #ababab;
+
+            /* Background scale (light mode) */
+            --bg-linen: #f0ebe4;
+            --bg-cream: #f8f5f0;
+
+            /* §C4 Borders */
+            --border-light:  #e8e2da;
+            --border-medium: #d4cdc4;
+
+            /* §C4 Brand accent — sparse: active/selected states only */
+            --accent-warm:       #b8973a;
+            --accent-warm-light: #e8ddb8;
+            --accent-warm-dim:   rgba(184,151,58,0.10);
+
+            /* Semantic colors */
+            --note-bg:      #f5f1eb;
+            --golden-bg:    #fdf6e0;
+            --golden-border:#e4d498;
+            --danger:       #b84a38;
+            --danger-light: #f5e2de;
+            --success:      #4a7a5e;
+            --success-light:#ddeee5;
+            --info:         #4a6a8a;
+            --info-light:   #dde8f2;
+
+            /* §C0 Radius: single system-wide value */
+            --radius: 4px;
+
+            /* §C3 Shadows: ≤8% opacity */
+            --shadow-sm:  0 1px 3px rgba(22,22,22,0.06), 0 1px 2px rgba(22,22,22,0.04);
+            --shadow-md:  0 4px 12px rgba(22,22,22,0.08), 0 2px 4px rgba(22,22,22,0.04);
+            --shadow-lg:  0 8px 24px rgba(22,22,22,0.10), 0 4px 8px rgba(22,22,22,0.05);
+
+            /* §C1 Spacing: 8px grid */
+            --sp-1: 4px;  --sp-2: 8px;  --sp-3: 12px;
+            --sp-4: 16px; --sp-5: 24px; --sp-6: 32px;
+
+            /* §C3 Control height: 36px uniform */
+            --ctrl-h: 36px;
+
+            /* Aliases for legacy component references */
+            --radius-sm: var(--radius);
+            --radius-md: var(--radius);
+            --radius-lg: 8px;
         }
 
         * {
@@ -179,10 +202,10 @@
         /* Note blocks */
         .note {
             background: var(--note-bg);
-            padding: 1.25rem 1.5rem;
+            padding: var(--sp-5) var(--sp-5);
             border-left: 3px solid var(--accent-warm);
-            margin: 1.5rem 0;
-            border-radius: 0 var(--radius-md) var(--radius-md) 0;
+            margin: var(--sp-5) 0;
+            border-radius: 0 var(--radius) var(--radius) 0;
             font-size: 0.9375rem;
             color: var(--text-secondary);
             box-shadow: var(--shadow-sm);
@@ -196,10 +219,10 @@
         /* Golden rule block */
         .golden-rule {
             background: var(--golden-bg);
-            padding: 1.75rem 1.5rem;
+            padding: var(--sp-6) var(--sp-5);
             border: 1px solid var(--golden-border);
-            border-radius: var(--radius-md);
-            margin: 1.5rem 0;
+            border-radius: var(--radius);
+            margin: var(--sp-5) 0;
             box-shadow: var(--shadow-sm);
         }
 
@@ -217,19 +240,20 @@
             color: #5a4a30;
         }
 
-        /* Table reference buttons */
+        /* §C3 Table reference buttons — consistent height */
         .table-ref {
             display: inline-flex;
             align-items: center;
-            gap: 0.375rem;
+            gap: var(--sp-1);
             color: var(--danger);
             font-weight: 500;
-            font-size: 0.875rem;
+            font-size: 0.8125rem;
             background: var(--danger-light);
-            padding: 0.25rem 0.625rem;
-            border-radius: var(--radius-sm);
+            padding: 2px var(--sp-2);
+            height: 24px;
+            border-radius: var(--radius);
             cursor: pointer;
-            transition: all 0.2s ease;
+            transition: background 150ms ease, color 150ms ease, box-shadow 150ms ease;
             border: 1px solid transparent;
             white-space: nowrap;
         }
@@ -242,8 +266,12 @@
         .table-ref:hover {
             background: var(--danger);
             color: white;
-            transform: translateY(-1px);
-            box-shadow: var(--shadow-md);
+            box-shadow: var(--shadow-sm);
+        }
+
+        .table-ref:focus-visible {
+            outline: 2px solid var(--danger);
+            outline-offset: 2px;
         }
 
         .red {
@@ -251,52 +279,62 @@
             font-weight: 500;
         }
 
-        /* Floating Action Button */
+        /* §C3 FAB — 44px touch target */
         .fab {
             position: fixed;
-            bottom: 2rem;
-            right: 2rem;
-            width: 3.5rem;
-            height: 3.5rem;
+            bottom: var(--sp-6);
+            right: var(--sp-6);
+            width: 44px;
+            height: 44px;
             background: var(--text-primary);
             color: var(--bg-linen);
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 1.5rem;
+            font-size: 1.375rem;
             cursor: pointer;
             box-shadow: var(--shadow-lg);
             z-index: 1000;
-            transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+            transition: transform 200ms cubic-bezier(0.16,1,0.3,1),
+                        background 150ms ease,
+                        box-shadow 150ms ease;
             border: none;
         }
 
         .fab:hover {
             transform: scale(1.08) translateY(-2px);
             background: var(--accent-warm);
-            box-shadow: 0 12px 32px rgba(22, 22, 22, 0.2);
+            box-shadow: var(--shadow-lg);
         }
 
-        /* Modal styles */
+        .fab:focus-visible {
+            outline: 2px solid var(--accent-warm);
+            outline-offset: 3px;
+        }
+
+        /* §C3 Modal */
         .modal {
             position: fixed;
-            bottom: 2rem;
-            right: 2rem;
+            bottom: var(--sp-6);
+            right: var(--sp-6);
             width: 90vw;
             max-width: 700px;
             max-height: 80vh;
             background: var(--bg-cream);
             border: 1px solid var(--border-medium);
             border-radius: var(--radius-lg);
-            box-shadow: 0 20px 60px rgba(22, 22, 22, 0.25);
+            /* §C3 shadow: ≤12% opacity */
+            box-shadow: 0 8px 32px rgba(22,22,22,0.12), 0 2px 8px rgba(22,22,22,0.08);
             z-index: 1001;
             display: flex;
             flex-direction: column;
             visibility: hidden;
             opacity: 0;
-            transform: scale(0.96) translateY(20px);
-            transition: opacity 0.25s ease-out, transform 0.25s cubic-bezier(0.16, 1, 0.3, 1), visibility 0.25s;
+            transform: scale(0.97) translateY(12px);
+            transition: opacity 200ms ease-out,
+                        transform 200ms cubic-bezier(0.16,1,0.3,1),
+                        visibility 200ms;
             pointer-events: none;
         }
 
@@ -308,7 +346,7 @@
         }
 
         .modal-dialog {
-            padding: 1rem 1.25rem;
+            padding: var(--sp-3) var(--sp-4);
             background: var(--text-primary);
             color: var(--bg-linen);
             font-family: 'Oswald', sans-serif;
@@ -319,23 +357,29 @@
             align-items: center;
             border-top-left-radius: var(--radius-lg);
             border-top-right-radius: var(--radius-lg);
-            letter-spacing: 0.02em;
+            letter-spacing: 0.04em;
         }
 
+        /* §C3 Close button — 36px uniform control height */
         .close-button {
-            width: 2rem;
-            height: 2rem;
+            width: var(--ctrl-h);
+            height: var(--ctrl-h);
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 1.5rem;
+            font-size: 1.375rem;
             cursor: pointer;
-            border-radius: var(--radius-sm);
-            transition: background 0.2s ease;
+            border-radius: var(--radius);
+            transition: background 150ms ease;
         }
 
         .close-button:hover {
-            background: rgba(255, 255, 255, 0.1);
+            background: rgba(255,255,255,0.12);
+        }
+
+        .close-button:focus-visible {
+            outline: 2px solid rgba(255,255,255,0.5);
+            outline-offset: 1px;
         }
 
         .modal-content {
@@ -361,14 +405,14 @@
             line-height: 1.6;
         }
 
-        /* Tables in modal */
+        /* §C3 Tables in modal */
         .modal-content .table {
             width: 100%;
             border-collapse: separate;
             border-spacing: 0;
-            margin: 1rem 0;
+            margin: var(--sp-3) 0;
             background: white;
-            border-radius: var(--radius-md);
+            border-radius: var(--radius);
             overflow: hidden;
             font-size: 0.875rem;
             box-shadow: var(--shadow-sm);
@@ -487,38 +531,45 @@
             border: 1px solid var(--border-light);
         }
         
-        /* Interactive Roller Styles for Modal */
+        /* §C3 Interactive Roller */
         .interactive-roller {
             background: var(--bg-cream);
             border: 1px solid var(--border-medium);
-            border-radius: var(--radius-md);
-            padding: 1rem;
-            margin: 1rem 0;
+            border-radius: var(--radius);
+            padding: var(--sp-3) var(--sp-4);
+            margin: var(--sp-3) 0;
             display: flex;
             align-items: center;
             justify-content: space-between;
-            gap: 1rem;
+            gap: var(--sp-3);
         }
-        
+
+        /* §C3 roll-btn: uniform 36px height */
         .roll-btn {
             flex-shrink: 0;
-            padding: 10px 20px;
-            background: #c75b2b; /* Original accent-orange color */
+            padding: 0 var(--sp-4);
+            height: var(--ctrl-h);
+            background: #b84a28;
             color: white;
             border: none;
-            border-radius: var(--radius-md); /* 8px to match original */
+            border-radius: var(--radius);
             cursor: pointer;
             font-weight: 600;
-            font-size: 0.9rem;
+            font-size: 0.875rem;
             font-family: 'Oswald', sans-serif;
-            transition: all 0.2s ease;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            transition: background 150ms ease, box-shadow 150ms ease;
+            box-shadow: var(--shadow-sm);
+            letter-spacing: 0.04em;
         }
 
         .roll-btn:hover {
-            background: #d86a3a; /* Original hover color */
-            transform: translateY(-2px);
-            box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+            background: #c85c34;
+            box-shadow: var(--shadow-md);
+        }
+
+        .roll-btn:focus-visible {
+            outline: 2px solid #b84a28;
+            outline-offset: 2px;
         }
 
         .roll-result {
@@ -609,31 +660,14 @@
             }
         }
 
-        /* Scrollbar styling */
-        ::-webkit-scrollbar {
-            width: 8px;
-            height: 8px;
-        }
+        /* §C0 Scrollbar */
+        ::-webkit-scrollbar { width: 6px; height: 6px; }
+        ::-webkit-scrollbar-track { background: var(--border-light); border-radius: var(--radius); }
+        ::-webkit-scrollbar-thumb { background: var(--border-medium); border-radius: var(--radius); }
+        ::-webkit-scrollbar-thumb:hover { background: var(--text-muted); }
 
-        ::-webkit-scrollbar-track {
-            background: var(--border-light);
-            border-radius: var(--radius-sm);
-        }
-
-        ::-webkit-scrollbar-thumb {
-            background: var(--border-medium);
-            border-radius: var(--radius-sm);
-        }
-
-        ::-webkit-scrollbar-thumb:hover {
-            background: var(--text-muted);
-        }
-
-        /* Selection */
-        ::selection {
-            background: var(--accent-warm);
-            color: white;
-        }
+        /* §C4 Selection: brand accent */
+        ::selection { background: var(--accent-warm); color: white; }
 
         /* Smooth scroll */
         html {

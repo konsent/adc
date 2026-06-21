@@ -6,133 +6,183 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Downtown 플레이 순서</title>
     <style>
-        @page {
-            size: A4;
-            margin: 0;
+        /* ── StyleSeed §C0: one token per design axis ── */
+        :root {
+            /* §C2 Typography: 5-level grayscale */
+            --text:     #d8dce8;   /* L1 */
+            --text-2:   #9fa3b8;   /* L2 */
+            --text-dim: #636780;   /* L3 */
+            --text-mute:#3a3e52;   /* L4 disabled */
+
+            /* Background scale */
+            --bg:       #1a1d2e;
+            --surface:  #252838;
+            --surface2: #2d3142;
+
+            /* §C4 Borders */
+            --border:   #363a52;
+            --border2:  #4a5268;
+
+            /* §C4 Brand accent — use only for active/highlight */
+            --accent:     #61dafb;
+            --accent-dim: rgba(97,218,251,0.10);
+            --warm:       #f8c291;
+            --warm-dim:   rgba(248,194,145,0.10);
+
+            /* §C0 Radius: single value */
+            --radius: 6px;
+
+            /* §C3 Shadows */
+            --shadow-sm: 0 1px 3px rgba(0,0,0,0.25), 0 1px 2px rgba(0,0,0,0.18);
+            --shadow-md: 0 4px 12px rgba(0,0,0,0.35), 0 2px 4px rgba(0,0,0,0.20);
+
+            /* §C1 Spacing: 8px grid */
+            --sp-1: 4px;  --sp-2: 8px;  --sp-3: 12px;
+            --sp-4: 16px; --sp-5: 20px; --sp-6: 24px;
+
+            /* §C3 Control height: 36px */
+            --ctrl-h: 36px;
         }
 
+        @page { size: A4; margin: 0; }
+
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
         body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            font-family: 'Segoe UI', system-ui, sans-serif;
             line-height: 1.6;
-            margin: 0 auto;
-            padding: 20px;
-            background-color: #1e2130;
-            color: #e8e9ec;
-            box-sizing: border-box;
-            font-size: 16px;
+            padding: var(--sp-5);
+            background-color: var(--bg);
+            color: var(--text);
+            font-size: 15px;
         }
 
         h1 {
             text-align: center;
-            margin: 10px 0 20px;
-            font-size: 28px;
+            margin: var(--sp-2) 0 var(--sp-5);
+            font-size: 1.625rem;
+            letter-spacing: 0.04em;
+            color: var(--text);
         }
 
         .container {
             display: flex;
-            flex-direction: row;
-            gap: 8px;
-            flex-direction: column; 
+            flex-direction: column;
+            gap: var(--sp-2);
         }
 
+        /* §C3 Card */
         .section {
-            background-color: #2d3142;
-            border-radius: 8px;
-            padding: 16px 20px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+            background-color: var(--surface2);
+            border-radius: var(--radius);
+            border: 1px solid var(--border);
+            padding: var(--sp-4) var(--sp-5);
+            box-shadow: var(--shadow-sm);
         }
 
+        /* §C4 accent on section title — sparse */
         .section-title {
-            color: #61dafb;
-            font-size: 26px;
-            margin: 0 0 6px 0;
-            padding-bottom: 3px;
-            border-bottom: 1px solid #4a5268;
-            font-weight: bold;
+            color: var(--accent);
+            font-size: 1.5rem;
+            margin: 0 0 var(--sp-2) 0;
+            padding-bottom: var(--sp-1);
+            border-bottom: 1px solid var(--border2);
+            font-weight: 700;
+            letter-spacing: 0.02em;
         }
 
         .phase {
-            margin-bottom: 16px;
+            margin-bottom: var(--sp-4);
         }
 
         .phase-title {
-            font-weight: bold;
-            color: #f8c291;
-            margin-bottom: 8px;
-            font-size: 20px;
+            font-weight: 700;
+            color: var(--warm);
+            margin-bottom: var(--sp-2);
+            font-size: 1.125rem;
             display: flex;
             align-items: center;
+            letter-spacing: 0.02em;
         }
 
         .phase-title::before {
             content: '➤';
-            margin-right: 8px;
-            color: #f8c291;
+            margin-right: var(--sp-2);
+            color: var(--warm);
+            font-size: 0.875rem;
+            opacity: 0.7;
         }
 
         ul {
-            margin: 4px 0;
-            padding-left: 22px;
+            margin: var(--sp-1) 0;
+            padding-left: var(--sp-5);
         }
 
         li {
-            font-size: 15px;
-            margin-bottom: 1px;
+            font-size: 0.9375rem;
+            margin-bottom: 2px;
             list-style-type: none;
             position: relative;
+            color: var(--text-2);
         }
 
-        li:before {
+        li::before {
             content: "•";
-            color: #61dafb;
+            color: var(--accent);
             position: absolute;
-            left: -12px;
+            left: -14px;
+            opacity: 0.6;
         }
 
         .sub-step {
-            padding-left: 20px;
-            font-size: 15px;
-            color: #c8cad6;
-            margin-top: 4px;
+            padding-left: var(--sp-5);
+            font-size: 0.9375rem;
+            color: var(--text-dim);
+            margin-top: var(--sp-1);
         }
 
         .reference {
-            color: #9fa3b8;
-            font-size: 16px;
+            color: var(--text-dim);
+            font-size: 0.9375rem;
         }
 
-        /* 툴팁 스타일 */
+        /* §C3 Tooltip — card style */
         .tooltip {
-            position: fixed; /* 화면에 고정 */
-            right: 20px; /* 오른쪽 가장자리에서 20px */
-            bottom: 20px; /* 아래쪽 가장자리에서 20px */
+            position: fixed;
+            right: var(--sp-5);
+            bottom: var(--sp-5);
             background-color: #f0f4f8;
-            color: #1e2130;
-            padding: 10px 15px;
-            border-radius: 6px;
-            box-shadow: 0 5px 20px rgba(0,0,0,0.35);
+            color: #1a1d2e;
+            padding: var(--sp-3) var(--sp-4);
+            border-radius: var(--radius);
+            box-shadow: var(--shadow-md);
             z-index: 1000;
-            font-size: 15px;
-            line-height: 1.5;
-            border: 1px solid #61dafb;
-            max-width: 450px; /* 최대 너비 조정 */
-            width: calc(100vw - 40px); /* 모바일 화면 대응 */
-            max-height: 90vh; /* 뷰포트 높이의 90%를 넘지 않도록 설정 */
-            overflow-y: auto; /* 내용이 넘칠 경우 스크롤 생성 */
+            font-size: 0.9375rem;
+            line-height: 1.55;
+            border: 1px solid var(--accent);
+            max-width: 450px;
+            width: calc(100vw - 40px);
+            max-height: 90vh;
+            overflow-y: auto;
         }
+
         .tooltip-title {
-            font-weight: bold;
-            font-size: 17px;
-            color: #2c3e50;
-            margin-bottom: 8px;
-            padding-bottom: 4px;
+            font-weight: 700;
+            font-size: 1rem;
+            color: #1a1d2e;
+            margin-bottom: var(--sp-2);
+            padding-bottom: var(--sp-1);
             border-bottom: 1px solid #ccc;
         }
+
         .reference a {
-            color: #9fa3b8;
+            color: var(--text-dim);
             text-decoration: underline;
             cursor: pointer;
+            transition: color 120ms ease;
         }
+
+        .reference a:hover { color: var(--accent); }
     </style>
 </head>
 
