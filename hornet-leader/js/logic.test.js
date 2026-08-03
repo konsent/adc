@@ -128,6 +128,12 @@ describe('createEmptyTarget', () => {
         a.targetNumber = '42';
         expect(b.targetNumber).toBe('');
     });
+
+    it('app.js가 사용하는 achievedHits와 jdamPaid 필드를 포함한다', () => {
+        const t = createEmptyTarget();
+        expect(t.achievedHits).toBe(0);
+        expect(t.jdamPaid).toBe(false);
+    });
 });
 
 // ─── getNextRank ───
