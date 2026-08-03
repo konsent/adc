@@ -1,5 +1,6 @@
-// Pure logic functions extracted from app.js for testability.
-// These are also loaded by app.js at runtime (via globalThis).
+// 게임 규칙 순수 함수. app.js가 ES 모듈로 import하는 유일한 정본이다.
+// 여기의 함수를 app.js에 다시 정의하지 말 것 — 사본이 갈라지면
+// 테스트가 실행되지 않는 코드를 검증하게 된다.
 
 const RANKS = ['Newbie', 'Green', 'Average', 'Skilled', 'Veteran', 'Ace'];
 
@@ -34,7 +35,7 @@ function applySOAdjust(totalSO, diffRules, lengthIdx) {
 }
 
 function createEmptyTarget() {
-    return { targetNumber: '', dayNight: 'Day', vp: '', recon: '', intel: '', infra: '', baseStress: '', assignedPilots: [], result: '', resolved: false };
+    return { targetNumber: '', dayNight: 'Day', vp: '', recon: '', intel: '', infra: '', baseStress: '', assignedPilots: [], result: '', resolved: false, achievedHits: 0, jdamPaid: false };
 }
 
 function getNextRank(rank) {
