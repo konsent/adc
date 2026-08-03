@@ -41,14 +41,27 @@ function isBase(campaign) {
 // ─── Data Loading ───
 
 async function loadGameData() {
-    const [resp, tResp, aResp] = await Promise.all([
-        fetch('hl.json'),
-        fetch('hl_target.json'),
-        fetch('../assets/HL/output/armaments.json')
-    ]);
-    gameData = await resp.json();
-    targetData = await tResp.json();
-    armamentData = await aResp.json();
+    try {
+        const [resp, tResp, aResp] = await Promise.all([
+            fetch('hl.json'),
+            fetch('hl_target.json'),
+            fetch('../assets/HL/output/armaments.json')
+        ]);
+        for (const r of [resp, tResp, aResp]) {
+            if (!r.ok) throw new Error(`${r.url} — HTTP ${r.status}`);
+        }
+        gameData = await resp.json();
+        targetData = await tResp.json();
+        armamentData = await aResp.json();
+    } catch (err) {
+        document.body.innerHTML =
+            '<div style="padding:2rem;font-family:sans-serif;color:#c00">' +
+            '<h2>데이터를 불러오지 못했습니다</h2>' +
+            '<p>이 앱은 HTTP 서버에서 열어야 합니다 (file:// 불가).</p>' +
+            '<p>또한 상위 디렉토리의 assets/HL/output/armaments.json이 필요합니다.</p>' +
+            `<pre>${err.message}</pre></div>`;
+        return;
+    }
     // Tag base scenarios before renaming
     gameData.Campaigns.forEach(c => {
         c._isBase = isBaseScenario(c.Name);
@@ -5809,6 +5822,20 @@ function renderSummary() {
 
 const STORAGE_KEY = 'hornet_leader_campaigns';
 
+// 저장 실패(용량 초과, Safari 프라이빗 모드 등)는 조용히 넘어가면
+// 사용자가 저장됐다고 믿게 되므로 반드시 알린다.
+function persist(saved) {
+    try {
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(saved));
+        return true;
+    } catch (err) {
+        alert('저장에 실패했습니다. 브라우저 저장 공간이 가득 찼거나 ' +
+              '프라이빗 모드일 수 있습니다.\n\n' +
+              'JSON 내보내기로 백업하세요.\n\n' + err.message);
+        return false;
+    }
+}
+
 function getSavedCampaigns() {
     const raw = localStorage.getItem(STORAGE_KEY);
     return raw ? JSON.parse(raw) : [];
@@ -5820,7 +5847,7 @@ function saveCampaign() {
     const existing = saved.findIndex(c => c.createdAt === campaign.createdAt);
     if (existing >= 0) saved[existing] = campaign;
     else saved.push(campaign);
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(saved));
+    persist(saved);
     loadSavedCampaignList();
 }
 
@@ -5840,7 +5867,7 @@ function loadCampaign(createdAt) {
 
 function deleteCampaign(createdAt) {
     let saved = getSavedCampaigns().filter(c => c.createdAt !== createdAt);
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(saved));
+    persist(saved);
     loadSavedCampaignList();
 }
 
@@ -5887,7 +5914,7 @@ function importCampaignsJSON(file) {
                 else saved.push(c);
                 added++;
             });
-            localStorage.setItem(STORAGE_KEY, JSON.stringify(saved));
+            if (!persist(saved)) return;
             loadSavedCampaignList();
             alert(`${added}개 캠페인을 불러왔습니다.`);
         } catch (err) {
@@ -5974,7 +6001,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     document.getElementById('full-reset-btn').addEventListener('click', () => {
         if (confirm('모든 저장된 캠페인 데이터를 삭제하고 완전히 초기화합니다. 계속하시겠습니까?')) {
-            localStorage.clear();
+            localStorage.removeItem(STORAGE_KEY);
             location.reload();
         }
     });
