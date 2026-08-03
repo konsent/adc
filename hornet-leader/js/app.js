@@ -1,11 +1,17 @@
 // Hornet Leader Campaign Log App
 
+import {
+    RANKS, SO_ADJUST,
+    parseCampaign, formatSOCost, applySOAdjust, createEmptyTarget,
+    getNextRank, getPilotRankStats, getStatus, getXpToPromote, getMaxStress,
+    recoverPilots, isUSMC, getBandStatus
+} from './logic.js';
+
 let gameData = null;
 let targetData = null;
 let armamentData = null;
 let campaign = null;
 
-const RANKS = ['Newbie', 'Green', 'Average', 'Skilled', 'Veteran', 'Ace'];
 const RANK_CLASSES = {
     Newbie: 'rank-newbie', Green: 'rank-green', Average: 'rank-average',
     Skilled: 'rank-skilled', Veteran: 'rank-veteran', Ace: 'rank-ace'
@@ -52,18 +58,6 @@ async function loadGameData() {
 }
 
 // ─── Setup Screen ───
-
-// Parse campaign name into region and force
-function parseCampaign(c) {
-    const match = c.Name.match(/^(.+?)\s*\((USN|USMC)\)(.*)$/);
-    if (match) {
-        const region = match[1].trim();
-        const force = match[2];
-        const suffix = match[3].trim();
-        return { region: suffix ? `${region} ${suffix}` : region, force };
-    }
-    return { region: c.Name, force: '' };
-}
 
 function initSetupScreen() {
     // Collect unique difficulties
@@ -353,8 +347,6 @@ const ADVANTAGES = [
     { id: 'increasedSOs',     label: 'SO 증가',          desc: 'Short +6 / Medium +15 / Long +24 SO', auto: true },
 ];
 
-const SO_ADJUST = [6, 15, 24]; // by length index
-
 function populateDifficultyRules() {
     const area = document.getElementById('difficulty-rules-area');
     area.innerHTML = '';
@@ -447,16 +439,6 @@ function getSelectedDifficultyRules() {
 }
 
 // ─── SO Helpers ───
-
-function formatSOCost(cost, mode = 'html') {
-    if (cost === 0) return '';
-    if (mode === 'label') {
-        return cost > 0 ? ` [-${cost} SO]` : ` [+${Math.abs(cost)} SO]`;
-    }
-    return cost > 0
-        ? `<span class="aircraft-so-cost so-pay">-${cost}</span>`
-        : `<span class="aircraft-so-cost so-gain">+${Math.abs(cost)}</span>`;
-}
 
 // Get aircraft SO cost for a given campaign length index (0=short,1=medium,2=long)
 function getAircraftSOCost(aircraftDesignation, lengthIdx) {
@@ -660,42 +642,11 @@ function calcSquadronSOCost(squadron, lengthIdx) {
 
 // ─── Pilot Helpers ───
 
-function getPilotRankStats(pilot) {
-    if (!pilot.hasStats) return null;
-    const pd = gameData.Pilots.find(p => p.Name === pilot.name);
-    if (!pd || !pd.Stats || !pd.Stats[pilot.rank]) return null;
-    return { pd, stats: pd.Stats[pilot.rank] };
-}
-
-function getStatus(pilot) {
-    const rs = getPilotRankStats(pilot);
-    if (!rs) return 'Okay';
-    const s = rs.stats;
-    if (pilot.stress >= s.Okay[0] && pilot.stress <= s.Okay[1]) return 'Okay';
-    if (pilot.stress >= s.Shaken[0] && pilot.stress <= s.Shaken[1]) return 'Shaken';
-    return 'Unfit';
-}
-
-function getXpToPromote(pilot) {
-    const rs = getPilotRankStats(pilot);
-    return rs ? rs.stats.XP : null;
-}
-
-function getMaxStress(pilot) {
-    const rs = getPilotRankStats(pilot);
-    return rs ? rs.stats.Shaken[1] : '?';
-}
-
-function getNextRank(rank) {
-    const idx = RANKS.indexOf(rank);
-    if (idx < 0 || idx >= RANKS.length - 1) return null;
-    return RANKS[idx + 1];
-}
 
 function updatePilotForRank(pilot, resetStress) {
     const pd = gameData.Pilots.find(p => p.Name === pilot.name);
     pilot.hasStats = !!(pd && pd.Stats);
-    const rs = getPilotRankStats(pilot);
+    const rs = getPilotRankStats(pilot, gameData.Pilots);
     if (rs) pilot.cooldown = rs.stats.Cooldown;
     pilot.sa = getPilotSA(pilot.name, pilot.rank);
     if (resetStress) {
@@ -717,7 +668,7 @@ function getCurrentDayIdxForPromotion() {
 }
 
 function promoteIfReady(pilot) {
-    const xpNeeded = getXpToPromote(pilot);
+    const xpNeeded = getXpToPromote(pilot, gameData.Pilots);
     if (xpNeeded !== null && pilot.xp >= xpNeeded) {
         const nextRank = getNextRank(pilot.rank);
         if (nextRank) {
@@ -826,13 +777,6 @@ function executePaidPromotion(pilotIdx, dayIdx, cost) {
     }], null);
 }
 
-function recoverPilots(filter) {
-    campaign.squadron.forEach((pilot, idx) => {
-        if (pilot.shotDown) return;
-        if (filter && !filter(pilot, idx)) return;
-        pilot.stress = Math.max(0, pilot.stress - (pilot.cooldown + 2));
-    });
-}
 
 // Collect all assigned pilot indices across all targets in a day
 function getDayDeployedSet(m) {
@@ -860,16 +804,6 @@ function hasPendingSAR(m) {
 }
 
 // ─── Campaign State ───
-
-function applySOAdjust(totalSO, diffRules, lengthIdx) {
-    if (diffRules.reducedSOs)  totalSO -= SO_ADJUST[lengthIdx] || 6;
-    if (diffRules.increasedSOs) totalSO += SO_ADJUST[lengthIdx] || 6;
-    return totalSO;
-}
-
-function createEmptyTarget() {
-    return { targetNumber: '', dayNight: 'Day', vp: '', recon: '', intel: '', infra: '', baseStress: '', assignedPilots: [], result: '', resolved: false, achievedHits: 0, jdamPaid: false };
-}
 
 function createTargetWithNumber(targetNumber, scenarioIdx) {
     const t = createEmptyTarget();
@@ -899,13 +833,6 @@ function createTargetWithNumber(targetNumber, scenarioIdx) {
         t.achievedHits = campaign.damagedTargets[String(targetNumber)];
     }
     return t;
-}
-
-function isUSMC(campaignOrName) {
-    const name = typeof campaignOrName === 'string'
-        ? campaignOrName
-        : (campaignOrName.scenarioName || campaignOrName.Name || '');
-    return name.includes('(USMC)');
 }
 
 function shuffleArray(arr) {
@@ -1359,7 +1286,7 @@ function computePilotSlotMap() {
     const okayPilots = [];
     campaign.squadron.forEach((p, idx) => {
         if (p.shotDown) return;
-        const s = getStatus(p);
+        const s = getStatus(p, gameData.Pilots);
         if (s === 'Shaken' || s === 'Unfit') shakenUnfit.push(idx);
         else if (s === 'Okay') okayPilots.push(idx);
     });
@@ -1499,7 +1426,7 @@ function animateStatusTransitions(statusChanges, beforeScrollBack) {
             if (ordered.some(c => c.pilotIdx === idx)) return;
             const oldSlot = fullOldSlotMap[idx];
             if (!oldSlot) return;
-            const status = getStatus(p);
+            const status = getStatus(p, gameData.Pilots);
             // Shaken/Unfit stuck in deck → move to freed hangar
             if ((status === 'Shaken' || status === 'Unfit') && deckSet.has(oldSlot)) {
                 for (const key of hangarKeys) {
@@ -1703,7 +1630,7 @@ function renderCarrierMarkers() {
     function placePilotMarker(pilot, pilotIdx, slotKey) {
         const slot = CARRIER_SLOTS[slotKey];
         if (!slot) return;
-        const status = getStatus(pilot);
+        const status = getStatus(pilot, gameData.Pilots);
         const imgFile = pilot.name === 'Maverick' ? 'maverick.png' : AIRCRAFT_IMG[pilot.aircraft];
         const mStatus = pilotMissionStatus[pilotIdx]; // 'deployed', 'shotdown', or undefined
 
@@ -1770,7 +1697,7 @@ function renderCarrierMarkers() {
     const pilotStatus = {};
     campaign.squadron.forEach((p, idx) => {
         if (p.shotDown) return;
-        pilotStatus[idx] = getStatus(p);
+        pilotStatus[idx] = getStatus(p, gameData.Pilots);
     });
 
     // Validate _pilotSlotMap: only remove gone pilots, keep everyone else in place
@@ -1850,9 +1777,9 @@ function renderSquadron() {
     }
 
     campaign.squadron.forEach((pilot, idx) => {
-        const status = pilot.shotDown ? 'MIA' : getStatus(pilot);
-        const xpNeeded = getXpToPromote(pilot);
-        const maxStress = getMaxStress(pilot);
+        const status = pilot.shotDown ? 'MIA' : getStatus(pilot, gameData.Pilots);
+        const xpNeeded = getXpToPromote(pilot, gameData.Pilots);
+        const maxStress = getMaxStress(pilot, gameData.Pilots);
         const noStats = pilot.hasStats ? '' : ' no-stats';
         const tr = document.createElement('tr');
 
@@ -2214,13 +2141,7 @@ function getScenarioBands() {
 function getBandStatusForCampaign() {
     const bands = getScenarioBands();
     if (!bands.length) return [];
-    const destroyed = getDestroyedTargets();
-    return bands.map(band => {
-        const total = band.TargetNumbers.length;
-        const destroyedCount = band.TargetNumbers.filter(n => destroyed.has(String(n))).length;
-        const secured = destroyedCount >= Math.ceil(total / 2);
-        return { band: band.Band, secured, destroyedCount, total, targetNumbers: band.TargetNumbers };
-    });
+    return getBandStatus(bands, getDestroyedTargets());
 }
 
 function getUnlockedTargetNumbers() {
@@ -2568,7 +2489,7 @@ function renderMissions() {
                         <span class="ap-col ap-col-name">${pilot.name}${(() => {
                             const extra = (ap.tempStress || 0) + (ap.missionStress || 0);
                             const simPilot = Object.assign({}, pilot, { stress: pilot.stress + extra });
-                            const mStatus = getStatus(simPilot);
+                            const mStatus = getStatus(simPilot, gameData.Pilots);
                             if (mStatus === 'Shaken') return '<span class="stress-tag stress-tag-shaken" title="작전 중 Shaken">S</span>';
                             if (mStatus === 'Unfit') return '<span class="stress-tag stress-tag-unfit" title="작전 중 Unfit">U</span>';
                             return '';
@@ -2704,12 +2625,12 @@ function renderMissions() {
                 </tr></thead>`;
                 const tbody2 = document.createElement('tbody');
                 campaign.squadron.forEach((pilot, pIdx) => {
-                    const status = pilot.shotDown ? 'MIA' : getStatus(pilot);
+                    const status = pilot.shotDown ? 'MIA' : getStatus(pilot, gameData.Pilots);
                     const isDisabled = status === 'Unfit' || pilot.shotDown;
                     const isDeployedElsewhere = dayDeployed.has(pIdx) && !staged.has(pIdx) && !thisTargetPilots.has(pIdx);
                     const isDeployed = isDeployedElsewhere;
                     const isStaged = staged.has(pIdx);
-                    const maxStress = getMaxStress(pilot);
+                    const maxStress = getMaxStress(pilot, gameData.Pilots);
                     const isE2CPilot = isE2C(pilot);
                     const atLimit = limitReached && !isE2CPilot && !isStaged;
                     const canSelect = !isDeployed && !(isDisabled && !isStaged) && !atLimit;
@@ -5201,7 +5122,7 @@ function onApplyRnR(e) {
     const currentUsed = inputEl ? (parseFloat(inputEl.value) || 0) : (parseFloat(m.usedSO) || 0);
     m.usedSO = currentUsed + 9;
 
-    recoverPilots();
+    recoverPilots(campaign.squadron);
 
     m.rnrApplied = true;
     renderAll();
@@ -5217,7 +5138,7 @@ function onDownTime(e) {
     const oldSnapshot = campaign.squadron.map((p, idx) => ({
         stress: p.stress,
         shotDown: !!p.shotDown,
-        status: p.shotDown ? 'MIA' : getStatus(p)
+        status: p.shotDown ? 'MIA' : getStatus(p, gameData.Pilots)
     }));
     const oldSlotMap = computePilotSlotMap();
 
@@ -5226,13 +5147,13 @@ function onDownTime(e) {
     campaign.tracks.intel = Math.max(0, (campaign.tracks.intel || 0) - 1);
     campaign.tracks.infra = Math.max(0, (campaign.tracks.infra || 0) - 1);
 
-    recoverPilots();
+    recoverPilots(campaign.squadron);
 
     // ── Compute status changes ──
     const newSlotMap = computePilotSlotMap();
     const statusChanges = [];
     campaign.squadron.forEach((p, idx) => {
-        const newStatus = p.shotDown ? 'MIA' : getStatus(p);
+        const newStatus = p.shotDown ? 'MIA' : getStatus(p, gameData.Pilots);
         const old = oldSnapshot[idx];
         if (old.status !== newStatus) {
             statusChanges.push({
@@ -5600,7 +5521,7 @@ function applyEndOfDayRecovery(dayIdx) {
     const oldSnapshot = campaign.squadron.map(p => ({
         stress: p.stress,
         shotDown: !!p.shotDown,
-        status: p.shotDown ? 'MIA' : getStatus(p)
+        status: p.shotDown ? 'MIA' : getStatus(p, gameData.Pilots)
     }));
     const oldSlotMap = computePilotSlotMap();
 
@@ -5609,15 +5530,15 @@ function applyEndOfDayRecovery(dayIdx) {
 
     // ── Then recover non-deployed, non-Unfit pilots ──
     const assignedIndices = getDayDeployedSet(m);
-    recoverPilots((pilot, idx) =>
-        !assignedIndices.has(idx) && getStatus(pilot) !== 'Unfit'
+    recoverPilots(campaign.squadron, (pilot, idx) =>
+        !assignedIndices.has(idx) && getStatus(pilot, gameData.Pilots) !== 'Unfit'
     );
 
     // ── Compute status changes (old vs final) ──
     const newSlotMap = computePilotSlotMap();
     const statusChanges = [];
     campaign.squadron.forEach((p, idx) => {
-        const newStatus = p.shotDown ? 'MIA' : getStatus(p);
+        const newStatus = p.shotDown ? 'MIA' : getStatus(p, gameData.Pilots);
         const old = oldSnapshot[idx];
         if (old.status !== newStatus) {
             statusChanges.push({
