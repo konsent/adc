@@ -6102,3 +6102,15 @@ document.addEventListener('DOMContentLoaded', () => {
         cbs.forEach(cb => cb.checked = !allChecked);
     });
 });
+
+// ─── 인라인 onclick 핸들러용 전역 노출 ───
+// 모듈 스코프는 전역이 아니다. 아래 4개는 HTML/템플릿 문자열의
+// onclick 속성에서 참조하므로 window에 명시적으로 붙여야 한다.
+//   index.html:222 closeCampaignFailModal, index.html:296 closeEvadeModal
+//   app.js loadSavedCampaignList() 템플릿의 loadCampaign, deleteCampaign
+Object.assign(window, {
+    loadCampaign,
+    deleteCampaign,
+    closeCampaignFailModal,
+    closeEvadeModal,
+});
