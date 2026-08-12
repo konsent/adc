@@ -245,6 +245,7 @@
     const listEl = document.getElementById("planeList");
     const frame = document.getElementById("adcFrame");
     const buttons = [];
+    let shownIndex = null;
 
     for (const group of GROUPS) {
       const end = Math.min(group.end, count);
@@ -259,7 +260,13 @@
         const button = document.createElement("button");
         button.type = "button";
         button.textContent = pages[i].title;
-        button.addEventListener("click", () => { location.hash = i; });
+        // replaceState, not location.hash: selecting an aircraft must not add a
+        // history entry, so Back leaves the viewer instead of walking the
+        // previously viewed aircraft. The hash still updates for refresh/links.
+        button.addEventListener("click", () => {
+          history.replaceState(null, "", "#" + i);
+          show();
+        });
         listEl.appendChild(button);
         buttons[i] = button;
       }
@@ -269,9 +276,16 @@
       const raw = parseInt(location.hash.slice(1), 10);
       const index = Number.isInteger(raw) && raw >= 0 && raw < count ? raw : 0;
 
-      const src = "adc/" + FILES[index];
-      if (!frame.getAttribute("src") || !frame.getAttribute("src").endsWith(FILES[index])) {
-        frame.setAttribute("src", src);
+      // location.replace, not src=: setting src pushes a history entry onto the
+      // iframe, so Back would rewind through previously viewed aircraft instead
+      // of leaving the viewer. replace() swaps the document without one.
+      // shownIndex tracks what's loaded — reading contentWindow.location is
+      // unreliable before the first load lands (about:blank).
+      if (shownIndex !== index) {
+        const src = "adc/" + FILES[index];
+        if (shownIndex === null) frame.setAttribute("src", src);
+        else frame.contentWindow.location.replace(src);
+        shownIndex = index;
       }
 
       buttons.forEach((button, i) => {
