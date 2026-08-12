@@ -268,6 +268,24 @@
     .game-card.hornetleader .card-desc { color: #4a7a6a; }
     .game-card.hornetleader .card-enter { color: #5aaf8a; }
 
+    /* Air Superiority card — sky blue with red accent */
+    .game-card.airsuperiority {
+      background: linear-gradient(160deg, #0a1420 0%, #0e1c2a 60%, #0a1420 100%);
+      border: 1px solid #1e3a52;
+      box-shadow: 0 4px 24px rgba(0,0,0,0.5), inset 0 0 40px rgba(80,160,220,0.04);
+    }
+    .game-card.airsuperiority:hover {
+      border-color: #3a7aa8;
+      box-shadow: 0 8px 40px rgba(60,140,200,0.15), inset 0 0 40px rgba(80,160,220,0.06);
+    }
+    .game-card.airsuperiority .card-image::after {
+      background: linear-gradient(to top, #0e1c2a 0%, transparent 100%);
+    }
+    .game-card.airsuperiority .card-era { color: #4a7a9a; }
+    .game-card.airsuperiority .card-title { color: #d94a3a; }
+    .game-card.airsuperiority .card-desc { color: #4a6a80; }
+    .game-card.airsuperiority .card-enter { color: #5a9ac8; }
+
     /* Footer */
     .footer {
       position: fixed;
@@ -378,6 +396,18 @@
         <div class="card-era">Modern · Carrier Ops</div>
         <div class="card-title">Hornet Leader</div>
         <div class="card-desc">Carrier Air Operations — 솔리테어 항공 작전 워게임</div>
+        <div class="card-enter">Enter <span class="arrow">→</span></div>
+      </div>
+    </a>
+    <!-- Air Superiority -->
+    <a class="game-card airsuperiority" href="airpower/index.html">
+      <div class="card-image">
+        <img src="airpower/adc/air-superiority_thumb.png" alt="Air Superiority" />
+      </div>
+      <div class="card-body">
+        <div class="card-era">Modern · Jet Air Combat</div>
+        <div class="card-title">Air Superiority</div>
+        <div class="card-desc">Modern Jet Air Combat — 현대 제트 공중전 ADC 뷰어</div>
         <div class="card-enter">Enter <span class="arrow">→</span></div>
       </div>
     </a>

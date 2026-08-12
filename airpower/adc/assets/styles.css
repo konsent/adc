@@ -1,0 +1,135 @@
+@page { size: A4; margin: 0; }
+
+:root {
+  --ink: #18202a;
+  --navy: #102e51;
+  --paper: #f6f2e8;
+  --line: #9da4a8;
+  --green: #376f3c;
+  --red: #b83b2d;
+  --gold: #d7b14c;
+}
+.theme-soviet { --navy: #7f2027; --line: #a86063; --green: #8b2f2f; --red: #b31f27; }
+
+* { box-sizing: border-box; }
+html, body { margin: 0; background: #252b31; color: var(--ink); font-family: "ChosunilboNM", "조선일보명조", serif; }
+body { min-width: 210mm; }
+.sheet { width: 210mm; min-height: 297mm; margin: 0 auto; padding: 4mm; background: var(--paper); display: grid; grid-template-rows: 146mm minmax(0, 1fr) 10mm; gap: 1.5mm; overflow: hidden; }
+.content-box { min-width: 0; min-height: 0; padding: 1.5mm; border: .45mm solid var(--navy); border-radius: 2mm; background: rgba(255,255,255,.18); }
+.upper-box { display: grid; grid-template-rows: 90mm 51mm; gap: 1.5mm; }
+.lower-box { display: grid; min-height: 0; }
+.panel { border: .35mm solid var(--line); border-radius: 1.5mm; overflow: hidden; background: rgba(255,255,255,.24); min-width: 0; }
+.bar { min-height: 6.5mm; padding: 1.25mm 2mm; background: var(--navy); color: #fff; font-family: Impact, Haettenschweiler, "Arial Narrow Bold", sans-serif; font-size: 3.5mm; letter-spacing: .25mm; text-align: center; }
+.title { padding: 0; }
+.title h1 { margin: 0; height: 18mm; padding: 4.5mm 3mm; background: var(--navy); color: #fff; font-family: Impact, Haettenschweiler, "Arial Narrow Bold", sans-serif; font-size: 6.6mm; line-height: 1; letter-spacing: .25mm; white-space: nowrap; }
+.title h1.long-title { font-size: 5.2mm; }
+.crew { padding: 2mm 3mm; font-size: 3.2mm; line-height: 1.1; }
+.maneuver { font-size: 3.2mm; }
+.maneuver div { padding: 1.8mm 3mm 0; }
+.hero { display: grid; grid-template-rows: minmax(0, 1fr) auto 30mm; }
+.hero > img { width: 100%; height: 100%; min-height: 0; object-fit: cover; object-position: center; background: #789fc8; display: block; }
+.hero-facts { display: grid; grid-template-columns: 1fr 1fr; font-size: 2.7mm; }
+.hero-facts div { padding: 1.5mm 2mm; border-top: .25mm solid var(--line); }
+.hero-facts div:nth-child(odd) { border-right: .25mm solid var(--line); }
+.hero-facts b { float: right; font-size: 3mm; }
+.hero-icons { display: grid; grid-template-columns: repeat(3, 1fr); border-top: .25mm solid var(--line); }
+.hero-icons div { min-width: 0; padding-top: 1.1mm; border-right: .25mm solid var(--line); text-align: center; font-size: 1.9mm; }
+.hero-icons div:last-child { border-right: 0; }
+.hero-icons img { width: 100%; height: calc(100% - 5.1mm); object-fit: contain; display: block; padding: .3mm; }
+table { width: 100%; border-collapse: collapse; table-layout: fixed; font-size: 2.65mm; line-height: 1.15; }
+caption { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); }
+th, td { border: .2mm solid var(--line); padding: 1.05mm .8mm; text-align: center; vertical-align: middle; }
+th { font-size: 2.45mm; background: #e3e7dd; }
+td:first-child, th:first-child { text-align: center; padding-left: .8mm; }
+tbody td:first-child { background: #edf0e6; font-weight: 700; }
+.power td:first-child, .drag td:first-child { font-weight: bold; }
+.up { color: var(--green); font-weight: bold; }
+.down { color: var(--red); font-weight: bold; }
+.note { padding: 1.8mm 2mm; font-size: 2.55mm; line-height: 1.2; }
+.velocity td, .climb td { padding: 1.2mm .7mm; }
+/* ponytail: 6 rows + Ceiling + 6.5mm bar overflowed the 51mm middle row; grid the panel so the table gets the leftover height */
+.middle-region .velocity { display: grid; grid-template-rows: 6.5mm minmax(0, 1fr); }
+.middle-region .velocity table { height: 100%; }
+.middle-region .velocity td { padding: .9mm .7mm; }
+.climb th { font-size: 2.2mm; }
+.climb table { font-size: 2.35mm; }
+.climb th, .climb td { padding: .65mm .3mm; }
+.climb td:first-child { padding-left: .5mm; font-size: 2.05mm; white-space: nowrap; }
+.details { display: grid; grid-template-columns: minmax(0, 1.45fr) minmax(0, .75fr); gap: 1.5mm; border: 0; background: transparent; overflow: visible; }
+.detail-stack { display: grid; gap: 1.5mm; min-height: 0; }
+.details .detail-stack:first-child { grid-template-rows: 41.75mm 41.75mm; }
+.details .detail-stack:last-child { grid-template-rows: 24mm 34mm 24mm; }
+.details .detail-stack:first-child > .panel:first-child { display: grid; grid-template-rows: 6.5mm auto minmax(0, 1fr); }
+.details .detail-stack:first-child > .panel:first-child .diagram { min-height: 0; }
+.details .detail-stack:first-child > .panel:first-child .diagram img { height: 100%; padding: .5mm; }
+.details .detail-stack:first-child > .panel.radar { grid-template-rows: 6.5mm auto minmax(0, 1fr) auto; }
+.radar-type { padding: 1.3mm 2mm; font-size: 2.75mm; border-bottom: .2mm solid var(--line); }
+.radar .diagram img { height: 100%; padding: .4mm 4mm; }
+.radar-diagram.radar-count-2 { position: relative; display: block; }
+.radar-diagram.radar-count-2 img { position: absolute; bottom: 0; left: 50%; width: auto; height: 100%; padding: 0; transform: translateX(-50%); mix-blend-mode: multiply; }
+.radar-diagram.radar-count-2 img:nth-child(2) { height: 85%; }
+.radar-keys { display: grid; grid-template-columns: repeat(3, 1fr); font-size: 2.45mm; border-top: .2mm solid var(--line); }
+.radar-keys div { padding: 1.2mm .6mm; border-right: .2mm solid var(--line); text-align: center; }
+.radar-keys div:last-child { border-right: 0; }
+.tech-art { height: calc(100% - 6.5mm); display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); grid-template-rows: repeat(2, minmax(0, 1fr)); }
+.tech-art.tech-count-1 { grid-template-columns: 1fr; grid-template-rows: 1fr; }
+.tech-art.tech-count-2 { grid-template-columns: repeat(2, minmax(0, 1fr)); grid-template-rows: 1fr; }
+.tech-art.tech-count-3, .tech-art.tech-count-4 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+.tech-art.tech-count-5, .tech-art.tech-count-6 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+.tech-art img { width: 100%; height: 100%; object-fit: contain; padding: .7mm; }
+.tech-art span { display: flex; align-items: center; justify-content: center; font-family: Impact, Haettenschweiler, "Arial Narrow Bold", sans-serif; font-size: 4mm; color: var(--green); }
+.bomb-value { margin: 0; padding: .6mm 1mm; text-align: center; font-size: 2.75mm; line-height: 1; }
+.data-list { list-style: none; margin: 0; padding: 1.5mm 2mm; font-size: 2.85mm; line-height: 1.4; }
+.data-list li { border-bottom: .2mm solid rgba(157,164,168,.65); padding: .45mm 0; }
+.data-list b { font-weight: 700; }
+.diagram { min-height: 0; }
+.diagram img { width: 100%; height: calc(100% - 6.5mm); object-fit: contain; display: block; padding: 1mm; }
+.guns { font-size: 2.75mm; }
+.guns .data-list { padding-bottom: .5mm; }
+.gun-table td, .gun-table th { padding: .7mm; }
+.gun-table .range-0 { background: #dbe5c9; }
+.gun-table .range-1 { background: #faedbf; }
+.gun-table .range-2 { background: #f1d4bd; }
+.roll-to-hit-text, .radar-ranging { padding: .45mm 2mm; border-top: .2mm solid var(--line); font-size: 2.85mm; line-height: 1.4; text-align: left; }
+.gun-visuals { display: grid; grid-template-columns: 1fr 1fr; border-top: .2mm solid var(--line); font-size: 2.15mm; }
+.gun-visuals > div { min-width: 0; padding: .4mm .7mm; text-align: center; }
+.gun-visuals > div + div { border-left: .2mm solid var(--line); }
+.gun-visuals span, .gun-visuals small { display: block; }
+.gun-visuals img { width: auto; height: 10mm; max-width: 18mm; object-fit: contain; padding: 0 0 1.2mm; vertical-align: middle; }
+.gun-visuals small { font-size: 1.85mm; line-height: 1; }
+.weapon { display: grid; grid-template-rows: 36mm minmax(0, 1fr); gap: 1.5mm; border: 0; background: transparent; overflow: visible; }
+.weapon-diagram img { width: 100%; height: calc(100% - 6.5mm); object-fit: contain; display: block; padding: 1mm; }
+.limits { font-size: 2.7mm; }
+.limits .limit-grid { display: grid; grid-template-columns: repeat(3, 1fr); text-align: center; }
+.limits .limit-grid div { padding: 1.2mm .5mm; border-right: .2mm solid var(--line); }
+.limits .limit-grid div:last-child { border-right: 0; }
+.limits .limit-grid .a { background: #dbe5c9; }.limits .limit-grid .b { background: #faedbf; }.limits .limit-grid .c { background: #f1d4bd; }
+.limits p { margin: 1.5mm 2mm; line-height: 1.3; }
+.notes ol { margin: .9mm 2.5mm; padding-left: 4.5mm; font-size: 2.15mm; line-height: 1.1; }
+.notes.roomy ol { font-size: 2.55mm; line-height: 1.16; }
+.note-images { display: flex; flex-wrap: wrap; gap: .8mm; padding: 0 2mm 1mm; }
+.note-images img { width: auto; height: 8mm; max-width: 22mm; object-fit: contain; }
+.loads p { margin: 1mm 2mm; font-size: 2.35mm; line-height: 1.15; }
+.page-7 .loads p, .page-8 .loads p { margin: .35mm 1mm; font-size: 1.75mm; line-height: 1.02; }
+.top-region { display: grid; grid-template-columns: minmax(0, .9fr) minmax(0, 1.2fr) minmax(0, .9fr); grid-template-rows: 30mm minmax(0, 1fr); gap: 1.5mm; min-height: 0; }
+.top-region .title { grid-column: 1; grid-row: 1; }
+.top-region .hero { grid-column: 2; grid-row: 1 / span 2; }
+.top-region .maneuver { grid-column: 3; grid-row: 1; }
+.top-region .power { grid-column: 1; grid-row: 2; }
+.top-region .drag { grid-column: 3; grid-row: 2; }
+.middle-region { display: grid; grid-template-columns: minmax(0, 1.15fr) minmax(0, 1fr); gap: 1.5mm; min-height: 0; }
+.middle-region .velocity, .middle-region .climb { min-height: 0; }
+.middle-region .climb { display: grid; grid-template-rows: 6.5mm minmax(0, 1fr); }
+.middle-region .climb table { height: 100%; }
+.lower-region { display: grid; grid-template-columns: minmax(0, 1.58fr) minmax(0, 1fr); grid-template-rows: 88mm minmax(0, 1fr); gap: 1.5mm; min-height: 0; }
+.lower-region .details { grid-column: 1; grid-row: 1; }
+.lower-region .weapon { grid-column: 2; grid-row: 1; }
+.lower-region .notes { grid-column: 1; grid-row: 2; }
+.lower-region .loads { grid-column: 2; grid-row: 2; }
+.lower-region .details .detail-stack:first-child { grid-template-rows: 43.25mm 43.25mm; }
+.lower-region .details .detail-stack:first-child { grid-template-rows: 40mm 46.5mm; }
+.lower-region .details .detail-stack:last-child { grid-template-rows: 35mm 38mm 12mm; }
+.lower-region .weapon { grid-template-rows: 45mm minmax(0, 1fr); }
+.source { padding: 2.2mm 1mm 0; border-top: .25mm solid var(--line); color: #59636b; font-size: 2.1mm; display: flex; justify-content: space-between; }
+@media screen and (max-width: 900px) { .sheet { margin: 0; transform-origin: top left; } }
+@media print { html, body { background: var(--paper); } .sheet { margin: 0; } }
