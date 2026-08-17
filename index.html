@@ -286,6 +286,24 @@
     .game-card.airsuperiority .card-desc { color: #4a6a80; }
     .game-card.airsuperiority .card-enter { color: #5a9ac8; }
 
+    /* Empire of the Sun card — rising sun crimson theme */
+    .game-card.eots {
+      background: linear-gradient(160deg, #1a0a0a 0%, #2a0e0c 60%, #1a0a0a 100%);
+      border: 1px solid #5a1e1a;
+      box-shadow: 0 4px 24px rgba(0,0,0,0.5), inset 0 0 40px rgba(200,60,40,0.04);
+    }
+    .game-card.eots:hover {
+      border-color: #a0322a;
+      box-shadow: 0 8px 40px rgba(200,60,40,0.15), inset 0 0 40px rgba(200,60,40,0.06);
+    }
+    .game-card.eots .card-image::after {
+      background: linear-gradient(to top, #1a0a0a, transparent);
+    }
+    .game-card.eots .card-era { color: #9a5a4a; }
+    .game-card.eots .card-title { color: #d94a3a; }
+    .game-card.eots .card-desc { color: #7a4a42; }
+    .game-card.eots .card-enter { color: #c4553f; }
+
     /* Footer */
     .footer {
       position: fixed;
@@ -408,6 +426,18 @@
         <div class="card-era">Modern · Jet Air Combat</div>
         <div class="card-title">Air Superiority</div>
         <div class="card-desc">Modern Jet Air Combat — 현대 제트 공중전 ADC 뷰어</div>
+        <div class="card-enter">Enter <span class="arrow">→</span></div>
+      </div>
+    </a>
+    <!-- Empire of the Sun -->
+    <a class="game-card eots" href="eots/index.html">
+      <div class="card-image">
+        <img src="assets/thumbnail/eots.webp" alt="Empire of the Sun" />
+      </div>
+      <div class="card-body">
+        <div class="card-era">Pacific · 1941–1945</div>
+        <div class="card-title">Empire of the Sun</div>
+        <div class="card-desc">The Pacific War — 태평양 전선 카드 구동 전략 워게임</div>
         <div class="card-enter">Enter <span class="arrow">→</span></div>
       </div>
     </a>
