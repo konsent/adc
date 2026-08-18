@@ -3,300 +3,171 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Air Superiority · Aircraft ADC</title>
+  <title>Air Superiority — Trainer &amp; ADC</title>
   <link rel="icon" href="../assets/favicon_io/favicon.ico" type="image/x-icon">
   <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@500;700&family=Noto+Sans+KR:wght@400;500;600&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
   <style>
     * { box-sizing: border-box; margin: 0; padding: 0; }
 
+    html, body { height: 100%; }
+
     body {
       font-family: 'Noto Sans KR', sans-serif;
-      background: #0e0e0e;
-      color: #ccc;
-      height: 100vh;
-      display: flex;
-      overflow: hidden;
-    }
-
-    /* Sidebar */
-    .sidebar {
-      width: 260px;
-      flex-shrink: 0;
-      background: linear-gradient(160deg, #0a1420 0%, #0e1c2a 60%, #0a1420 100%);
-      border-right: 1px solid #1e3a52;
       display: flex;
       flex-direction: column;
+      background-color: #0a1420;
+      color: #ccc;
       overflow: hidden;
     }
 
-    .sidebar-head {
-      padding: 1.2rem 1rem 0.9rem;
-      border-bottom: 1px solid #1e3a52;
-      flex-shrink: 0;
-    }
-
-    .sidebar-head a {
-      font-family: 'JetBrains Mono', monospace;
-      font-size: 0.58rem;
-      letter-spacing: 0.18em;
-      color: #4a7a9a;
-      text-decoration: none;
-      text-transform: uppercase;
-    }
-    .sidebar-head a:hover { color: #6ab0d8; }
-
-    .sidebar-head h1 {
-      font-family: 'Oswald', sans-serif;
-      font-size: 1.15rem;
-      font-weight: 700;
-      letter-spacing: 0.08em;
-      color: #d94a3a;
-      text-transform: uppercase;
-      margin-top: 0.5rem;
-    }
-
-    .sidebar-head .sub {
-      font-family: 'JetBrains Mono', monospace;
-      font-size: 0.55rem;
-      letter-spacing: 0.16em;
-      color: #4a6a80;
-      text-transform: uppercase;
-      margin-top: 0.25rem;
-    }
-
-    .plane-list {
-      overflow-y: auto;
-      flex: 1;
-      padding: 0.5rem 0 2rem;
-    }
-
-    .group-label {
-      font-family: 'JetBrains Mono', monospace;
-      font-size: 0.55rem;
-      letter-spacing: 0.2em;
-      color: #3d6a86;
-      text-transform: uppercase;
-      padding: 1rem 1rem 0.4rem;
+    .topbar {
       display: flex;
       align-items: center;
       gap: 0.5rem;
-    }
-    .group-label::after {
-      content: "";
-      flex: 1;
-      height: 1px;
-      background: #1e3a52;
+      padding: 0.6rem 1rem;
+      background: linear-gradient(180deg, #0e1c2a 0%, #0a1420 100%);
+      border-bottom: 1px solid #1e3a52;
+      flex: 0 0 auto;
     }
 
-    .plane-list button {
-      display: block;
-      width: 100%;
-      text-align: left;
-      background: none;
-      border: none;
-      border-left: 2px solid transparent;
-      color: #8fa8ba;
+    .back {
+      font-family: 'Oswald', sans-serif;
+      font-size: 0.8rem;
+      font-weight: 500;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: #4a7a9a;
+      text-decoration: none;
+      padding: 0.45rem 0.8rem;
+      border: 1px solid #1e3a52;
+      border-radius: 6px;
+      transition: color 0.2s ease, border-color 0.2s ease;
+      white-space: nowrap;
+    }
+    .back:hover { color: #6ab0d8; border-color: #3d6a86; }
+
+    .title {
+      font-family: 'Oswald', sans-serif;
+      font-size: 1rem;
+      font-weight: 700;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: #d94a3a;
+      margin-right: auto;
+      padding-left: 0.4rem;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .tabs { display: flex; gap: 0.4rem; }
+
+    .tab {
       font-family: 'Noto Sans KR', sans-serif;
-      font-size: 0.82rem;
-      padding: 0.42rem 1rem;
+      font-size: 0.8rem;
+      font-weight: 500;
+      letter-spacing: 0.05em;
+      color: #8fa8ba;
+      background: transparent;
+      border: 1px solid #1e3a52;
+      border-radius: 6px;
+      padding: 0.45rem 0.9rem;
       cursor: pointer;
-      transition: background 0.15s ease, color 0.15s ease, border-color 0.15s ease;
+      transition: color 0.2s ease, border-color 0.2s ease, background 0.2s ease;
+      white-space: nowrap;
     }
-
-    .plane-list button:hover {
-      background: rgba(80,160,220,0.07);
-      color: #cfe4f2;
-    }
-
-    .plane-list button[aria-current="true"] {
-      background: rgba(217,74,58,0.12);
-      border-left-color: #d94a3a;
+    .tab:hover { color: #cfe4f2; border-color: #3d6a86; }
+    .tab[aria-selected="true"] {
       color: #f0d0cc;
-      font-weight: 600;
+      border-color: #d94a3a;
+      background: rgba(217,74,58,0.12);
     }
 
-    /* Viewer */
-    .viewer {
-      flex: 1;
-      min-width: 0;
+    .panes { position: relative; flex: 1 1 auto; min-height: 0; }
+
+    .panes iframe {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      border: 0;
       background: #fff;
     }
 
-    .viewer iframe {
-      width: 100%;
-      height: 100%;
-      border: none;
+    /* 두 iframe 모두 항상 실제 크기를 유지해야 한다. display:none이나 화면 밖 이동으로 숨기면
+       내부 앱의 100vh 레이아웃이 0 또는 잘못된 값으로 굳어 빈 화면이 된다.
+       크기·위치는 그대로 두고 겹쳐 쌓은 뒤 투명도로만 전환한다. */
+    .panes iframe[hidden] {
       display: block;
+      opacity: 0;
+      z-index: 0;
+      pointer-events: none;
     }
+    .panes iframe:not([hidden]) { z-index: 1; }
 
-    /* Mobile */
+    /* 분할 모드: 겹치기를 풀고 좌우로 나눈다. 같은 이유로 여기서도 iframe을 숨기지 않는다. */
+    .panes.split iframe {
+      width: 50%;
+      opacity: 1;
+      z-index: 1;
+      pointer-events: auto;
+    }
+    .panes.split iframe:first-of-type { inset: 0 auto 0 0; border-right: 1px solid #1e3a52; }
+    .panes.split iframe:last-of-type { inset: 0 0 0 50%; }
+
     @media (max-width: 760px) {
-      body { flex-direction: column; }
-
-      .sidebar {
-        width: 100%;
-        height: auto;
-        flex-shrink: 0;
-        border-right: none;
-        border-bottom: 1px solid #1e3a52;
-      }
-
-      .sidebar-head { padding: 0.7rem 0.9rem 0.6rem; }
-      .sidebar-head h1 { font-size: 0.95rem; margin-top: 0.3rem; }
-      .sidebar-head .sub { display: none; }
-
-      .plane-list {
-        display: flex;
-        overflow-x: auto;
-        overflow-y: hidden;
-        padding: 0.5rem 0.6rem;
-        gap: 0.4rem;
-      }
-
-      .group-label {
-        padding: 0 0.3rem;
-        align-self: center;
-        flex-shrink: 0;
-      }
-      .group-label::after { display: none; }
-
-      .plane-list button {
-        width: auto;
-        flex-shrink: 0;
-        white-space: nowrap;
-        border-left: none;
-        border-bottom: 2px solid transparent;
-        border-radius: 3px;
-        padding: 0.35rem 0.7rem;
-        font-size: 0.75rem;
-        background: rgba(255,255,255,0.03);
-      }
-
-      .plane-list button[aria-current="true"] {
-        border-left: none;
-        border-bottom-color: #d94a3a;
-      }
-
-      .viewer { flex: 1; min-height: 0; }
+      .title { display: none; }
+      .tabs { margin-left: auto; }
+      .tab { padding: 0.45rem 0.6rem; font-size: 0.72rem; }
+      /* 좁은 화면에서 좌우 분할은 쓸모가 없다. */
+      .tab[data-tab="split"] { display: none; }
     }
   </style>
 </head>
 <body>
 
-  <nav class="sidebar">
-    <div class="sidebar-head">
-      <a href="../index.html">← Wargame Solo Helper</a>
-      <h1>Air Superiority</h1>
-      <div class="sub">Modern Jet Air Combat</div>
+  <div class="topbar">
+    <a class="back" href="../index.html">← Back</a>
+    <div class="title">Air Superiority</div>
+    <div class="tabs" role="tablist">
+      <button class="tab" role="tab" data-tab="trainer" aria-selected="true">트레이너</button>
+      <button class="tab" role="tab" data-tab="adc" aria-selected="false">ADC</button>
+      <button class="tab" role="tab" data-tab="split" aria-selected="false">나란히</button>
     </div>
-    <div class="plane-list" id="planeList"></div>
-  </nav>
+  </div>
 
-  <main class="viewer">
-    <iframe id="adcFrame" title="Aircraft ADC"></iframe>
-  </main>
+  <div class="panes" id="panes">
+    <iframe id="pane-trainer" src="trainer/index.html" title="이동 훈련"></iframe>
+    <iframe id="pane-adc" src="adc.html" title="Aircraft ADC" hidden></iframe>
+  </div>
 
-  <!-- data.js defines window.ADC_PAGES; titles here are the source of truth,
-       because the page-*.html filenames drift from the actual aircraft. -->
-  <script src="adc/assets/data.js"></script>
   <script>
-    // Sorted page-NN filenames; index N == that file's window.ADC_PAGE value.
-    const FILES = [
-      "page-01-f4-f-phantom-ii.html",
-      "page-02-f4-e-phantom-ii.html",
-      "page-03-f4-f-ice-phantom-ii.html",
-      "page-04-f4-km-phantom-ii.html",
-      "page-05-f4-s-phantom-ii.html",
-      "page-06-f104-s-starfighter.html",
-      "page-07-f14a-tomcat.html",
-      "page-08-f14d-tomcat.html",
-      "page-09-f15a-eagle.html",
-      "page-10-f15c-eagle.html",
-      "page-11-f16a-fighting-falcon.html",
-      "page-12-f16c-fighting-falcon.html",
-      "page-13-fa18a-hornet.html",
-      "page-14-f19a-stealth-fighter.html",
-      "page-15-saab-f35-draken.html",
-      "page-16-saab-ja37-viggen.html",
-      "page-17-tornado-f3.html",
-      "page-18-mirage-iiie.html",
-      "page-19-mirage-f1e.html",
-      "page-20-mirage-2000.html",
-      "page-21-mirage-2000c.html",
-      "page-22-mig-23-flogger-g.html",
-      "page-23-mig-29-fulcrum-a.html",
-      "page-24-mig-31-foxhound-a.html",
-      "page-25-mig-21mf-fishbed-j.html",
-      "page-26-mig-21bis-fishbed-n.html",
-      "page-27-su-15-flagon-f.html",
-      "page-28-su-17-22-fitter-hj.html",
-      "page-29-su-27-flanker-a.html"
-    ];
+    const tabs = document.querySelectorAll('.tab');
+    const panes = document.getElementById('panes');
+    const trainer = document.getElementById('pane-trainer');
+    const adc = document.getElementById('pane-adc');
 
-    // data.js order is already grouped by bloc; slice it by index range.
-    const GROUPS = [
-      { label: "US",     start: 0,  end: 14 },
-      { label: "Europe", start: 14, end: 21 },
-      { label: "Soviet", start: 21, end: 29 }
-    ];
+    function select(name) {
+      if (name !== 'trainer' && name !== 'adc' && name !== 'split') name = 'trainer';
 
-    const pages = window.ADC_PAGES || [];
-    const count = Math.min(pages.length, FILES.length);
-    const listEl = document.getElementById("planeList");
-    const frame = document.getElementById("adcFrame");
-    const buttons = [];
-    let shownIndex = null;
+      // 좁은 화면에서는 분할 탭이 숨겨져 있으므로 트레이너로 되돌린다.
+      if (name === 'split' && window.matchMedia('(max-width: 760px)').matches) name = 'trainer';
 
-    for (const group of GROUPS) {
-      const end = Math.min(group.end, count);
-      if (end <= group.start) continue;
+      tabs.forEach(t => t.setAttribute('aria-selected', String(t.dataset.tab === name)));
+      panes.classList.toggle('split', name === 'split');
 
-      const label = document.createElement("div");
-      label.className = "group-label";
-      label.textContent = group.label;
-      listEl.appendChild(label);
-
-      for (let i = group.start; i < end; i++) {
-        const button = document.createElement("button");
-        button.type = "button";
-        button.textContent = pages[i].title;
-        // replaceState, not location.hash: selecting an aircraft must not add a
-        // history entry, so Back leaves the viewer instead of walking the
-        // previously viewed aircraft. The hash still updates for refresh/links.
-        button.addEventListener("click", () => {
-          history.replaceState(null, "", "#" + i);
-          show();
-        });
-        listEl.appendChild(button);
-        buttons[i] = button;
-      }
+      // 분할일 때는 둘 다 보여야 하므로 hidden을 모두 푼다.
+      trainer.hidden = name === 'adc';
+      adc.hidden = name === 'trainer';
     }
 
-    function show() {
-      const raw = parseInt(location.hash.slice(1), 10);
-      const index = Number.isInteger(raw) && raw >= 0 && raw < count ? raw : 0;
+    tabs.forEach(t => t.addEventListener('click', () => {
+      location.hash = t.dataset.tab;      // hashchange가 select 호출
+    }));
 
-      // location.replace, not src=: setting src pushes a history entry onto the
-      // iframe, so Back would rewind through previously viewed aircraft instead
-      // of leaving the viewer. replace() swaps the document without one.
-      // shownIndex tracks what's loaded — reading contentWindow.location is
-      // unreliable before the first load lands (about:blank).
-      if (shownIndex !== index) {
-        const src = "adc/" + FILES[index];
-        if (shownIndex === null) frame.setAttribute("src", src);
-        else frame.contentWindow.location.replace(src);
-        shownIndex = index;
-      }
-
-      buttons.forEach((button, i) => {
-        if (i === index) button.setAttribute("aria-current", "true");
-        else button.removeAttribute("aria-current");
-      });
-      buttons[index]?.scrollIntoView({ block: "nearest", inline: "nearest" });
-    }
-
-    window.addEventListener("hashchange", show);
-    show();
+    // 새로고침/뒤로가기에도 탭 유지
+    addEventListener('hashchange', () => select(location.hash.slice(1)));
+    select(location.hash.slice(1));
   </script>
 
 </body>
