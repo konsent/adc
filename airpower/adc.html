@@ -400,10 +400,40 @@
       // 트랙패드 두 손가락 스와이프는 브라우저 기본 스크롤로 이미 동작한다.
       // 터치는 CSS만으로 충분하다: 기본 팬 제스처를 양축 모두 허용한다.
       // app.js가 로드 후 body를 다시 채우므로 인라인 style은 지워진다. 스타일시트로 심는다.
+      // min-width:210mm도 여기서 푼다. 남겨두면 축소해도 body가 계속 넘쳐 가로 스크롤이 남는다.
       const style = doc.createElement("style");
-      style.textContent = "body{cursor:grab;touch-action:pan-x pan-y}";
+      style.textContent =
+        "body{cursor:grab;touch-action:pan-x pan-y;min-width:0}" +
+        ".sheet{transform-origin:top left}";
       doc.head.appendChild(style);
+
+      fitSheet(doc);
     }
+
+    // pane이 210mm보다 좁아지면 카드를 통째로 축소한다.
+    // mm 기반 고정 레이아웃이라 내부 그리드를 건드리지 않고 transform으로 줄이는 편이 안전하다.
+    function fitSheet(doc) {
+      const sheet = doc.querySelector(".sheet");
+      if (!sheet) return;
+
+      // scale은 레이아웃 박스를 그대로 두므로, 줄인 만큼 body 크기를 맞춰줘야
+      // 빈 스크롤 영역이 남지 않는다. offsetWidth는 변환 전 값이라 기준으로 쓸 수 있다.
+      const w = sheet.offsetWidth, h = sheet.offsetHeight;
+      if (!w) return;
+
+      // 1을 넘기지 않는다. 넓을 때 확대까지 하면 저해상도 이미지가 뭉개진다.
+      const scale = Math.min(1, doc.documentElement.clientWidth / w);
+      sheet.style.transform = scale < 1 ? `scale(${scale})` : "";
+      doc.body.style.width = scale < 1 ? w * scale + "px" : "";
+      doc.body.style.height = scale < 1 ? h * scale + "px" : "";
+    }
+
+    // 분할 핸들 드래그 중에도 실시간으로 따라오게 pane 크기를 관찰한다.
+    const fitObserver = new ResizeObserver(() => {
+      const doc = frame.contentDocument;
+      if (doc && doc.body) fitSheet(doc);
+    });
+    fitObserver.observe(frame);
 
     // 기체를 바꿀 때마다 문서가 갈리므로 매 load마다 다시 심는다.
     frame.addEventListener("load", enablePan);
