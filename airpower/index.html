@@ -105,15 +105,34 @@
     }
     .panes iframe:not([hidden]) { z-index: 1; }
 
-    /* 분할 모드: 겹치기를 풀고 좌우로 나눈다. 같은 이유로 여기서도 iframe을 숨기지 않는다. */
-    .panes.split iframe {
-      width: 50%;
-      opacity: 1;
-      z-index: 1;
-      pointer-events: auto;
+    /* 분할 모드: 겹치기를 풀고 좌우로 나눈다. 같은 이유로 여기서도 iframe을 숨기지 않는다.
+       비율은 --split(왼쪽 폭 %) 하나로 관리하고 핸들 드래그로 바꾼다. */
+    .panes.split { --split: 50%; }
+    .panes.split iframe { opacity: 1; z-index: 1; pointer-events: auto; }
+    .panes.split #pane-adc     { inset: 0 auto 0 0; width: var(--split); }
+    /* iframe은 대체 요소라 width:auto가 좌우 inset이 아니라 기본 300px로 풀린다. 폭을 직접 계산한다. */
+    .panes.split #pane-trainer { inset: 0 0 0 var(--split); width: calc(100% - var(--split)); }
+
+    /* 드래그 핸들. 분할일 때만 나타난다. */
+    .handle { display: none; }
+    .panes.split .handle {
+      display: block;
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      left: var(--split);
+      width: 9px;
+      margin-left: -4px;
+      z-index: 2;
+      cursor: col-resize;
+      background: #1e3a52;
+      background-clip: content-box;
+      border-left: 4px solid transparent;
+      border-right: 4px solid transparent;
     }
-    .panes.split iframe:first-of-type { inset: 0 auto 0 0; border-right: 1px solid #1e3a52; }
-    .panes.split iframe:last-of-type { inset: 0 0 0 50%; }
+    .panes.split .handle:hover, .panes.split.dragging .handle { background-color: #d94a3a; }
+    /* 드래그 중에는 iframe이 포인터를 삼키지 않도록 막는다. */
+    .panes.dragging iframe { pointer-events: none; }
 
     @media (max-width: 760px) {
       .title { display: none; }
@@ -139,6 +158,7 @@
   <div class="panes" id="panes">
     <iframe id="pane-trainer" src="trainer/index.html" title="이동 훈련"></iframe>
     <iframe id="pane-adc" src="adc.html" title="Aircraft ADC" hidden></iframe>
+    <div class="handle" id="handle" role="separator" aria-orientation="vertical" title="드래그해서 크기 조절"></div>
   </div>
 
   <script>
@@ -168,6 +188,36 @@
     // 새로고침/뒤로가기에도 탭 유지
     addEventListener('hashchange', () => select(location.hash.slice(1)));
     select(location.hash.slice(1));
+
+    // 분할 비율 드래그. 비율은 로컬에 남겨 다음 방문에도 유지한다.
+    const handle = document.getElementById('handle');
+    const saved = parseFloat(localStorage.getItem('airpower-split'));
+    if (saved >= 15 && saved <= 85) panes.style.setProperty('--split', saved + '%');
+
+    handle.addEventListener('pointerdown', e => {
+      e.preventDefault();
+      handle.setPointerCapture(e.pointerId);
+      panes.classList.add('dragging');
+    });
+
+    handle.addEventListener('pointermove', e => {
+      if (!panes.classList.contains('dragging')) return;
+      const box = panes.getBoundingClientRect();
+      const pct = Math.min(85, Math.max(15, (e.clientX - box.left) / box.width * 100));
+      panes.style.setProperty('--split', pct.toFixed(2) + '%');
+    });
+
+    handle.addEventListener('pointerup', e => {
+      panes.classList.remove('dragging');
+      handle.releasePointerCapture(e.pointerId);
+      localStorage.setItem('airpower-split', parseFloat(panes.style.getPropertyValue('--split')));
+    });
+
+    // 더블클릭으로 50:50 복귀
+    handle.addEventListener('dblclick', () => {
+      panes.style.setProperty('--split', '50%');
+      localStorage.setItem('airpower-split', 50);
+    });
   </script>
 
 </body>
