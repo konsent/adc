@@ -115,11 +115,39 @@
       font-weight: 600;
     }
 
+    /* 목록 접기. 사이드바 폭만 0으로 줄이고 토글 버튼은 남긴다. */
+    .collapse {
+      position: absolute;
+      top: 0.5rem;
+      left: 0;
+      z-index: 3;
+      width: 22px;
+      height: 30px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: #0e1c2a;
+      color: #6ab0d8;
+      border: 1px solid #1e3a52;
+      border-left: none;
+      border-radius: 0 5px 5px 0;
+      font-size: 0.7rem;
+      line-height: 1;
+      cursor: pointer;
+      transition: color 0.15s ease, border-color 0.15s ease;
+    }
+    .collapse:hover { color: #cfe4f2; border-color: #3d6a86; }
+
+    body.collapsed .sidebar { width: 0; border-right: none; }
+    /* 접힌 사이드바 안의 내용이 삐져나오지 않게 한다. */
+    body.collapsed .sidebar-head, body.collapsed .plane-list { display: none; }
+
     /* Viewer */
     .viewer {
       flex: 1;
       min-width: 0;
       background: #fff;
+      position: relative;
     }
 
     .viewer iframe {
@@ -130,7 +158,10 @@
     }
 
     /* Mobile */
-    @media (max-width: 760px) {
+    /* pointer:coarse를 함께 건다. 이 페이지는 나란히 보기에서 좁은 pane 안에 들어가는데,
+       폭만 보면 데스크톱 분할도 모바일로 오인해 목록이 가로 막대로 바뀐다.
+       실제 터치 기기에서만 세로 적층 레이아웃을 쓴다. */
+    @media (max-width: 760px) and (pointer: coarse) {
       body { flex-direction: column; }
 
       .sidebar {
@@ -178,6 +209,18 @@
       }
 
       .viewer { flex: 1; min-height: 0; }
+
+      /* 세로로 쌓이므로 폭이 아니라 높이를 접고, 버튼도 위쪽 모서리로 옮긴다. */
+      body.collapsed .sidebar { width: 100%; height: 0; border-bottom: none; }
+      .collapse {
+        top: 0;
+        left: 0.5rem;
+        width: 30px;
+        height: 20px;
+        border: 1px solid #1e3a52;
+        border-top: none;
+        border-radius: 0 0 5px 5px;
+      }
     }
   </style>
 </head>
@@ -193,6 +236,7 @@
   </nav>
 
   <main class="viewer">
+    <button class="collapse" id="collapse" type="button" aria-expanded="true" title="목록 접기/펼치기">◀</button>
     <iframe id="adcFrame" title="Aircraft ADC"></iframe>
   </main>
 
@@ -297,6 +341,73 @@
 
     window.addEventListener("hashchange", show);
     show();
+
+    // 목록 접기. 상태는 로컬에 남겨 다음 방문에도 유지한다.
+    const collapse = document.getElementById("collapse");
+    function setCollapsed(on) {
+      document.body.classList.toggle("collapsed", on);
+      collapse.textContent = on ? "▶" : "◀";
+      collapse.setAttribute("aria-expanded", String(!on));
+      localStorage.setItem("adc-list-collapsed", on ? "1" : "0");
+    }
+    collapse.addEventListener("click", () => {
+      setCollapsed(!document.body.classList.contains("collapsed"));
+    });
+    setCollapsed(localStorage.getItem("adc-list-collapsed") === "1");
+
+    // ADC 카드는 210mm 고정 폭이라 좁은 창에서 가로·세로로 넘친다.
+    // 스크롤바 대신 빈 여백을 잡고 끌어서 옮길 수 있게 내부 문서에 핸들러를 심는다.
+    // 같은 출처라 contentDocument에 접근할 수 있다.
+    function enablePan() {
+      const doc = frame.contentDocument;
+      if (!doc || !doc.body || doc.body.dataset.panReady) return;
+      doc.body.dataset.panReady = "1";
+
+      const el = doc.scrollingElement || doc.documentElement;
+      let sx = 0, sy = 0, left = 0, top = 0, panning = false;
+
+      doc.addEventListener("pointerdown", e => {
+        // 주 버튼만. 텍스트 선택·링크·버튼 조작은 그대로 두고 여백에서만 잡는다.
+        if (e.button !== 0) return;
+        if (e.target.closest("a, button, input, select, textarea")) return;
+        panning = true;
+        sx = e.clientX; sy = e.clientY;
+        left = el.scrollLeft; top = el.scrollTop;
+        doc.body.style.cursor = "grabbing";
+        // 드래그 중 텍스트가 파랗게 선택되는 것을 막는다.
+        doc.body.style.userSelect = "none";
+        el.style.scrollBehavior = "auto";   // smooth 스크롤이 걸려 있으면 드래그가 끈적해진다
+        doc.documentElement.setPointerCapture?.(e.pointerId);
+      });
+
+      doc.addEventListener("pointermove", e => {
+        if (!panning) return;
+        e.preventDefault();
+        el.scrollLeft = left - (e.clientX - sx);
+        el.scrollTop = top - (e.clientY - sy);
+      });
+
+      const end = e => {
+        if (!panning) return;
+        panning = false;
+        doc.body.style.cursor = "grab";     // 빈 값으로 되돌리면 잡을 수 있다는 표시가 사라진다
+        doc.body.style.userSelect = "";
+        doc.documentElement.releasePointerCapture?.(e.pointerId);
+      };
+      doc.addEventListener("pointerup", end);
+      doc.addEventListener("pointercancel", end);
+
+      // 트랙패드 두 손가락 스와이프는 브라우저 기본 스크롤로 이미 동작한다.
+      // 터치는 CSS만으로 충분하다: 기본 팬 제스처를 양축 모두 허용한다.
+      // app.js가 로드 후 body를 다시 채우므로 인라인 style은 지워진다. 스타일시트로 심는다.
+      const style = doc.createElement("style");
+      style.textContent = "body{cursor:grab;touch-action:pan-x pan-y}";
+      doc.head.appendChild(style);
+    }
+
+    // 기체를 바꿀 때마다 문서가 갈리므로 매 load마다 다시 심는다.
+    frame.addEventListener("load", enablePan);
+    enablePan();
   </script>
 
 </body>
