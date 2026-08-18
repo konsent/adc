@@ -9,15 +9,15 @@ const NS = 'http://www.w3.org/2000/svg';
 const XLINK_NS = 'http://www.w3.org/1999/xlink';
 let counterClipNumber = 0;
 const AIRCRAFT_COUNTERS = {
-  'F-19A': 'F-19 Stealth Fighter.jpg',
-  'F-15C': 'F-15C Eagle.jpg',
-  'F-4E': 'F-4E Phantom II.jpg',
-  'F-4F': 'F-4F Phantom II.jpg',
-  'JA-37': 'JA-37 Viggen.jpg',
-  'MIG-21MF': 'MiG-21MF Fishbed J.jpg',
-  'MIG-31': 'MiG-31A Foxhound.jpg',
-  'SU-17': 'Su-17 Fittter.jpg',
-  'MIG-29': 'MiG-29 Fulcrum A.jpg',
+  'F-19A': 'f-19-stealth-fighter.jpg',
+  'F-15C': 'f-15c-eagle.jpg',
+  'F-4E': 'f-4e-phantom-ii.jpg',
+  'F-4F': 'f-4f-phantom-ii.jpg',
+  'JA-37': 'ja-37-viggen.jpg',
+  'MIG-21MF': 'mig-21mf-fishbed-j.jpg',
+  'MIG-31': 'mig-31a-foxhound.jpg',
+  'SU-17': 'su-17-fittter.jpg',
+  'MIG-29': 'mig-29-fulcrum-a.jpg',
 };
 
 function hexPoints(cx, cy, size) {
