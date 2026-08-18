@@ -164,6 +164,77 @@ export const AIRCRAFT = {
     },
   },
 
+  // ADC pp.7-8. 가변익(swing wing): velocity/drag는 첫 번째(최대 전진익) 열 기준.
+  // ponytail: 드래그는 저/중/고 3단이지만 스키마는 2단뿐 → 중속(4.0-7.0)을 기본,
+  // 고속(7.5+)을 dragHighSpeed로. 저속(≤3.5) 할인은 미반영.
+  'F-14A': {
+    id: 'F-14A',
+    title: 'F-14A Tomcat',
+    cruise: 5.5,
+    climbSpeed: 4.5,
+    power: {
+      AB:   [3.0, 2.5, 2.0],
+      MIL:  [1.0, 1.0, 1.0],
+      Norm: [0, 0, 0],
+      Idle: [0.5, 0.5, 1.0],
+      Spbr: [0.5, 0.5, 1.0],
+    },
+    velocity: {
+      LO: { min: 1.5, max: 9,  dive: 10 },
+      ML: { min: 1.5, max: 10, dive: 12 },
+      MH: { min: 2,   max: 10, dive: 14 },
+      HI: { min: 2.5, max: 12, dive: 14 },
+      VH: { min: 3,   max: 13, dive: 15 },
+      EH: { min: 3,   max: 15, dive: 15 },
+    },
+    climb: { LO: 8, ML: 6, MH: 6, HI: 5, VH: 3, EH: 2 },
+    drag:          { TT: 1, HT: 2, BT: 4, ET: 4 },   // 속도 7.5 미만
+    dragHighSpeed: { TT: 2, HT: 4, BT: 5, ET: 6 },   // 속도 7.5 이상
+    dragThreshold: 7.5,
+    roll: { fp: 1.5, decel: 1.5 },
+    verticalRoll: { fp: 0, decel: 0.5 },
+    traits: {
+      hpr: false, rollRate: 'normal', ssm: 'normal', rapidAccel: false, rapidPowerResponse: false,
+      canard: false, bleedRate: 'normal', slats: false, viff: false,
+      highAoA: false,
+      verified: false,   // note: "Computerized swing wing" — 특성 근거 없음
+    },
+  },
+
+  'F-14D': {
+    id: 'F-14D',
+    title: 'F-14D Tomcat',
+    cruise: 6.0,
+    climbSpeed: 5.0,
+    power: {
+      AB:   [4.5, 4.0, 3.5],
+      MIL:  [1.5, 1.5, 1.0],
+      Norm: [0, 0, 0],
+      Idle: [0.5, 0.5, 1.0],
+      Spbr: [0.5, 0.5, 1.0],
+    },
+    velocity: {
+      LO: { min: 1.5, max: 9,  dive: 10 },
+      ML: { min: 1.5, max: 10, dive: 12 },
+      MH: { min: 2,   max: 12, dive: 14 },
+      HI: { min: 2.5, max: 14, dive: 15 },
+      VH: { min: 3,   max: 15, dive: 15 },
+      EH: { min: 3,   max: 15, dive: 16 },
+    },
+    climb: { LO: 8, ML: 7, MH: 6, HI: 5, VH: 3, EH: 2 },
+    drag:          { TT: 1, HT: 2, BT: 4, ET: 4 },   // 속도 7.5 미만
+    dragHighSpeed: { TT: 2, HT: 4, BT: 5, ET: 6 },   // 속도 7.5 이상
+    dragThreshold: 7.5,
+    roll: { fp: 1.5, decel: 1.5 },
+    verticalRoll: { fp: 0, decel: 0.5 },
+    traits: {
+      hpr: false, rollRate: 'normal', ssm: 'normal', rapidAccel: false, rapidPowerResponse: false,
+      canard: false, bleedRate: 'normal', slats: false, viff: false,
+      highAoA: false,
+      verified: false,   // note: "Computerized swing wing" — 특성 근거 없음
+    },
+  },
+
   'F-4E': {
     id: 'F-4E',
     title: 'F-4 E Phantom II',

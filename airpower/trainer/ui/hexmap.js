@@ -18,6 +18,8 @@ const AIRCRAFT_COUNTERS = {
   'MIG-31': 'mig-31a-foxhound.jpg',
   'SU-17': 'su-17-fittter.jpg',
   'MIG-29': 'mig-29-fulcrum-a.jpg',
+  'F-14A': 'f-14a-tomcat.jpg',
+  'F-14D': 'f-14d-super-tomcat.jpg',
 };
 
 function hexPoints(cx, cy, size) {
