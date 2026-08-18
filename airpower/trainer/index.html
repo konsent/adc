@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<title>Air Power II 이동 훈련</title>
+<style>
+   body { margin:0; font:14px/1.5 -apple-system,BlinkMacSystemFont,"Apple SD Gothic Neo",sans-serif;
+          background:#12161c; color:#dfe6ee; height:100vh; overflow:hidden; }
+   #map { position:fixed; inset:0; z-index:0; width:100vw; height:100vh; }
+   svg { width:100%; height:100%; display:block; cursor:grab; touch-action:none; }
+   svg.dragging { cursor:grabbing; }
+   .hex { fill:#1b2129; stroke:#2c3642; stroke-width:1; }
+   .hex-label { fill:#647386; font-size:7px; text-anchor:middle; pointer-events:none; }
+    .aircraft { pointer-events:visiblePainted; }
+  .wp { fill:none; stroke:#4a5666; stroke-width:2; }
+  .wp.next { stroke:#ffcf5c; stroke-width:3; }
+  .wp.done { stroke:#5cd08a; }
+   .wp-label { fill:#9fb0c4; font-size:11px; text-anchor:middle; }
+   .hill { fill:#805832; stroke:#c99555; stroke-width:2; }
+   .hill.passed { fill:#347557; stroke:#72d49d; }
+   .hill-label { fill:#fff0d2; font-size:10px; text-anchor:middle; pointer-events:none; }
+   .start { fill:none; stroke:#7fd1ff; stroke-width:2; stroke-dasharray:3 2; }
+   .start-label { fill:#7fd1ff; font-size:10px; text-anchor:middle; font-weight:bold; pointer-events:none; }
+    .flightpath { fill:none; stroke:#7fd1ff; stroke-width:2; stroke-dasharray:4 3; opacity:.7; }
+    .opponent-trail { fill:none; stroke:#ff8f8f; stroke-width:2; stroke-dasharray:2 4; opacity:.65; pointer-events:none; }
+    .opponent-trail-dot { fill:#ff8f8f; opacity:.8; }
+    .target-ring { fill:none; stroke:#ff8f8f; stroke-width:2; stroke-dasharray:4 2; pointer-events:none; }
+    .target-label { fill:#ffb1b1; font-size:10px; text-anchor:middle; font-weight:700; pointer-events:none; }
+   #panel { position:fixed; z-index:100; top:0; right:0; width:340px; height:100vh; box-sizing:border-box; padding:16px; overflow-y:auto;
+            background:#161b22ee; border-left:1px solid #232b35; backdrop-filter:blur(4px); }
+  h1 { font-size:15px; margin:0 0 12px; }
+  .row { margin-bottom:10px; }
+  label { display:block; font-size:12px; color:#93a2b5; margin-bottom:3px; }
+  select, input, button { width:100%; padding:6px 8px; background:#1e242c; color:#dfe6ee;
+                          border:1px solid #2f3a46; border-radius:4px; font-size:13px; }
+   button { cursor:pointer; }
+   button:hover { background:#26303a; }
+   .turn-list { display:grid; gap:5px; }
+   .turn-rate { display:grid; grid-template-columns:1fr 48px 48px; gap:4px; align-items:center;
+                padding:5px; border:1px solid #2f3a46; border-radius:4px; }
+   .turn-rate.active { border-color:#7fd1ff; background:#1d2b36; }
+   .turn-rate span { display:flex; align-items:baseline; gap:8px; }
+   .turn-rate small { color:#9fb0c4; font-size:11px; }
+   .turn-btn { width:auto; padding:5px; }
+   .turn-btn.selected { background:#315a73; border-color:#7fd1ff; }
+   .flight-list { display:grid; gap:4px; }
+   .flight-btn { text-align:left; padding:6px 8px; line-height:1.35; }
+   .flight-btn small { display:block; color:#93a2b5; font-size:11px; }
+   .flight-btn.selected { background:#315a73; border-color:#7fd1ff; }
+   .flight-btn.done { border-color:#5cd08a; }
+   .flight-btn.done small { color:#8fd8a8; }
+    .turn-help { margin-top:6px; color:#93a2b5; font-size:11px; }
+   .accel-row { display:flex; align-items:center; gap:8px; margin-top:6px; }
+   .accel-row input[type=range] { flex:1; padding:0; accent-color:#7fd1ff; }
+   .accel-row output { width:34px; text-align:right; color:#7fd1ff; font-weight:700; font-size:13px; }
+   .settlement-preview, .settlement-report { background:#182635; border-left:3px solid #7fd1ff; padding:8px; margin:8px 0;
+                                               border-radius:0 3px 3px 0; font-size:12px; }
+   .settlement-report { border-left-color:#a98cff; background:#241d35; }
+   .settlement-report span { color:#c7b8ff; }
+  .fpbar { display:flex; gap:3px; margin:8px 0; }
+  .fp { flex:1; height:22px; border:1px solid #2f3a46; border-radius:3px;
+        display:flex; align-items:center; justify-content:center; font-size:11px; }
+  .fp.h { background:#264a63; } .fp.v { background:#3d2a5c; }
+  .violation { background:#3a1d1d; border-left:3px solid #d05c5c; padding:8px; margin:6px 0;
+               border-radius:0 3px 3px 0; font-size:12px; }
+  .violation .r { color:#ff9b9b; font-weight:600; }
+   .violation .fix { color:#9fd8a8; margin-top:4px; }
+    .notice { background:#1d2a3a; border-left:3px solid #5c9ad0; padding:8px; margin:6px 0;
+              border-radius:0 3px 3px 0; font-size:12px; }
+    .notice .r { color:#9bc8ff; font-weight:600; }
+    .notice.kill { background:#3a2a1d; border-left-color:#e0a44c; }
+    .notice.kill .r { color:#ffcf8f; }
+    .ok { background:#1d3a24; border-left:3px solid #5cd08a; padding:8px; border-radius:0 3px 3px 0; }
+    .combat { background:#281d22; border-left:3px solid #e27b7b; padding:8px; border-radius:0 3px 3px 0; font-size:12px; }
+    .combat b { color:#ffc0c0; }
+    .combat-actions { display:grid; grid-template-columns:repeat(4, 1fr); gap:4px; margin-top:6px; }
+    .combat-actions button { padding:4px; }
+   #violation-popup { position:fixed; z-index:110; top:16px; right:372px; width:330px; max-height:calc(100vh - 32px);
+                        overflow-y:auto; background:#251719; border:1px solid #d05c5c; border-radius:6px;
+                        box-shadow:0 8px 28px #0009; padding:10px; }
+   .violation-title { color:#ffb1b1; font-weight:700; margin-bottom:6px; }
+   #completion-popup { position:fixed; z-index:120; left:50%; top:50%; transform:translate(-50%, -50%); width:min(420px, calc(100vw - 40px));
+                         background:#183524; border:2px solid #5cd08a; border-radius:8px; box-shadow:0 12px 36px #000b; padding:22px; text-align:center; }
+   #completion-popup:empty { display:none; }
+   .completion-title { color:#90edb2; font-size:21px; font-weight:700; margin-bottom:8px; }
+   .completion-detail { color:#c3d7ca; font-size:13px; }
+   #completion-popup.failed { background:#351818; border-color:#d05c5c; }
+   #completion-popup.failed .completion-title { color:#ff9b9b; }
+   #completion-popup.failed .completion-detail { color:#e0c3c3; }
+   #zoom-controls { position:fixed; z-index:110; top:16px; left:16px; display:grid; gap:5px; width:42px; }
+   #zoom-controls button { width:42px; padding:5px; font-size:18px; font-weight:700; }
+   #zoom-controls button:last-child { font-size:12px; }
+   #aircraft-hud { position:fixed; z-index:110; top:16px; left:68px; min-width:170px; padding:8px 10px;
+                   background:#161b22e8; border:1px solid #3b5266; border-left:3px solid #7fd1ff;
+                   border-radius:4px; box-shadow:0 4px 16px #0007; font-size:12px; pointer-events:none; }
+   #aircraft-hud:empty { display:none; }
+   .hud-title { color:#dfe6ee; font-weight:700; margin-bottom:3px; }
+   .hud-stats { color:#9fb0c4; }
+   .hud-stats b { color:#7fd1ff; font-weight:600; }
+   .debug-log { max-height:260px; overflow-y:auto; background:#0d1117; border:1px solid #30363d;
+                border-radius:4px; padding:6px; font-size:11px; line-height:1.5; }
+   .debug-entry { padding:5px 4px; border-bottom:1px solid #21262d; }
+   .debug-entry:last-child { border-bottom:none; }
+   .debug-head { color:#7fd1ff; font-weight:700; margin-bottom:2px; }
+   .debug-line { color:#9fb0c4; font-family:ui-monospace, SFMono-Regular, Menlo, monospace; }
+   .debug-line b { color:#dfe6ee; }
+   .debug-line.hill { color:#90edb2; }
+   .debug-line.dim { color:#6b7d90; }
+   .debug-line.bad { color:#ff9f9f; }
+   .debug-actions { display:flex; gap:5px; margin-top:5px; }
+   .debug-actions button { flex:1; padding:4px; font-size:11px; }
+   @media (max-width: 900px) { #violation-popup { right:16px; top:auto; bottom:16px; width:min(330px, calc(100vw - 32px)); max-height:40vh; } }
+</style>
+</head>
+<body>
+   <div id="map"><svg id="svg"></svg></div>
+   <div id="zoom-controls"><button id="zoom-in" title="확대">+</button><button id="zoom-out" title="축소">−</button><button id="zoom-reset" title="초기화">전체</button></div>
+   <aside id="aircraft-hud" aria-live="polite"></aside>
+   <aside id="violation-popup" aria-live="assertive"></aside>
+   <aside id="completion-popup" aria-live="assertive"></aside>
+   <div id="panel"></div>
+    <script type="module" src="./ui/panel.js?v=power-slider-1"></script>
+</body>
+</html>

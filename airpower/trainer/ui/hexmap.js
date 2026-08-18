@@ -1,0 +1,255 @@
+// SVG 헥스 맵 렌더링 (실제 Air Power 보드와 같은 flat-top, axial 좌표)
+
+import { boardHexOf, facingRotation, sideNeighbor, hexCenter } from '../engine/hex.js';
+
+export { hexCenter };
+
+const SQRT3 = Math.sqrt(3);
+const NS = 'http://www.w3.org/2000/svg';
+const XLINK_NS = 'http://www.w3.org/1999/xlink';
+let counterClipNumber = 0;
+const AIRCRAFT_COUNTERS = {
+  'F-19A': 'F-19 Stealth Fighter.jpg',
+  'F-15C': 'F-15C Eagle.jpg',
+  'F-4E': 'F-4E Phantom II.jpg',
+  'F-4F': 'F-4F Phantom II.jpg',
+  'JA-37': 'JA-37 Viggen.jpg',
+  'MIG-21MF': 'MiG-21MF Fishbed J.jpg',
+  'MIG-31': 'MiG-31A Foxhound.jpg',
+  'SU-17': 'Su-17 Fittter.jpg',
+  'MIG-29': 'MiG-29 Fulcrum A.jpg',
+};
+
+function hexPoints(cx, cy, size) {
+  const pts = [];
+  for (let i = 0; i < 6; i++) {
+    const angle = Math.PI / 180 * 60 * i;
+    pts.push(`${(cx + size * Math.cos(angle)).toFixed(2)},${(cy + size * Math.sin(angle)).toFixed(2)}`);
+  }
+  return pts.join(' ');
+}
+
+function layer(svg, name) {
+  let g = svg.querySelector(`g[data-layer="${name}"]`);
+  if (!g) {
+    g = document.createElementNS(NS, 'g');
+    g.dataset.layer = name;
+    svg.appendChild(g);
+  }
+  return g;
+}
+
+export function clearLayer(svg, name) {
+  const g = svg.querySelector(`g[data-layer="${name}"]`);
+  if (g) g.textContent = '';
+}
+
+/** 고정 반경의 전체 헥스 필드를 그린다. */
+export function renderMap(svg, { radius = 24, hexSize = 32, cells: suppliedCells = null } = {}) {
+  const g = layer(svg, 'grid');
+  g.textContent = '';
+
+  const cells = suppliedCells ?? (() => {
+    const generated = [];
+    for (let q = -radius; q <= radius; q++) {
+      for (let r = Math.max(-radius, -q - radius); r <= Math.min(radius, -q + radius); r++) {
+        generated.push({ q, r });
+      }
+    }
+    return generated;
+  })();
+
+  let minX = Infinity, minY = Infinity, maxX = -Infinity, maxY = -Infinity;
+  for (const c of cells) {
+    const { x, y } = hexCenter(c, hexSize);
+    const poly = document.createElementNS(NS, 'polygon');
+    poly.setAttribute('points', hexPoints(x, y, hexSize));
+    poly.setAttribute('class', 'hex');
+    poly.dataset.q = c.q;
+    poly.dataset.r = c.r;
+    g.appendChild(poly);
+
+    // Map A 보드 번호: 내부 axial r은 행 번호가 아니다. flat-top axial을
+    // offset 열/행으로 변환하면 실제 행 차이는 r + floor(q / 2)다.
+    const label = document.createElementNS(NS, 'text');
+    label.setAttribute('x', x); label.setAttribute('y', y + 3);
+    label.setAttribute('class', 'hex-label');
+    label.textContent = c.map ? `${c.map}${c.boardHex}` : boardHexOf(c);
+    g.appendChild(label);
+
+    minX = Math.min(minX, x - hexSize); maxX = Math.max(maxX, x + hexSize);
+    minY = Math.min(minY, y - hexSize); maxY = Math.max(maxY, y + hexSize);
+  }
+
+  const padding = hexSize * 0.5;
+  return {
+    cells,
+    viewBox: { x: minX - padding, y: minY - padding, width: maxX - minX + padding * 2, height: maxY - minY + padding * 2 },
+  };
+}
+
+export function drawAircraft(svg, position, facing, hexSize, aircraftId, { layerName = 'aircraft', marker = null, clear = true, tooltip = '' } = {}) {
+  const g = layer(svg, layerName);
+  if (clear) g.textContent = '';
+  // 헥스면 위 기체는 그 변을 공유하는 두 헥스(left/right)의 중점에 그린다.
+  const onSide = position.kind === 'side' && position.left && position.right;
+  const anchor = hexCenter(onSide ? position.left : position.hex, hexSize);
+  const other = onSide
+    ? hexCenter(position.right, hexSize)
+    : position.kind === 'side' ? hexCenter(sideNeighbor(position), hexSize) : anchor;
+  const x = (anchor.x + other.x) / 2;
+  const y = (anchor.y + other.y) / 2;
+  const size = hexSize * 1.35;
+  const clipId = `counter-clip-${counterClipNumber += 1}`;
+  const defs = document.createElementNS(NS, 'defs');
+  const clip = document.createElementNS(NS, 'clipPath');
+  clip.setAttribute('id', clipId);
+  clip.setAttribute('clipPathUnits', 'userSpaceOnUse');
+  const roundedRect = document.createElementNS(NS, 'rect');
+  roundedRect.setAttribute('x', -size / 2);
+  roundedRect.setAttribute('y', -size / 2);
+  roundedRect.setAttribute('width', size);
+  roundedRect.setAttribute('height', size);
+  roundedRect.setAttribute('rx', size * 0.18);
+  clip.appendChild(roundedRect);
+  defs.appendChild(clip);
+
+  const counter = document.createElementNS(NS, 'g');
+  counter.setAttribute('class', 'aircraft');
+  // 카운터의 기수는 우측 상단 꼭지점(기본 위쪽 기준 +45도)이므로 보정한다.
+  counter.setAttribute('transform', `translate(${x},${y}) rotate(${facingRotation(facing) - 45})`);
+  if (tooltip) {
+    const title = document.createElementNS(NS, 'title');
+    title.textContent = tooltip;
+    counter.appendChild(title);
+  }
+  const image = document.createElementNS(NS, 'image');
+  const source = `./assets/${AIRCRAFT_COUNTERS[aircraftId]}`;
+  image.setAttribute('href', source);
+  // Safari를 포함한 SVG 구현에서 외부 이미지가 빠지지 않도록 두 속성을 함께 둔다.
+  image.setAttributeNS(XLINK_NS, 'xlink:href', source);
+  image.setAttribute('x', -size / 2);
+  image.setAttribute('y', -size / 2);
+  image.setAttribute('width', size);
+  image.setAttribute('height', size);
+  image.setAttribute('clip-path', `url(#${clipId})`);
+  counter.appendChild(image);
+  g.appendChild(defs);
+  g.appendChild(counter);
+
+  if (marker) {
+    const ring = document.createElementNS(NS, 'circle');
+    ring.setAttribute('cx', x); ring.setAttribute('cy', y);
+    ring.setAttribute('r', size * 0.6);
+    ring.setAttribute('class', 'target-ring');
+    const label = document.createElementNS(NS, 'text');
+    label.setAttribute('x', x); label.setAttribute('y', y - size * 0.78);
+    label.setAttribute('class', 'target-label');
+    label.textContent = marker;
+    g.appendChild(ring);
+    g.appendChild(label);
+  }
+}
+
+export function drawWaypoints(svg, waypoints, hexSize, currentIndex = 0) {
+  const g = layer(svg, 'waypoints');
+  g.textContent = '';
+  waypoints.forEach((w, i) => {
+    const { x, y } = hexCenter(w.hex, hexSize);
+    const c = document.createElementNS(NS, 'circle');
+    c.setAttribute('cx', x); c.setAttribute('cy', y);
+    c.setAttribute('r', hexSize * 0.55);
+    c.setAttribute('class', i < currentIndex ? 'wp done' : i === currentIndex ? 'wp next' : 'wp');
+    g.appendChild(c);
+
+    const t = document.createElementNS(NS, 'text');
+    t.setAttribute('x', x); t.setAttribute('y', y + 4);
+    t.setAttribute('class', 'wp-label');
+    t.textContent = `${i + 1}·${w.alt}`;
+    g.appendChild(t);
+  });
+}
+
+export function drawHills(svg, hills, hexSize, passed = []) {
+  const g = layer(svg, 'hills');
+  g.textContent = '';
+  hills.forEach((hill, i) => {
+    const { x, y } = hexCenter(hill.hex, hexSize);
+    const c = document.createElementNS(NS, 'circle');
+    c.setAttribute('cx', x); c.setAttribute('cy', y);
+    c.setAttribute('r', hexSize * 0.42);
+    c.setAttribute('class', passed[i] ? 'hill passed' : 'hill');
+    g.appendChild(c);
+
+    const t = document.createElementNS(NS, 'text');
+    t.setAttribute('x', x); t.setAttribute('y', y + 4);
+    t.setAttribute('class', 'hill-label');
+    t.textContent = hill.label;
+    g.appendChild(t);
+  });
+}
+
+export function drawStart(svg, start, hexSize, label = 'START') {
+  const g = layer(svg, 'start');
+  g.textContent = '';
+  const { x, y } = hexCenter(start, hexSize);
+  const c = document.createElementNS(NS, 'circle');
+  c.setAttribute('cx', x); c.setAttribute('cy', y);
+  c.setAttribute('r', hexSize * 0.62);
+  c.setAttribute('class', 'start');
+  g.appendChild(c);
+
+  const t = document.createElementNS(NS, 'text');
+  t.setAttribute('x', x); t.setAttribute('y', y + hexSize * 0.88);
+  t.setAttribute('class', 'start-label');
+  t.textContent = label;
+  g.appendChild(t);
+}
+
+export function drawPath(svg, hexes, hexSize) {
+  const g = layer(svg, 'path');
+  g.textContent = '';
+  if (hexes.length < 2) return;
+  const d = hexes.map((position, i) => {
+    const onSide = position.kind === 'side' && position.left && position.right;
+    const anchor = hexCenter(onSide ? position.left : position.hex, hexSize);
+    const other = onSide
+      ? hexCenter(position.right, hexSize)
+      : position.kind === 'side' ? hexCenter(sideNeighbor(position), hexSize) : anchor;
+    const x = (anchor.x + other.x) / 2;
+    const y = (anchor.y + other.y) / 2;
+    return `${i === 0 ? 'M' : 'L'}${x.toFixed(1)},${y.toFixed(1)}`;
+  }).join(' ');
+  const p = document.createElementNS(NS, 'path');
+  p.setAttribute('d', d);
+  p.setAttribute('class', 'flightpath');
+  g.appendChild(p);
+}
+
+/**
+ * 상대기 이동 궤적. 턴마다 남는 헥스 중심 목록이라 drawPath의 헥스사이드 보간이
+ * 필요 없다. 궤적마다 끝점에 턴 번호를 찍어 어느 턴 이동인지 읽히게 한다.
+ */
+export function drawOpponentTrails(svg, trails, hexSize) {
+  const g = layer(svg, 'opponent-trail');
+  g.textContent = '';
+  for (const trail of trails) {
+    if (trail.length < 2) continue;
+    const points = trail.map(step => hexCenter(step.hex, hexSize));
+    const p = document.createElementNS(NS, 'path');
+    p.setAttribute('d', points.map((pt, i) => `${i === 0 ? 'M' : 'L'}${pt.x.toFixed(1)},${pt.y.toFixed(1)}`).join(' '));
+    p.setAttribute('class', 'opponent-trail');
+    g.appendChild(p);
+    for (let i = 1; i < points.length; i += 1) {
+      const dot = document.createElementNS(NS, 'circle');
+      dot.setAttribute('cx', points[i].x);
+      dot.setAttribute('cy', points[i].y);
+      dot.setAttribute('r', 3);
+      dot.setAttribute('class', 'opponent-trail-dot');
+      const title = document.createElementNS(NS, 'title');
+      title.textContent = `턴 ${trail[i].turn} · ${trail[i].boardHex ?? ''} · 고도 ${trail[i].alt} · 속도 ${trail[i].speed.toFixed(1)}`;
+      dot.appendChild(title);
+      g.appendChild(dot);
+    }
+  }
+}
