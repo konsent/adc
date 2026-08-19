@@ -1,0 +1,1020 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Air Superiority · ADC Data</title>
+  <link rel="icon" href="../assets/favicon_io/favicon.ico" type="image/x-icon">
+  <!-- Nike Futura ND / Helvetica Now 대체: Bebas Neue(디스플레이) + Inter(UI). -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@400;500;600;700&family=Roboto+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <style>
+    /* ── Design tokens ───────────────────────────────────────
+       Nike commerce system. 사진이 말하고 크롬은 침묵한다 —
+       여기엔 사진이 없으니 데이터가 그 자리를 대신한다.
+       흑/백/단일 회색이 표면의 95%를 차지하고, 색은 신호에만 쓴다. */
+    :root {
+      /* Brand & surface */
+      --ink: #111111;
+      --canvas: #ffffff;
+      --on-primary: #ffffff;
+      --soft-cloud: #f5f5f5;
+      --hairline: #cacacb;
+      --hairline-soft: #e5e5e5;
+
+      /* Text */
+      --charcoal: #39393b;
+      --ash: #4b4b4d;
+      --mute: #707072;
+      --stone: #9e9ea0;
+
+      /* Semantic — 신호가 필요한 자리에만 */
+      --sale: #d30005;
+      --sale-deep: #780700;
+      --success: #007d48;
+      --info: #1151ff;
+
+      /* Category accent — 칩·점·에디토리얼 전용. 크롬에는 쓰지 않는다. */
+      --accent-teal: #0a7281;
+      --accent-purple-soft: #beaffd;
+
+      /* Spacing: 8px base. 데이터 표는 스케일의 아래쪽(2/4/8/12)을 쓴다. */
+      --xxs: 2px;
+      --xs: 4px;
+      --sm: 8px;
+      --md: 12px;
+      --lg: 18px;
+      --xl: 24px;
+      --xxl: 30px;
+      --section: 48px;
+
+      /* Radius: 뾰족한 버튼은 이 시스템에 없다. */
+      --rounded-none: 0px;
+      --rounded-md: 24px;
+      --rounded-lg: 30px;
+      --rounded-full: 9999px;
+
+      /* 데이터 밀도. 표 안쪽 여백은 여기서 한 번에 조인다. */
+      --cell-y: 5px;
+      --cell-x: 10px;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'Inter', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+      font-size: 16px;
+      background: var(--canvas);
+      color: var(--ink);
+      height: 100vh;
+      display: flex;
+      overflow: hidden;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* ── Sidebar ─────────────────────────────────────────────
+       primary-nav + filter-sidebar 역할을 겸한다. 흰 바탕에
+       헤어라인 하나로만 본문과 갈린다. */
+    .sidebar {
+      width: 232px;
+      flex-shrink: 0;
+      background: var(--canvas);
+      border-right: 1px solid var(--hairline);
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+    }
+
+    .sidebar-head {
+      padding: var(--lg) var(--md) var(--md);
+      flex-shrink: 0;
+    }
+
+    /* utility-bar: 최상단 유틸리티 스트립 */
+    .sidebar-head a {
+      display: inline-block;
+      font-size: 12px;
+      font-weight: 500;
+      line-height: 1.5;
+      color: var(--mute);
+      text-decoration: none;
+      margin-bottom: var(--md);
+    }
+    .sidebar-head a:hover { color: var(--ink); }
+
+    /* display-campaign 티어. 96px는 이 화면에 과하니 편집 축소분(40px)을 쓴다. */
+    .sidebar-head h1 {
+      font-family: 'Bebas Neue', 'Inter', Impact, sans-serif;
+      font-size: 40px;
+      font-weight: 400;
+      line-height: 0.9;
+      letter-spacing: -0.005em;
+      color: var(--ink);
+      text-transform: uppercase;
+    }
+
+    .sidebar-head .sub {
+      font-size: 12px;
+      font-weight: 500;
+      line-height: 1.5;
+      color: var(--mute);
+      margin-top: var(--sm);
+    }
+
+    /* search-pill */
+    .search-wrap { padding: 0 var(--md) var(--md); flex-shrink: 0; }
+
+    .search-wrap input {
+      width: 100%;
+      height: 40px;
+      background: var(--soft-cloud);
+      border: 1px solid transparent;
+      border-radius: var(--rounded-md);
+      color: var(--ink);
+      font-family: inherit;
+      font-size: 14px;
+      font-weight: 400;
+      padding: var(--sm) var(--md);
+      outline: none;
+      transition: background 0.15s ease, border-color 0.15s ease;
+    }
+    /* search-pill-focused: 흰 바탕 + 2px 잉크 테두리. 시스템의 유일한 포커스 링. */
+    .search-wrap input:focus {
+      background: var(--canvas);
+      border: 2px solid var(--ink);
+      padding: calc(var(--sm) - 1px) calc(var(--md) - 1px);
+    }
+    .search-wrap input::placeholder { color: var(--mute); }
+
+    .plane-list {
+      overflow-y: auto;
+      flex: 1;
+      padding: 0 0 var(--xl);
+    }
+
+    /* filter-sidebar 행. 선택 시 배경이 아니라 잉크 밑줄로 표시한다. */
+    .plane-list button {
+      display: block;
+      width: 100%;
+      text-align: left;
+      background: none;
+      border: none;
+      border-left: 2px solid transparent;
+      color: var(--charcoal);
+      font-family: inherit;
+      font-size: 14px;
+      font-weight: 500;
+      line-height: 1.5;
+      padding: 7px var(--md);
+      cursor: pointer;
+      transition: background 0.12s ease, color 0.12s ease;
+    }
+
+    .plane-list button:hover { background: var(--soft-cloud); color: var(--ink); }
+
+    /* filter-chip-active: 선택되면 완전 반전. 중간 상태는 없다. */
+    .plane-list button[aria-current="true"] {
+      background: var(--ink);
+      color: var(--on-primary);
+      font-weight: 600;
+    }
+
+    .empty-hit {
+      font-size: 12px;
+      font-weight: 500;
+      color: var(--mute);
+      padding: var(--md);
+    }
+
+    /* button-icon-circular */
+    .collapse {
+      position: absolute;
+      top: var(--md);
+      left: var(--md);
+      z-index: 3;
+      width: 40px;
+      height: 40px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: var(--soft-cloud);
+      color: var(--ink);
+      border: none;
+      border-radius: var(--rounded-full);
+      font-size: 13px;
+      line-height: 1;
+      cursor: pointer;
+      transition: transform 0.1s ease, opacity 0.1s ease;
+    }
+    /* button-primary-active: 나이키의 탭 붕괴 피드백 */
+    .collapse:active { transform: scale(0.9); opacity: 0.5; }
+
+    body.collapsed .sidebar { width: 0; border-right: none; }
+    body.collapsed .sidebar-head,
+    body.collapsed .search-wrap,
+    body.collapsed .plane-list { display: none; }
+
+    /* ── Viewer ──────────────────────────────────────────── */
+    .viewer {
+      flex: 1;
+      min-width: 0;
+      position: relative;
+      overflow-y: auto;
+      background: var(--canvas);
+    }
+
+    /* 접기 버튼이 좌상단에 떠 있으므로 제목 시작점을 그만큼 밀어 둔다. */
+    .sheet { padding: var(--xl) var(--xl) var(--section) 68px; max-width: 1440px; }
+
+    /* campaign-tile 로크업. 사진이 없으니 타이포가 직접 선다. */
+    .sheet-head {
+      border-bottom: 2px solid var(--ink);
+      padding-bottom: var(--md);
+      margin-bottom: var(--lg);
+    }
+
+    .sheet-head h2 {
+      font-family: 'Bebas Neue', 'Inter', Impact, sans-serif;
+      font-size: 64px;
+      font-weight: 400;
+      line-height: 0.9;
+      letter-spacing: -0.005em;
+      color: var(--ink);
+      text-transform: uppercase;
+    }
+
+    .sheet-head .meta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: var(--xs) var(--xl);
+      margin-top: var(--md);
+      font-size: 12px;
+      line-height: 1.5;
+    }
+    .sheet-head .meta b {
+      color: var(--mute);
+      font-weight: 500;
+      text-transform: uppercase;
+      letter-spacing: 0.02em;
+    }
+    .sheet-head .meta span { color: var(--ink); font-weight: 500; }
+
+    /* 격자. 다단(column)은 빈틈 없이 채우지만 카드 끝선이 제각각이라
+       삐뚤어 보인다. 열 폭을 똑같이 나누고 같은 행의 카드는 높이를 맞춘다 —
+       아래쪽에 여백이 조금 생겨도 선이 맞는 편이 읽기 편하다. */
+    .row {
+      display: grid;
+      /* min(360px, 100%): 하한이 컨테이너보다 크면 모든 카드가 그만큼 넘친다.
+         좁을 땐 하한을 컨테이너 폭에 묶어 넘침을 막는다. */
+      grid-template-columns: repeat(auto-fit, minmax(min(360px, 100%), 1fr));
+      gap: var(--md);
+      margin-bottom: var(--md);
+      /* 카드가 칸을 꽉 채운다. 내용이 짧으면 상자 안이 비지만, 같은 행의
+         위·아래 선이 맞아 격자가 또렷하게 읽힌다. */
+      align-items: stretch;
+    }
+
+    /* product-card: 그림자 없음, 라운드 없음, 평평하게 앉는다.
+       폭은 격자 칸이 정하고, 높이는 내용이 정한다. */
+    .card {
+      min-width: 0;
+      /* 칸 높이를 그대로 받는다. 내용은 위에서부터 쌓이고 남는 자리는 아래에. */
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      background: var(--canvas);
+      border: 1px solid var(--hairline-soft);
+      border-radius: var(--rounded-none);
+      overflow: hidden;
+      min-width: 0;
+    }
+
+    /* heading-md 티어의 섹션 헤더 */
+    .card > h3 {
+      font-size: 12px;
+      font-weight: 600;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: var(--ink);
+      background: var(--soft-cloud);
+      padding: var(--sm) var(--cell-x);
+    }
+
+    .card-body { overflow-x: auto; flex: 1 1 auto; }
+
+    /* Notes는 문장이라 한 칸에 가두면 줄이 잘게 끊긴다. 두 칸을 건너뛴다.
+       단, 격자가 1열로 떨어지면 span 2는 칸 밖으로 넘친다. 기준은 창이 아니라
+       본문 폭이므로(사이드바가 열려 있으면 창은 넓어도 본문은 좁다)
+       컨테이너 질의로 본문을 직접 잰다. */
+    .viewer { container-type: inline-size; }
+    .card.span2 { grid-column: span 2; }
+    @container (max-width: 800px) { .card.span2 { grid-column: span 1; } }
+    /* 표가 auto 폭이라 오른쪽에 남는 자리가 생긴다. 그 자리를 눈에 띄지 않게
+       두려면 표를 왼쪽에 붙이고 카드가 그 여백을 그대로 삼키게 한다. */
+    .card-body > table { margin-right: auto; }
+
+    /* 카드 안에서 표를 한 번 더 가르는 하위 제목(예: Weapons Stations). */
+    .subhead {
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: var(--mute);
+      background: var(--canvas);
+      border-top: 1px solid var(--hairline-soft);
+      border-bottom: 1px solid var(--hairline-soft);
+      padding: var(--xs) var(--cell-x);
+    }
+
+    /* ── Tables ──────────────────────────────────────────────
+       밀도가 핵심이다. 셀 여백은 --cell-y/--cell-x 하나로 조인다. */
+    /* 표는 내용 폭까지만 줄어든다. width:100%로 늘리면 숫자 두 자리 칸이
+       화면 폭만큼 벌어져 시선이 값 사이를 멀리 건너뛴다. 실측 기준 데이터
+       셀은 31~98px, 헤더가 최대 112px이라 auto로 두면 알아서 맞는다. */
+    table {
+      width: auto;
+      min-width: 0;
+      border-collapse: collapse;
+      font-size: 13px;
+      line-height: 1.35;
+    }
+
+    th, td {
+      padding: var(--cell-y) var(--cell-x);
+      text-align: left;
+      border-bottom: 1px solid var(--hairline-soft);
+      white-space: nowrap;
+    }
+    tr:last-child th, tr:last-child td { border-bottom: none; }
+
+    thead th {
+      font-size: 10px;
+      font-weight: 600;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      color: var(--mute);
+      background: var(--canvas);
+      border-bottom: 1px solid var(--hairline);
+      padding-top: var(--xs);
+      padding-bottom: var(--xs);
+    }
+
+    /* 숫자는 등폭으로. 자릿수가 세로로 맞아야 표가 빨리 읽힌다. */
+    tbody td {
+      font-family: 'Roboto Mono', ui-monospace, monospace;
+      font-size: 12.5px;
+      font-weight: 400;
+      color: var(--ink);
+      font-variant-numeric: tabular-nums;
+    }
+    tbody tr:hover { background: var(--soft-cloud); }
+
+    /* 키-값 표 */
+    table.kv td:first-child {
+      font-family: 'Inter', sans-serif;
+      font-size: 13px;
+      font-weight: 400;
+      color: var(--mute);
+      /* 라벨은 제 내용 폭만 쓴다. 실측 최장 85px(Characteristics 기준). */
+      white-space: nowrap;
+      padding-right: var(--xl);
+    }
+    table.kv td:last-child { color: var(--ink); font-weight: 500; }
+
+    /* 행 머리글(Alt. Band, Power, Turn…) */
+    tbody th {
+      font-family: 'Inter', sans-serif;
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--ink);
+      background: var(--soft-cloud);
+      white-space: nowrap;
+    }
+
+    /* 값이 긴 칸은 줄바꿈을 허용한다. */
+    td.wrap, table.kv td.wrap {
+      white-space: normal;
+      min-width: 14rem;
+      line-height: 1.45;
+      font-family: 'Inter', sans-serif;
+      font-size: 12.5px;
+    }
+
+    /* Characteristics 2단. 두 표 사이는 헤어라인으로만 가른다. */
+    .kv-split { display: flex; align-items: flex-start; }
+    .kv-split > table { flex: 0 0 auto; }
+    .kv-split > table + table {
+      border-left: 1px solid var(--hairline-soft);
+      margin-left: var(--xl);
+    }
+    .kv-split > table + table td:first-child { padding-left: var(--cell-x); }
+
+    /* 단 폭을 넘는 카드(Climb, Configuration)는 아래 행에. 여기서도 열 폭을
+       똑같이 나눠 위 격자와 왼쪽 선이 맞는다. */
+    .wide-row {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(min(560px, 100%), 1fr));
+      gap: var(--md);
+      align-items: stretch;
+    }
+
+    .plain-note {
+      padding: var(--sm) var(--cell-x);
+      font-size: 13px;
+      line-height: 1.5;
+      color: var(--charcoal);
+    }
+    .plain-note p { margin-bottom: var(--xs); }
+    .plain-note p:last-child { margin-bottom: 0; }
+
+    .status {
+      padding: var(--section) var(--xl);
+      font-size: 14px;
+      font-weight: 500;
+      color: var(--mute);
+    }
+    .status.error { color: var(--sale); white-space: pre-line; }
+
+    /* 모달 안에 얹힐 때: 목록·접기 버튼을 감추고 시트를 왼쪽 끝까지 당긴다. */
+    body.embed .sidebar, body.embed .collapse { display: none; }
+    body.embed .sheet { padding-left: var(--xl); }
+
+    /* ── Mobile ──────────────────────────────────────────── */
+    @media (max-width: 760px) and (pointer: coarse) {
+      body { flex-direction: column; }
+
+      .sidebar {
+        width: 100%;
+        height: auto;
+        max-height: 42vh;
+        flex-shrink: 0;
+        border-right: none;
+        border-bottom: 1px solid var(--hairline);
+      }
+
+      .sidebar-head { padding: var(--md) var(--md) var(--sm); }
+      .sidebar-head h1 { font-size: 28px; }
+      .sidebar-head .sub { display: none; }
+      .search-wrap { padding: 0 var(--md) var(--sm); }
+
+      .viewer { flex: 1; min-height: 0; }
+      .sheet { padding: 56px var(--md) var(--xl); }
+      .sheet-head h2 { font-size: 40px; }
+      .row { display: block; }
+      .row > .card { width: auto; margin-bottom: var(--md); }
+      .card { width: auto; }
+      .kv-split { display: block; }
+      .kv-split > table + table { border-left: none; margin-left: 0; border-top: 1px solid var(--hairline-soft); }
+      .kv-split > table + table td:first-child { padding-left: var(--cell-x); }
+
+      body.collapsed .sidebar { height: 0; max-height: 0; border-bottom: none; }
+    }
+
+    /* ── Print ───────────────────────────────────────────── */
+    @media print {
+      @page { size: A4 portrait; margin: 8mm; }
+      body { display: block; height: auto; overflow: visible; }
+      .sidebar, .collapse { display: none !important; }
+      .viewer { overflow: visible; }
+      .sheet { max-width: none; padding: 0; }
+      .sheet-head h2 { font-size: 30pt; }
+      .row { display: grid; gap: 3mm; }
+      .card { border: 1px solid var(--hairline); margin-bottom: 3mm; break-inside: avoid; }
+      table { font-size: 8pt; }
+      thead th { font-size: 6.5pt; }
+      tbody td { font-size: 8pt; }
+      tbody tr:hover { background: none; }
+    }
+  </style>
+</head>
+<body>
+
+  <nav class="sidebar">
+    <div class="sidebar-head">
+      <a href="../index.html">← Wargame Solo Helper</a>
+      <h1>Air Power</h1>
+      <div class="sub">Aircraft Data Cards · 106</div>
+    </div>
+    <div class="search-wrap">
+      <input id="search" type="search" placeholder="기체 검색" autocomplete="off" aria-label="기체 검색">
+    </div>
+    <div class="plane-list" id="planeList"></div>
+  </nav>
+
+  <main class="viewer" id="viewer">
+    <button class="collapse" id="collapse" type="button" aria-expanded="true" title="목록 접기/펼치기">◀</button>
+    <div class="status" id="sheet">Loading…</div>
+  </main>
+
+  <script>
+    // spoh_adc/ 안의 JSON 파일명. 브라우저는 디렉토리 목록을 읽을 수 없어
+    // adc.html의 FILES 배열과 같은 방식으로 여기에 적어 둔다.
+    const DIR = "trainer/spoh_adc/";
+    const FILES = [
+      "A-10A_Thunderbolt_II_ADC.json",
+      "A-10_NAW_Thunderbolt_II_ADC.json",
+      "A-4H_Skyhawk_ADC.json",
+      "A-6F_Advanced_Intruder_ADC.json",
+      "A-7F_Corsair_Plus_ADC.json",
+      "A4M_Skyhawk_II_ADC.json",
+      "A4N_Skyhawk_ADC.json",
+      "AV-8B_Harrier_II-Harrier_GR.5_ADC.json",
+      "Alpha_Jet_A_German_ADC.json",
+      "Alpha_Jet_Lancier_ADC.json",
+      "BAC-167_Strikemaster_ADC.json",
+      "BAC_Lightning_F.1-F.2_ADC.json",
+      "BAC_Lightning_F.3-F.6_ADC.json",
+      "BAE_Buccaneer_S.MK.2B_ADC.json",
+      "CM-170_Magister_ADC.json",
+      "Embraer_AMX_ADC.json",
+      "Etendard_IVM_ADC.json",
+      "F-102A_Delta_Dagger_ADC.json",
+      "F-104G_Starfighter_ADC.json",
+      "F-104S_Starfighter_ADC.json",
+      "F-111D_Aardvark_ADC.json",
+      "F-111F_Aardvark_ADC.json",
+      "F-14A_plus_Tomcat_ADC.json",
+      "F-14D_Tomcat_ADC.json",
+      "F-15A_Eagle_ADC.json",
+      "F-15E_Strike_Eagle_ADC.json",
+      "F-16A_Fighting_Falcon_ADC.json",
+      "F-16C_Fighting_Falcon_ADC.json",
+      "F-4D-N_Phantom_II_ADC.json",
+      "F-4E_Phantom_II_slatted_wings_ADC.json",
+      "F-4F_Phantom_II_ADC.json",
+      "F-4F_plus_I.C.E._Phantom_II_ADC.json",
+      "F-4K-M_Phantom_II_ADC.json",
+      "F-4S_Phantom_II_ADC.json",
+      "F-5E_Tiger_II_ADC.json",
+      "F-7M_Airguard_ADC.json",
+      "F-84C-D_Thunderjet_ADC.json",
+      "F-84F_Thunderstreak_ADC.json",
+      "F-86D-L_Sabre-Dog_ADC.json",
+      "F-86F_Sabre_ADC.json",
+      "F-94A-B_Starfire_ADC.json",
+      "F-94C_Starfire_ADC.json",
+      "F-A-18A-C_Hornet_ADC.json",
+      "Fiat_G91R_ADC.json",
+      "Fiat_G91Y_ADC.json",
+      "Harrier_AV-8A-C_ADC.json",
+      "Harrier_GR.1-GR.3_ADC.json",
+      "Hawk_200_Strike_Jet_ADC.json",
+      "Hawk_MK.1-Hawk_MK.50_ADC.json",
+      "IAI_Kfir_C1-C2_ADC.json",
+      "IAI_Kfir_C7_ADC.json",
+      "IAI_Kurnass_Phantom_2000_ADC.json",
+      "IAI_Nesher_Argentine_Dagger_ADC.json",
+      "J-7_II_Fishbed_ADC.json",
+      "JAS-39_Gripen_ADC.json",
+      "MB-326K-Impala_II_ADC.json",
+      "MD.450_Ouragan_ADC.json",
+      "MRCA_IDS_Tornado_ADC.json",
+      "MRCA_Tornado_F.3_ADC.json",
+      "Meteor_F.8_ADC.json",
+      "MiG-15_Fagot_ADC_v2.json",
+      "MiG-17-17P_Fresco-A-B_ADC.json",
+      "MiG-19S_Early_Farmer-C_ADC.json",
+      "MiG-21bis_Fishbed-N_ADC.json",
+      "MiG-23BN_Flogger-F_ADC.json",
+      "MiG-23M-MS_Flogger-B-E_ADC.json",
+      "MiG-23MF_Flogger-G_ADC.json",
+      "MiG-25PFM_Foxbat-E_ADC.json",
+      "MiG-25P_Foxbat-A_ADC.json",
+      "MiG-27F_Flogger-D-J_ADC.json",
+      "MiG-29_Fulcrum-A_ADC.json",
+      "MiG-31_Foxhound-A_ADC.json",
+      "Mirage_2000N_ADC.json",
+      "Mirage_2000_ADC.json",
+      "Mirage_F-1A_ADC.json",
+      "Mirage_F-1C_ADC.json",
+      "Mirage_F-1E_ADC.json",
+      "Mirage_IIICJ_ADC.json",
+      "Mirage_V_ADC.json",
+      "NF-5A_Freedom_Fighter_ADC.json",
+      "P-80A_Shooting_Star_ADC.json",
+      "RF-84F_Thunderflash_ADC.json",
+      "Rafale-B_ADC.json",
+      "SAAB_A-32A_Lansen_ADC.json",
+      "SAAB_J-32B_Lansen_ADC.json",
+      "SD.4050_Vatour_IIA-B-N_ADC.json",
+      "SOKO_IAR-93B-ORAO-2_ADC.json",
+      "Saab_AJ-37_Viggen_ADC.json",
+      "Saab_F-35_Draken_ADC.json",
+      "Saab_J-35F-J_Draken_ADC.json",
+      "Saab_JA-37_Viggen_ADC.json",
+      "Sea_Harrier_FRS._1_ADC.json",
+      "Sea_Harrier_FRS._2_ADC.json",
+      "Sepecat_Jaguar_A-S_ADC.json",
+      "Su-15_Flagon-A_ADC.json",
+      "Su-15_Flagon-D_ADC.json",
+      "Su-15_Flagon-F_ADC.json",
+      "Su-17-20_Fitter-C_ADC.json",
+      "Su-22_Fitter-H-J-K_ADC.json",
+      "Su-24_Fencer-C-D_ADC.json",
+      "Su-25_Frogfoot-A_ADC.json",
+      "Su-27_Flanker-B_ADC.json",
+      "Super_Etendard_ADC.json",
+      "Tu-95M_Bear_A_ADC.json",
+      "Vampire_FB.35-SE.535_Mistral_ADC.json",
+      "Vampire_FB.5-FB.9_ADC.json"
+    ];
+
+    // 섹션 순서와 제목만 고정한다. 표의 컬럼은 각 JSON이 실제로 가진 키에서
+    // 뽑는다. 106개 파일 중 몇 개는 키가 다르고(Lock-on/Lock-On,
+    // Dive Vel./Dive Speed, CL/CL (51)), Tu-95M은 선회표가 아예 문자열이다.
+    // 컬럼을 하드코딩하면 그런 기체에서 칸이 빈 채로 나온다.
+    const SECTIONS = [
+      { key: "Aircraft_Characteristics",       title: "Characteristics",       kind: "kv2",   half: true },
+      { key: "Air_Power",                      title: "Air Power",             kind: "kv",    half: true },
+      { key: "Power_Chart_Accel",              title: "Power Chart · Accel",   kind: "table", half: true },
+      { key: "Turn_Drag_Chart_Decel",          title: "Turn / Drag · Decel",   kind: "table", half: true },
+      { key: "Minimum_Maximum_Velocity_Chart", title: "Min / Max Velocity",    kind: "table" },
+      { key: "Climb_Capability_Chart",         title: "Climb Capability",      kind: "table", wide: true },
+      { key: "Avionics_Electronics",           title: "Avionics · Electronics", kind: "kv",   half: true },
+      { key: "Weapons_and_Systems",            title: "Weapons · Systems",     kind: "kv",    half: true },
+      { key: "Configuration_and_Limits",       title: "Configuration · Limits", kind: "config", wide: true },
+      { key: "Notes_and_Variants",             title: "Notes · Variants",      kind: "notes", span: 2 }
+    ];
+
+    // 긴 서술형 값은 한 줄에 가두지 않고 접어서 보여준다.
+    const WRAP_KEYS = new Set(["Technology", "Allowed Loads", "Configuration Points Limits", "Load Limit", "Notes"]);
+
+    const el = (tag, cls) => {
+      const node = document.createElement(tag);
+      if (cls) node.className = cls;
+      return node;
+    };
+
+    // 파일명 → 표시명. "F-16C_Fighting_Falcon_ADC.json" → "F-16C Fighting Falcon"
+    const titleOf = file =>
+      file.replace(/\.json$/, "").replace(/_ADC(_v\d+)?$/, "").replace(/_/g, " ");
+
+    const cell = (row, key, value) => {
+      const td = el("td");
+      // null/빈 값도 칸은 유지한다. 표가 어긋나면 읽을 수 없다.
+      td.textContent = value == null || value === "" ? "–" : String(value);
+      if (WRAP_KEYS.has(key) || String(value ?? "").length > 44) td.classList.add("wrap");
+      row.appendChild(td);
+      return td;
+    };
+
+    // 키-값 객체 → 2열 표.
+    function renderKV(obj) {
+      const table = el("table", "kv");
+      const tbody = el("tbody");
+      for (const [k, v] of Object.entries(obj)) {
+        // 중첩 배열(Weapons Stations)은 config 렌더러가 따로 처리한다.
+        if (v && typeof v === "object") continue;
+        const tr = el("tr");
+        const label = el("td");
+        label.textContent = k;
+        tr.appendChild(label);
+        cell(tr, k, v);
+        tbody.appendChild(tr);
+      }
+      table.appendChild(tbody);
+      return table;
+    }
+
+    // 객체 배열 → 표. 컬럼은 모든 행의 키 합집합에서 등장 순서대로 모은다.
+    // 값이 {Min, Max}처럼 중첩되면 2단 헤더를 만든다.
+    function renderTable(rows) {
+      const columns = [];
+      const nested = new Map();   // 컬럼명 → 하위 키 배열
+
+      for (const row of rows) {
+        if (!row || typeof row !== "object") continue;
+        for (const [k, v] of Object.entries(row)) {
+          if (!columns.includes(k)) columns.push(k);
+          if (v && typeof v === "object" && !Array.isArray(v)) {
+            const sub = nested.get(k) || [];
+            for (const sk of Object.keys(v)) if (!sub.includes(sk)) sub.push(sk);
+            nested.set(k, sub);
+          }
+        }
+      }
+      if (!columns.length) return null;
+
+      const table = el("table");
+      const thead = el("thead");
+      const hasNested = nested.size > 0;
+
+      const top = el("tr");
+      for (const col of columns) {
+        const th = el("th");
+        th.textContent = col;
+        const sub = nested.get(col);
+        if (sub) th.colSpan = sub.length;
+        // 중첩 컬럼이 하나라도 있으면 헤더가 2단이 된다.
+        // 평범한 컬럼은 두 단을 세로로 병합해 높이를 맞춘다.
+        else if (hasNested) th.rowSpan = 2;
+        top.appendChild(th);
+      }
+      thead.appendChild(top);
+
+      if (hasNested) {
+        const bottom = el("tr");
+        for (const col of columns) {
+          const sub = nested.get(col);
+          if (!sub) continue;     // rowSpan=2로 이미 자리를 차지했다
+          for (const sk of sub) {
+            const th = el("th");
+            th.textContent = sk;
+            bottom.appendChild(th);
+          }
+        }
+        thead.appendChild(bottom);
+      }
+      table.appendChild(thead);
+
+      const tbody = el("tbody");
+      for (const row of rows) {
+        if (!row || typeof row !== "object") continue;
+        const tr = el("tr");
+        columns.forEach((col, i) => {
+          const value = row[col];
+          const sub = nested.get(col);
+          if (sub) {
+            // 이 행에서는 평평한 값일 수도 있다. 첫 칸에 넣고 나머지는 채운다.
+            const obj = value && typeof value === "object" ? value : null;
+            sub.forEach((sk, j) => {
+              cell(tr, sk, obj ? obj[sk] : (j === 0 ? value : "–"));
+            });
+            return;
+          }
+          const td = cell(tr, col, value);
+          // 첫 칸은 행 머리글로 강조한다(Alt. Band, Power, Turn…).
+          if (i === 0) {
+            const th = el("th");
+            th.scope = "row";
+            th.textContent = td.textContent;
+            tr.replaceChild(th, td);
+          }
+        });
+        tbody.appendChild(tr);
+      }
+      table.appendChild(tbody);
+      return table;
+    }
+
+    // Configuration_and_Limits: 평평한 값은 키-값으로, Weapons Stations 배열은 표로.
+    function renderConfig(obj, body) {
+      if (Object.values(obj).some(v => !v || typeof v !== "object")) {
+        body.appendChild(renderKV(obj));
+      }
+      for (const [k, v] of Object.entries(obj)) {
+        if (!Array.isArray(v) || !v.length) continue;
+        const sub = el("h4", "subhead");
+        sub.textContent = k;
+        body.appendChild(sub);
+        const table = renderTable(v);
+        if (table) body.appendChild(table);
+      }
+    }
+
+    // 문자열 배열 → 번호 목록. 원문에 이미 "1." 같은 번호가 붙어 있으므로
+    // 마커를 다시 붙이지 않고 그대로 문단으로 쌓는다.
+    function renderNotes(list, body) {
+      const wrap = el("div", "plain-note");
+      for (const line of list) {
+        const p = el("p");
+        p.textContent = String(line);
+        wrap.appendChild(p);
+      }
+      body.appendChild(wrap);
+    }
+
+    function makeCard(title, build) {
+      const card = el("div", "card");
+      const head = el("h3");
+      head.textContent = title;
+      card.appendChild(head);
+      const body = el("div", "card-body");
+      const ok = build(body);
+      if (ok === false) return null;
+      card.appendChild(body);
+      return card;
+    }
+
+    // ADC 한 대를 통째로 그린다. 예외를 삼키지 않는다 — 자체 점검이 잡아야 한다.
+    function renderADC(data) {
+      const sheet = el("div", "sheet");
+
+      const head = el("div", "sheet-head");
+      const h2 = el("h2");
+      h2.textContent = data.Aircraft || "(이름 없음)";
+      head.appendChild(h2);
+
+      const meta = el("div", "meta");
+      // 최상위 스칼라(Crew, V.P.s)는 카드가 아니라 머리글에 붙인다.
+      // 섹션이 이미 그리는 키는 뺀다 — Tu-95M은 선회표가 문자열이라
+      // 거르지 않으면 머리글과 카드에 같은 문장이 두 번 나온다.
+      const sectionKeys = new Set(SECTIONS.map(s => s.key));
+      for (const [k, v] of Object.entries(data)) {
+        if (v == null || typeof v === "object" || k === "Aircraft") continue;
+        if (sectionKeys.has(k)) continue;
+        const item = el("div");
+        const b = el("b");
+        b.textContent = k + " ";
+        const s = el("span");
+        s.textContent = String(v);
+        item.append(b, s);
+        meta.appendChild(item);
+      }
+      if (meta.children.length) head.appendChild(meta);
+      sheet.appendChild(head);
+
+      // 좁은 카드는 다단에 흘려 빈틈 없이 쌓고, 단 폭을 넘는 카드(Climb,
+      // Configuration)는 그 아래 전폭으로 세운다. 섞으면 단 흐름이 끊긴다.
+      const row = el("div", "row");
+      const wideWrap = el("div", "wide-row");
+      sheet.append(row, wideWrap);
+      const place = (card, wide) => (wide ? wideWrap : row).appendChild(card);
+
+      for (const section of SECTIONS) {
+        const value = data[section.key];
+        if (value == null) continue;
+
+        const card = makeCard(section.title, body => {
+          // 배열이어야 할 자리에 문자열이 오는 기체가 있다(Tu-95M 선회표).
+          // 표 대신 주석으로 보여준다.
+          if (typeof value === "string") {
+            const note = el("div", "plain-note");
+            note.textContent = value;
+            body.appendChild(note);
+            return;
+          }
+          if (section.kind === "notes") {
+            if (!Array.isArray(value) || !value.length) return false;
+            renderNotes(value, body);
+            return;
+          }
+          if (section.kind === "config") { renderConfig(value, body); return; }
+          if (section.kind === "kv") {
+            if (!Object.keys(value).length) return false;
+            body.appendChild(renderKV(value));
+            return;
+          }
+          // 2단 키-값. 항목이 10개라 한 줄로 세우면 카드가 쓸데없이 길어진다.
+          if (section.kind === "kv2") {
+            const entries = Object.entries(value).filter(([, v]) => !v || typeof v !== "object");
+            if (!entries.length) return false;
+            const half = Math.ceil(entries.length / 2);
+            const split = el("div", "kv-split");
+            // 앞 절반은 왼쪽, 뒤 절반은 오른쪽. 읽는 순서는 위→아래로 유지된다.
+            for (const part of [entries.slice(0, half), entries.slice(half)]) {
+              if (!part.length) continue;
+              split.appendChild(renderKV(Object.fromEntries(part)));
+            }
+            body.appendChild(split);
+            return;
+          }
+          if (!Array.isArray(value) || !value.length) return false;
+          const table = renderTable(value);
+          if (!table) return false;
+          body.appendChild(table);
+        });
+
+        if (!card) continue;
+        if (section.span === 2) card.classList.add("span2");
+        place(card, section.wide);
+      }
+      return sheet;
+    }
+
+    // ── App ────────────────────────────────────────────────
+    const listEl = document.getElementById("planeList");
+    const viewer = document.getElementById("viewer");
+    const searchEl = document.getElementById("search");
+    const buttons = [];
+    const cache = new Map();
+    let currentSlug = null;
+
+    // 해시에 쓸 이름. 파일명에서 확장자만 떼어 URL이 기체를 그대로 가리키게 한다.
+    const slugOf = file => file.replace(/\.json$/, "");
+
+    for (let i = 0; i < FILES.length; i++) {
+      const button = el("button");
+      button.type = "button";
+      button.textContent = titleOf(FILES[i]);
+      // replaceState를 쓴다. 기체를 고를 때마다 히스토리가 쌓이면
+      // 뒤로가기가 뷰어를 떠나지 않고 열람 기록을 되짚는다.
+      button.addEventListener("click", () => {
+        history.replaceState(null, "", "#" + slugOf(FILES[i]));
+        show();
+      });
+      listEl.appendChild(button);
+      buttons.push(button);
+    }
+
+    function setStatus(text, isError) {
+      const div = el("div", "status" + (isError ? " error" : ""));
+      div.textContent = text;
+      viewer.replaceChildren(document.getElementById("collapse"), div);
+    }
+
+    async function load(file) {
+      if (cache.has(file)) return cache.get(file);
+      const res = await fetch(DIR + encodeURIComponent(file));
+      if (!res.ok) throw new Error(res.status + " " + res.statusText);
+      const data = await res.json();
+      cache.set(file, data);
+      return data;
+    }
+
+    async function show() {
+      const hash = decodeURIComponent(location.hash.slice(1));
+      let index = FILES.findIndex(f => slugOf(f) === hash);
+      if (index < 0) index = 0;
+
+      buttons.forEach((b, i) => {
+        if (i === index) b.setAttribute("aria-current", "true");
+        else b.removeAttribute("aria-current");
+      });
+      buttons[index].scrollIntoView({ block: "nearest" });
+
+      const file = FILES[index];
+      if (currentSlug === file) return;
+      currentSlug = file;
+
+      setStatus("Loading…");
+      try {
+        const data = await load(file);
+        // 로딩 중 사용자가 다른 기체를 골랐으면 늦게 온 응답은 버린다.
+        if (currentSlug !== file) return;
+        viewer.replaceChildren(document.getElementById("collapse"), renderADC(data));
+        viewer.scrollTop = 0;
+        document.title = titleOf(file) + " · ADC Data";
+      } catch (err) {
+        if (currentSlug !== file) return;
+        setStatus(
+          file + " 를 불러오지 못했습니다: " + err.message +
+          "\n\n로컬 파일로 열었다면 HTTP 서버가 필요합니다 (python3 -m http.server).",
+          true
+        );
+      }
+    }
+
+    // 검색. 기체명 부분일치로 목록만 거른다.
+    searchEl.addEventListener("input", () => {
+      const q = searchEl.value.trim().toLowerCase();
+      let hits = 0;
+      buttons.forEach((b, i) => {
+        const match = !q || titleOf(FILES[i]).toLowerCase().includes(q);
+        b.style.display = match ? "" : "none";
+        if (match) hits++;
+      });
+      let empty = document.getElementById("emptyHit");
+      if (!hits && !empty) {
+        empty = el("div", "empty-hit");
+        empty.id = "emptyHit";
+        empty.textContent = "일치하는 기체 없음";
+        listEl.appendChild(empty);
+      } else if (hits && empty) {
+        empty.remove();
+      }
+    });
+
+    window.addEventListener("hashchange", show);
+
+    // 목록 접기. 상태는 로컬에 남겨 다음 방문에도 유지한다.
+    const collapse = document.getElementById("collapse");
+    function setCollapsed(on) {
+      document.body.classList.toggle("collapsed", on);
+      collapse.textContent = on ? "▶" : "◀";
+      collapse.setAttribute("aria-expanded", String(!on));
+      localStorage.setItem("adc-data-collapsed", on ? "1" : "0");
+    }
+    collapse.addEventListener("click", () =>
+      setCollapsed(!document.body.classList.contains("collapsed")));
+    // ?embed=1 (시뮬레이터 모달)에서는 목록이 군더더기다. 접은 채로 연다.
+    // 사용자가 모달 안에서 펼치는 것은 그대로 두되, 저장된 취향은 건드리지 않는다.
+    const embedded = new URLSearchParams(location.search).has("embed");
+    setCollapsed(embedded || localStorage.getItem("adc-data-collapsed") === "1");
+    if (embedded) document.body.classList.add("embed");
+
+    show();
+
+    // 자체 점검: 106개를 전부 받아 렌더까지 돌려 본다. 스키마가 어긋난 파일이
+    // 있으면 여기서 파일명과 함께 터진다. #selfcheck 를 붙여 실행한다.
+    window.selfCheck = async function () {
+      const bad = [];
+      for (const file of FILES) {
+        try {
+          const node = renderADC(await load(file));
+          if (!node.querySelector("table")) throw new Error("표가 하나도 없음");
+        } catch (err) {
+          bad.push(file + " → " + err.message);
+        }
+      }
+      console.log(bad.length
+        ? "selfCheck: " + bad.length + "/" + FILES.length + " 실패\n" + bad.join("\n")
+        : "selfCheck: " + FILES.length + "개 전부 통과");
+      return bad;
+    };
+    if (location.hash === "#selfcheck") window.selfCheck();
+  </script>
+
+</body>
+</html>

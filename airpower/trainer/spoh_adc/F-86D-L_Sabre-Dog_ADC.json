@@ -1,0 +1,298 @@
+{
+    "Aircraft": "F-86D/L Sabre-Dog",
+    "Crew": "Pilot only",
+    "Aircraft_Characteristics": {
+        "Cruise Speed": "5.5",
+        "Climb Speed": "3.5",
+        "Visibility": "5",
+        "Size Modifier": "0",
+        "Vulnerability": "0",
+        "Restr. Arcs": "-",
+        "Blind Arcs": "30-",
+        "Internal Fuel": "205",
+        "Ata Refuel": "No",
+        "Ejection Seat": "Early"
+    },
+    "Air_Power": {
+        "Maneuver Costs": "HFP / Decel",
+        "Lag/Displ. Rolls": "1.0 / 1.0",
+        "Vertical Rolls": "0.0 / 0.0"
+    },
+    "Power_Chart_Accel": [
+        {
+            "Power": "Aft. Bur.",
+            "CL": "1.5",
+            "1/2": "1.0",
+            "DT": "1.0",
+            "Fuel": "3.0"
+        },
+        {
+            "Power": "Military",
+            "CL": "1.0",
+            "1/2": "1.0",
+            "DT": "1.0",
+            "Fuel": "1.0"
+        },
+        {
+            "Power": "Normal",
+            "CL": "0.0",
+            "1/2": "0.0",
+            "DT": "0.0",
+            "Fuel": "0.5"
+        },
+        {
+            "Power": "Idle FP",
+            "CL": "0.5",
+            "1/2": "0.5",
+            "DT": "1.0",
+            "Fuel": "0.0"
+        },
+        {
+            "Power": "Sp.Br. FP",
+            "CL": "0.5",
+            "1/2": "0.5",
+            "DT": "1.0",
+            "Fuel": "-"
+        }
+    ],
+    "Turn_Drag_Chart_Decel": [
+        {
+            "Turn": "TT",
+            "CL": "1.0",
+            "1/2": "1.0",
+            "DT": "1.0"
+        },
+        {
+            "Turn": "HT",
+            "CL": "1.0",
+            "1/2": "2.0/1.0",
+            "DT": "2.0/1.0"
+        },
+        {
+            "Turn": "BT",
+            "CL": "3.0/2.0",
+            "1/2": "3.0/2.0",
+            "DT": "3.0/2.0"
+        },
+        {
+            "Turn": "ET",
+            "CL": "NA",
+            "1/2": "NA",
+            "DT": "NA"
+        }
+    ],
+    "Minimum_Maximum_Velocity_Chart": [
+        {
+            "Alt. Band": "EH+",
+            "Conf. Ceil.": "46+",
+            "CL": {
+                "Min": "3.0",
+                "Max": "6.0"
+            },
+            "1/2": {
+                "Min": "3.0",
+                "Max": "5.5"
+            },
+            "DT": {
+                "Min": "-",
+                "Max": "-"
+            }
+        },
+        {
+            "Alt. Band": "VH",
+            "Conf. Ceil.": "36-45",
+            "CL": {
+                "Min": "3.0",
+                "Max": "6.0"
+            },
+            "1/2": {
+                "Min": "3.0",
+                "Max": "5.5"
+            },
+            "DT": {
+                "Min": "3.0",
+                "Max": "5.0"
+            }
+        },
+        {
+            "Alt. Band": "HI",
+            "Conf. Ceil.": "26-35",
+            "CL": {
+                "Min": "2.5",
+                "Max": "6.0"
+            },
+            "1/2": {
+                "Min": "2.5",
+                "Max": "6.0"
+            },
+            "DT": {
+                "Min": "3.0",
+                "Max": "5.5"
+            }
+        },
+        {
+            "Alt. Band": "MH",
+            "Conf. Ceil.": "17-25",
+            "CL": {
+                "Min": "2.0",
+                "Max": "6.5"
+            },
+            "1/2": {
+                "Min": "2.5",
+                "Max": "6.0"
+            },
+            "DT": {
+                "Min": "2.5",
+                "Max": "6.0"
+            }
+        },
+        {
+            "Alt. Band": "ML",
+            "Conf. Ceil.": "8-16",
+            "CL": {
+                "Min": "1.5",
+                "Max": "6.5"
+            },
+            "1/2": {
+                "Min": "2.0",
+                "Max": "6.5"
+            },
+            "DT": {
+                "Min": "2.5",
+                "Max": "6.0"
+            }
+        },
+        {
+            "Alt. Band": "LO",
+            "Conf. Ceil.": "1-7",
+            "CL": {
+                "Min": "1.5",
+                "Max": "7.0"
+            },
+            "1/2": {
+                "Min": "2.0",
+                "Max": "6.5"
+            },
+            "DT": {
+                "Min": "2.0",
+                "Max": "6.0"
+            }
+        }
+    ],
+    "Climb_Capability_Chart": [
+        {
+            "Dive Vel.": "6.5",
+            "CL AB": "1.0",
+            "CL Other": "0.5",
+            "1/2 AB": "1.0",
+            "1/2 Other": "0.5",
+            "DT AB": "-",
+            "DT Other": "-",
+            "Alt. Band": "EH+"
+        },
+        {
+            "Dive Vel.": "6.5",
+            "CL AB": "1.0",
+            "CL Other": "0.5",
+            "1/2 AB": "1.0",
+            "1/2 Other": "0.5",
+            "DT AB": "1.0",
+            "DT Other": "0.5",
+            "Alt. Band": "VH"
+        },
+        {
+            "Dive Vel.": "7.0",
+            "CL AB": "1.5",
+            "CL Other": "0.5",
+            "1/2 AB": "1.0",
+            "1/2 Other": "0.5",
+            "DT AB": "1.0",
+            "DT Other": "0.5",
+            "Alt. Band": "HI"
+        },
+        {
+            "Dive Vel.": "7.0",
+            "CL AB": "1.5",
+            "CL Other": "1.0",
+            "1/2 AB": "1.0",
+            "1/2 Other": "0.5",
+            "DT AB": "1.0",
+            "DT Other": "0.5",
+            "Alt. Band": "MH"
+        },
+        {
+            "Dive Vel.": "7.5",
+            "CL AB": "2.0",
+            "CL Other": "1.0",
+            "1/2 AB": "1.5",
+            "1/2 Other": "1.0",
+            "DT AB": "1.5",
+            "DT Other": "1.0",
+            "Alt. Band": "ML"
+        },
+        {
+            "Dive Vel.": "7.5",
+            "CL AB": "2.0",
+            "CL Other": "1.0",
+            "1/2 AB": "1.5",
+            "1/2 Other": "1.0",
+            "DT AB": "1.5",
+            "DT Other": "1.0",
+            "Alt. Band": "LO"
+        }
+    ],
+    "Avionics_Electronics": {
+        "Radar": "APG-36",
+        "ECCM": "0",
+        "Arcs": "180+",
+        "Search": "70 - 10",
+        "Track": "40 - 8",
+        "Lock-on": "6 (D), 7 (L)",
+        "ECM": "F-86D/L",
+        "IFF": "Yes",
+        "RWR": "-",
+        "DDS": "-",
+        "DJM": "-",
+        "AJM": "-"
+    },
+    "Weapons_and_Systems": {
+        "Gun Type": "NONE",
+        "Roll to Hit": "-",
+        "Ammunition": "-",
+        "Gunsight Mods": "HT+1, BT+2",
+        "Radar Ranging": "RE",
+        "AtA/AtG": "-",
+        "Bomb System": "Manual (-0)",
+        "Technology": "C.C. Rocket Attack"
+    },
+    "Configuration_and_Limits": {
+        "Configuration Points Limits": "CL = 0 - 2, 1/2 = 3 - 6, DT = 7+",
+        "Load Limit": "4,000",
+        "Weapons Stations": [
+            {
+                "Weapon Stations": "1,4",
+                "Station Limits": "1000",
+                "Allowed Loads": "BB, FT."
+            },
+            {
+                "Weapon Stations": "2,3",
+                "Station Limits": "1000",
+                "Allowed Loads": "BB, FT, IRM."
+            },
+            {
+                "Weapon Stations": "5",
+                "Station Limits": "Internal Rocket tray",
+                "Allowed Loads": "2 Factors of Air to Air rockets."
+            }
+        ]
+    },
+    "Notes_and_Variants": [
+        "Smoker in Military Power",
+        "Slatted wings: if speed > 3.5, use lower Decel number.",
+        "1. F-86D/L have no cannon. They have 2 factors of air to air rockets in retractable belly tray (sta. 5).",
+        "2. May use AIM-9B IRMs after 1956.",
+        "3. F-86D only is High Transonic Drag (HTD).",
+        "4. F-86L always uses lower turn Decel due to larger wing."
+    ],
+    "V.P.s": "F-86D=11, 8, 3, 1  F-86L=13, 9, 3, 2"
+}

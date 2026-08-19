@@ -1,3 +1,5 @@
+import { SPOH_AIRCRAFT } from './spoh-aircraft.js';
+
 // Air Power II ADC 정규화 데이터
 // 출처: 프로젝트/보드게임-번역/aircraft-adc-redesign/html/assets/data.js
 // 모든 값은 CL(clean) 로드 기준. 콤마 변형은 첫 값(저속/기본)을 사용.
@@ -270,6 +272,7 @@ export const AIRCRAFT = {
       verified: true,   // note에 슬랫 명시
     },
   },
+  ...SPOH_AIRCRAFT,
 };
 
 /** 현재 속도에 맞는 선회 드래그 값. null이면 해당 선회율 사용 불가. */

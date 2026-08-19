@@ -1,0 +1,297 @@
+{
+    "Aircraft": "Hawk MK.1/Hawk MK.50",
+    "Crew": "Pilot, Observer",
+    "Aircraft_Characteristics": {
+        "Cruise Speed": "4.5",
+        "Climb Speed": "4.0",
+        "Visibility": "4",
+        "Size Modifier": "+1",
+        "Vulnerability": "-1",
+        "Restr. Arcs": "-",
+        "Blind Arcs": "30",
+        "Internal Fuel": "200",
+        "Ata Refuel": "No",
+        "Ejection Seat": "Std."
+    },
+    "Air_Power": {
+        "Maneuver Costs": "HFP/Decel",
+        "Lag/Displ. Rolls": "1/1",
+        "Vertical Rolls": "0/0"
+    },
+    "Power_Chart_Accel": [
+        {
+            "Power": "Aft. Bur.",
+            "CL": "-",
+            "1/2": "-",
+            "DT": "-",
+            "Fuel": "-"
+        },
+        {
+            "Power": "Military",
+            "CL": "1.5",
+            "1/2": "1.0",
+            "DT": "1.0",
+            "Fuel": "2"
+        },
+        {
+            "Power": "Normal",
+            "CL": "0",
+            "1/2": "0",
+            "DT": "0",
+            "Fuel": "1"
+        },
+        {
+            "Power": "Idle",
+            "CL": "0.5",
+            "1/2": "0.5",
+            "DT": "0.5",
+            "Fuel": "0"
+        },
+        {
+            "Power": "Spbr",
+            "CL": "0.5",
+            "1/2": "0.5",
+            "DT": "1.0",
+            "Fuel": "-"
+        }
+    ],
+    "Turn_Drag_Chart_Decel": [
+        {
+            "Turn": "TT",
+            "CL": "1",
+            "1/2": "1",
+            "DT": "1"
+        },
+        {
+            "Turn": "HT",
+            "CL": "1",
+            "1/2": "2",
+            "DT": "2"
+        },
+        {
+            "Turn": "BT",
+            "CL": "1",
+            "1/2": "3",
+            "DT": "3"
+        },
+        {
+            "Turn": "ET",
+            "CL": "3",
+            "1/2": "-",
+            "DT": "-"
+        }
+    ],
+    "Minimum_Maximum_Velocity_Chart": [
+        {
+            "Alt. Band": "EH+",
+            "Conf. Ceil.": "46+",
+            "CL": {
+                "Min": "3",
+                "Max": "5.5"
+            },
+            "1/2": {
+                "Min": "-",
+                "Max": "-"
+            },
+            "DT": {
+                "Min": "-",
+                "Max": "-"
+            }
+        },
+        {
+            "Alt. Band": "VH",
+            "Conf. Ceil.": "36-45",
+            "CL": {
+                "Min": "2.5",
+                "Max": "5.5"
+            },
+            "1/2": {
+                "Min": "3",
+                "Max": "5"
+            },
+            "DT": {
+                "Min": "-",
+                "Max": "-"
+            }
+        },
+        {
+            "Alt. Band": "HI",
+            "Conf. Ceil.": "26-35",
+            "CL": {
+                "Min": "2.5",
+                "Max": "6"
+            },
+            "1/2": {
+                "Min": "2.5",
+                "Max": "5.5"
+            },
+            "DT": {
+                "Min": "2.5",
+                "Max": "5"
+            }
+        },
+        {
+            "Alt. Band": "MH",
+            "Conf. Ceil.": "17-25",
+            "CL": {
+                "Min": "2",
+                "Max": "6"
+            },
+            "1/2": {
+                "Min": "2.5",
+                "Max": "5.5"
+            },
+            "DT": {
+                "Min": "2.5",
+                "Max": "5"
+            }
+        },
+        {
+            "Alt. Band": "ML",
+            "Conf. Ceil.": "8-16",
+            "CL": {
+                "Min": "1.5",
+                "Max": "6"
+            },
+            "1/2": {
+                "Min": "2",
+                "Max": "5.5"
+            },
+            "DT": {
+                "Min": "2",
+                "Max": "5.5"
+            }
+        },
+        {
+            "Alt. Band": "LO",
+            "Conf. Ceil.": "1-7",
+            "CL": {
+                "Min": "1",
+                "Max": "6"
+            },
+            "1/2": {
+                "Min": "1.5",
+                "Max": "5.5"
+            },
+            "DT": {
+                "Min": "1.5",
+                "Max": "5.5"
+            }
+        }
+    ],
+    "Climb_Capability_Chart": [
+        {
+            "Dive Vel.": "8",
+            "CL AB": "-",
+            "CL Other": ".5",
+            "1/2 AB": "-",
+            "1/2 Other": "-",
+            "DT AB": "-",
+            "DT Other": "-",
+            "Alt. Band": "EH+"
+        },
+        {
+            "Dive Vel.": "8",
+            "CL AB": "-",
+            "CL Other": ".5",
+            "1/2 AB": "-",
+            "1/2 Other": ".5",
+            "DT AB": "-",
+            "DT Other": "-",
+            "Alt. Band": "VH"
+        },
+        {
+            "Dive Vel.": "7.5",
+            "CL AB": "-",
+            "CL Other": "1",
+            "1/2 AB": "-",
+            "1/2 Other": ".5",
+            "DT AB": "-",
+            "DT Other": ".5",
+            "Alt. Band": "HI"
+        },
+        {
+            "Dive Vel.": "7.5",
+            "CL AB": "-",
+            "CL Other": "1",
+            "1/2 AB": "-",
+            "1/2 Other": "1",
+            "DT AB": "-",
+            "DT Other": ".5",
+            "Alt. Band": "MH"
+        },
+        {
+            "Dive Vel.": "7.5",
+            "CL AB": "-",
+            "CL Other": "1",
+            "1/2 AB": "-",
+            "1/2 Other": "1",
+            "DT AB": "-",
+            "DT Other": "1",
+            "Alt. Band": "ML"
+        },
+        {
+            "Dive Vel.": "7.5",
+            "CL AB": "-",
+            "CL Other": "2",
+            "1/2 AB": "-",
+            "1/2 Other": "1",
+            "DT AB": "-",
+            "DT Other": "1",
+            "Alt. Band": "LO"
+        }
+    ],
+    "Avionics_Electronics": {
+        "Radar": "None",
+        "ECCM": "-",
+        "Arcs": "-",
+        "Search": "-",
+        "Track": "-",
+        "Lock-on": "-",
+        "ECM": "1/50 / 100",
+        "IFF": "Yes / Yes",
+        "RWR": "- / B",
+        "DDS": "- / B",
+        "DJM": "- / -",
+        "AJM": "- / -"
+    },
+    "Weapons_and_Systems": {
+        "Gun Type": "None",
+        "Roll to Hit": "-",
+        "Ammunition": "-",
+        "Gunsight Mods": "HT+1, BT+2",
+        "Radar Ranging": "-",
+        "AtA/AtG": "-",
+        "Bomb System": "Manual (-0)",
+        "Technology": "(Hawk 100 only) Laser Spot Tracker"
+    },
+    "Configuration_and_Limits": {
+        "Configuration Points Limits": "CL=0-4, 1/2=5-8, DT=9+",
+        "Load Limit": "5,600",
+        "Weapons Stations": [
+            {
+                "Weapon Stations": "1,5",
+                "Station Limits": "1120/1500",
+                "Allowed Loads": "BB, BG, RP, IRM, EP"
+            },
+            {
+                "Weapon Stations": "2,4",
+                "Station Limits": "1120/1500",
+                "Allowed Loads": "BB, BG, RP, EP, GP, FT"
+            },
+            {
+                "Weapon Stations": "3",
+                "Station Limits": "1120",
+                "Allowed Loads": "BB, BG, RP, EP, GP, FT"
+            }
+        ]
+    },
+    "Notes_and_Variants": [
+        "1. May use AIM-9 type IRMs.",
+        "2. High transonic drag (HTD).",
+        "Variant: Export MK.50: Load limit=6,800; bomb system: ballistic (-1).",
+        "Variant: Hawk 100: Load limit=6,800; add OP to stations 2,3,4; bomb system: computed (-2).",
+        "Notes: If two station limit values are listed, first value is for the MK.1 and the second value is for the MK.50 and Hawk 100..."
+    ],
+    "V.P.s": "MK.1=10,7,3,1  MK.50=12,8,4,2  Hawk 100=16,10,5,2"
+}

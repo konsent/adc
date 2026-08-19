@@ -9,6 +9,7 @@ import energy from './energy.js';
 import powerSetting from './power-setting.js';
 import verticalFlight from './vertical-flight.js';
 import damageEffects from './damage-effects.js';
+import specialManeuvers from './special-maneuvers.js';
 
 export const RULES = [
   turning,
@@ -18,6 +19,7 @@ export const RULES = [
   powerSetting,
   verticalFlight,
   damageEffects,
+  specialManeuvers,
 ];
 
 export function rulesFor(lesson, tier = null) {

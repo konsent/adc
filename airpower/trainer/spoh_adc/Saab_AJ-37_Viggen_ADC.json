@@ -1,0 +1,300 @@
+{
+    "Aircraft": "Saab AJ-37 Viggen",
+    "Crew": "Pilot only",
+    "Aircraft_Characteristics": {
+        "Cruise Speed": "5.0",
+        "Climb Speed": "4.5",
+        "Visibility": "7",
+        "Size Modifier": "0",
+        "Vulnerability": "0",
+        "Restr. Arcs": "60",
+        "Blind Arcs": "30",
+        "Internal Fuel": "305",
+        "Ata Refuel": "No",
+        "Ejection Seat": "Std."
+    },
+    "Air_Power": {
+        "Maneuver Costs": "HFP/Decel",
+        "Lag/Displ. Rolls": "1/1",
+        "Vertical Rolls": "0/0"
+    },
+    "Power_Chart_Accel": [
+        {
+            "Power": "Aft. Bur.",
+            "CL": "2.5",
+            "1/2": "2.0",
+            "DT": "1.5",
+            "Fuel": "10"
+        },
+        {
+            "Power": "Military",
+            "CL": "1.0",
+            "1/2": "1.0",
+            "DT": "1.0",
+            "Fuel": "3"
+        },
+        {
+            "Power": "Normal",
+            "CL": "0",
+            "1/2": "0",
+            "DT": "0",
+            "Fuel": "1"
+        },
+        {
+            "Power": "Idle",
+            "CL": "0.5",
+            "1/2": "1.0",
+            "DT": "1.0",
+            "Fuel": "0"
+        },
+        {
+            "Power": "Spbr",
+            "CL": "0.5",
+            "1/2": "1.0",
+            "DT": "1.0",
+            "Fuel": "-"
+        }
+    ],
+    "Turn_Drag_Chart_Decel": [
+        {
+            "Turn": "TT",
+            "CL": "1",
+            "1/2": "1",
+            "DT": "1"
+        },
+        {
+            "Turn": "HT",
+            "CL": "2",
+            "1/2": "2",
+            "DT": "3"
+        },
+        {
+            "Turn": "BT",
+            "CL": "3",
+            "1/2": "4",
+            "DT": "4"
+        },
+        {
+            "Turn": "ET",
+            "CL": "4",
+            "1/2": "-",
+            "DT": "-"
+        }
+    ],
+    "Minimum_Maximum_Velocity_Chart": [
+        {
+            "Alt. Band": "EH+",
+            "Conf. Ceil.": "46+",
+            "CL": {
+                "Min": "3.5",
+                "Max": "12"
+            },
+            "1/2": {
+                "Min": "4",
+                "Max": "12"
+            },
+            "DT": {
+                "Min": "-",
+                "Max": "-"
+            }
+        },
+        {
+            "Alt. Band": "VH",
+            "Conf. Ceil.": "36-45",
+            "CL": {
+                "Min": "3.5",
+                "Max": "12"
+            },
+            "1/2": {
+                "Min": "3.5",
+                "Max": "11"
+            },
+            "DT": {
+                "Min": "4",
+                "Max": "9"
+            }
+        },
+        {
+            "Alt. Band": "HI",
+            "Conf. Ceil.": "26-35",
+            "CL": {
+                "Min": "3",
+                "Max": "12"
+            },
+            "1/2": {
+                "Min": "3",
+                "Max": "10"
+            },
+            "DT": {
+                "Min": "3.5",
+                "Max": "8.5"
+            }
+        },
+        {
+            "Alt. Band": "MH",
+            "Conf. Ceil.": "17-25",
+            "CL": {
+                "Min": "2.5",
+                "Max": "10"
+            },
+            "1/2": {
+                "Min": "2.5",
+                "Max": "9"
+            },
+            "DT": {
+                "Min": "3",
+                "Max": "8"
+            }
+        },
+        {
+            "Alt. Band": "ML",
+            "Conf. Ceil.": "8-16",
+            "CL": {
+                "Min": "2",
+                "Max": "9"
+            },
+            "1/2": {
+                "Min": "2",
+                "Max": "8"
+            },
+            "DT": {
+                "Min": "2.5",
+                "Max": "7"
+            }
+        },
+        {
+            "Alt. Band": "LO",
+            "Conf. Ceil.": "1-7",
+            "CL": {
+                "Min": "1.5",
+                "Max": "8"
+            },
+            "1/2": {
+                "Min": "1.5",
+                "Max": "7.5"
+            },
+            "DT": {
+                "Min": "2",
+                "Max": "6.5"
+            }
+        }
+    ],
+    "Climb_Capability_Chart": [
+        {
+            "Dive Vel.": "14",
+            "CL AB": "1",
+            "CL Other": ".5",
+            "1/2 AB": "1",
+            "1/2 Other": ".5",
+            "DT AB": "-",
+            "DT Other": "-",
+            "Alt. Band": "EH+"
+        },
+        {
+            "Dive Vel.": "14",
+            "CL AB": "2",
+            "CL Other": "1",
+            "1/2 AB": "1",
+            "1/2 Other": ".5",
+            "DT AB": "1",
+            "DT Other": ".5",
+            "Alt. Band": "VH"
+        },
+        {
+            "Dive Vel.": "13",
+            "CL AB": "3",
+            "CL Other": "1",
+            "1/2 AB": "2",
+            "1/2 Other": "1",
+            "DT AB": "1",
+            "DT Other": ".5",
+            "Alt. Band": "HI"
+        },
+        {
+            "Dive Vel.": "13",
+            "CL AB": "5",
+            "CL Other": "2",
+            "1/2 AB": "3",
+            "1/2 Other": "1",
+            "DT AB": "2",
+            "DT Other": "1",
+            "Alt. Band": "MH"
+        },
+        {
+            "Dive Vel.": "12",
+            "CL AB": "5",
+            "CL Other": "2",
+            "1/2 AB": "3",
+            "1/2 Other": "1",
+            "DT AB": "2",
+            "DT Other": "1",
+            "Alt. Band": "ML"
+        },
+        {
+            "Dive Vel.": "10",
+            "CL AB": "6",
+            "CL Other": "3",
+            "1/2 AB": "4",
+            "1/2 Other": "2",
+            "DT AB": "2",
+            "DT Other": "1",
+            "Alt. Band": "LO"
+        }
+    ],
+    "Avionics_Electronics": {
+        "Radar": "PS-37",
+        "ECCM": "2",
+        "Arcs": "180+",
+        "Search": "100-20",
+        "Track": "80-20",
+        "Lock-on": "6",
+        "ECM": "AJ-37",
+        "IFF": "Yes",
+        "RWR": "B",
+        "DDS": "-",
+        "DJM": "-",
+        "AJM": "-"
+    },
+    "Weapons_and_Systems": {
+        "Gun Type": "None",
+        "Roll to Hit": "-",
+        "Ammunition": "-",
+        "Gunsight Mods": "BT+2",
+        "Radar Ranging": "RE",
+        "AtA/AtG": "-",
+        "Bomb System": "Ballistic (-1)",
+        "Technology": "Auto Track, HUD Interface"
+    },
+    "Configuration_and_Limits": {
+        "Configuration Points Limits": "CL=0-6, 1/2=7-10, DT=11+",
+        "Load Limit": "13,200",
+        "Weapons Stations": [
+            {
+                "Weapon Stations": "1,7",
+                "Station Limits": "1100",
+                "Allowed Loads": "BB, BG, BS, RS, RG, RP, RK, FT, EP, DR, IRM"
+            },
+            {
+                "Weapon Stations": "2,6",
+                "Station Limits": "2200",
+                "Allowed Loads": "BB, BG, BS, RS, RG, RP, RK, GP, WR, IRM, ARM, ASM"
+            },
+            {
+                "Weapon Stations": "3,5",
+                "Station Limits": "1100",
+                "Allowed Loads": "BB, BG, BS, RS, RG, RP, RK, FT, EP, IRM"
+            },
+            {
+                "Weapon Stations": "4",
+                "Station Limits": "4400",
+                "Allowed Loads": "BB, BG, RP, GP, PP, DR, FT"
+            }
+        ]
+    },
+    "Notes_and_Variants": [
+        "1. Low transonic drag (LTD).",
+        "2. May use AIM-4, AIM-9 type IRMs and AS-37, AGM-88 type ARMs.",
+        "Variant: SF-37 Recon: No radar (cameras in nose); no technology; delete GP, PP, BG, BS, RG, RS, ARM, and ASM; may carry IRMs for self-defense."
+    ],
+    "V.P.s": "AJ=30,20,10,5  SF=22,15,7,4"
+}

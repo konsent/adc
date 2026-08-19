@@ -1,0 +1,307 @@
+{
+    "Aircraft": "F-4E Phantom II (slatted wings)",
+    "Crew": "Pilot, Radar Officer",
+    "Aircraft_Characteristics": {
+        "Cruise Speed": "5.5",
+        "Climb Speed": "4.5",
+        "Visibility": "7",
+        "Size Modifier": "0",
+        "Vulnerability": "0",
+        "Restr. Arcs": "60",
+        "Blind Arcs": "30",
+        "Internal Fuel": "600",
+        "Ata Refuel": "Yes",
+        "Ejection Seat": "Std."
+    },
+    "Air_Power": {
+        "Maneuver Costs": "HFP/Decel",
+        "Lag/Displ. Rolls": "1/1",
+        "Vertical Rolls": "0/0"
+    },
+    "Power_Chart_Accel": [
+        {
+            "Power": "Aft. Bur.",
+            "CL": "3.0",
+            "1/2": "2.5",
+            "DT": "2.0",
+            "Fuel": "12"
+        },
+        {
+            "Power": "Military",
+            "CL": "1.5",
+            "1/2": "1.0",
+            "DT": "1.0",
+            "Fuel": "2"
+        },
+        {
+            "Power": "Normal",
+            "CL": "0",
+            "1/2": "0",
+            "DT": "0",
+            "Fuel": "2"
+        },
+        {
+            "Power": "Idle",
+            "CL": "0.5",
+            "1/2": "1.0",
+            "DT": "1.0",
+            "Fuel": "0"
+        },
+        {
+            "Power": "Spbr",
+            "CL": "0.5",
+            "1/2": "1.0",
+            "DT": "1.0",
+            "Fuel": "-"
+        }
+    ],
+    "Turn_Drag_Chart_Decel": [
+        {
+            "Turn": "TT",
+            "CL": "1",
+            "1/2": "2",
+            "DT": "2"
+        },
+        {
+            "Turn": "HT",
+            "CL": "2",
+            "1/2": "3",
+            "DT": "4"
+        },
+        {
+            "Turn": "BT",
+            "CL": "4,3",
+            "1/2": "5,4",
+            "DT": "6,5"
+        },
+        {
+            "Turn": "ET",
+            "CL": "5,4",
+            "1/2": "-",
+            "DT": "-"
+        }
+    ],
+    "Minimum_Maximum_Velocity_Chart": [
+        {
+            "Alt. Band": "EH+",
+            "Conf. Ceil.": "46+",
+            "CL": {
+                "Min": "4",
+                "Max": "13"
+            },
+            "1/2": {
+                "Min": "4.5",
+                "Max": "11"
+            },
+            "DT": {
+                "Min": "-",
+                "Max": "-"
+            }
+        },
+        {
+            "Alt. Band": "VH",
+            "Conf. Ceil.": "36-45",
+            "CL": {
+                "Min": "3",
+                "Max": "14"
+            },
+            "1/2": {
+                "Min": "4",
+                "Max": "12"
+            },
+            "DT": {
+                "Min": "4.5",
+                "Max": "9"
+            }
+        },
+        {
+            "Alt. Band": "HI",
+            "Conf. Ceil.": "26-35",
+            "CL": {
+                "Min": "3",
+                "Max": "12"
+            },
+            "1/2": {
+                "Min": "3",
+                "Max": "10"
+            },
+            "DT": {
+                "Min": "3.5",
+                "Max": "8"
+            }
+        },
+        {
+            "Alt. Band": "MH",
+            "Conf. Ceil.": "17-25",
+            "CL": {
+                "Min": "2",
+                "Max": "10"
+            },
+            "1/2": {
+                "Min": "2.5",
+                "Max": "9"
+            },
+            "DT": {
+                "Min": "3",
+                "Max": "7.5"
+            }
+        },
+        {
+            "Alt. Band": "ML",
+            "Conf. Ceil.": "8-16",
+            "CL": {
+                "Min": "2",
+                "Max": "9"
+            },
+            "1/2": {
+                "Min": "2",
+                "Max": "8"
+            },
+            "DT": {
+                "Min": "2.5",
+                "Max": "7"
+            }
+        },
+        {
+            "Alt. Band": "LO",
+            "Conf. Ceil.": "1-7",
+            "CL": {
+                "Min": "1.5",
+                "Max": "8.5"
+            },
+            "1/2": {
+                "Min": "2",
+                "Max": "7.5"
+            },
+            "DT": {
+                "Min": "2.5",
+                "Max": "6.5"
+            }
+        }
+    ],
+    "Climb_Capability_Chart": [
+        {
+            "Dive Vel.": "14",
+            "CL AB": "1",
+            "CL Other": ".5",
+            "1/2 AB": "1",
+            "1/2 Other": ".5",
+            "DT AB": "-",
+            "DT Other": "-",
+            "Alt. Band": "EH+"
+        },
+        {
+            "Dive Vel.": "15",
+            "CL AB": "2",
+            "CL Other": "1",
+            "1/2 AB": "1.5",
+            "1/2 Other": ".5",
+            "DT AB": "1",
+            "DT Other": ".5",
+            "Alt. Band": "VH"
+        },
+        {
+            "Dive Vel.": "14",
+            "CL AB": "4",
+            "CL Other": "1",
+            "1/2 AB": "3",
+            "1/2 Other": "1",
+            "DT AB": "1",
+            "DT Other": ".5",
+            "Alt. Band": "HI"
+        },
+        {
+            "Dive Vel.": "12",
+            "CL AB": "4",
+            "CL Other": "1.5",
+            "1/2 AB": "3",
+            "1/2 Other": "1",
+            "DT AB": "2",
+            "DT Other": ".5",
+            "Alt. Band": "MH"
+        },
+        {
+            "Dive Vel.": "10",
+            "CL AB": "5",
+            "CL Other": "2",
+            "1/2 AB": "3",
+            "1/2 Other": "1",
+            "DT AB": "2",
+            "DT Other": "1",
+            "Alt. Band": "ML"
+        },
+        {
+            "Dive Vel.": "9",
+            "CL AB": "6",
+            "CL Other": "2",
+            "1/2 AB": "4",
+            "1/2 Other": "1.5",
+            "DT AB": "2",
+            "DT Other": "1",
+            "Alt. Band": "LO"
+        }
+    ],
+    "Avionics_Electronics": {
+        "Radar": "APQ-120",
+        "ECCM": "2",
+        "Arcs": "180+",
+        "Search": "100-20",
+        "Track": "80-20",
+        "Lock-on": "7",
+        "ECM": "F-4E / Exp.",
+        "IFF": "Yes / Yes",
+        "RWR": "B / A",
+        "DDS": "B / A",
+        "DJM": "- / -",
+        "AJM": "- / -"
+    },
+    "Weapons_and_Systems": {
+        "Gun Type": "20mm Vulcan",
+        "Roll to Hit": "0=7, 1=6, 2=4",
+        "Ammunition": "3.0",
+        "Gunsight Mods": "BT+2",
+        "Radar Ranging": "RE",
+        "AtA/AtG": "6/8*",
+        "Bomb System": "Computed (-2)",
+        "Technology": "HUD Interface, IR Uncage, V.A.S. (7)"
+    },
+    "Configuration_and_Limits": {
+        "Configuration Points Limits": "CL=0-8, 1/2=9-14, DT=15+",
+        "Load Limit": "16,000",
+        "Weapons Stations": [
+            {
+                "Weapon Stations": "1,5",
+                "Station Limits": "2700",
+                "Allowed Loads": "BB, BG, RP, WR, EP, DP, FT"
+            },
+            {
+                "Weapon Stations": "2,4",
+                "Station Limits": "3000",
+                "Allowed Loads": "BB, BG, BS, RP, RG, RS, DR, TR, RHM, IRM, GP, EP, DP"
+            },
+            {
+                "Weapon Stations": "3",
+                "Station Limits": "4500",
+                "Allowed Loads": "BB, BG, BS, RP, GP, WR, FT, LP (PAVE TACK)"
+            },
+            {
+                "Weapon Stations": "6,7",
+                "Station Limits": "500",
+                "Allowed Loads": "RHM, EP, LP"
+            },
+            {
+                "Weapon Stations": "8,9",
+                "Station Limits": "500",
+                "Allowed Loads": "RHM"
+            }
+        ]
+    },
+    "Notes_and_Variants": [
+        "1. Rapid power response.",
+        "2. May use AIM-9, AIM-7 type missiles.",
+        "3. Slats added after 1972...",
+        "Variant: Export version...",
+        "Variant: F-4G Wild Weasel..."
+    ],
+    "V.P.s": "USAF=30,20,10,5  Exp.=29,19,9,5  F-4G=34,23,12,6  RF-4E=32,21,10,5"
+}

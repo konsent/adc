@@ -1,0 +1,296 @@
+{
+    "Aircraft": "SOKO IAR-93B/ORAO-2",
+    "Crew": "Pilot only",
+    "Aircraft_Characteristics": {
+        "Cruise Speed": "4.5*",
+        "Climb Speed": "3.5",
+        "Visibility": "5",
+        "Size Modifier": "0",
+        "Vulnerability": "0",
+        "Restr. Arcs": "-",
+        "Blind Arcs": "60",
+        "Internal Fuel": "270",
+        "Ata Refuel": "No",
+        "Ejection Seat": "Std."
+    },
+    "Air_Power": {
+        "Maneuver Costs": "HFP/Decel",
+        "Lag/Displ. Rolls": "1/1",
+        "Vertical Rolls": "0/0"
+    },
+    "Power_Chart_Accel": [
+        {
+            "Power": "Aft. Bur.",
+            "CL": "2.0*",
+            "1/2": "1.5*",
+            "DT": "1.5*",
+            "Fuel": "4"
+        },
+        {
+            "Power": "Military",
+            "CL": "1.0",
+            "1/2": "1.0",
+            "DT": "1.0",
+            "Fuel": "2"
+        },
+        {
+            "Power": "Normal",
+            "CL": "0",
+            "1/2": "0",
+            "DT": "0",
+            "Fuel": "1"
+        },
+        {
+            "Power": "Idle",
+            "CL": "0.5",
+            "1/2": "0.5",
+            "DT": "0.5",
+            "Fuel": "0"
+        },
+        {
+            "Power": "Spbr",
+            "CL": "0.5",
+            "1/2": "0.5",
+            "DT": "1.0",
+            "Fuel": "-"
+        }
+    ],
+    "Turn_Drag_Chart_Decel": [
+        {
+            "Turn": "TT",
+            "CL": "1",
+            "1/2": "1",
+            "DT": "1"
+        },
+        {
+            "Turn": "HT",
+            "CL": "1",
+            "1/2": "2",
+            "DT": "2"
+        },
+        {
+            "Turn": "BT",
+            "CL": "3",
+            "1/2": "3",
+            "DT": "4"
+        },
+        {
+            "Turn": "ET",
+            "CL": "-",
+            "1/2": "-",
+            "DT": "-"
+        }
+    ],
+    "Minimum_Maximum_Velocity_Chart": [
+        {
+            "Alt. Band": "EH+",
+            "Conf. Ceil.": "46+",
+            "CL": {
+                "Min": "-",
+                "Max": "-"
+            },
+            "1/2": {
+                "Min": "-",
+                "Max": "-"
+            },
+            "DT": {
+                "Min": "-",
+                "Max": "-"
+            }
+        },
+        {
+            "Alt. Band": "VH",
+            "Conf. Ceil.": "36-45",
+            "CL": {
+                "Min": "3.5",
+                "Max": "6.5"
+            },
+            "1/2": {
+                "Min": "-",
+                "Max": "-"
+            },
+            "DT": {
+                "Min": "-",
+                "Max": "-"
+            }
+        },
+        {
+            "Alt. Band": "HI",
+            "Conf. Ceil.": "26-35",
+            "CL": {
+                "Min": "2.5",
+                "Max": "6.5"
+            },
+            "1/2": {
+                "Min": "3",
+                "Max": "5.5"
+            },
+            "DT": {
+                "Min": "3.5",
+                "Max": "5"
+            }
+        },
+        {
+            "Alt. Band": "MH",
+            "Conf. Ceil.": "17-25",
+            "CL": {
+                "Min": "2",
+                "Max": "7*"
+            },
+            "1/2": {
+                "Min": "2.5",
+                "Max": "6"
+            },
+            "DT": {
+                "Min": "2.5",
+                "Max": "5.5"
+            }
+        },
+        {
+            "Alt. Band": "ML",
+            "Conf. Ceil.": "8-16",
+            "CL": {
+                "Min": "2",
+                "Max": "7*"
+            },
+            "1/2": {
+                "Min": "2",
+                "Max": "6"
+            },
+            "DT": {
+                "Min": "2",
+                "Max": "5.5"
+            }
+        },
+        {
+            "Alt. Band": "LO",
+            "Conf. Ceil.": "1-7",
+            "CL": {
+                "Min": "1.5",
+                "Max": "7*"
+            },
+            "1/2": {
+                "Min": "2",
+                "Max": "6"
+            },
+            "DT": {
+                "Min": "2",
+                "Max": "5.5"
+            }
+        }
+    ],
+    "Climb_Capability_Chart": [
+        {
+            "Dive Vel.": "-",
+            "CL AB": "-",
+            "CL Other": "-",
+            "1/2 AB": "-",
+            "1/2 Other": "-",
+            "DT AB": "-",
+            "DT Other": "-",
+            "Alt. Band": "EH+"
+        },
+        {
+            "Dive Vel.": "8",
+            "CL AB": "1",
+            "CL Other": ".5",
+            "1/2 AB": "0",
+            "1/2 Other": "-",
+            "DT AB": "-",
+            "DT Other": "-",
+            "Alt. Band": "VH"
+        },
+        {
+            "Dive Vel.": "8",
+            "CL AB": "1",
+            "CL Other": ".5",
+            "1/2 AB": "1",
+            "1/2 Other": ".5",
+            "DT AB": "1",
+            "DT Other": ".5",
+            "Alt. Band": "HI"
+        },
+        {
+            "Dive Vel.": "8",
+            "CL AB": "1",
+            "CL Other": ".5",
+            "1/2 AB": "1",
+            "1/2 Other": ".5",
+            "DT AB": "1",
+            "DT Other": ".5",
+            "Alt. Band": "MH"
+        },
+        {
+            "Dive Vel.": "7.5",
+            "CL AB": "2",
+            "CL Other": "1",
+            "1/2 AB": "1",
+            "1/2 Other": ".5",
+            "DT AB": "1",
+            "DT Other": ".5",
+            "Alt. Band": "ML"
+        },
+        {
+            "Dive Vel.": "7.5",
+            "CL AB": "2",
+            "CL Other": "1",
+            "1/2 AB": "2",
+            "1/2 Other": "1",
+            "DT AB": "1",
+            "DT Other": ".5",
+            "Alt. Band": "LO"
+        }
+    ],
+    "Avionics_Electronics": {
+        "Radar": "None",
+        "ECCM": "-",
+        "Arcs": "-",
+        "Search": "-",
+        "Track": "-",
+        "Lock-on": "-",
+        "ECM": "IAR-93B",
+        "IFF": "Yes",
+        "RWR": "-",
+        "DDS": "-",
+        "DJM": "-",
+        "AJM": "-"
+    },
+    "Weapons_and_Systems": {
+        "Gun Type": "Two twin 23mm",
+        "Roll to Hit": "0=7, 1=5, 2=3",
+        "Ammunition": "2.0",
+        "Gunsight Mods": "HT+1, BT+2",
+        "Radar Ranging": "-",
+        "AtA/AtG": "7/8",
+        "Bomb System": "Manual (-0)",
+        "Technology": "None"
+    },
+    "Configuration_and_Limits": {
+        "Configuration Points Limits": "CL=0-2, 1/2=3-5, DT=6+",
+        "Load Limit": "6,200/3,300",
+        "Weapons Stations": [
+            {
+                "Weapon Stations": "1,5",
+                "Station Limits": "1100/660",
+                "Allowed Loads": "BB, RP, RK, TR, EP"
+            },
+            {
+                "Weapon Stations": "2,4",
+                "Station Limits": "1100",
+                "Allowed Loads": "BB, RP, RK, RG, DR, TR, EP, GP, PP, FT"
+            },
+            {
+                "Weapon Stations": "3",
+                "Station Limits": "1800/1100",
+                "Allowed Loads": "BB, RP, RK, DR, TR, EP, GP, PP, FT"
+            }
+        ]
+    },
+    "Notes_and_Variants": [
+        "1. Use first ceiling number; second is for variant.",
+        "2. Has two GSh 23mm twin cannons. Data listed is if both sets fired at once. Each set may be fired separately...",
+        "3. High transonic drag (HTD).",
+        "Variant: IAR-93A/ORAO-1: Delete afterburner; use second ceiling, load limit, and station limit numbers..."
+    ],
+    "V.P.s": "IAR-93A=12,8,4,2  IAR-93B=14,9,5,3"
+}

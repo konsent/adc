@@ -47,6 +47,7 @@ export function settle(state) {
   if (state.decelCarry > 0) {
     decel.push({ label: 'Decel Carry 이월', value: state.decelCarry });
   }
+  if (state.specialDecel > 0) decel.push({ label: '특수 기동 드래그', value: state.specialDecel });
   // 순항 속도 초과 페널티
   if ((state.power === 'Idle' || state.power === 'Norm') && state.speed > ac.cruise) {
     decel.push({ label: `순항 속도(${ac.cruise}) 초과`, value: 1.0 });

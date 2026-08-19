@@ -1,0 +1,304 @@
+{
+    "Aircraft": "Sepecat Jaguar A/S",
+    "Crew": "Pilot only",
+    "Aircraft_Characteristics": {
+        "Cruise Speed": "4.0",
+        "Climb Speed": "4.5",
+        "Visibility": "5",
+        "Size Modifier": "0",
+        "Vulnerability": "0",
+        "Restr. Arcs": "60",
+        "Blind Arcs": "30",
+        "Internal Fuel": "360",
+        "Ata Refuel": "Yes",
+        "Ejection Seat": "Std."
+    },
+    "Air_Power": {
+        "Maneuver Costs": "HFP/Decel",
+        "Lag/Displ. Rolls": "1/1",
+        "Vertical Rolls": "0/0"
+    },
+    "Power_Chart_Accel": [
+        {
+            "Power": "Aft. Bur.",
+            "CL": "2.5*",
+            "1/2": "2.0",
+            "DT": "1.5",
+            "Fuel": "6"
+        },
+        {
+            "Power": "Military",
+            "CL": "1.5",
+            "1/2": "1.0",
+            "DT": "1.0",
+            "Fuel": "2"
+        },
+        {
+            "Power": "Normal",
+            "CL": "0",
+            "1/2": "0",
+            "DT": "0",
+            "Fuel": "1"
+        },
+        {
+            "Power": "Idle",
+            "CL": "0.5",
+            "1/2": "0.5",
+            "DT": "1.0",
+            "Fuel": "0"
+        },
+        {
+            "Power": "Spbr",
+            "CL": "0.5",
+            "1/2": "0.5",
+            "DT": "1.0",
+            "Fuel": "-"
+        }
+    ],
+    "Turn_Drag_Chart_Decel": [
+        {
+            "Turn": "TT",
+            "CL": "1",
+            "1/2": "2",
+            "DT": "2"
+        },
+        {
+            "Turn": "HT",
+            "CL": "2",
+            "1/2": "3",
+            "DT": "3"
+        },
+        {
+            "Turn": "BT",
+            "CL": "4",
+            "1/2": "4",
+            "DT": "5"
+        },
+        {
+            "Turn": "ET",
+            "CL": "-",
+            "1/2": "-",
+            "DT": "-"
+        }
+    ],
+    "Minimum_Maximum_Velocity_Chart": [
+        {
+            "Alt. Band": "EH+",
+            "Conf. Ceil.": "46+",
+            "CL": {
+                "Min": "-",
+                "Max": "-"
+            },
+            "1/2": {
+                "Min": "-",
+                "Max": "-"
+            },
+            "DT": {
+                "Min": "-",
+                "Max": "-"
+            }
+        },
+        {
+            "Alt. Band": "VH",
+            "Conf. Ceil.": "36-45",
+            "CL": {
+                "Min": "3.5",
+                "Max": "10"
+            },
+            "1/2": {
+                "Min": "4",
+                "Max": "8.5"
+            },
+            "DT": {
+                "Min": "-",
+                "Max": "-"
+            }
+        },
+        {
+            "Alt. Band": "HI",
+            "Conf. Ceil.": "26-35",
+            "CL": {
+                "Min": "3",
+                "Max": "9.5"
+            },
+            "1/2": {
+                "Min": "3.5",
+                "Max": "8"
+            },
+            "DT": {
+                "Min": "3.5",
+                "Max": "7.5"
+            }
+        },
+        {
+            "Alt. Band": "MH",
+            "Conf. Ceil.": "17-25",
+            "CL": {
+                "Min": "2.5",
+                "Max": "9"
+            },
+            "1/2": {
+                "Min": "2.5",
+                "Max": "8"
+            },
+            "DT": {
+                "Min": "3",
+                "Max": "7"
+            }
+        },
+        {
+            "Alt. Band": "ML",
+            "Conf. Ceil.": "8-16",
+            "CL": {
+                "Min": "2",
+                "Max": "8.5"
+            },
+            "1/2": {
+                "Min": "2",
+                "Max": "7.5"
+            },
+            "DT": {
+                "Min": "2.5",
+                "Max": "6.5"
+            }
+        },
+        {
+            "Alt. Band": "LO",
+            "Conf. Ceil.": "1-7",
+            "CL": {
+                "Min": "1.5",
+                "Max": "8"
+            },
+            "1/2": {
+                "Min": "1.5",
+                "Max": "7.5"
+            },
+            "DT": {
+                "Min": "2.5",
+                "Max": "6"
+            }
+        }
+    ],
+    "Climb_Capability_Chart": [
+        {
+            "Dive Vel.": "-",
+            "CL AB": "-",
+            "CL Other": "-",
+            "1/2 AB": "-",
+            "1/2 Other": "-",
+            "DT AB": "-",
+            "DT Other": "-",
+            "Alt. Band": "EH+"
+        },
+        {
+            "Dive Vel.": "12",
+            "CL AB": "1",
+            "CL Other": ".5",
+            "1/2 AB": "1",
+            "1/2 Other": ".5",
+            "DT AB": "-",
+            "DT Other": "-",
+            "Alt. Band": "VH"
+        },
+        {
+            "Dive Vel.": "11.5",
+            "CL AB": "2",
+            "CL Other": "1",
+            "1/2 AB": "1",
+            "1/2 Other": ".5",
+            "DT AB": "0",
+            "DT Other": "0",
+            "Alt. Band": "HI"
+        },
+        {
+            "Dive Vel.": "11",
+            "CL AB": "3",
+            "CL Other": "1",
+            "1/2 AB": "2",
+            "1/2 Other": "1",
+            "DT AB": "1",
+            "DT Other": ".5",
+            "Alt. Band": "MH"
+        },
+        {
+            "Dive Vel.": "10",
+            "CL AB": "4",
+            "CL Other": "2",
+            "1/2 AB": "3",
+            "1/2 Other": "1",
+            "DT AB": "1",
+            "DT Other": ".5",
+            "Alt. Band": "ML"
+        },
+        {
+            "Dive Vel.": "10",
+            "CL AB": "4",
+            "CL Other": "2",
+            "1/2 AB": "3",
+            "1/2 Other": "1",
+            "DT AB": "1",
+            "DT Other": "1",
+            "Alt. Band": "LO"
+        }
+    ],
+    "Avionics_Electronics": {
+        "Radar": "None",
+        "ECCM": "-",
+        "Arcs": "-",
+        "Search": "-",
+        "Track": "-",
+        "Lock-on": "-",
+        "ECM": "Jaguar",
+        "IFF": "Yes",
+        "RWR": "B",
+        "DDS": "-",
+        "DJM": "-",
+        "AJM": "-"
+    },
+    "Weapons_and_Systems": {
+        "Gun Type": "Two 30mm ADEN/DEFA",
+        "Roll to Hit": "0=6, 1=3, 2=2",
+        "Ammunition": "4.0",
+        "Gunsight Mods": "BT+2",
+        "Radar Ranging": "-",
+        "AtA/AtG": "6/6",
+        "Bomb System": "See note 2.",
+        "Technology": "(Jaguar-S only) Laser Spot Tracker"
+    },
+    "Configuration_and_Limits": {
+        "Configuration Points Limits": "CL=0-5, 1/2=6-10, DT=11+",
+        "Load Limit": "10,500",
+        "Weapons Stations": [
+            {
+                "Weapon Stations": "1,5",
+                "Station Limits": "1250",
+                "Allowed Loads": "BB, BG, RP, TR, DR, EP, IRM"
+            },
+            {
+                "Weapon Stations": "2,4",
+                "Station Limits": "2500",
+                "Allowed Loads": "BB, BG, RP, RG, RS, WR, ASM, ARM, FT, DP, EP"
+            },
+            {
+                "Weapon Stations": "3",
+                "Station Limits": "2500",
+                "Allowed Loads": "BB, BG, RP, RG, RS, RK, ASM, ARM, FT, DP, EP, GP, PP, LP"
+            },
+            {
+                "Weapon Stations": "6,7",
+                "Station Limits": "250",
+                "Allowed Loads": "IRM"
+            }
+        ]
+    },
+    "Notes_and_Variants": [
+        "1. Jaguar-A is French version; Jaguar-S called GR.1 in RAF service.",
+        "2. Jaguar-S bombsight: computed (-2); Jaguar-A bombsight: ballistic (-1).",
+        "3. May use AIM-9, Matra 550 IRMs, AS-37 ARMs.",
+        "4. Jaguar S ECM upgrade: add DDS B after 1985. French conformal DDS normally fitted.",
+        "5. Rapid acceleration aircraft. * Jaguar-A: reduce power by 0.5.",
+        "Variant: Export variant: As S, but add pylons 6, 7.",
+        "Notes: Stations 6 and 7 are standard on Jaguar S-3 export model, but optional on A and S models. Station 3 may carry two BB class weapons without using a WR."
+    ],
+    "V.P.s": "S/S3=22,15,7,4  A=20,14,6,3"
+}

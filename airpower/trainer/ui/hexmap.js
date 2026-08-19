@@ -1,6 +1,7 @@
 // SVG 헥스 맵 렌더링 (실제 Air Power 보드와 같은 flat-top, axial 좌표)
 
 import { boardHexOf, facingRotation, sideNeighbor, hexCenter } from '../engine/hex.js';
+import { SPOH_COUNTERS } from '../data/spoh-aircraft.js';
 
 export { hexCenter };
 
@@ -20,6 +21,7 @@ const AIRCRAFT_COUNTERS = {
   'MIG-29': 'mig-29-fulcrum-a.jpg',
   'F-14A': 'f-14a-tomcat.jpg',
   'F-14D': 'f-14d-super-tomcat.jpg',
+  ...SPOH_COUNTERS,
 };
 
 function hexPoints(cx, cy, size) {
@@ -47,7 +49,7 @@ export function clearLayer(svg, name) {
 }
 
 /** 고정 반경의 전체 헥스 필드를 그린다. */
-export function renderMap(svg, { radius = 24, hexSize = 32, cells: suppliedCells = null } = {}) {
+export function renderMap(svg, { radius = 24, hexSize = 32, cells: suppliedCells = null, backgrounds = [] } = {}) {
   const g = layer(svg, 'grid');
   g.textContent = '';
 
@@ -61,12 +63,27 @@ export function renderMap(svg, { radius = 24, hexSize = 32, cells: suppliedCells
     return generated;
   })();
 
+  // Speed of Heat GIFs have no printed coordinates. Put each original tile
+  // beneath the SVG hexes so the grid remains selectable and readable.
+  for (const background of backgrounds) {
+    const first = hexCenter({ q: background.minQ, r: background.minR }, hexSize);
+    const image = document.createElementNS(NS, 'image');
+    image.setAttribute('href', `./assets/${background.image}`);
+    image.setAttributeNS(XLINK_NS, 'xlink:href', `./assets/${background.image}`);
+    image.setAttribute('x', first.x - hexSize);
+    image.setAttribute('y', first.y - SQRT3 * hexSize / 2);
+    image.setAttribute('width', 1.5 * hexSize * 20 + hexSize / 2);
+    image.setAttribute('height', SQRT3 * hexSize * 15);
+    image.setAttribute('preserveAspectRatio', 'none');
+    g.appendChild(image);
+  }
+
   let minX = Infinity, minY = Infinity, maxX = -Infinity, maxY = -Infinity;
   for (const c of cells) {
     const { x, y } = hexCenter(c, hexSize);
     const poly = document.createElementNS(NS, 'polygon');
     poly.setAttribute('points', hexPoints(x, y, hexSize));
-    poly.setAttribute('class', 'hex');
+    poly.setAttribute('class', backgrounds.length ? 'hex background-hex' : 'hex');
     poly.dataset.q = c.q;
     poly.dataset.r = c.r;
     g.appendChild(poly);
@@ -75,8 +92,8 @@ export function renderMap(svg, { radius = 24, hexSize = 32, cells: suppliedCells
     // offset 열/행으로 변환하면 실제 행 차이는 r + floor(q / 2)다.
     const label = document.createElementNS(NS, 'text');
     label.setAttribute('x', x); label.setAttribute('y', y + 3);
-    label.setAttribute('class', 'hex-label');
-    label.textContent = c.map ? `${c.map}${c.boardHex}` : boardHexOf(c);
+    label.setAttribute('class', backgrounds.length ? 'hex-label background-label' : 'hex-label');
+    label.textContent = backgrounds.length ? c.boardHex : c.map ? `${c.map}${c.boardHex}` : boardHexOf(c);
     g.appendChild(label);
 
     minX = Math.min(minX, x - hexSize); maxX = Math.max(maxX, x + hexSize);
@@ -90,7 +107,7 @@ export function renderMap(svg, { radius = 24, hexSize = 32, cells: suppliedCells
   };
 }
 
-export function drawAircraft(svg, position, facing, hexSize, aircraftId, { layerName = 'aircraft', marker = null, clear = true, tooltip = '' } = {}) {
+export function drawAircraft(svg, position, facing, hexSize, aircraftId, { layerName = 'aircraft', marker = null, status = null, clear = true, tooltip = '' } = {}) {
   const g = layer(svg, layerName);
   if (clear) g.textContent = '';
   // 헥스면 위 기체는 그 변을 공유하는 두 헥스(left/right)의 중점에 그린다.
@@ -136,8 +153,24 @@ export function drawAircraft(svg, position, facing, hexSize, aircraftId, { layer
   image.setAttribute('height', size);
   image.setAttribute('clip-path', `url(#${clipId})`);
   counter.appendChild(image);
+  const frame = document.createElementNS(NS, 'rect');
+  frame.setAttribute('x', -size / 2);
+  frame.setAttribute('y', -size / 2);
+  frame.setAttribute('width', size);
+  frame.setAttribute('height', size);
+  frame.setAttribute('rx', size * 0.18);
+  frame.setAttribute('class', `counter-frame ${layerName === 'target' ? 'hostile' : layerName === 'neutral' ? 'neutral' : 'friendly'}`);
+  counter.appendChild(frame);
   g.appendChild(defs);
   g.appendChild(counter);
+
+  if (status) {
+    const text = document.createElementNS(NS, 'text');
+    text.setAttribute('x', x + size * 0.56); text.setAttribute('y', y - size * 0.4);
+    text.setAttribute('class', 'aircraft-status');
+    text.textContent = status;
+    g.appendChild(text);
+  }
 
   if (marker) {
     const ring = document.createElementNS(NS, 'circle');
@@ -169,6 +202,61 @@ export function drawWaypoints(svg, waypoints, hexSize, currentIndex = 0) {
     t.setAttribute('class', 'wp-label');
     t.textContent = `${i + 1}·${w.alt}`;
     g.appendChild(t);
+  });
+}
+
+/** 시나리오에 놓인 파일런·배너·퍼치처럼 이동하지 않는 원문 표식. */
+export function drawMarkers(svg, markers, hexSize) {
+  const g = layer(svg, 'markers');
+  g.textContent = '';
+  markers.forEach(marker => {
+    const { x, y } = hexCenter(marker.hex, hexSize);
+    const c = document.createElementNS(NS, 'circle');
+    c.setAttribute('cx', x); c.setAttribute('cy', y);
+    c.setAttribute('r', hexSize * 0.5);
+    c.setAttribute('class', 'marker');
+    g.appendChild(c);
+    const t = document.createElementNS(NS, 'text');
+    t.setAttribute('x', x); t.setAttribute('y', y + 4);
+    t.setAttribute('class', 'marker-label');
+    t.textContent = marker.label;
+    g.appendChild(t);
+  });
+}
+
+/** Ground counters are deliberately square like the supplied SPOH counters. */
+export function drawGroundUnits(svg, units, hexSize) {
+  const g = layer(svg, 'ground');
+  g.textContent = '';
+  units.forEach(unit => {
+    const { x, y } = hexCenter(unit.hex, hexSize);
+    const size = hexSize * 0.9;
+    const clipId = `ground-clip-${counterClipNumber += 1}`;
+    const defs = document.createElementNS(NS, 'defs');
+    const clip = document.createElementNS(NS, 'clipPath');
+    clip.setAttribute('id', clipId);
+    clip.setAttribute('clipPathUnits', 'userSpaceOnUse');
+    const roundedRect = document.createElementNS(NS, 'rect');
+    roundedRect.setAttribute('x', x - size / 2); roundedRect.setAttribute('y', y - size / 2);
+    roundedRect.setAttribute('width', size); roundedRect.setAttribute('height', size); roundedRect.setAttribute('rx', size * 0.18);
+    clip.appendChild(roundedRect); defs.appendChild(clip); g.appendChild(defs);
+    const image = document.createElementNS(NS, 'image');
+    const source = `./assets/spoh/${unit.image ?? (unit.type === 'aaa' ? 'AAABarrageFire.gif' : unit.side === 'friendly' ? 'InfantryBack.gif' : 'InfantryBackT.gif')}`;
+    image.setAttribute('href', source); image.setAttributeNS(XLINK_NS, 'xlink:href', source);
+    image.setAttribute('x', x - size / 2); image.setAttribute('y', y - size / 2); image.setAttribute('width', size); image.setAttribute('height', size);
+    image.setAttribute('clip-path', `url(#${clipId})`);
+    image.setAttribute('opacity', unit.killed ? '0.2' : '1');
+    const title = document.createElementNS(NS, 'title');
+    title.textContent = `${unit.label}\n${unit.killed ? '파괴됨' : unit.suppressed ? '억제됨' : '정상'} · 피해 ${unit.hits ?? 0}`;
+    image.appendChild(title); g.appendChild(image);
+    const frame = document.createElementNS(NS, 'rect');
+    frame.setAttribute('x', x - size / 2); frame.setAttribute('y', y - size / 2);
+    frame.setAttribute('width', size); frame.setAttribute('height', size); frame.setAttribute('rx', size * 0.18);
+    frame.setAttribute('class', 'ground-counter-frame');
+    g.appendChild(frame);
+    const label = document.createElementNS(NS, 'text');
+    label.setAttribute('x', x); label.setAttribute('y', y + size * 0.72); label.setAttribute('class', 'marker-label');
+    label.textContent = `${unit.label}${unit.killed ? ' X' : unit.suppressed ? ' S' : ''}`; g.appendChild(label);
   });
 }
 

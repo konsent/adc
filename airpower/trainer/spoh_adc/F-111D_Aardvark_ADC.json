@@ -1,0 +1,298 @@
+{
+    "Aircraft": "F-111D Aardvark",
+    "Crew": "Pilot, Weapons Officer",
+    "Aircraft_Characteristics": {
+        "Cruise Speed": "5.5",
+        "Climb Speed": "4.5",
+        "Visibility": "8",
+        "Size Modifier": "-1",
+        "Vulnerability": "0",
+        "Restr. Arcs": "-",
+        "Blind Arcs": "60",
+        "Internal Fuel": "1600",
+        "Ata Refuel": "Yes",
+        "Ejection Seat": "Std."
+    },
+    "Air_Power": {
+        "Maneuver Costs": "HFP/Decel",
+        "Lag/Displ. Rolls": "1.5/1.5",
+        "Vertical Rolls": "0/.5"
+    },
+    "Power_Chart_Accel": [
+        {
+            "Power": "Aft. Bur.",
+            "CL": "2.0",
+            "1/2": "1.5",
+            "DT": "1.0",
+            "Fuel": "16"
+        },
+        {
+            "Power": "Military",
+            "CL": "1.0",
+            "1/2": "1.0",
+            "DT": "0.5",
+            "Fuel": "4"
+        },
+        {
+            "Power": "Normal",
+            "CL": "0",
+            "1/2": "0",
+            "DT": "0",
+            "Fuel": "2"
+        },
+        {
+            "Power": "Idle",
+            "CL": "0.5",
+            "1/2": "0.5",
+            "DT": "1.0",
+            "Fuel": "0"
+        },
+        {
+            "Power": "Spbr",
+            "CL": "0.5",
+            "1/2": "1.0",
+            "DT": "1.0",
+            "Fuel": "-"
+        }
+    ],
+    "Turn_Drag_Chart_Decel": [
+        {
+            "Turn": "TT",
+            "CL": "2,2,3",
+            "1/2": "2,2,3",
+            "DT": "2,2,3"
+        },
+        {
+            "Turn": "HT",
+            "CL": "4,4,5",
+            "1/2": "4,4,5",
+            "DT": "4,4,5"
+        },
+        {
+            "Turn": "BT",
+            "CL": "5,6,6",
+            "1/2": "5,6,6",
+            "DT": "5,6,6"
+        },
+        {
+            "Turn": "ET",
+            "CL": "-",
+            "1/2": "-",
+            "DT": "-"
+        }
+    ],
+    "Minimum_Maximum_Velocity_Chart": [
+        {
+            "Alt. Band": "EH+",
+            "Conf. Ceil.": "46+",
+            "CL": {
+                "Min": "4",
+                "Max": "14"
+            },
+            "1/2": {
+                "Min": "-",
+                "Max": "-"
+            },
+            "DT": {
+                "Min": "-",
+                "Max": "-"
+            }
+        },
+        {
+            "Alt. Band": "VH",
+            "Conf. Ceil.": "36-45",
+            "CL": {
+                "Min": "3",
+                "Max": "13"
+            },
+            "1/2": {
+                "Min": "3.5",
+                "Max": "11"
+            },
+            "DT": {
+                "Min": "-",
+                "Max": "-"
+            }
+        },
+        {
+            "Alt. Band": "HI",
+            "Conf. Ceil.": "26-35",
+            "CL": {
+                "Min": "2.5",
+                "Max": "12"
+            },
+            "1/2": {
+                "Min": "3",
+                "Max": "10"
+            },
+            "DT": {
+                "Min": "-",
+                "Max": "-"
+            }
+        },
+        {
+            "Alt. Band": "MH",
+            "Conf. Ceil.": "17-25",
+            "CL": {
+                "Min": "2.5",
+                "Max": "10"
+            },
+            "1/2": {
+                "Min": "3",
+                "Max": "9"
+            },
+            "DT": {
+                "Min": "3",
+                "Max": "8"
+            }
+        },
+        {
+            "Alt. Band": "ML",
+            "Conf. Ceil.": "8-16",
+            "CL": {
+                "Min": "2",
+                "Max": "9.5"
+            },
+            "1/2": {
+                "Min": "2.5",
+                "Max": "9"
+            },
+            "DT": {
+                "Min": "2.5",
+                "Max": "7"
+            }
+        },
+        {
+            "Alt. Band": "LO",
+            "Conf. Ceil.": "1-7",
+            "CL": {
+                "Min": "1.5",
+                "Max": "8.5"
+            },
+            "1/2": {
+                "Min": "2",
+                "Max": "8"
+            },
+            "DT": {
+                "Min": "2.5",
+                "Max": "7"
+            }
+        }
+    ],
+    "Climb_Capability_Chart": [
+        {
+            "Dive Vel.": "16",
+            "CL AB": "1",
+            "CL Other": ".5",
+            "1/2 AB": "-",
+            "1/2 Other": "-",
+            "DT AB": "-",
+            "DT Other": "-",
+            "Alt. Band": "EH+"
+        },
+        {
+            "Dive Vel.": "14",
+            "CL AB": "1",
+            "CL Other": ".5",
+            "1/2 AB": "1",
+            "1/2 Other": ".5",
+            "DT AB": "-",
+            "DT Other": "-",
+            "Alt. Band": "VH"
+        },
+        {
+            "Dive Vel.": "13",
+            "CL AB": "2",
+            "CL Other": "1",
+            "1/2 AB": "1",
+            "1/2 Other": ".5",
+            "DT AB": "-",
+            "DT Other": "-",
+            "Alt. Band": "HI"
+        },
+        {
+            "Dive Vel.": "12",
+            "CL AB": "2",
+            "CL Other": "1",
+            "1/2 AB": "1",
+            "1/2 Other": ".5",
+            "DT AB": "1",
+            "DT Other": ".5",
+            "Alt. Band": "MH"
+        },
+        {
+            "Dive Vel.": "11",
+            "CL AB": "3",
+            "CL Other": "1",
+            "1/2 AB": "2",
+            "1/2 Other": "1",
+            "DT AB": "1",
+            "DT Other": ".5",
+            "Alt. Band": "ML"
+        },
+        {
+            "Dive Vel.": "10",
+            "CL AB": "3",
+            "CL Other": "1",
+            "1/2 AB": "2",
+            "1/2 Other": "1",
+            "DT AB": "1",
+            "DT Other": ".5",
+            "Alt. Band": "LO"
+        }
+    ],
+    "Avionics_Electronics": {
+        "Radar": "APQ-30",
+        "ECCM": "1",
+        "Arcs": "180+",
+        "Search": "240-30",
+        "Track": "180-30",
+        "Lock-on": "7",
+        "ECM": "F-111D",
+        "IFF": "Yes",
+        "RWR": "B",
+        "DDS": "A",
+        "DJM": "A3",
+        "AJM": "-"
+    },
+    "Weapons_and_Systems": {
+        "Gun Type": "20mm (see Note 3)",
+        "Roll to Hit": "0=6, 1=4, 2=3",
+        "Ammunition": "10",
+        "Gunsight Mods": "HT+1, BT+2",
+        "Radar Ranging": "RE",
+        "AtA/AtG": "6/6*",
+        "Bomb System": "Computed (-2)",
+        "Technology": "HUD Interface, Auto Track, Track While Scan, Terrain Following B"
+    },
+    "Configuration_and_Limits": {
+        "Configuration Points Limits": "CL=0-8, 1/2=9-18, DT=19+",
+        "Load Limit": "25,000",
+        "Weapons Stations": [
+            {
+                "Weapon Stations": "1,2,5,6",
+                "Station Limits": "5000",
+                "Allowed Loads": "BB, BG, BS, RP, RG, RS, WR, ASM, EP, DP, LP, IRM, FT"
+            },
+            {
+                "Weapon Stations": "3",
+                "Station Limits": "4000",
+                "Allowed Loads": "BB (see note 3)"
+            },
+            {
+                "Weapon Stations": "4",
+                "Station Limits": "1000",
+                "Allowed Loads": "EP"
+            }
+        ]
+    },
+    "Notes_and_Variants": [
+        "1. Poor supersonic maneuver (PSSM). High bleed if speed >= 7.5.",
+        "2. Computerized swing wing...",
+        "3. Station 3 is an internal bomb bay...",
+        "4. May use AIM-9 type IRMs.",
+        "5. HTD/NTD/LTD for wings fore, mid, aft.",
+        "6. ECM upgrade: DJM B4 in 1976."
+    ],
+    "V.P.s": "F-111D=34,22,11,5"
+}

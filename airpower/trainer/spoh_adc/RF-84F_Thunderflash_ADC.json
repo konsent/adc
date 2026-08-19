@@ -1,0 +1,290 @@
+{
+    "Aircraft": "RF-84F Thunderflash",
+    "Crew": "Pilot only",
+    "Aircraft_Characteristics": {
+        "Cruise Speed": "5.0",
+        "Climb Speed": "4.0",
+        "Visibility": "5",
+        "Size Modifier": "0",
+        "Vulnerability": "+1",
+        "Restr. Arcs": "60",
+        "Blind Arcs": "30",
+        "Internal Fuel": "185",
+        "Ata Refuel": "Yes",
+        "Ejection Seat": "Early"
+    },
+    "Air_Power": {
+        "Maneuver Costs": "HFP/Decel",
+        "Lag/Displ. Rolls": "1/1",
+        "Vertical Rolls": "0/0"
+    },
+    "Power_Chart_Accel": [
+        {
+            "Power": "Aft. Bur.",
+            "CL": "-",
+            "1/2": "-",
+            "DT": "-",
+            "Fuel": "-"
+        },
+        {
+            "Power": "Military",
+            "CL": "1.0",
+            "1/2": "1.0",
+            "DT": "1.0",
+            "Fuel": "2"
+        },
+        {
+            "Power": "Normal",
+            "CL": "0",
+            "1/2": "0",
+            "DT": "0",
+            "Fuel": "1"
+        },
+        {
+            "Power": "Idle",
+            "CL": "0.5",
+            "1/2": "0.5",
+            "DT": "0.5",
+            "Fuel": "0"
+        },
+        {
+            "Power": "Spbr",
+            "CL": "0.5",
+            "1/2": "0.5",
+            "DT": "1.0",
+            "Fuel": "-"
+        }
+    ],
+    "Turn_Drag_Chart_Decel": [
+        {
+            "Turn": "TT",
+            "CL": "1",
+            "1/2": "1",
+            "DT": "1"
+        },
+        {
+            "Turn": "HT",
+            "CL": "1",
+            "1/2": "1",
+            "DT": "2"
+        },
+        {
+            "Turn": "BT",
+            "CL": "2",
+            "1/2": "3",
+            "DT": "3"
+        },
+        {
+            "Turn": "ET",
+            "CL": "-",
+            "1/2": "-",
+            "DT": "-"
+        }
+    ],
+    "Minimum_Maximum_Velocity_Chart": [
+        {
+            "Alt. Band": "EH+",
+            "Conf. Ceil.": "46+",
+            "CL": {
+                "Min": "3",
+                "Max": "5.5"
+            },
+            "1/2": {
+                "Min": "-",
+                "Max": "-"
+            },
+            "DT": {
+                "Min": "-",
+                "Max": "-"
+            }
+        },
+        {
+            "Alt. Band": "VH",
+            "Conf. Ceil.": "36-45",
+            "CL": {
+                "Min": "2.5",
+                "Max": "5.5"
+            },
+            "1/2": {
+                "Min": "2.5",
+                "Max": "5.5"
+            },
+            "DT": {
+                "Min": "3",
+                "Max": "5"
+            }
+        },
+        {
+            "Alt. Band": "HI",
+            "Conf. Ceil.": "26-35",
+            "CL": {
+                "Min": "2",
+                "Max": "6"
+            },
+            "1/2": {
+                "Min": "2",
+                "Max": "5.5"
+            },
+            "DT": {
+                "Min": "2.5",
+                "Max": "5.5"
+            }
+        },
+        {
+            "Alt. Band": "MH",
+            "Conf. Ceil.": "17-25",
+            "CL": {
+                "Min": "2",
+                "Max": "6"
+            },
+            "1/2": {
+                "Min": "2",
+                "Max": "6"
+            },
+            "DT": {
+                "Min": "2.5",
+                "Max": "5.5"
+            }
+        },
+        {
+            "Alt. Band": "ML",
+            "Conf. Ceil.": "8-16",
+            "CL": {
+                "Min": "1.5",
+                "Max": "6"
+            },
+            "1/2": {
+                "Min": "1.5",
+                "Max": "6"
+            },
+            "DT": {
+                "Min": "2",
+                "Max": "6"
+            }
+        },
+        {
+            "Alt. Band": "LO",
+            "Conf. Ceil.": "1-7",
+            "CL": {
+                "Min": "1.5",
+                "Max": "6.5"
+            },
+            "1/2": {
+                "Min": "1.5",
+                "Max": "6"
+            },
+            "DT": {
+                "Min": "2",
+                "Max": "6"
+            }
+        }
+    ],
+    "Climb_Capability_Chart": [
+        {
+            "Dive Vel.": "6.5",
+            "CL AB": "-",
+            "CL Other": "-",
+            "1/2 AB": "-",
+            "1/2 Other": "-",
+            "DT AB": "-",
+            "DT Other": "-",
+            "Alt. Band": "EH+"
+        },
+        {
+            "Dive Vel.": "6.5",
+            "CL AB": "-",
+            "CL Other": ".5",
+            "1/2 AB": "-",
+            "1/2 Other": ".5",
+            "DT AB": "-",
+            "DT Other": "-",
+            "Alt. Band": "VH"
+        },
+        {
+            "Dive Vel.": "7",
+            "CL AB": "-",
+            "CL Other": ".5",
+            "1/2 AB": "-",
+            "1/2 Other": ".5",
+            "DT AB": "-",
+            "DT Other": ".5",
+            "Alt. Band": "HI"
+        },
+        {
+            "Dive Vel.": "7",
+            "CL AB": "-",
+            "CL Other": "1",
+            "1/2 AB": "-",
+            "1/2 Other": ".5",
+            "DT AB": "-",
+            "DT Other": ".5",
+            "Alt. Band": "MH"
+        },
+        {
+            "Dive Vel.": "7.5",
+            "CL AB": "-",
+            "CL Other": "1",
+            "1/2 AB": "-",
+            "1/2 Other": "1",
+            "DT AB": "-",
+            "DT Other": ".5",
+            "Alt. Band": "ML"
+        },
+        {
+            "Dive Vel.": "7.5",
+            "CL AB": "-",
+            "CL Other": "1",
+            "1/2 AB": "-",
+            "1/2 Other": "1",
+            "DT AB": "-",
+            "DT Other": "1",
+            "Alt. Band": "LO"
+        }
+    ],
+    "Avionics_Electronics": {
+        "Radar": "Radar Gunsight",
+        "ECCM": "0",
+        "Arcs": "-",
+        "Search": "-",
+        "Track": "-",
+        "Lock-on": "6",
+        "ECM": "RF-84F",
+        "IFF": "Yes",
+        "RWR": "-",
+        "DDS": "-",
+        "DJM": "-",
+        "AJM": "-"
+    },
+    "Weapons_and_Systems": {
+        "Gun Type": "Four .50 cal. MG",
+        "Roll to Hit": "0=5, 1=3, 2=0",
+        "Ammunition": "7.0",
+        "Gunsight Mods": "HT+1, BT+2",
+        "Radar Ranging": "RE",
+        "AtA/AtG": "3/3**",
+        "Bomb System": "Manual (-0)",
+        "Technology": "None"
+    },
+    "Configuration_and_Limits": {
+        "Configuration Points Limits": "CL=0-4, 1/2=5-10, DT=11+",
+        "Load Limit": "6,000",
+        "Weapons Stations": [
+            {
+                "Weapon Stations": "1,4",
+                "Station Limits": "1000",
+                "Allowed Loads": "FT"
+            },
+            {
+                "Weapon Stations": "2,3",
+                "Station Limits": "1500",
+                "Allowed Loads": "FT"
+            }
+        ]
+    },
+    "Notes_and_Variants": [
+        "1. Stations 2 and 3 normally fitted with streamlined 850L FT...",
+        "2. May carry 2 flare clusters under wings for night missions.",
+        "3. Can carry up to 6 cameras..."
+    ],
+    "V.P.s": "RF-84F=10,6,4,2"
+}

@@ -1,0 +1,270 @@
+{
+  "Missile_Data_Tables": {
+    "Page": 1,
+    "Game": "The Speed Of Heat!",
+    "US_Air_to_Air_Missiles": [
+      {
+        "Year": 1956, "Type": "AIM-4A", "Name": "Falcon",
+        "Weight": 130, "Load": 1, "Seeker": "RH", "Launch_G": "EZ", "Lau_Roll": "7", "Turn_Rate": "HT/2", "Flight_Time": 1, "Visibility": 7, "ECCM": "-", "Chaff": "5", "Flare": "-",
+        "Launch_Envelopes": { "Front_150_180": "18-9", "Side_90_120": "15-6", "Rear_0_60": "15-4" },
+        "Base_Speed_Sustainer": "16-0", "Act_Homing": "-", "HOJ_MCG": "-",
+        "Die_Roll_to_Hit": { "Direct": "5", "Prox": "-" },
+        "Attack_Rating": { "Direct": "6", "Prox": "-" }
+      },
+      {
+        "Year": 1956, "Type": "AIM-4B", "Name": "Falcon",
+        "Weight": 130, "Load": 1, "Seeker": "E", "Launch_G": "TT", "Lau_Roll": "7", "Turn_Rate": "HT/2", "Flight_Time": 1, "Visibility": 7, "ECCM": "-", "Chaff": "-", "Flare": "6",
+        "Launch_Envelopes": { "Front_150_180": "NA", "Side_90_120": "NA", "Rear_0_60": "12-2" },
+        "Base_Speed_Sustainer": "16-0", "Act_Homing": "-", "HOJ_MCG": "-",
+        "Die_Roll_to_Hit": { "Direct": "5", "Prox": "-" },
+        "Attack_Rating": { "Direct": "6", "Prox": "-" }
+      },
+      {
+        "Year": 1957, "Type": "AIM-4C", "Name": "Falcon",
+        "Weight": 130, "Load": 1, "Seeker": "I", "Launch_G": "TT", "Lau_Roll": "7", "Turn_Rate": "BT/2", "Flight_Time": 1, "Visibility": 7, "ECCM": "-", "Chaff": "-", "Flare": "5",
+        "Launch_Envelopes": { "Front_150_180": "NA", "Side_90_120": "NA", "Rear_0_60": "12-2" },
+        "Base_Speed_Sustainer": "16-0", "Act_Homing": "-", "HOJ_MCG": "-",
+        "Die_Roll_to_Hit": { "Direct": "6", "Prox": "-" },
+        "Attack_Rating": { "Direct": "6", "Prox": "-" }
+      },
+      {
+        "Year": 1963, "Type": "AIM-4D", "Name": "Falcon",
+        "Weight": 140, "Load": 1, "Seeker": "M", "Launch_G": "TT", "Lau_Roll": "7", "Turn_Rate": "BT/2", "Flight_Time": 1, "Visibility": 7, "ECCM": "-", "Chaff": "-", "Flare": "5",
+        "Launch_Envelopes": { "Front_150_180": "NA", "Side_90_120": "15-4", "Rear_0_60": "18-2" },
+        "Base_Speed_Sustainer": "18-0", "Act_Homing": "-", "HOJ_MCG": "-",
+        "Die_Roll_to_Hit": { "Direct": "6", "Prox": "-" },
+        "Attack_Rating": { "Direct": "6", "Prox": "-" }
+      },
+      {
+        "Year": 1958, "Type": "AIM-4E", "Name": "Super Falc.",
+        "Weight": 150, "Load": 1, "Seeker": "RH", "Launch_G": "TT", "Lau_Roll": "7", "Turn_Rate": "BT/2", "Flight_Time": 1, "Visibility": 7, "ECCM": "-", "Chaff": "4", "Flare": "-",
+        "Launch_Envelopes": { "Front_150_180": "24-6", "Side_90_120": "18-6", "Rear_0_60": "18-4" },
+        "Base_Speed_Sustainer": "18-0", "Act_Homing": "-", "HOJ_MCG": "-",
+        "Die_Roll_to_Hit": { "Direct": "6", "Prox": "-" },
+        "Attack_Rating": { "Direct": "7", "Prox": "-" }
+      },
+      {
+        "Year": 1959, "Type": "AIM-4F", "Name": "Super Falc.",
+        "Weight": 150, "Load": 1, "Seeker": "RH", "Launch_G": "TT", "Lau_Roll": "8", "Turn_Rate": "BT/2", "Flight_Time": 1, "Visibility": 7, "ECCM": "1", "Chaff": "4", "Flare": "-",
+        "Launch_Envelopes": { "Front_150_180": "24-6", "Side_90_120": "18-6", "Rear_0_60": "18-4" },
+        "Base_Speed_Sustainer": "18-0", "Act_Homing": "-", "HOJ_MCG": "-",
+        "Die_Roll_to_Hit": { "Direct": "6", "Prox": "-" },
+        "Attack_Rating": { "Direct": "7", "Prox": "-" }
+      },
+      {
+        "Year": 1959, "Type": "AIM-4G", "Name": "Super Falc.",
+        "Weight": 150, "Load": 1, "Seeker": "M", "Launch_G": "TT", "Lau_Roll": "8", "Turn_Rate": "BT/2", "Flight_Time": 1, "Visibility": 7, "ECCM": "-", "Chaff": "-", "Flare": "5",
+        "Launch_Envelopes": { "Front_150_180": "NA", "Side_90_120": "15-4", "Rear_0_60": "18-2" },
+        "Base_Speed_Sustainer": "18-0", "Act_Homing": "-", "HOJ_MCG": "-",
+        "Die_Roll_to_Hit": { "Direct": "6", "Prox": "-" },
+        "Attack_Rating": { "Direct": "7", "Prox": "-" }
+      },
+      {
+        "Year": 1960, "Type": "AIM-26A", "Name": "Nuc. Falcon",
+        "Weight": 200, "Load": 1, "Seeker": "RH", "Launch_G": "TT", "Lau_Roll": "8", "Turn_Rate": "BT/2", "Flight_Time": 2, "Visibility": 8, "ECCM": "-", "Chaff": "-", "Flare": "-",
+        "Launch_Envelopes": { "Front_150_180": "24-9", "Side_90_120": "18-9", "Rear_0_60": "18-6" },
+        "Base_Speed_Sustainer": "16-0", "Act_Homing": "-", "HOJ_MCG": "-",
+        "Die_Roll_to_Hit": { "Direct": "Nuclear Warhead", "Prox": "Nuclear Warhead" },
+        "Attack_Rating": { "Direct": "Nuclear Warhead", "Prox": "Nuclear Warhead" }
+      },
+      {
+        "Year": 1960, "Type": "AIM-26B", "Name": "Super Falc.",
+        "Weight": 260, "Load": 1, "Seeker": "RH", "Launch_G": "TT", "Lau_Roll": "8", "Turn_Rate": "BT/2", "Flight_Time": 2, "Visibility": 8, "ECCM": "-", "Chaff": "4", "Flare": "-",
+        "Launch_Envelopes": { "Front_150_180": "24-9", "Side_90_120": "18-9", "Rear_0_60": "18-6" },
+        "Base_Speed_Sustainer": "16-0", "Act_Homing": "-", "HOJ_MCG": "-",
+        "Die_Roll_to_Hit": { "Direct": "4", "Prox": "8" },
+        "Attack_Rating": { "Direct": "6", "Prox": "4" }
+      },
+      {
+        "Year": 1956, "Type": "AIR-2A", "Name": "Genie",
+        "Weight": 825, "Load": 2, "Seeker": "-", "Launch_G": "W.Lvl.", "Lau_Roll": "8", "Turn_Rate": "-", "Flight_Time": 1, "Visibility": 9, "ECCM": "-", "Chaff": "-", "Flare": "-",
+        "Launch_Envelopes": { "Front_150_180": "(See Adv. Rule 9.6)", "Side_90_120": "(See Adv. Rule 9.6)", "Rear_0_60": "(See Adv. Rule 9.6)" },
+        "Base_Speed_Sustainer": "15-0", "Act_Homing": "-", "HOJ_MCG": "-",
+        "Die_Roll_to_Hit": { "Direct": "Nuclear Warhead", "Prox": "Nuclear Warhead" },
+        "Attack_Rating": { "Direct": "Nuclear Warhead", "Prox": "Nuclear Warhead" }
+      },
+      {
+        "Year": 1956, "Type": "AIM-9B", "Name": "Sidewinder",
+        "Weight": 160, "Load": 1, "Seeker": "E", "Launch_G": "TT", "Lau_Roll": "7", "Turn_Rate": "HT/2", "Flight_Time": 2, "Visibility": 7, "ECCM": "-", "Chaff": "-", "Flare": "6",
+        "Launch_Envelopes": { "Front_150_180": "NA", "Side_90_120": "NA", "Rear_0_60": "9-2" },
+        "Base_Speed_Sustainer": "10-0", "Act_Homing": "-", "HOJ_MCG": "-",
+        "Die_Roll_to_Hit": { "Direct": "3", "Prox": "7" },
+        "Attack_Rating": { "Direct": "5", "Prox": "2" }
+      },
+      {
+        "Year": 1962, "Type": "AIM-9C", "Name": "Sidewinder",
+        "Weight": 190, "Load": 1, "Seeker": "RH", "Launch_G": "TT", "Lau_Roll": "6", "Turn_Rate": "HT/2", "Flight_Time": 5, "Visibility": 7, "ECCM": "-", "Chaff": "5", "Flare": "-",
+        "Launch_Envelopes": { "Front_150_180": "24-6", "Side_90_120": "12-6", "Rear_0_60": "18-4" },
+        "Base_Speed_Sustainer": "18-0", "Act_Homing": "-", "HOJ_MCG": "-",
+        "Die_Roll_to_Hit": { "Direct": "2", "Prox": "7" },
+        "Attack_Rating": { "Direct": "5", "Prox": "2" }
+      },
+      {
+        "Year": 1965, "Type": "AIM-9D", "Name": "Sidewinder",
+        "Weight": 200, "Load": 1, "Seeker": "I", "Launch_G": "TT", "Lau_Roll": "7", "Turn_Rate": "HT/2", "Flight_Time": 5, "Visibility": 7, "ECCM": "-", "Chaff": "-", "Flare": "5",
+        "Launch_Envelopes": { "Front_150_180": "NA", "Side_90_120": "NA", "Rear_0_60": "12-2" },
+        "Base_Speed_Sustainer": "18-0", "Act_Homing": "-", "HOJ_MCG": "-",
+        "Die_Roll_to_Hit": { "Direct": "7", "Prox": "-" },
+        "Attack_Rating": { "Direct": "7", "Prox": "-" }
+      },
+      {
+        "Year": 1967, "Type": "AIM-9E", "Name": "Sidewinder",
+        "Weight": 170, "Load": 1, "Seeker": "I", "Launch_G": "TT", "Lau_Roll": "7", "Turn_Rate": "BT/2", "Flight_Time": 2, "Visibility": 7, "ECCM": "-", "Chaff": "-", "Flare": "5",
+        "Launch_Envelopes": { "Front_150_180": "NA", "Side_90_120": "NA", "Rear_0_60": "12-2" },
+        "Base_Speed_Sustainer": "10-0", "Act_Homing": "-", "HOJ_MCG": "-",
+        "Die_Roll_to_Hit": { "Direct": "4", "Prox": "7" },
+        "Attack_Rating": { "Direct": "5", "Prox": "3" }
+      },
+      {
+        "Year": 1968, "Type": "AIM-9E2", "Name": "Sidewinder",
+        "Weight": 170, "Load": 1, "Seeker": "I", "Launch_G": "TT", "Lau_Roll": "7", "Turn_Rate": "BT/2", "Flight_Time": 2, "Visibility": 5, "ECCM": "-", "Chaff": "-", "Flare": "5",
+        "Launch_Envelopes": { "Front_150_180": "NA", "Side_90_120": "NA", "Rear_0_60": "12-2" },
+        "Base_Speed_Sustainer": "12-0", "Act_Homing": "-", "HOJ_MCG": "-",
+        "Die_Roll_to_Hit": { "Direct": "4", "Prox": "7" },
+        "Attack_Rating": { "Direct": "5", "Prox": "3" }
+      },
+      {
+        "Year": 1967, "Type": "AIM-9G", "Name": "Sidewinder",
+        "Weight": 190, "Load": 1, "Seeker": "M", "Launch_G": "HT", "Lau_Roll": "7", "Turn_Rate": "BT/2", "Flight_Time": 5, "Visibility": 7, "ECCM": "-", "Chaff": "-", "Flare": "5",
+        "Launch_Envelopes": { "Front_150_180": "NA", "Side_90_120": "9-4", "Rear_0_60": "12-2" },
+        "Base_Speed_Sustainer": "18-0", "Act_Homing": "-", "HOJ_MCG": "-",
+        "Die_Roll_to_Hit": { "Direct": "7", "Prox": "-" },
+        "Attack_Rating": { "Direct": "7", "Prox": "-" }
+      },
+      {
+        "Year": 1970, "Type": "AIM-9H", "Name": "Sidewinder",
+        "Weight": 185, "Load": 1, "Seeker": "M", "Launch_G": "HT", "Lau_Roll": "8", "Turn_Rate": "ET/2", "Flight_Time": 5, "Visibility": 7, "ECCM": "-", "Chaff": "-", "Flare": "5",
+        "Launch_Envelopes": { "Front_150_180": "NA", "Side_90_120": "9-4", "Rear_0_60": "12-2" },
+        "Base_Speed_Sustainer": "18-0", "Act_Homing": "-", "HOJ_MCG": "-",
+        "Die_Roll_to_Hit": { "Direct": "7", "Prox": "-" },
+        "Attack_Rating": { "Direct": "7", "Prox": "-" }
+      },
+      {
+        "Year": 1975, "Type": "AIM-9J", "Name": "Sidewinder",
+        "Weight": 175, "Load": 1, "Seeker": "I", "Launch_G": "HT", "Lau_Roll": "8", "Turn_Rate": "ET/2", "Flight_Time": 3, "Visibility": 7, "ECCM": "-", "Chaff": "-", "Flare": "5",
+        "Launch_Envelopes": { "Front_150_180": "NA", "Side_90_120": "NA", "Rear_0_60": "12-1" },
+        "Base_Speed_Sustainer": "16-0", "Act_Homing": "-", "HOJ_MCG": "-",
+        "Die_Roll_to_Hit": { "Direct": "5", "Prox": "8" },
+        "Attack_Rating": { "Direct": "5", "Prox": "3" }
+      },
+      {
+        "Year": 1956, "Type": "AIM-7A", "Name": "Sparrow-I",
+        "Weight": 300, "Load": 1, "Seeker": "BR", "Launch_G": "EZ", "Lau_Roll": "7", "Turn_Rate": "HT/2", "Flight_Time": 5, "Visibility": 8, "ECCM": "-", "Chaff": "5", "Flare": "-",
+        "Launch_Envelopes": { "Front_150_180": "NA", "Side_90_120": "NA", "Rear_0_60": "15-4" },
+        "Base_Speed_Sustainer": "8-0", "Act_Homing": "-", "HOJ_MCG": "-",
+        "Die_Roll_to_Hit": { "Direct": "2", "Prox": "7" },
+        "Attack_Rating": { "Direct": "6", "Prox": "4" }
+      },
+      {
+        "Year": 1958, "Type": "AIM-7C", "Name": "Sparrow-III",
+        "Weight": 400, "Load": 1, "Seeker": "RH", "Launch_G": "TT", "Lau_Roll": "7", "Turn_Rate": "HT/2", "Flight_Time": 5, "Visibility": 8, "ECCM": "-", "Chaff": "4", "Flare": "-",
+        "Launch_Envelopes": { "Front_150_180": "45-9", "Side_90_120": "30-9", "Rear_0_60": "20-4" },
+        "Base_Speed_Sustainer": "8-0", "Act_Homing": "-", "HOJ_MCG": "-",
+        "Die_Roll_to_Hit": { "Direct": "3", "Prox": "6" },
+        "Attack_Rating": { "Direct": "7", "Prox": "4" }
+      },
+      {
+        "Year": 1960, "Type": "AIM-7D", "Name": "Sparrow-III",
+        "Weight": 450, "Load": 1, "Seeker": "RH", "Launch_G": "TT", "Lau_Roll": "7", "Turn_Rate": "HT/2", "Flight_Time": 5, "Visibility": 9, "ECCM": "-", "Chaff": "4", "Flare": "-",
+        "Launch_Envelopes": { "Front_150_180": "45-9", "Side_90_120": "30-9", "Rear_0_60": "20-4" },
+        "Base_Speed_Sustainer": "10-0", "Act_Homing": "-", "HOJ_MCG": "-",
+        "Die_Roll_to_Hit": { "Direct": "4", "Prox": "7" },
+        "Attack_Rating": { "Direct": "8", "Prox": "4" }
+      },
+      {
+        "Year": 1962, "Type": "AIM-7E", "Name": "Sparrow-III",
+        "Weight": 450, "Load": 1, "Seeker": "RH", "Launch_G": "TT", "Lau_Roll": "7", "Turn_Rate": "HT/2", "Flight_Time": 5, "Visibility": 9, "ECCM": "-", "Chaff": "4", "Flare": "-",
+        "Launch_Envelopes": { "Front_150_180": "60-9", "Side_90_120": "40-6", "Rear_0_60": "24-3" },
+        "Base_Speed_Sustainer": "12-0", "Act_Homing": "-", "HOJ_MCG": "-",
+        "Die_Roll_to_Hit": { "Direct": "4", "Prox": "7" },
+        "Attack_Rating": { "Direct": "8", "Prox": "4" }
+      },
+      {
+        "Year": 1970, "Type": "AIM-7E2", "Name": "Sparrow-III",
+        "Weight": 450, "Load": 1, "Seeker": "RH", "Launch_G": "HT", "Lau_Roll": "8", "Turn_Rate": "BT/2", "Flight_Time": 5, "Visibility": 9, "ECCM": "-", "Chaff": "4", "Flare": "-",
+        "Launch_Envelopes": { "Front_150_180": "60-9", "Side_90_120": "40-6", "Rear_0_60": "24-2" },
+        "Base_Speed_Sustainer": "12-0", "Act_Homing": "-", "HOJ_MCG": "-",
+        "Die_Roll_to_Hit": { "Direct": "4", "Prox": "7" },
+        "Attack_Rating": { "Direct": "8", "Prox": "4" }
+      }
+    ],
+    "Russian_Air_to_Air_Missiles": [
+      {
+        "Year": 1958, "Type": "AA-1A", "Name": "Alkali",
+        "Weight": 200, "Load": 1, "Seeker": "BR", "Launch_G": "EZ", "Lau_Roll": "6", "Turn_Rate": "HT", "Flight_Time": 2, "Visibility": 7, "ECCM": "-", "Chaff": "5", "Flare": "-",
+        "Launch_Envelopes": { "Front_150_180": "NA", "Side_90_120": "NA", "Rear_0_60": "12-3" },
+        "Base_Speed_Sustainer": "6-0", "Act_Homing": "-", "HOJ_MCG": "-",
+        "Die_Roll_to_Hit": { "Direct": "2", "Prox": "6" },
+        "Attack_Rating": { "Direct": "6", "Prox": "4" }
+      },
+      {
+        "Year": 1965, "Type": "AA-1B", "Name": "Alkali",
+        "Weight": 200, "Load": 1, "Seeker": "RH", "Launch_G": "TT", "Lau_Roll": "7", "Turn_Rate": "BT", "Flight_Time": 2, "Visibility": 7, "ECCM": "-", "Chaff": "5", "Flare": "-",
+        "Launch_Envelopes": { "Front_150_180": "15-9", "Side_90_120": "9-6", "Rear_0_60": "12-2" },
+        "Base_Speed_Sustainer": "6-0", "Act_Homing": "-", "HOJ_MCG": "-",
+        "Die_Roll_to_Hit": { "Direct": "3", "Prox": "7" },
+        "Attack_Rating": { "Direct": "6", "Prox": "4" }
+      },
+      {
+        "Year": 1960, "Type": "AA-1C", "Name": "Alkali",
+        "Weight": 200, "Load": 1, "Seeker": "E", "Launch_G": "EZ", "Lau_Roll": "7", "Turn_Rate": "BT", "Flight_Time": 2, "Visibility": 7, "ECCM": "-", "Chaff": "-", "Flare": "6",
+        "Launch_Envelopes": { "Front_150_180": "NA", "Side_90_120": "NA", "Rear_0_60": "9-2" },
+        "Base_Speed_Sustainer": "6-0", "Act_Homing": "-", "HOJ_MCG": "-",
+        "Die_Roll_to_Hit": { "Direct": "2", "Prox": "6" },
+        "Attack_Rating": { "Direct": "6", "Prox": "4" }
+      },
+      {
+        "Year": 1959, "Type": "AA-2", "Name": "Atoll",
+        "Weight": 160, "Load": 1, "Seeker": "E", "Launch_G": "TT", "Lau_Roll": "7", "Turn_Rate": "HT/2", "Flight_Time": 2, "Visibility": 7, "ECCM": "-", "Chaff": "-", "Flare": "6",
+        "Launch_Envelopes": { "Front_150_180": "NA", "Side_90_120": "NA", "Rear_0_60": "9-2" },
+        "Base_Speed_Sustainer": "10-0", "Act_Homing": "-", "HOJ_MCG": "-",
+        "Die_Roll_to_Hit": { "Direct": "3", "Prox": "7" },
+        "Attack_Rating": { "Direct": "5", "Prox": "3" }
+      },
+      {
+        "Year": 1966, "Type": "AA-2B", "Name": "Atoll",
+        "Weight": 180, "Load": 1, "Seeker": "I", "Launch_G": "HT", "Lau_Roll": "7", "Turn_Rate": "ET/2", "Flight_Time": 2, "Visibility": 7, "ECCM": "-", "Chaff": "-", "Flare": "5",
+        "Launch_Envelopes": { "Front_150_180": "NA", "Side_90_120": "NA", "Rear_0_60": "12-2" },
+        "Base_Speed_Sustainer": "14-0", "Act_Homing": "-", "HOJ_MCG": "-",
+        "Die_Roll_to_Hit": { "Direct": "4", "Prox": "8" },
+        "Attack_Rating": { "Direct": "5", "Prox": "3" }
+      },
+      {
+        "Year": 1967, "Type": "AA-2-2", "Name": "Adv. Atoll",
+        "Weight": 200, "Load": 1, "Seeker": "RH", "Launch_G": "TT", "Lau_Roll": "7", "Turn_Rate": "BT", "Flight_Time": 2, "Visibility": 7, "ECCM": "-", "Chaff": "4", "Flare": "-",
+        "Launch_Envelopes": { "Front_150_180": "24-6", "Side_90_120": "12-6", "Rear_0_60": "15-4" },
+        "Base_Speed_Sustainer": "14-0", "Act_Homing": "-", "HOJ_MCG": "-",
+        "Die_Roll_to_Hit": { "Direct": "2", "Prox": "7" },
+        "Attack_Rating": { "Direct": "5", "Prox": "3" }
+      },
+      {
+        "Year": 1962, "Type": "AA-3A", "Name": "Anab",
+        "Weight": 600, "Load": 1.5, "Seeker": "I", "Launch_G": "TT", "Lau_Roll": "7", "Turn_Rate": "BT/2", "Flight_Time": 4, "Visibility": 9, "ECCM": "-", "Chaff": "-", "Flare": "5",
+        "Launch_Envelopes": { "Front_150_180": "NA", "Side_90_120": "NA", "Rear_0_60": "18-4" },
+        "Base_Speed_Sustainer": "10-0", "Act_Homing": "-", "HOJ_MCG": "-",
+        "Die_Roll_to_Hit": { "Direct": "3", "Prox": "7" },
+        "Attack_Rating": { "Direct": "9", "Prox": "4" }
+      },
+      {
+        "Year": 1962, "Type": "AA-3B", "Name": "Anab",
+        "Weight": 600, "Load": 1.5, "Seeker": "RH", "Launch_G": "TT", "Lau_Roll": "7", "Turn_Rate": "BT/2", "Flight_Time": 4, "Visibility": 9, "ECCM": "-", "Chaff": "5", "Flare": "-",
+        "Launch_Envelopes": { "Front_150_180": "36-9", "Side_90_120": "24-9", "Rear_0_60": "21-4" },
+        "Base_Speed_Sustainer": "10-0", "Act_Homing": "-", "HOJ_MCG": "-",
+        "Die_Roll_to_Hit": { "Direct": "3", "Prox": "7" },
+        "Attack_Rating": { "Direct": "9", "Prox": "4" }
+      },
+      {
+        "Year": 1972, "Type": "AA-3-2", "Name": "Anab",
+        "Weight": 600, "Load": 1.5, "Seeker": "RH", "Launch_G": "HT", "Lau_Roll": "8", "Turn_Rate": "ET/2", "Flight_Time": 4, "Visibility": 9, "ECCM": "-", "Chaff": "4", "Flare": "-",
+        "Launch_Envelopes": { "Front_150_180": "45-9", "Side_90_120": "30-9", "Rear_0_60": "24-3" },
+        "Base_Speed_Sustainer": "12-0", "Act_Homing": "-", "HOJ_MCG": "Y/N",
+        "Die_Roll_to_Hit": { "Direct": "4", "Prox": "8" },
+        "Attack_Rating": { "Direct": "9", "Prox": "4" }
+      }
+    ],
+    "Notes": [
+      "1. Instant Arming Missiles are indicated by a boldface typed name. There are none in \"The Speed Of Heat\".",
+      "2. Lookdown Missiles are indicated by \"( )\" around the Launch roll #. There are none in \"The Speed Of Heat\"."
+    ]
+  }
+}

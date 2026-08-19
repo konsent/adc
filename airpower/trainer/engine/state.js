@@ -34,12 +34,14 @@ export function createState({ aircraftId, hex, facing, alt, speed }) {
     facingChanges: 0,
     rollCount: 0,
     slideCount: 0,
+    specialDecel: 0,
     turnNumber: 0,
   };
 }
 
 /** 새 턴 시작. FP 예산을 정하고 턴 단위 카운터를 리셋한다. */
 export function beginTurn(state) {
+  const lastVertical = isClimbing(state.flightType) ? '상승' : isDiving(state.flightType) ? '하강' : '수평';
   return {
     ...state,
     hex: { ...state.hex },
@@ -54,6 +56,8 @@ export function beginTurn(state) {
     facingChanges: 0,
     rollCount: 0,
     slideCount: 0,
+    specialDecel: 0,
+    lastVertical,
     turnNumber: state.turnNumber + 1,
   };
 }
@@ -71,7 +75,8 @@ export function applyAction(state, action) {
         turnProgress: action.turn
           ? { rate: action.turn.rate, dir: action.turn.dir, fp: state.turnProgress?.fp ?? 0 }
           : null,
-        bank: action.turn ? action.turn.dir : state.bank,
+        // 선언만으로는 뱅크가 바뀌지 않는다. 실제 선회 완료 시 advanceTurn이 갱신한다.
+        bank: state.bank,
       };
 
     case 'hfp': {
@@ -111,6 +116,43 @@ export function applyAction(state, action) {
       });
     }
 
+    case 'slide': {
+      const sideFacing = normalizeFacing(Math.round(state.facing / 2) * 2 + (action.dir === 'L' ? -2 : 2));
+      let next = state;
+      // Rule 13.2: 두 HFP를 곧게 준비 비행한 후 마지막 FP로 횡이동한다.
+      for (let i = 0; i < 2; i += 1) next = applyAction(next, { kind: 'hfp' });
+      const hex = neighbor(next.hex, sideFacing);
+      return {
+        ...next, hex, position: centerPosition(hex), slideCount: next.slideCount + 1,
+        fpSpent: [...next.fpSpent, { type: 'SLIDE', hex }],
+      };
+    }
+
+    case 'roll': {
+      const prep = Math.floor(state.speed / 3);
+      const cost = Math.ceil(action.cost ?? 1);
+      const sideFacing = normalizeFacing(Math.round(state.facing / 2) * 2 + (action.dir === 'L' ? -2 : 2));
+      let next = state;
+      for (let i = 0; i < prep + cost - 1; i += 1) next = applyAction(next, { kind: 'hfp' });
+      const hex = neighbor(next.hex, sideFacing);
+      const rollCount = next.rollCount + 1;
+      return {
+        ...next, hex, position: centerPosition(hex),
+        facing: action.type === 'lag' ? normalizeFacing(next.facing + (action.dir === 'L' ? 1 : -1)) : next.facing,
+        rollCount, specialDecel: next.specialDecel + (action.decel ?? 0) + (rollCount > 1 ? 1 : 0),
+        fpSpent: [...next.fpSpent, { type: 'ROLL', roll: action.type, hex }], turnProgress: null,
+      };
+    }
+
+    case 'vr': {
+      const rollCount = state.rollCount + 1;
+      return {
+        ...state, facing: normalizeFacing(action.facing), rollCount,
+        specialDecel: state.specialDecel + (rollCount > 1 ? 1 : 0),
+        fpSpent: [...state.fpSpent, { type: 'ROLL', roll: 'vr', hex: { ...state.hex } }], turnProgress: null,
+      };
+    }
+
     default:
       throw new Error(`알 수 없는 action: ${action.kind}`);
   }
@@ -138,6 +180,7 @@ function advanceTurn(state) {
       facing,
       position: centerPosition(hex),
       facingChanges: state.facingChanges + 2,
+      bank: state.turnProgress.dir,
       turnProgress: { ...state.turnProgress, fp: 0 },
     };
   }
@@ -155,6 +198,7 @@ function advanceTurn(state) {
     // 헥스 중심 선회는 위치를 바꾸지 않는다. 헥스면 선회만 해당 방향 헥스로 들어간다.
     position: centerPosition(hex),
     facingChanges: state.facingChanges + 1,
+    bank: state.turnProgress.dir,
     turnProgress: { ...state.turnProgress, fp: 0 },
   };
 }

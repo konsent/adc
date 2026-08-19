@@ -1,0 +1,298 @@
+{
+    "Aircraft": "F-104G Starfighter",
+    "Crew": "Pilot only",
+    "Aircraft_Characteristics": {
+        "Cruise Speed": "6.0",
+        "Climb Speed": "4.5",
+        "Visibility": "5",
+        "Size Modifier": "0",
+        "Vulnerability": "0",
+        "Restr. Arcs": "-",
+        "Blind Arcs": "30",
+        "Internal Fuel": "290",
+        "Ata Refuel": "No",
+        "Ejection Seat": "Std."
+    },
+    "Air_Power": {
+        "Maneuver Costs": "HFP/Decel",
+        "Lag/Displ. Rolls": "1/1",
+        "Vertical Rolls": "0/0"
+    },
+    "Power_Chart_Accel": [
+        {
+            "Power": "Aft. Bur.",
+            "CL": "3.0",
+            "1/2": "2.5",
+            "DT": "2.0",
+            "Fuel": "6"
+        },
+        {
+            "Power": "Military",
+            "CL": "1.5",
+            "1/2": "1.5",
+            "DT": "1.0",
+            "Fuel": "2"
+        },
+        {
+            "Power": "Normal",
+            "CL": "0",
+            "1/2": "0",
+            "DT": "0",
+            "Fuel": "1"
+        },
+        {
+            "Power": "Idle",
+            "CL": "0.5",
+            "1/2": "0.5",
+            "DT": "0.5",
+            "Fuel": "0"
+        },
+        {
+            "Power": "Spbr",
+            "CL": "0.5",
+            "1/2": "0.5",
+            "DT": "1.0",
+            "Fuel": "-"
+        }
+    ],
+    "Turn_Drag_Chart_Decel": [
+        {
+            "Turn": "TT",
+            "CL": "2",
+            "1/2": "2",
+            "DT": "2"
+        },
+        {
+            "Turn": "HT",
+            "CL": "3,2",
+            "1/2": "4,3",
+            "DT": "4,3"
+        },
+        {
+            "Turn": "BT",
+            "CL": "4,3",
+            "1/2": "5,4",
+            "DT": "5,4"
+        },
+        {
+            "Turn": "ET",
+            "CL": "-",
+            "1/2": "-",
+            "DT": "-"
+        }
+    ],
+    "Minimum_Maximum_Velocity_Chart": [
+        {
+            "Alt. Band": "EH+",
+            "Conf. Ceil.": "46+",
+            "CL": {
+                "Min": "5.5",
+                "Max": "15"
+            },
+            "1/2": {
+                "Min": "5.5",
+                "Max": "12"
+            },
+            "DT": {
+                "Min": "4.5",
+                "Max": "10.5"
+            }
+        },
+        {
+            "Alt. Band": "VH",
+            "Conf. Ceil.": "36-45",
+            "CL": {
+                "Min": "4",
+                "Max": "14"
+            },
+            "1/2": {
+                "Min": "4",
+                "Max": "11"
+            },
+            "DT": {
+                "Min": "4",
+                "Max": "10.5"
+            }
+        },
+        {
+            "Alt. Band": "HI",
+            "Conf. Ceil.": "26-35",
+            "CL": {
+                "Min": "3",
+                "Max": "13"
+            },
+            "1/2": {
+                "Min": "3",
+                "Max": "11.5"
+            },
+            "DT": {
+                "Min": "3.5",
+                "Max": "10"
+            }
+        },
+        {
+            "Alt. Band": "MH",
+            "Conf. Ceil.": "17-25",
+            "CL": {
+                "Min": "2.5",
+                "Max": "12"
+            },
+            "1/2": {
+                "Min": "3",
+                "Max": "9.5"
+            },
+            "DT": {
+                "Min": "3",
+                "Max": "9"
+            }
+        },
+        {
+            "Alt. Band": "ML",
+            "Conf. Ceil.": "8-16",
+            "CL": {
+                "Min": "2",
+                "Max": "10.5"
+            },
+            "1/2": {
+                "Min": "2",
+                "Max": "8.5"
+            },
+            "DT": {
+                "Min": "2.5",
+                "Max": "8"
+            }
+        },
+        {
+            "Alt. Band": "LO",
+            "Conf. Ceil.": "1-7",
+            "CL": {
+                "Min": "2",
+                "Max": "9"
+            },
+            "1/2": {
+                "Min": "2",
+                "Max": "8"
+            },
+            "DT": {
+                "Min": "2",
+                "Max": "7"
+            }
+        }
+    ],
+    "Climb_Capability_Chart": [
+        {
+            "Dive Vel.": "16",
+            "CL AB": "2",
+            "CL Other": ".5",
+            "1/2 AB": "1",
+            "1/2 Other": ".5",
+            "DT AB": "0",
+            "DT Other": "0",
+            "Alt. Band": "EH+"
+        },
+        {
+            "Dive Vel.": "16",
+            "CL AB": "3",
+            "CL Other": "1",
+            "1/2 AB": "2",
+            "1/2 Other": ".5",
+            "DT AB": "1",
+            "DT Other": ".5",
+            "Alt. Band": "VH"
+        },
+        {
+            "Dive Vel.": "14",
+            "CL AB": "4",
+            "CL Other": "1",
+            "1/2 AB": "3",
+            "1/2 Other": "1",
+            "DT AB": "1",
+            "DT Other": ".5",
+            "Alt. Band": "HI"
+        },
+        {
+            "Dive Vel.": "13",
+            "CL AB": "5",
+            "CL Other": "2",
+            "1/2 AB": "3",
+            "1/2 Other": "1",
+            "DT AB": "2",
+            "DT Other": "1",
+            "Alt. Band": "MH"
+        },
+        {
+            "Dive Vel.": "12",
+            "CL AB": "6",
+            "CL Other": "2",
+            "1/2 AB": "4",
+            "1/2 Other": "1",
+            "DT AB": "2",
+            "DT Other": "1",
+            "Alt. Band": "ML"
+        },
+        {
+            "Dive Vel.": "11",
+            "CL AB": "6",
+            "CL Other": "2",
+            "1/2 AB": "4",
+            "1/2 Other": "1",
+            "DT AB": "2",
+            "DT Other": "1",
+            "Alt. Band": "LO"
+        }
+    ],
+    "Avionics_Electronics": {
+        "Radar": "F-15A",
+        "ECCM": "0",
+        "Arcs": "180+",
+        "Search": "60-10",
+        "Track": "30-10",
+        "Lock-on": "6",
+        "ECM": "F-104G",
+        "IFF": "Yes",
+        "RWR": "A",
+        "DDS": "-",
+        "DJM": "-",
+        "AJM": "-"
+    },
+    "Weapons_and_Systems": {
+        "Gun Type": "20mm Vulcan",
+        "Roll to Hit": "0=7, 1=6, 2=4",
+        "Ammunition": "3.5",
+        "Gunsight Mods": "HT+2, BT+3",
+        "Radar Ranging": "RE",
+        "AtA/AtG": "6/8*",
+        "Bomb System": "Manual (-0)",
+        "Technology": "None"
+    },
+    "Configuration_and_Limits": {
+        "Configuration Points Limits": "CL=0-4, 1/2=5-8, DT=9+",
+        "Load Limit": "6,600",
+        "Weapons Stations": [
+            {
+                "Weapon Stations": "1,5",
+                "Station Limits": "1100",
+                "Allowed Loads": "IRM, FT"
+            },
+            {
+                "Weapon Stations": "2,4",
+                "Station Limits": "1100",
+                "Allowed Loads": "BB, BG, RP, RG, ASM, WR, EP, IRM, FT"
+            },
+            {
+                "Weapon Stations": "3",
+                "Station Limits": "2200",
+                "Allowed Loads": "BB, BG, RP, WR, EP, PP, FT"
+            }
+        ]
+    },
+    "Notes_and_Variants": [
+        "1. Rapid acceleration aircraft. Rapid power response.",
+        "2. Low transonic drag (LTD). Good supersonic maneuver (GSSM).",
+        "3. May use AIM-9 type IRMs.",
+        "4. 20mm gun may be deleted and internal fuel increased to 330.",
+        "Variant: CF-104 (Canadian Starfighter): No internal gun; internal fuel = 330; no ASM.",
+        "Variant: F-104J (Japanese Starfighter): No maneuver flaps; increase all min speeds by 0.5."
+    ],
+    "V.P.s": "104G/CF-104=18,12,6,3  104J=16,10,6,2"
+}

@@ -44,6 +44,11 @@ export const GUNS = {
   'MIG-31': { type: 'GSh twin 23mm', hit: [7, 4, 2], rating: 5, ammo: 3.5, rr: 'RE', size: -1 },
   'MIG-21MF': { type: 'GSh twin 23mm', hit: [7, 4, 2], rating: 5, ammo: 2.5, rr: 'RE', size: 0 },
   'MIG-21BIS': { type: 'GSh twin 23mm', hit: [7, 4, 2], rating: 5, ammo: null, rr: 'RE', size: 0 },
+  // Speed of Heat MiG-15 ADC: Two 23mm, One 37mm; Roll to Hit 0=4, 1=2, 2=1; AtA 5.
+  'SPOH-MIG-15-FAGOT': { type: 'Two 23mm, One 37mm', hit: [4, 2, 1], rating: 5, ammo: 3, rr: null, size: 0 },
+  // F-86F Sabre ADC (used as the T-3 F-86E performance and gun-data substitute).
+  'SPOH-F-86F-SABRE': { type: 'Six .50 Cal M.G.', hit: [6, 3, 0], rating: 4, ammo: 7, rr: null, size: 0 },
+  'SPOH-F-86E-SABRE': { type: 'Six .50 Cal M.G.', hit: [6, 3, 0], rating: 4, ammo: 7, rr: null, size: 0 },
   'SU-17': { type: '2 x 30mm', hit: [4, 2, 1], rating: 5, ammo: null, rr: 'RE', size: 0 },
   'SU-27': { type: '1 x 30mm', hit: [6, 4, 2], rating: 5, ammo: null, rr: 'RE', size: -1 },
 };

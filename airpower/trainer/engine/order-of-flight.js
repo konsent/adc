@@ -3,15 +3,18 @@ import { distance, hexCenter } from './hex.js';
 
 /**
  * 우위 범주 (Rule 12.2). 낮은 번호가 먼저 기동한다.
- * ponytail: Departed(1)/Engaged(3)/Unspotted(7)/Undetected(8)은 엔진에 해당 상태가
- * 아직 없어 판정하지 않는다. 스텔스·미사일이 들어오면 여기에 분기를 추가한다.
+ * 상태 플래그는 시나리오/미사일 엔진이 부여한다. 해당 시스템이 없는 시나리오에서는
+ * 기존처럼 4~6번 전술 위치만으로 정렬된다.
  */
 export const CATEGORY = {
-  STALLED: 2, DISADVANTAGED: 4, NONADVANTAGED: 5, ADVANTAGED: 6,
+  DEPARTED: 1, STALLED: 2, ENGAGED: 3, DISADVANTAGED: 4,
+  NONADVANTAGED: 5, ADVANTAGED: 6, UNSPOTTED: 7, UNDETECTED: 8,
 };
 
 export const CATEGORY_LABEL = {
-  2: 'Stalled(스톨)', 4: 'Disadvantaged(불리)', 5: 'Nonadvantaged(등가)', 6: 'Advantaged(유리)',
+  1: 'Departed(조종 불능)', 2: 'Stalled(스톨)', 3: 'Engaged(회피)',
+  4: 'Disadvantaged(불리)', 5: 'Nonadvantaged(등가)', 6: 'Advantaged(유리)',
+  7: 'Unspotted(미포착)', 8: 'Undetected(미탐지)',
 };
 
 /** a가 b의 후방 사각(150~180도)을 9헥스·고도차 이내에서 물고 있는가 (Rule 12.2). */
@@ -47,8 +50,12 @@ function isStalled(jet) {
  */
 export function categorize(jet, foes) {
   if (jet.damage === 'K') return null;
+  if (jet.departed) return CATEGORY.DEPARTED;
   if (isStalled(jet)) return CATEGORY.STALLED;
+  if (jet.engaged) return CATEGORY.ENGAGED;
   const live = foes.filter(f => f.damage !== 'K');
+  if (jet.radarDetectedByEnemy === false) return CATEGORY.UNDETECTED;
+  if (jet.sightedByEnemy === false) return CATEGORY.UNSPOTTED;
   const hunted = live.some(f => isOnTail(f, jet));
   const hunting = live.some(f => isOnTail(jet, f));
   if (hunted && !hunting) return CATEGORY.DISADVANTAGED;

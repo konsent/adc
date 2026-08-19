@@ -1,0 +1,314 @@
+{
+    "Aircraft": "F-14D Tomcat",
+    "Crew": "Pilot, Radar Officer",
+    "Aircraft_Characteristics": {
+        "Cruise Speed": "6.0",
+        "Climb Speed": "5.0",
+        "Visibility": "8",
+        "Size Modifier": "-1",
+        "Vulnerability": "+1",
+        "Restr. Arcs": "-",
+        "Blind Arcs": "30L",
+        "Internal Fuel": "750",
+        "Ata Refuel": "Yes",
+        "Ejection Seat": "Adv."
+    },
+    "Air_Power": {
+        "Maneuver Costs": "HFP/Decel",
+        "Lag/Displ. Rolls": "1.5/1",
+        "Vertical Rolls": "0/.5"
+    },
+    "Power_Chart_Accel": [
+        {
+            "Power": "Aft. Bur.",
+            "CL": "4.5",
+            "1/2": "4.0",
+            "DT": "3.5",
+            "Fuel": "20"
+        },
+        {
+            "Power": "Military",
+            "CL": "1.5",
+            "1/2": "1.5",
+            "DT": "1.0",
+            "Fuel": "5"
+        },
+        {
+            "Power": "Normal",
+            "CL": "0",
+            "1/2": "0",
+            "DT": "0",
+            "Fuel": "2"
+        },
+        {
+            "Power": "Idle",
+            "CL": "0.5",
+            "1/2": "0.5",
+            "DT": "1.0",
+            "Fuel": "0"
+        },
+        {
+            "Power": "Spbr",
+            "CL": "0.5",
+            "1/2": "0.5",
+            "DT": "1.0",
+            "Fuel": "-"
+        }
+    ],
+    "Turn_Drag_Chart_Decel": [
+        {
+            "Turn": "TT",
+            "CL": "0,1,2",
+            "1/2": "0,1,2",
+            "DT": "1,1,2"
+        },
+        {
+            "Turn": "HT",
+            "CL": "1,1,2",
+            "1/2": "1,2,3",
+            "DT": "2,2,3"
+        },
+        {
+            "Turn": "BT",
+            "CL": "2,3,4",
+            "1/2": "2,3,4",
+            "DT": "2,3,5"
+        },
+        {
+            "Turn": "ET",
+            "CL": "3,3,5",
+            "1/2": "-",
+            "DT": "-"
+        }
+    ],
+    "Minimum_Maximum_Velocity_Chart": [
+        {
+            "Alt. Band": "EH+",
+            "Conf. Ceil.": "46+",
+            "CL": {
+                "Min": "3",
+                "Max": "15"
+            },
+            "1/2": {
+                "Min": "4",
+                "Max": "14"
+            },
+            "DT": {
+                "Min": "4",
+                "Max": "12"
+            }
+        },
+        {
+            "Alt. Band": "VH",
+            "Conf. Ceil.": "36-45",
+            "CL": {
+                "Min": "2.5",
+                "Max": "15"
+            },
+            "1/2": {
+                "Min": "3.5",
+                "Max": "13"
+            },
+            "DT": {
+                "Min": "3.5",
+                "Max": "11"
+            }
+        },
+        {
+            "Alt. Band": "HI",
+            "Conf. Ceil.": "26-35",
+            "CL": {
+                "Min": "2",
+                "Max": "14"
+            },
+            "1/2": {
+                "Min": "2.5",
+                "Max": "12"
+            },
+            "DT": {
+                "Min": "3",
+                "Max": "10"
+            }
+        },
+        {
+            "Alt. Band": "MH",
+            "Conf. Ceil.": "17-25",
+            "CL": {
+                "Min": "1.5",
+                "Max": "12"
+            },
+            "1/2": {
+                "Min": "2",
+                "Max": "10"
+            },
+            "DT": {
+                "Min": "2.5",
+                "Max": "9.5"
+            }
+        },
+        {
+            "Alt. Band": "ML",
+            "Conf. Ceil.": "8-16",
+            "CL": {
+                "Min": "1",
+                "Max": "10"
+            },
+            "1/2": {
+                "Min": "1.5",
+                "Max": "9.5"
+            },
+            "DT": {
+                "Min": "2",
+                "Max": "9"
+            }
+        },
+        {
+            "Alt. Band": "LO",
+            "Conf. Ceil.": "1-7",
+            "CL": {
+                "Min": "1",
+                "Max": "9"
+            },
+            "1/2": {
+                "Min": "1.5",
+                "Max": "8.5"
+            },
+            "DT": {
+                "Min": "2",
+                "Max": "8"
+            }
+        }
+    ],
+    "Climb_Capability_Chart": [
+        {
+            "Dive Vel.": "16",
+            "CL AB": "2",
+            "CL Other": "1",
+            "1/2 AB": "1",
+            "1/2 Other": ".5",
+            "DT AB": "1",
+            "DT Other": ".5",
+            "Alt. Band": "EH+"
+        },
+        {
+            "Dive Vel.": "15",
+            "CL AB": "3",
+            "CL Other": "2",
+            "1/2 AB": "2",
+            "1/2 Other": "1",
+            "DT AB": "1",
+            "DT Other": ".5",
+            "Alt. Band": "VH"
+        },
+        {
+            "Dive Vel.": "15",
+            "CL AB": "5",
+            "CL Other": "2",
+            "1/2 AB": "3",
+            "1/2 Other": "1",
+            "DT AB": "2",
+            "DT Other": "1",
+            "Alt. Band": "HI"
+        },
+        {
+            "Dive Vel.": "14",
+            "CL AB": "6",
+            "CL Other": "3",
+            "1/2 AB": "4",
+            "1/2 Other": "2",
+            "DT AB": "2",
+            "DT Other": "1",
+            "Alt. Band": "MH"
+        },
+        {
+            "Dive Vel.": "12",
+            "CL AB": "7",
+            "CL Other": "3",
+            "1/2 AB": "5",
+            "1/2 Other": "2",
+            "DT AB": "2",
+            "DT Other": "1",
+            "Alt. Band": "ML"
+        },
+        {
+            "Dive Vel.": "10",
+            "CL AB": "8",
+            "CL Other": "4",
+            "1/2 AB": "5",
+            "1/2 Other": "3",
+            "DT AB": "3",
+            "DT Other": "1",
+            "Alt. Band": "LO"
+        }
+    ],
+    "Avionics_Electronics": {
+        "Radar": "APG-71",
+        "ECCM": "4",
+        "Arcs": "120+",
+        "Search": "500-80",
+        "Track": "360-60",
+        "Lock-on": "8",
+        "ECM": "F-14D",
+        "IFF": "Yes",
+        "RWR": "C",
+        "DDS": "B",
+        "DJM": "B4",
+        "AJM": "-"
+    },
+    "Weapons_and_Systems": {
+        "Gun Type": "20mm Vulcan",
+        "Roll to Hit": "0=7, 1=6, 2=4",
+        "Ammunition": "3.5",
+        "Gunsight Mods": "BT+1",
+        "Radar Ranging": "CA",
+        "AtA/AtG": "6/8*",
+        "Bomb System": "None",
+        "Technology": "Look-down Radar, Auto Track, HUD Interface, IR Uncage, Track while scan, Multi-target (6), V.A.S. (6), Target ID, IRSTS-B"
+    },
+    "Configuration_and_Limits": {
+        "Configuration Points Limits": "CL=0-8, 1/2=9-14, DT=15+",
+        "Load Limit": "10,800",
+        "Weapons Stations": [
+            {
+                "Weapon Stations": "1,5",
+                "Station Limits": "3000",
+                "Allowed Loads": "IRM, RHM, EP, AHM"
+            },
+            {
+                "Weapon Stations": "2,4",
+                "Station Limits": "2200",
+                "Allowed Loads": "FT"
+            },
+            {
+                "Weapon Stations": "3",
+                "Station Limits": "2000",
+                "Allowed Loads": "PP, EP"
+            },
+            {
+                "Weapon Stations": "6,7",
+                "Station Limits": "1000",
+                "Allowed Loads": "RHM, AHM"
+            },
+            {
+                "Weapon Stations": "9,10",
+                "Station Limits": "1000",
+                "Allowed Loads": "AIM-54 only"
+            },
+            {
+                "Weapon Stations": "8,11",
+                "Station Limits": "500",
+                "Allowed Loads": "RHM, AHM"
+            }
+        ]
+    },
+    "Notes_and_Variants": [
+        "1. High pitch rate.",
+        "2. Computerized swing wing...",
+        "3. HTD/NTD/LTD for wings forward/mid/aft.",
+        "4. Good supersonic maneuver (GSSM).",
+        "5. ECM upgrade: DJM C4 in 1990.",
+        "6. Weapon stations 1 and 5 may carry one IRM...",
+        "7. May use AIM-9, AIM-7, AIM-54, AIM-120 type missiles."
+    ],
+    "V.P.s": "F-14D=42,28,14,7"
+}

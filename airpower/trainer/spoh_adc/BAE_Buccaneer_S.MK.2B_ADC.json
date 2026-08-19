@@ -1,0 +1,295 @@
+{
+    "Aircraft": "BAE Buccaneer S.MK.2B",
+    "Crew": "Pilot, Weapons Officer",
+    "Aircraft_Characteristics": {
+        "Cruise Speed": "5.5",
+        "Climb Speed": "4.0",
+        "Visibility": "7",
+        "Size Modifier": "0",
+        "Vulnerability": "0",
+        "Restr. Arcs": "-",
+        "Blind Arcs": "60",
+        "Internal Fuel": "770",
+        "Ata Refuel": "Yes",
+        "Ejection Seat": "Std."
+    },
+    "Air_Power": {
+        "Maneuver Costs": "HFP/Decel",
+        "Lag/Displ. Rolls": "1.5/1.5",
+        "Vertical Rolls": "0/.5"
+    },
+    "Power_Chart_Accel": [
+        {
+            "Power": "Aft. Bur.",
+            "CL": "-",
+            "1/2": "-",
+            "DT": "-",
+            "Fuel": "-"
+        },
+        {
+            "Power": "Military",
+            "CL": "1.0",
+            "1/2": "1.0",
+            "DT": "1.0",
+            "Fuel": "3"
+        },
+        {
+            "Power": "Normal",
+            "CL": "0",
+            "1/2": "0",
+            "DT": "0",
+            "Fuel": "1"
+        },
+        {
+            "Power": "Idle",
+            "CL": "0.5",
+            "1/2": "0.5",
+            "DT": "1.0",
+            "Fuel": "0"
+        },
+        {
+            "Power": "Spbr",
+            "CL": "0.5",
+            "1/2": "0.5",
+            "DT": "1.0",
+            "Fuel": "-"
+        }
+    ],
+    "Turn_Drag_Chart_Decel": [
+        {
+            "Turn": "TT",
+            "CL": "1",
+            "1/2": "2",
+            "DT": "2"
+        },
+        {
+            "Turn": "HT",
+            "CL": "1",
+            "1/2": "2",
+            "DT": "3"
+        },
+        {
+            "Turn": "BT",
+            "CL": "2",
+            "1/2": "4",
+            "DT": "4"
+        },
+        {
+            "Turn": "ET",
+            "CL": "-",
+            "1/2": "-",
+            "DT": "-"
+        }
+    ],
+    "Minimum_Maximum_Velocity_Chart": [
+        {
+            "Alt. Band": "EH+",
+            "Conf. Ceil.": "46+",
+            "CL": {
+                "Min": "-",
+                "Max": "-"
+            },
+            "1/2": {
+                "Min": "-",
+                "Max": "-"
+            },
+            "DT": {
+                "Min": "-",
+                "Max": "-"
+            }
+        },
+        {
+            "Alt. Band": "VH",
+            "Conf. Ceil.": "36-45",
+            "CL": {
+                "Min": "3.5",
+                "Max": "6"
+            },
+            "1/2": {
+                "Min": "4",
+                "Max": "5.5"
+            },
+            "DT": {
+                "Min": "-",
+                "Max": "-"
+            }
+        },
+        {
+            "Alt. Band": "HI",
+            "Conf. Ceil.": "26-35",
+            "CL": {
+                "Min": "3",
+                "Max": "6"
+            },
+            "1/2": {
+                "Min": "3.5",
+                "Max": "5.5"
+            },
+            "DT": {
+                "Min": "3.5",
+                "Max": "5"
+            }
+        },
+        {
+            "Alt. Band": "MH",
+            "Conf. Ceil.": "17-25",
+            "CL": {
+                "Min": "2.5",
+                "Max": "6"
+            },
+            "1/2": {
+                "Min": "3",
+                "Max": "5.5"
+            },
+            "DT": {
+                "Min": "3",
+                "Max": "5"
+            }
+        },
+        {
+            "Alt. Band": "ML",
+            "Conf. Ceil.": "8-16",
+            "CL": {
+                "Min": "2.5",
+                "Max": "6"
+            },
+            "1/2": {
+                "Min": "2.5",
+                "Max": "6"
+            },
+            "DT": {
+                "Min": "2.5",
+                "Max": "5.5"
+            }
+        },
+        {
+            "Alt. Band": "LO",
+            "Conf. Ceil.": "1-7",
+            "CL": {
+                "Min": "2",
+                "Max": "6.5"
+            },
+            "1/2": {
+                "Min": "2.5",
+                "Max": "6"
+            },
+            "DT": {
+                "Min": "2.5",
+                "Max": "5.5"
+            }
+        }
+    ],
+    "Climb_Capability_Chart": [
+        {
+            "Dive Vel.": "-",
+            "CL AB": "-",
+            "CL Other": "-",
+            "1/2 AB": "-",
+            "1/2 Other": "-",
+            "DT AB": "-",
+            "DT Other": "-",
+            "Alt. Band": "EH+"
+        },
+        {
+            "Dive Vel.": "8",
+            "CL AB": "-",
+            "CL Other": ".5",
+            "1/2 AB": "-",
+            "1/2 Other": ".5",
+            "DT AB": "-",
+            "DT Other": "-",
+            "Alt. Band": "VH"
+        },
+        {
+            "Dive Vel.": "8",
+            "CL AB": "-",
+            "CL Other": ".5",
+            "1/2 AB": "-",
+            "1/2 Other": ".5",
+            "DT AB": "-",
+            "DT Other": ".5",
+            "Alt. Band": "HI"
+        },
+        {
+            "Dive Vel.": "7.5",
+            "CL AB": "-",
+            "CL Other": "1",
+            "1/2 AB": "-",
+            "1/2 Other": ".5",
+            "DT AB": "-",
+            "DT Other": ".5",
+            "Alt. Band": "MH"
+        },
+        {
+            "Dive Vel.": "7.5",
+            "CL AB": "-",
+            "CL Other": "1",
+            "1/2 AB": "-",
+            "1/2 Other": "1",
+            "DT AB": "-",
+            "DT Other": ".5",
+            "Alt. Band": "ML"
+        },
+        {
+            "Dive Vel.": "7",
+            "CL AB": "-",
+            "CL Other": "1",
+            "1/2 AB": "-",
+            "1/2 Other": "1",
+            "DT AB": "-",
+            "DT Other": "1",
+            "Alt. Band": "LO"
+        }
+    ],
+    "Avionics_Electronics": {
+        "Radar": "Blue Parrot",
+        "ECCM": "0",
+        "Arcs": "180+",
+        "Search": "Gr. Nav. (120)",
+        "Track": "Gr. Att. (60)",
+        "Lock-on": "7*",
+        "ECM": "S.MK.2B",
+        "IFF": "Yes",
+        "RWR": "B",
+        "DDS": "-",
+        "DJM": "-",
+        "AJM": "-"
+    },
+    "Weapons_and_Systems": {
+        "Gun Type": "None",
+        "Roll to Hit": "-",
+        "Ammunition": "-",
+        "Gunsight Mods": "-",
+        "Radar Ranging": "-",
+        "AtA/AtG": "-",
+        "Bomb System": "Ballistic (-1)",
+        "Technology": "None"
+    },
+    "Configuration_and_Limits": {
+        "Configuration Points Limits": "CL=0-8, 1/2=9-14, DT=15+",
+        "Load Limit": "16,000",
+        "Weapons Stations": [
+            {
+                "Weapon Stations": "1,5",
+                "Station Limits": "3000",
+                "Allowed Loads": "BB, BG, RP, RS, WR, EP, DP, IRM, ASM"
+            },
+            {
+                "Weapon Stations": "2,4",
+                "Station Limits": "3000",
+                "Allowed Loads": "BB, BG, RP, RG, RS, WR, ARM, ASM, IRM, FT, EP, DP, LP"
+            },
+            {
+                "Weapon Stations": "3",
+                "Station Limits": "4000",
+                "Allowed Loads": "BB, FT, PP"
+            }
+        ]
+    },
+    "Notes_and_Variants": [
+        "1. Station 3 is an internal bomb bay...",
+        "2. May use AS-37 type ARMs. After 1990, may use ALARM ARMs.",
+        "3. May use AIM-9, Matra 550 type IRMs."
+    ],
+    "V.P.s": "S.MK.2B=28,18,9,5"
+}

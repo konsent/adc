@@ -1,0 +1,284 @@
+{
+    "Aircraft": "CM-170 Magister",
+    "Crew": "Pilot, Observer",
+    "Aircraft_Characteristics": {
+        "Cruise Speed": "3.0",
+        "Climb Speed": "2.5",
+        "Visibility": "5",
+        "Size Modifier": "+1",
+        "Vulnerability": "-1",
+        "Restr. Arcs": "-",
+        "Blind Arcs": "30",
+        "Internal Fuel": "140",
+        "Ata Refuel": "No",
+        "Ejection Seat": "None"
+    },
+    "Air_Power": {
+        "Maneuver Costs": "HFP/Decel",
+        "Lag/Displ. Rolls": "1.5/1.5",
+        "Vertical Rolls": "0/1"
+    },
+    "Power_Chart_Accel": [
+        {
+            "Power": "Aft. Bur.",
+            "CL": "-",
+            "1/2": "-",
+            "DT": "-",
+            "Fuel": "-"
+        },
+        {
+            "Power": "Military",
+            "CL": "0.5",
+            "1/2": "0.5",
+            "DT": "0.5",
+            "Fuel": "1"
+        },
+        {
+            "Power": "Normal",
+            "CL": "0",
+            "1/2": "0",
+            "DT": "0",
+            "Fuel": "0.5"
+        },
+        {
+            "Power": "Idle",
+            "CL": "0.5",
+            "1/2": "0.5",
+            "DT": "0.5",
+            "Fuel": "0"
+        },
+        {
+            "Power": "Spbr",
+            "CL": "0.5",
+            "1/2": "0.5",
+            "DT": "0.5",
+            "Fuel": "-"
+        }
+    ],
+    "Turn_Drag_Chart_Decel": [
+        {
+            "Turn": "TT",
+            "CL": "0",
+            "1/2": "0",
+            "DT": "0"
+        },
+        {
+            "Turn": "HT",
+            "CL": "0",
+            "1/2": "0",
+            "DT": "1"
+        },
+        {
+            "Turn": "BT",
+            "CL": "1",
+            "1/2": "1",
+            "DT": "1"
+        },
+        {
+            "Turn": "ET",
+            "CL": "-",
+            "1/2": "-",
+            "DT": "-"
+        }
+    ],
+    "Minimum_Maximum_Velocity_Chart": [
+        {
+            "Alt. Band": "EH+",
+            "Conf. Ceil.": "46+",
+            "CL": {
+                "Min": "-",
+                "Max": "-"
+            },
+            "1/2": {
+                "Min": "-",
+                "Max": "-"
+            },
+            "DT": {
+                "Min": "-",
+                "Max": "-"
+            }
+        },
+        {
+            "Alt. Band": "VH",
+            "Conf. Ceil.": "36-45",
+            "CL": {
+                "Min": "-",
+                "Max": "-"
+            },
+            "1/2": {
+                "Min": "-",
+                "Max": "-"
+            },
+            "DT": {
+                "Min": "-",
+                "Max": "-"
+            }
+        },
+        {
+            "Alt. Band": "HI",
+            "Conf. Ceil.": "26-35",
+            "CL": {
+                "Min": "1.5",
+                "Max": "4"
+            },
+            "1/2": {
+                "Min": "1.5",
+                "Max": "3.5"
+            },
+            "DT": {
+                "Min": "1.5",
+                "Max": "3.5"
+            }
+        },
+        {
+            "Alt. Band": "MH",
+            "Conf. Ceil.": "17-25",
+            "CL": {
+                "Min": "1.5",
+                "Max": "4"
+            },
+            "1/2": {
+                "Min": "1.5",
+                "Max": "4"
+            },
+            "DT": {
+                "Min": "1.5",
+                "Max": "4"
+            }
+        },
+        {
+            "Alt. Band": "ML",
+            "Conf. Ceil.": "8-16",
+            "CL": {
+                "Min": "1",
+                "Max": "4"
+            },
+            "1/2": {
+                "Min": "1",
+                "Max": "4"
+            },
+            "DT": {
+                "Min": "1",
+                "Max": "4.5"
+            }
+        },
+        {
+            "Alt. Band": "LO",
+            "Conf. Ceil.": "1-7",
+            "CL": {
+                "Min": "1",
+                "Max": "4"
+            },
+            "1/2": {
+                "Min": "1",
+                "Max": "4"
+            },
+            "DT": {
+                "Min": "1",
+                "Max": "4.5"
+            }
+        }
+    ],
+    "Climb_Capability_Chart": [
+        {
+            "Dive Vel.": "-",
+            "CL AB": "-",
+            "CL Other": "-",
+            "1/2 AB": "-",
+            "1/2 Other": "-",
+            "DT AB": "-",
+            "DT Other": "-",
+            "Alt. Band": "EH+"
+        },
+        {
+            "Dive Vel.": "-",
+            "CL AB": "-",
+            "CL Other": "-",
+            "1/2 AB": "-",
+            "1/2 Other": "-",
+            "DT AB": "-",
+            "DT Other": "-",
+            "Alt. Band": "VH"
+        },
+        {
+            "Dive Vel.": "4.5",
+            "CL AB": "-",
+            "CL Other": ".25",
+            "1/2 AB": "-",
+            "1/2 Other": ".25",
+            "DT AB": "-",
+            "DT Other": ".25",
+            "Alt. Band": "HI"
+        },
+        {
+            "Dive Vel.": "4.5",
+            "CL AB": "-",
+            "CL Other": ".5",
+            "1/2 AB": "-",
+            "1/2 Other": ".25",
+            "DT AB": "-",
+            "DT Other": ".25",
+            "Alt. Band": "MH"
+        },
+        {
+            "Dive Vel.": "4.5",
+            "CL AB": "-",
+            "CL Other": ".5",
+            "1/2 AB": "-",
+            "1/2 Other": ".5",
+            "DT AB": "-",
+            "DT Other": ".5",
+            "Alt. Band": "ML"
+        },
+        {
+            "Dive Vel.": "4.5",
+            "CL AB": "-",
+            "CL Other": ".5",
+            "1/2 AB": "-",
+            "1/2 Other": "1",
+            "DT AB": "-",
+            "DT Other": ".5",
+            "Alt. Band": "LO"
+        }
+    ],
+    "Avionics_Electronics": {
+        "Radar": "None",
+        "ECCM": "-",
+        "Arcs": "-",
+        "Search": "-",
+        "Track": "-",
+        "Lock-on": "-",
+        "ECM": "CM-170",
+        "IFF": "Yes",
+        "RWR": "-",
+        "DDS": "-",
+        "DJM": "-",
+        "AJM": "-"
+    },
+    "Weapons_and_Systems": {
+        "Gun Type": "2 7.5mm MG",
+        "Roll to Hit": "0=4, 1=1, 2=NA",
+        "Ammunition": "8.0",
+        "Gunsight Mods": "TT+1, HT+2, BT+3",
+        "Radar Ranging": "-",
+        "AtA/AtG": "1/2**",
+        "Bomb System": "Manual (-0)",
+        "Technology": "None"
+    },
+    "Configuration_and_Limits": {
+        "Configuration Points Limits": "CL=0-1, 1/2=2-3, DT=4+",
+        "Load Limit": "500",
+        "Weapons Stations": [
+            {
+                "Weapon Stations": "1,2",
+                "Station Limits": "150",
+                "Allowed Loads": "BB, RP, RK"
+            }
+        ]
+    },
+    "Notes_and_Variants": [
+        "1. Each weapon station can carry 2 BB or RK type weapons without a DR.",
+        "2. Rapid acceleration aircraft if speed <= 3.0."
+    ],
+    "V.P.s": "CM-170=4,3,2,1"
+}

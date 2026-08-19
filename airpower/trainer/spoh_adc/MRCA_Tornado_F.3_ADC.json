@@ -1,0 +1,298 @@
+{
+    "Aircraft": "MRCA Tornado F.3",
+    "Crew": "Pilot, Radar Officer",
+    "Aircraft_Characteristics": {
+        "Cruise Speed": "6.0",
+        "Climb Speed": "4.5",
+        "Visibility": "7",
+        "Size Modifier": "0",
+        "Vulnerability": "0",
+        "Restr. Arcs": "60L",
+        "Blind Arcs": "30",
+        "Internal Fuel": "620",
+        "Ata Refuel": "Yes",
+        "Ejection Seat": "Std."
+    },
+    "Air_Power": {
+        "Maneuver Costs": "HFP/Decel",
+        "Lag/Displ. Rolls": "1/1",
+        "Vertical Rolls": "0/.5"
+    },
+    "Power_Chart_Accel": [
+        {
+            "Power": "Aft. Bur.",
+            "CL": "3.5*",
+            "1/2": "2.5",
+            "DT": "2.0",
+            "Fuel": "12"
+        },
+        {
+            "Power": "Military",
+            "CL": "1.5",
+            "1/2": "1.0",
+            "DT": "1.0",
+            "Fuel": "3"
+        },
+        {
+            "Power": "Normal",
+            "CL": "0",
+            "1/2": "0",
+            "DT": "0",
+            "Fuel": "1"
+        },
+        {
+            "Power": "Idle",
+            "CL": "0.5",
+            "1/2": "0.5",
+            "DT": "0.5",
+            "Fuel": "0"
+        },
+        {
+            "Power": "Spbr",
+            "CL": "0.5",
+            "1/2": "1.0",
+            "DT": "1.0",
+            "Fuel": "-"
+        }
+    ],
+    "Turn_Drag_Chart_Decel": [
+        {
+            "Turn": "TT",
+            "CL": "2,2,2",
+            "1/2": "2,2,2",
+            "DT": "2,2,2"
+        },
+        {
+            "Turn": "HT",
+            "CL": "3,4,4",
+            "1/2": "3,4,4",
+            "DT": "4,4,4"
+        },
+        {
+            "Turn": "BT",
+            "CL": "4,5,6",
+            "1/2": "4,5,6",
+            "DT": "5,6,7"
+        },
+        {
+            "Turn": "ET",
+            "CL": "5,6,8",
+            "1/2": "-",
+            "DT": "-"
+        }
+    ],
+    "Minimum_Maximum_Velocity_Chart": [
+        {
+            "Alt. Band": "EH+",
+            "Conf. Ceil.": "46+",
+            "CL": {
+                "Min": "4",
+                "Max": "15"
+            },
+            "1/2": {
+                "Min": "4",
+                "Max": "13"
+            },
+            "DT": {
+                "Min": "4.5",
+                "Max": "11"
+            }
+        },
+        {
+            "Alt. Band": "VH",
+            "Conf. Ceil.": "36-45",
+            "CL": {
+                "Min": "3",
+                "Max": "15"
+            },
+            "1/2": {
+                "Min": "3.5",
+                "Max": "12.5"
+            },
+            "DT": {
+                "Min": "4",
+                "Max": "10"
+            }
+        },
+        {
+            "Alt. Band": "HI",
+            "Conf. Ceil.": "26-35",
+            "CL": {
+                "Min": "2.5",
+                "Max": "14"
+            },
+            "1/2": {
+                "Min": "3",
+                "Max": "12"
+            },
+            "DT": {
+                "Min": "3.5",
+                "Max": "10"
+            }
+        },
+        {
+            "Alt. Band": "MH",
+            "Conf. Ceil.": "17-25",
+            "CL": {
+                "Min": "2.5",
+                "Max": "12"
+            },
+            "1/2": {
+                "Min": "2.5",
+                "Max": "10"
+            },
+            "DT": {
+                "Min": "3",
+                "Max": "9"
+            }
+        },
+        {
+            "Alt. Band": "ML",
+            "Conf. Ceil.": "8-16",
+            "CL": {
+                "Min": "2",
+                "Max": "10"
+            },
+            "1/2": {
+                "Min": "2",
+                "Max": "9.5"
+            },
+            "DT": {
+                "Min": "2.5",
+                "Max": "8.5"
+            }
+        },
+        {
+            "Alt. Band": "LO",
+            "Conf. Ceil.": "1-7",
+            "CL": {
+                "Min": "1.5",
+                "Max": "9"
+            },
+            "1/2": {
+                "Min": "1.5",
+                "Max": "9"
+            },
+            "DT": {
+                "Min": "2",
+                "Max": "8"
+            }
+        }
+    ],
+    "Climb_Capability_Chart": [
+        {
+            "Dive Vel.": "16",
+            "CL AB": "2",
+            "CL Other": ".5",
+            "1/2 AB": "1",
+            "1/2 Other": ".5",
+            "DT AB": "1",
+            "DT Other": ".5",
+            "Alt. Band": "EH+"
+        },
+        {
+            "Dive Vel.": "16",
+            "CL AB": "2",
+            "CL Other": ".5",
+            "1/2 AB": "1",
+            "1/2 Other": ".5",
+            "DT AB": "1",
+            "DT Other": ".5",
+            "Alt. Band": "VH"
+        },
+        {
+            "Dive Vel.": "15",
+            "CL AB": "3",
+            "CL Other": "1",
+            "1/2 AB": "2",
+            "1/2 Other": "1",
+            "DT AB": "1",
+            "DT Other": ".5",
+            "Alt. Band": "HI"
+        },
+        {
+            "Dive Vel.": "15",
+            "CL AB": "4",
+            "CL Other": "1.5",
+            "1/2 AB": "3",
+            "1/2 Other": "1",
+            "DT AB": "2",
+            "DT Other": "1",
+            "Alt. Band": "MH"
+        },
+        {
+            "Dive Vel.": "12",
+            "CL AB": "5",
+            "CL Other": "2",
+            "1/2 AB": "4",
+            "1/2 Other": "1",
+            "DT AB": "2",
+            "DT Other": "1",
+            "Alt. Band": "ML"
+        },
+        {
+            "Dive Vel.": "11",
+            "CL AB": "6",
+            "CL Other": "2",
+            "1/2 AB": "4",
+            "1/2 Other": "1",
+            "DT AB": "2",
+            "DT Other": "1",
+            "Alt. Band": "LO"
+        }
+    ],
+    "Avionics_Electronics": {
+        "Radar": "Fox Hunter",
+        "ECCM": "4",
+        "Arcs": "120+",
+        "Search": "300-40",
+        "Track": "300-30",
+        "Lock-on": "7",
+        "ECM": "F.3",
+        "IFF": "Yes",
+        "RWR": "C",
+        "DDS": "B",
+        "DJM": "-",
+        "AJM": "-"
+    },
+    "Weapons_and_Systems": {
+        "Gun Type": "One 27mm Mauser",
+        "Roll to Hit": "0=6, 1=3, 2=1",
+        "Ammunition": "4.0",
+        "Gunsight Mods": "BT+1",
+        "Radar Ranging": "CA",
+        "AtA/AtG": "5/2",
+        "Bomb System": "None",
+        "Technology": "Look-down Radar, Auto Track, HUD Interface, IR Uncage, Multi-target (4), Track While Scan, V.A.S. (3)"
+    },
+    "Configuration_and_Limits": {
+        "Configuration Points Limits": "CL=0-6, 1/2=7-12, DT=13+",
+        "Load Limit": "10,200",
+        "Weapons Stations": [
+            {
+                "Weapon Stations": "1,4",
+                "Station Limits": "1100",
+                "Allowed Loads": "IRM, RHM, AHM, EP, FT"
+            },
+            {
+                "Weapon Stations": "2,3",
+                "Station Limits": "3000",
+                "Allowed Loads": "EP, DP, LP, FT"
+            },
+            {
+                "Weapon Stations": "5,6,7,8",
+                "Station Limits": "500",
+                "Allowed Loads": "RHM, AHM"
+            }
+        ]
+    },
+    "Notes_and_Variants": [
+        "1. Computerized swing wing...",
+        "2. High bleed if speed >= 7.5.",
+        "3. Aircraft is HTD/NTD/LTD for wings fore/mid/aft.",
+        "4. Rapid power response. Good supersonic maneuver (GSSM).",
+        "5. May use AIM-9, Skyflash, and AIM-120 type missiles.",
+        "Variant: Early Production F.2: As F.3, but use reduced power as indicated."
+    ],
+    "V.P.s": "F.3=33,22,11,6  F.2=31,21,10,5"
+}

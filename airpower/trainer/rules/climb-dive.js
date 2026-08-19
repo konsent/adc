@@ -102,12 +102,22 @@ export default {
     // Rule 8.2.4 — LVL에서는 상승 VFP가 불가하다. HFP 1개 뒤 1레벨 자유 하강만 허용.
     if (ft === 'LVL') {
       const hfpUsed = state.fpSpent.filter(f => f.type === 'HFP').length;
+      // 자유 하강은 턴당 1회뿐이다. 이미 썼다면 추가 VFP는 불법이다.
+      const freeDivesUsed = state.fpSpent.filter(f => f.type === 'VFP').length;
       if (action.direction !== 'down' || action.levels !== 1 || hfpUsed < 1) {
         out.push({
           rule: '8.2.4',
           severity: 'illegal',
           msg: `수평 비행(LVL)에서는 상승할 수 없습니다. 자유 하강은 HFP ${hfpUsed ? '소모 후' : '1개를 먼저 소모한 후'} 1레벨만 가능합니다.`,
           fix: '상승하려면 SC/ZC/VC를 선언하세요. LVL을 유지하려면 HFP 1개 뒤 자유 하강 1레벨만 사용하세요.',
+          ref: 'Rule 8.2.4',
+        });
+      } else if (freeDivesUsed >= 1) {
+        out.push({
+          rule: '8.2.4',
+          severity: 'illegal',
+          msg: `수평 비행(LVL)의 자유 하강은 턴당 1레벨 1회뿐인데 이미 ${freeDivesUsed}회 사용했습니다.`,
+          fix: '더 내려가려면 SD/UD/VD 등 하강 비행 형태를 선언하세요.',
           ref: 'Rule 8.2.4',
         });
       }

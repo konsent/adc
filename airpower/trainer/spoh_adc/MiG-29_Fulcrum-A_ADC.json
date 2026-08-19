@@ -1,0 +1,298 @@
+{
+    "Aircraft": "MiG-29 Fulcrum-A",
+    "Crew": "Pilot only",
+    "Aircraft_Characteristics": {
+        "Cruise Speed": "6.0",
+        "Climb Speed": "5.0",
+        "Visibility": "7",
+        "Size Modifier": "0",
+        "Vulnerability": "0",
+        "Restr. Arcs": "-",
+        "Blind Arcs": "30",
+        "Internal Fuel": "430",
+        "Ata Refuel": "Yes",
+        "Ejection Seat": "Adv."
+    },
+    "Air_Power": {
+        "Maneuver Costs": "HFP/Decel",
+        "Lag/Displ. Rolls": "1/1",
+        "Vertical Rolls": "0/0"
+    },
+    "Power_Chart_Accel": [
+        {
+            "Power": "Aft. Bur.",
+            "CL": "5.5",
+            "1/2": "4.5",
+            "DT": "4.0",
+            "Fuel": "14"
+        },
+        {
+            "Power": "Military",
+            "CL": "3.0",
+            "1/2": "2.5",
+            "DT": "2.0",
+            "Fuel": "4"
+        },
+        {
+            "Power": "Normal",
+            "CL": "0",
+            "1/2": "0",
+            "DT": "0",
+            "Fuel": "2"
+        },
+        {
+            "Power": "Idle",
+            "CL": "0.5",
+            "1/2": "0.5",
+            "DT": "1.0",
+            "Fuel": "0"
+        },
+        {
+            "Power": "Spbr",
+            "CL": "1.0",
+            "1/2": "1.0",
+            "DT": "1.0",
+            "Fuel": "-"
+        }
+    ],
+    "Turn_Drag_Chart_Decel": [
+        {
+            "Turn": "TT",
+            "CL": "1",
+            "1/2": "1",
+            "DT": "1"
+        },
+        {
+            "Turn": "HT",
+            "CL": "2",
+            "1/2": "2",
+            "DT": "2"
+        },
+        {
+            "Turn": "BT",
+            "CL": "3",
+            "1/2": "3",
+            "DT": "4"
+        },
+        {
+            "Turn": "ET",
+            "CL": "4",
+            "1/2": "4",
+            "DT": "5"
+        }
+    ],
+    "Minimum_Maximum_Velocity_Chart": [
+        {
+            "Alt. Band": "EH+",
+            "Conf. Ceil.": "46+",
+            "CL": {
+                "Min": "3.5",
+                "Max": "15"
+            },
+            "1/2": {
+                "Min": "4",
+                "Max": "13"
+            },
+            "DT": {
+                "Min": "4.5",
+                "Max": "10.5"
+            }
+        },
+        {
+            "Alt. Band": "VH",
+            "Conf. Ceil.": "36-45",
+            "CL": {
+                "Min": "3",
+                "Max": "14"
+            },
+            "1/2": {
+                "Min": "3.5",
+                "Max": "12"
+            },
+            "DT": {
+                "Min": "4",
+                "Max": "10"
+            }
+        },
+        {
+            "Alt. Band": "HI",
+            "Conf. Ceil.": "26-35",
+            "CL": {
+                "Min": "3",
+                "Max": "13"
+            },
+            "1/2": {
+                "Min": "3",
+                "Max": "11"
+            },
+            "DT": {
+                "Min": "3.5",
+                "Max": "9.5"
+            }
+        },
+        {
+            "Alt. Band": "MH",
+            "Conf. Ceil.": "17-25",
+            "CL": {
+                "Min": "2.5",
+                "Max": "12"
+            },
+            "1/2": {
+                "Min": "2.5",
+                "Max": "10"
+            },
+            "DT": {
+                "Min": "3",
+                "Max": "9"
+            }
+        },
+        {
+            "Alt. Band": "ML",
+            "Conf. Ceil.": "8-16",
+            "CL": {
+                "Min": "2",
+                "Max": "10"
+            },
+            "1/2": {
+                "Min": "2",
+                "Max": "9"
+            },
+            "DT": {
+                "Min": "2.5",
+                "Max": "8.5"
+            }
+        },
+        {
+            "Alt. Band": "LO",
+            "Conf. Ceil.": "1-7",
+            "CL": {
+                "Min": "1.5",
+                "Max": "9"
+            },
+            "1/2": {
+                "Min": "1.5",
+                "Max": "8.5"
+            },
+            "DT": {
+                "Min": "2",
+                "Max": "8"
+            }
+        }
+    ],
+    "Climb_Capability_Chart": [
+        {
+            "Dive Vel.": "15",
+            "CL AB": "2",
+            "CL Other": "1",
+            "1/2 AB": "1",
+            "1/2 Other": ".5",
+            "DT AB": "1",
+            "DT Other": ".5",
+            "Alt. Band": "EH+"
+        },
+        {
+            "Dive Vel.": "14",
+            "CL AB": "4",
+            "CL Other": "1",
+            "1/2 AB": "3",
+            "1/2 Other": "1",
+            "DT AB": "1",
+            "DT Other": ".5",
+            "Alt. Band": "VH"
+        },
+        {
+            "Dive Vel.": "14",
+            "CL AB": "6",
+            "CL Other": "2",
+            "1/2 AB": "4",
+            "1/2 Other": "1",
+            "DT AB": "2",
+            "DT Other": "1",
+            "Alt. Band": "HI"
+        },
+        {
+            "Dive Vel.": "12",
+            "CL AB": "7",
+            "CL Other": "2",
+            "1/2 AB": "5",
+            "1/2 Other": "1",
+            "DT AB": "2",
+            "DT Other": "1",
+            "Alt. Band": "MH"
+        },
+        {
+            "Dive Vel.": "10",
+            "CL AB": "8",
+            "CL Other": "3",
+            "1/2 AB": "5",
+            "1/2 Other": "2",
+            "DT AB": "3",
+            "DT Other": "1",
+            "Alt. Band": "ML"
+        },
+        {
+            "Dive Vel.": "10",
+            "CL AB": "8",
+            "CL Other": "3",
+            "1/2 AB": "5",
+            "1/2 Other": "2",
+            "DT AB": "3",
+            "DT Other": "1",
+            "Alt. Band": "LO"
+        }
+    ],
+    "Avionics_Electronics": {
+        "Radar": "Slot Back / HI Lark B",
+        "ECCM": "2 / 1",
+        "Arcs": "150+ / 150+",
+        "Search": "150-30 / 120-20",
+        "Track": "120-30 / 90-15",
+        "Lock-on": "7 / 7",
+        "ECM": "MIG-29 / Export",
+        "IFF": "Yes / Yes",
+        "RWR": "B / B",
+        "DDS": "B / B",
+        "DJM": "- / -",
+        "AJM": "B3 / -"
+    },
+    "Weapons_and_Systems": {
+        "Gun Type": "One 30mm GSh-301",
+        "Roll to Hit": "0=5, 1=4, 2=2",
+        "Ammunition": "4.0",
+        "Gunsight Mods": "BT+2",
+        "Radar Ranging": "CA",
+        "AtA/AtG": "5/3",
+        "Bomb System": "Ballistic (-1)",
+        "Technology": "Auto Track, HUD Interface, IR Uncage, Look Down Radar, Track While Scan, IRSTS-B, HMS"
+    },
+    "Configuration_and_Limits": {
+        "Configuration Points Limits": "CL=0-8, 1/2=9-12, DT=13+",
+        "Load Limit": "11,000",
+        "Weapons Stations": [
+            {
+                "Weapon Stations": "1,2,6,7",
+                "Station Limits": "550",
+                "Allowed Loads": "BB, BG, RK, RP, IRM, RHM, AHM, EP"
+            },
+            {
+                "Weapon Stations": "3,5",
+                "Station Limits": "2700",
+                "Allowed Loads": "BB, BG, RK, RP, RG, WR, ARM, ASM, IRM, RHM, AHM, GP, EP, FT"
+            },
+            {
+                "Weapon Stations": "4",
+                "Station Limits": "3400",
+                "Allowed Loads": "BB, BG, GP, EP, PP, FT"
+            }
+        ]
+    },
+    "Notes_and_Variants": [
+        "1. May use AA-8, AA-10, A-11 type missiles.",
+        "2. High pitch rate. Good supersonic maneuver (GSSM).",
+        "3. Standard Fulcrum-A uses Slot Back radar...",
+        "Variant: MiG-29A Export Version...",
+        "Variant: MiG-29 Fulcrum-C...",
+        "Variant: MiG-29 Fulcrum-D Maritime Version..."
+    ],
+    "V.P.s": "MiG 29A=38,25,12,6"
+}

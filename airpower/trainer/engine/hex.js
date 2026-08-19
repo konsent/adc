@@ -28,6 +28,17 @@ export function hexOfBoardHex(boardHex) {
 // A가 최하단이고 B/C/D는 각각 그 위 25행에 놓인다.
 const MAP_ROW_OFFSET = { A: 0, B: -25, C: -50, D: -75 };
 
+// Speed of Heat maps use a distinct printed coordinate system: six 20x15 tiles
+// form a 3-column by 2-row sheet, numbered 1201 through 7130.
+export const SPOH_MAPS = {
+  'spoh-a1': { id: 'spoh-a1', label: 'A1', col: 12, row: 1, image: 'Carte-tSoH-A1-02.gif' },
+  'spoh-a2': { id: 'spoh-a2', label: 'A2', col: 12, row: 16, image: 'Carte-tSoH-A2-02.gif' },
+  'spoh-b1': { id: 'spoh-b1', label: 'B1', col: 32, row: 1, image: 'Carte-tSoH-B1-03.gif' },
+  'spoh-b2': { id: 'spoh-b2', label: 'B2', col: 32, row: 16, image: 'Carte-tSoH-B2-01.gif' },
+  'spoh-c1': { id: 'spoh-c1', label: 'C1', col: 52, row: 1, image: 'Carte-tSoH-C1-01.gif' },
+  'spoh-c2': { id: 'spoh-c2', label: 'C2', col: 51, row: 16, image: 'Carte-tSoH-C2-01.gif' },
+};
+
 export function hexOfScenarioMap(map, boardHex) {
   const hex = hexOfBoardHex(boardHex);
   const offset = MAP_ROW_OFFSET[map];
@@ -75,6 +86,36 @@ export function scenarioMapCells(maps) {
       }
     }
     return cells;
+  });
+}
+
+/** Speed of Heat 인쇄 헥스(CCRR)와 GIF 배경을 함께 반환한다. */
+export function spohMapCells(mapIds) {
+  return mapIds.flatMap(id => {
+    const map = SPOH_MAPS[id];
+    if (!map) throw new Error(`알 수 없는 Speed of Heat 맵: ${id}`);
+    const cells = [];
+    for (let column = map.col; column < map.col + 20; column += 1) {
+      for (let row = map.row; row < map.row + 15; row += 1) {
+        const boardHex = `${String(column).padStart(2, '0')}${String(row).padStart(2, '0')}`;
+        cells.push({ q: column - BOARD_ORIGIN.column, r: row - BOARD_ORIGIN.row, map: map.label, boardHex });
+      }
+    }
+    return cells;
+  });
+}
+
+export function spohMapBackgrounds(mapIds) {
+  return mapIds.map(id => {
+    const map = SPOH_MAPS[id];
+    if (!map) throw new Error(`알 수 없는 Speed of Heat 맵: ${id}`);
+    return {
+      image: `spoh/${map.image}`,
+      minQ: map.col - BOARD_ORIGIN.column,
+      maxQ: map.col - BOARD_ORIGIN.column + 19,
+      minR: map.row - BOARD_ORIGIN.row,
+      maxR: map.row - BOARD_ORIGIN.row + 14,
+    };
   });
 }
 

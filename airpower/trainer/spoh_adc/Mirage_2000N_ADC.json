@@ -1,0 +1,302 @@
+{
+    "Aircraft": "Mirage 2000N",
+    "Crew": "Pilot, Weapons Officer",
+    "Aircraft_Characteristics": {
+        "Cruise Speed": "6.0",
+        "Climb Speed": "4.5",
+        "Visibility": "7",
+        "Size Modifier": "0",
+        "Vulnerability": "0",
+        "Restr. Arcs": "-",
+        "Blind Arcs": "30L",
+        "Internal Fuel": "470",
+        "Ata Refuel": "Yes",
+        "Ejection Seat": "Std."
+    },
+    "Air_Power": {
+        "Maneuver Costs": "HFP/Decel",
+        "Lag/Displ. Rolls": "1/1",
+        "Vertical Rolls": "0/.5"
+    },
+    "Power_Chart_Accel": [
+        {
+            "Power": "Aft. Bur.",
+            "CL": "3.5",
+            "1/2": "2.5",
+            "DT": "2.0",
+            "Fuel": "9"
+        },
+        {
+            "Power": "Military",
+            "CL": "2.0",
+            "1/2": "1.5",
+            "DT": "1.0",
+            "Fuel": "3"
+        },
+        {
+            "Power": "Normal",
+            "CL": "0",
+            "1/2": "0",
+            "DT": "0",
+            "Fuel": "1"
+        },
+        {
+            "Power": "Idle",
+            "CL": "0.5",
+            "1/2": "0.5",
+            "DT": "1.0",
+            "Fuel": "0"
+        },
+        {
+            "Power": "Spbr",
+            "CL": "0.5",
+            "1/2": "1.0",
+            "DT": "1.0",
+            "Fuel": "-"
+        }
+    ],
+    "Turn_Drag_Chart_Decel": [
+        {
+            "Turn": "TT",
+            "CL": "1",
+            "1/2": "2",
+            "DT": "2"
+        },
+        {
+            "Turn": "HT",
+            "CL": "2",
+            "1/2": "3",
+            "DT": "4"
+        },
+        {
+            "Turn": "BT",
+            "CL": "3,2",
+            "1/2": "4,3",
+            "DT": "5,4"
+        },
+        {
+            "Turn": "ET",
+            "CL": "4,3",
+            "1/2": "5,4",
+            "DT": "6,5"
+        }
+    ],
+    "Minimum_Maximum_Velocity_Chart": [
+        {
+            "Alt. Band": "EH+",
+            "Conf. Ceil.": "46+",
+            "CL": {
+                "Min": "3.5",
+                "Max": "13.5"
+            },
+            "1/2": {
+                "Min": "4",
+                "Max": "12"
+            },
+            "DT": {
+                "Min": "4.5",
+                "Max": "10"
+            }
+        },
+        {
+            "Alt. Band": "VH",
+            "Conf. Ceil.": "36-45",
+            "CL": {
+                "Min": "3",
+                "Max": "13"
+            },
+            "1/2": {
+                "Min": "3.5",
+                "Max": "11"
+            },
+            "DT": {
+                "Min": "4",
+                "Max": "9"
+            }
+        },
+        {
+            "Alt. Band": "HI",
+            "Conf. Ceil.": "26-35",
+            "CL": {
+                "Min": "2.5",
+                "Max": "12"
+            },
+            "1/2": {
+                "Min": "3",
+                "Max": "10"
+            },
+            "DT": {
+                "Min": "3.5",
+                "Max": "8.5"
+            }
+        },
+        {
+            "Alt. Band": "MH",
+            "Conf. Ceil.": "17-25",
+            "CL": {
+                "Min": "2",
+                "Max": "11"
+            },
+            "1/2": {
+                "Min": "2.5",
+                "Max": "9"
+            },
+            "DT": {
+                "Min": "2.5",
+                "Max": "8"
+            }
+        },
+        {
+            "Alt. Band": "ML",
+            "Conf. Ceil.": "8-16",
+            "CL": {
+                "Min": "1.5",
+                "Max": "9.5"
+            },
+            "1/2": {
+                "Min": "2",
+                "Max": "8.5"
+            },
+            "DT": {
+                "Min": "2",
+                "Max": "7.5"
+            }
+        },
+        {
+            "Alt. Band": "LO",
+            "Conf. Ceil.": "1-7",
+            "CL": {
+                "Min": "1.5",
+                "Max": "8.5"
+            },
+            "1/2": {
+                "Min": "1.5",
+                "Max": "8"
+            },
+            "DT": {
+                "Min": "1.5",
+                "Max": "7"
+            }
+        }
+    ],
+    "Climb_Capability_Chart": [
+        {
+            "Dive Vel.": "14",
+            "CL AB": "2",
+            "CL Other": ".5",
+            "1/2 AB": "1",
+            "1/2 Other": ".5",
+            "DT AB": "1",
+            "DT Other": "0",
+            "Alt. Band": "EH+"
+        },
+        {
+            "Dive Vel.": "14",
+            "CL AB": "3",
+            "CL Other": "1",
+            "1/2 AB": "2",
+            "1/2 Other": ".5",
+            "DT AB": "1",
+            "DT Other": ".5",
+            "Alt. Band": "VH"
+        },
+        {
+            "Dive Vel.": "13",
+            "CL AB": "4",
+            "CL Other": "1",
+            "1/2 AB": "3",
+            "1/2 Other": "1",
+            "DT AB": "1",
+            "DT Other": ".5",
+            "Alt. Band": "HI"
+        },
+        {
+            "Dive Vel.": "12",
+            "CL AB": "5",
+            "CL Other": "2",
+            "1/2 AB": "3",
+            "1/2 Other": "1",
+            "DT AB": "2",
+            "DT Other": "1",
+            "Alt. Band": "MH"
+        },
+        {
+            "Dive Vel.": "10",
+            "CL AB": "6",
+            "CL Other": "3",
+            "1/2 AB": "4",
+            "1/2 Other": "2",
+            "DT AB": "2",
+            "DT Other": "1",
+            "Alt. Band": "ML"
+        },
+        {
+            "Dive Vel.": "10",
+            "CL AB": "7",
+            "CL Other": "3",
+            "1/2 AB": "5",
+            "1/2 Other": "2",
+            "DT AB": "3",
+            "DT Other": "1",
+            "Alt. Band": "LO"
+        }
+    ],
+    "Avionics_Electronics": {
+        "Radar": "AtA / AtG",
+        "ECCM": "2 / 1",
+        "Arcs": "150+ / 150+",
+        "Search": "150-30 / Gr. Nav. (180)",
+        "Track": "90-30 / Gr. Att (60)",
+        "Lock-on": "7 / 8*",
+        "ECM": "Mir 2000N",
+        "IFF": "Yes",
+        "RWR": "C",
+        "DDS": "B",
+        "DJM": "C4",
+        "AJM": "C4"
+    },
+    "Weapons_and_Systems": {
+        "Gun Type": "None",
+        "Roll to Hit": "-",
+        "Ammunition": "-",
+        "Gunsight Mods": "BT+2",
+        "Radar Ranging": "RE",
+        "AtA/AtG": "6/6",
+        "Bomb System": "Computed (-2)",
+        "Technology": "HUD Interface, IR Uncage, Terrain Following C"
+    },
+    "Configuration_and_Limits": {
+        "Configuration Points Limits": "CL=0-5, 1/2=6-10, DT=11+",
+        "Load Limit": "13,200",
+        "Weapons Stations": [
+            {
+                "Weapon Stations": "1,9",
+                "Station Limits": "660",
+                "Allowed Loads": "BB, BG, RP, EP, DP, IRM"
+            },
+            {
+                "Weapon Stations": "2,8",
+                "Station Limits": "4000",
+                "Allowed Loads": "BB, BG, BS, RP, RG, RS, ASM, GP, WR, IRM, FT, RPT, MPT"
+            },
+            {
+                "Weapon Stations": "3,4,6,7",
+                "Station Limits": "880",
+                "Allowed Loads": "BB, LP (4 only)"
+            },
+            {
+                "Weapon Stations": "5",
+                "Station Limits": "4000",
+                "Allowed Loads": "BB, BG, BS, RP, RG, RS, ASM, GP, WP, WR, EP, PP, FT"
+            }
+        ]
+    },
+    "Notes_and_Variants": [
+        "1. Rapid power response. Fly by wire aircraft.",
+        "2. High pitch rate. Low transonic drag (LTD).",
+        "3. May use AIM-9, Matra-550 IRMs.",
+        "4. Antelope radar is primarily a ground navigation radar, but it has an air-to-air capability...",
+        "Note: Stations 2, 5, and 8 may each carry two DRs with 4 bombs attached."
+    ],
+    "V.P.s": "Mirage 2000N=36,24,12,6"
+}

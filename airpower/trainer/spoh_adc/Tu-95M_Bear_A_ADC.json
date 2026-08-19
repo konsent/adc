@@ -1,0 +1,152 @@
+{
+    "Aircraft": "Tu-95M Bear A",
+    "Crew": "Pilot, Co-Pilot, Flight Engineer, Bombardier, Navigator, Radio Operator, (3) Gunners, and Tail Gunner",
+    "Aircraft_Characteristics": {
+        "Cruise Speed": "4.5",
+        "Climb Speed": "2.5",
+        "Visibility": "11",
+        "Size Modifier": "-2",
+        "Vulnerability": "+2",
+        "Restr. Arcs": "-",
+        "Blind Arcs": "-",
+        "Internal Fuel": "2620",
+        "Ata Refuel": "No",
+        "Ejection Seat": "No"
+    },
+    "Air_Power": {
+        "Maneuver Costs": "HFP/Decel",
+        "Lag/Displacement Roll": "NA/NA",
+        "Vertical Roll": "NA / NA"
+    },
+    "Power_Chart_Accel": [
+        {
+            "Power": "Full Throttle",
+            "Rate": "Min +0.5"
+        },
+        {
+            "Power": "Normal",
+            "Rate": "Min +1.0"
+        },
+        {
+            "Power": "Idle",
+            "Rate": "Min +1.5"
+        },
+        {
+            "Power": "Sp. Br.",
+            "Rate": "Min +2.0"
+        }
+    ],
+    "Turn_Drag_Chart_Decel": "NOTE: Minimum required speed for TT, HT, BT and ET turns = listed min. +.5, +1.0, +1.5, and +2.0 respectively",
+    "Minimum_Maximum_Velocity_Chart": [
+        {
+            "Alt. Band": "EH",
+            "Conf. Ceil.": "46+",
+            "Other": "-"
+        },
+        {
+            "Alt. Band": "VH",
+            "Conf. Ceil.": "36",
+            "Other": "2.0 5.5"
+        },
+        {
+            "Alt. Band": "HI",
+            "Conf. Ceil.": "26",
+            "Other": "2.0 6.0"
+        },
+        {
+            "Alt. Band": "MH",
+            "Conf. Ceil.": "17 - 25",
+            "Other": "1.5 5.5"
+        },
+        {
+            "Alt. Band": "ML",
+            "Conf. Ceil.": "8",
+            "Other": "1.5 5.0"
+        },
+        {
+            "Alt. Band": "LO",
+            "Conf. Ceil.": "1 - 7",
+            "Other": "1.5 4.0"
+        }
+    ],
+    "Climb_Capability_Chart": [
+        {
+            "Dive Speed": "-",
+            "Climb Speed Other": "-",
+            "Alt. Band": "EH 46+"
+        },
+        {
+            "Dive Speed": "-",
+            "Climb Speed Other": "-",
+            "Alt. Band": "VH 36"
+        },
+        {
+            "Dive Speed": "2.0 6.0",
+            "Climb Speed Other": "2.5 5.5",
+            "Alt. Band": "HI 26"
+        },
+        {
+            "Dive Speed": "2.0 5.5",
+            "Climb Speed Other": "2.5 5.0",
+            "Alt. Band": "MH 17 - 25"
+        },
+        {
+            "Dive Speed": "1.5 4.5",
+            "Climb Speed Other": "2.0 4.0",
+            "Alt. Band": "ML 8"
+        },
+        {
+            "Dive Speed": "1.5 4.0",
+            "Climb Speed Other": "2.0 3.5",
+            "Alt. Band": "LO 1 - 7"
+        }
+    ],
+    "Avionics_Electronics": {
+        "Radar": "-",
+        "ECCM": "-",
+        "Arcs": "180+",
+        "Search": "Gr.Nav.(120)",
+        "Track": "Gr.Att.(90)",
+        "Lock-On": "-",
+        "ECM": "Tu-95M Bear A",
+        "IFF": "1",
+        "RWR": "-",
+        "DDS": "-",
+        "DJM": "-",
+        "AJM": "-"
+    },
+    "Weapons_and_Systems": {
+        "Gun Type": "Three Twin 23mm turrets",
+        "Roll to Hit": "0=2, 1=1, 1=1",
+        "Ammunition": "NONE",
+        "Gunsight Mods": "- - -",
+        "Radar Ranging": "-",
+        "AtA/AtG Rating": "4 / NA",
+        "Bomb System": "Ballistic (-)",
+        "Technology": "-"
+    },
+    "Configuration_and_Limits": {
+        "Configuration Points Limits": "CL= 0 - 10, 1/ 2= 11-19, DT = 20+",
+        "Load Limit": "28,000",
+        "Weapons Stations": [
+            {
+                "Weapon Stations": "Bomb bay",
+                "Station Limits": "28,000",
+                "Allowed Loads": "BB, FT"
+            }
+        ]
+    },
+    "Notes_and_Variants": [
+        "Internal Bomb Bay Load Options;",
+        "1x 20000lb bomb, or 2x 11,000lb bombs, or 4x 6,600lb bombs, or 6x 3,050lb bombs, or 10x 2,200lb bombs, or 12x 1,650lb bombs, or 20x 1,100lb bombs, or 40x 550lb bombs, or 1,400 points of fuel (28,000lbs, 28 points full, 7 points empty)",
+        "(load points for bombs in Bomb Bay are halved)",
+        "Notes: 1/ Low Bleed Rate",
+        "2/ High Transonic Drag (HTD)",
+        "* Tail Radar covers 30- arc (Lock on= 7)",
+        "The Bear is protected by gun turrets which can cover any arc around it. It is allowed to return fire against any two gun attacks made against it per turn. Only target size and tail radar ranging apply to Gunner shots.",
+        "Variants:",
+        "-Tu-95RT (Bear D) Bomb bay contains ELINT gear, add 7 to all ceilings, add Inflight refueling and AJM A-4 (1966)",
+        "-Tu-95U (Bear E) Bomb bay contains photo recon equipment, add 7 to all ceilings, add Inflight refueling, AJM A-4, and 225 points of fuel (1966)"
+    ],
+    "V.P.s": "28, 19, 15, 6"
+}

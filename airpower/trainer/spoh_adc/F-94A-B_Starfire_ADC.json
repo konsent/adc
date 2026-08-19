@@ -1,0 +1,285 @@
+{
+    "Aircraft": "F-94A/B Starfire",
+    "Crew": "Pilot, Radar Officer",
+    "Aircraft_Characteristics": {
+        "Cruise Speed": "5.0",
+        "Climb Speed": "3.5",
+        "Visibility": "5",
+        "Size Modifier": "0",
+        "Vulnerability": "0",
+        "Restr. Arcs": "30",
+        "Blind Arcs": "30",
+        "Internal Fuel": "270",
+        "Ata Refuel": "No",
+        "Ejection Seat": "Early"
+    },
+    "Air_Power": {
+        "Maneuver Costs": "HFP/Decel",
+        "Lag/Displ. Rolls": "1/1.5",
+        "Vertical Rolls": "0/.5"
+    },
+    "Power_Chart_Accel": [
+        {
+            "Power": "Aft. Bur.",
+            "CL": "1.5",
+            "1/2": "1.0",
+            "DT": "1.0",
+            "Fuel": "3"
+        },
+        {
+            "Power": "Military",
+            "CL": "1.0",
+            "1/2": "1.0",
+            "DT": "0.5",
+            "Fuel": "1"
+        },
+        {
+            "Power": "Normal",
+            "CL": "0",
+            "1/2": "0",
+            "DT": "0",
+            "Fuel": "0.5"
+        },
+        {
+            "Power": "Idle",
+            "CL": "0.5",
+            "1/2": "0.5",
+            "DT": "0.5",
+            "Fuel": "0"
+        },
+        {
+            "Power": "Spbr",
+            "CL": "0.5",
+            "1/2": "0.5",
+            "DT": "0.5",
+            "Fuel": "-"
+        }
+    ],
+    "Turn_Drag_Chart_Decel": [
+        {
+            "Turn": "TT",
+            "CL": "0",
+            "1/2": "0",
+            "DT": "0"
+        },
+        {
+            "Turn": "HT",
+            "CL": "1",
+            "1/2": "1",
+            "DT": "1"
+        },
+        {
+            "Turn": "BT",
+            "CL": "1",
+            "1/2": "1",
+            "DT": "2"
+        },
+        {
+            "Turn": "ET",
+            "CL": "-",
+            "1/2": "-",
+            "DT": "-"
+        }
+    ],
+    "Minimum_Maximum_Velocity_Chart": [
+        {
+            "Alt. Band": "EH+",
+            "Conf. Ceil.": "46+",
+            "CL": {
+                "Min": "3",
+                "Max": "5"
+            },
+            "1/2": {
+                "Min": "-",
+                "Max": "-"
+            },
+            "DT": {
+                "Min": "-",
+                "Max": "-"
+            }
+        },
+        {
+            "Alt. Band": "VH",
+            "Conf. Ceil.": "36-45",
+            "CL": {
+                "Min": "2.5",
+                "Max": "5"
+            },
+            "1/2": {
+                "Min": "2.5",
+                "Max": "5"
+            },
+            "DT": {
+                "Min": "3",
+                "Max": "5"
+            }
+        },
+        {
+            "Alt. Band": "HI",
+            "Conf. Ceil.": "26-35",
+            "CL": {
+                "Min": "2",
+                "Max": "5.5"
+            },
+            "1/2": {
+                "Min": "2.5",
+                "Max": "5.5"
+            },
+            "DT": {
+                "Min": "2.5",
+                "Max": "5"
+            }
+        },
+        {
+            "Alt. Band": "MH",
+            "Conf. Ceil.": "17-25",
+            "CL": {
+                "Min": "2",
+                "Max": "5.5"
+            },
+            "1/2": {
+                "Min": "2",
+                "Max": "5.5"
+            },
+            "DT": {
+                "Min": "2.5",
+                "Max": "5"
+            }
+        },
+        {
+            "Alt. Band": "ML",
+            "Conf. Ceil.": "8-16",
+            "CL": {
+                "Min": "1.5",
+                "Max": "6"
+            },
+            "1/2": {
+                "Min": "1.5",
+                "Max": "6"
+            },
+            "DT": {
+                "Min": "2",
+                "Max": "5.5"
+            }
+        },
+        {
+            "Alt. Band": "LO",
+            "Conf. Ceil.": "1-7",
+            "CL": {
+                "Min": "1.5",
+                "Max": "6"
+            },
+            "1/2": {
+                "Min": "1.5",
+                "Max": "6"
+            },
+            "DT": {
+                "Min": "2",
+                "Max": "5.5"
+            }
+        }
+    ],
+    "Climb_Capability_Chart": [
+        {
+            "Dive Vel.": "6.5",
+            "CL AB": ".5",
+            "CL Other": "0",
+            "1/2 AB": "-",
+            "1/2 Other": "-",
+            "DT AB": "-",
+            "DT Other": "-",
+            "Alt. Band": "EH+"
+        },
+        {
+            "Dive Vel.": "6.5",
+            "CL AB": ".5",
+            "CL Other": ".5",
+            "1/2 AB": ".25",
+            "1/2 Other": ".5",
+            "DT AB": ".25",
+            "DT Other": "-",
+            "Alt. Band": "VH"
+        },
+        {
+            "Dive Vel.": "7",
+            "CL AB": "1",
+            "CL Other": ".5",
+            "1/2 AB": ".5",
+            "1/2 Other": ".5",
+            "DT AB": ".25",
+            "DT Other": "-",
+            "Alt. Band": "HI"
+        },
+        {
+            "Dive Vel.": "7",
+            "CL AB": "1",
+            "CL Other": ".5",
+            "1/2 AB": ".5",
+            "1/2 Other": ".5",
+            "DT AB": ".25",
+            "DT Other": "-",
+            "Alt. Band": "MH"
+        },
+        {
+            "Dive Vel.": "7.5",
+            "CL AB": "1",
+            "CL Other": "1",
+            "1/2 AB": ".5",
+            "1/2 Other": ".5",
+            "DT AB": ".5",
+            "DT Other": "-",
+            "Alt. Band": "ML"
+        },
+        {
+            "Dive Vel.": "7.5",
+            "CL AB": "1.5",
+            "CL Other": "1",
+            "1/2 AB": "1",
+            "1/2 Other": "1",
+            "DT AB": ".5",
+            "DT Other": "-",
+            "Alt. Band": "LO"
+        }
+    ],
+    "Avionics_Electronics": {
+        "Radar": "E-1",
+        "ECCM": "0",
+        "Arcs": "180+",
+        "Search": "60-10",
+        "Track": "40-6",
+        "Lock-on": "6",
+        "ECM": "F-84A/B",
+        "IFF": "Yes",
+        "RWR": "-",
+        "DDS": "-",
+        "DJM": "-",
+        "AJM": "-"
+    },
+    "Weapons_and_Systems": {
+        "Gun Type": "Four .50 Cal MG",
+        "Roll to Hit": "0=5, 1=3, 2=0",
+        "Ammunition": "8.0",
+        "Gunsight Mods": "HT+1, BT+2",
+        "Radar Ranging": "RE",
+        "AtA/AtG": "3/3**",
+        "Bomb System": "Manual (-0)",
+        "Technology": "None"
+    },
+    "Configuration_and_Limits": {
+        "Configuration Points Limits": "CL=0-3, 1/2=4-6, DT=7+",
+        "Load Limit": "4,200",
+        "Weapons Stations": [
+            {
+                "Weapon Stations": "1,2",
+                "Station Limits": "1500",
+                "Allowed Loads": "BB, FT"
+            }
+        ]
+    },
+    "Notes_and_Variants": [
+        "1. High transonic drag (HTD).",
+        "2. F-94A afterburner gives added power only on die roll of 8 or less...",
+        "3. F-94A internal fuel = 225."
+    ],
+    "V.P.s": "F-94A=9,5,4,2  F-94B=10,6,4,2"
+}

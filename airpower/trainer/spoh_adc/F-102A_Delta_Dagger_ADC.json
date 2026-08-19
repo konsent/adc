@@ -1,0 +1,297 @@
+{
+    "Aircraft": "F-102A Delta Dagger",
+    "Crew": "Pilot only",
+    "Aircraft_Characteristics": {
+        "Cruise Speed": "5.5",
+        "Climb Speed": "4.5",
+        "Visibility": "7",
+        "Size Modifier": "0",
+        "Vulnerability": "-1",
+        "Restr. Arcs": "\u2014",
+        "Blind Arcs": "60-",
+        "Internal Fuel": "340",
+        "Ata Refuel": "No",
+        "Ejection Seat": "Std."
+    },
+    "Air_Power": {
+        "Maneuver Costs": "HFP / Decel",
+        "Lag/Displ. Rolls": "1.0 / 1.5",
+        "Vertical Rolls": "0.0 / 0.5"
+    },
+    "Power_Chart_Accel": [
+        {
+            "Power": "Aft. Bur.",
+            "CL": "2.5",
+            "1/2": "2.0",
+            "DT": "2.0",
+            "Fuel": "7.0"
+        },
+        {
+            "Power": "Military",
+            "CL": "1.0",
+            "1/2": "1.0",
+            "DT": "1.0",
+            "Fuel": "2.0"
+        },
+        {
+            "Power": "Normal",
+            "CL": "0.0",
+            "1/2": "0.0",
+            "DT": "0.0",
+            "Fuel": "1.0"
+        },
+        {
+            "Power": "Idle FP",
+            "CL": "0.5",
+            "1/2": "0.5",
+            "DT": "0.5",
+            "Fuel": "0.0"
+        },
+        {
+            "Power": "Sp.Br. FP",
+            "CL": "0.5",
+            "1/2": "0.5",
+            "DT": "1.0",
+            "Fuel": "\u2014"
+        }
+    ],
+    "Turn_Drag_Chart_Decel": [
+        {
+            "Turn": "TT",
+            "CL": "0.0",
+            "1/2": "0.0",
+            "DT": "1.0"
+        },
+        {
+            "Turn": "HT",
+            "CL": "1.0",
+            "1/2": "1.0",
+            "DT": "2.0"
+        },
+        {
+            "Turn": "BT",
+            "CL": "2.0",
+            "1/2": "2.0",
+            "DT": "3.0"
+        },
+        {
+            "Turn": "ET",
+            "CL": "3.0",
+            "1/2": "NA",
+            "DT": "NA"
+        }
+    ],
+    "Minimum_Maximum_Velocity_Chart": [
+        {
+            "Alt. Band": "EH+",
+            "Conf. Ceil.": "46+",
+            "CL": {
+                "Min": "3.0",
+                "Max": "7.5"
+            },
+            "1/2": {
+                "Min": "3.5",
+                "Max": "6.0"
+            },
+            "DT": {
+                "Min": "3.5",
+                "Max": "6.0"
+            }
+        },
+        {
+            "Alt. Band": "VH",
+            "Conf. Ceil.": "36-45",
+            "CL": {
+                "Min": "3.0",
+                "Max": "8.0"
+            },
+            "1/2": {
+                "Min": "3.0",
+                "Max": "6.5"
+            },
+            "DT": {
+                "Min": "3.5",
+                "Max": "6.0"
+            }
+        },
+        {
+            "Alt. Band": "HI",
+            "Conf. Ceil.": "26-35",
+            "CL": {
+                "Min": "2.5",
+                "Max": "8.0"
+            },
+            "1/2": {
+                "Min": "3.0",
+                "Max": "6.5"
+            },
+            "DT": {
+                "Min": "3.0",
+                "Max": "6.0"
+            }
+        },
+        {
+            "Alt. Band": "MH",
+            "Conf. Ceil.": "17-25",
+            "CL": {
+                "Min": "2.5",
+                "Max": "8.0"
+            },
+            "1/2": {
+                "Min": "2.5",
+                "Max": "6.5"
+            },
+            "DT": {
+                "Min": "2.5",
+                "Max": "6.0"
+            }
+        },
+        {
+            "Alt. Band": "ML",
+            "Conf. Ceil.": "8-16",
+            "CL": {
+                "Min": "2.0",
+                "Max": "7.5"
+            },
+            "1/2": {
+                "Min": "2.5",
+                "Max": "7.0"
+            },
+            "DT": {
+                "Min": "2.5",
+                "Max": "6.5"
+            }
+        },
+        {
+            "Alt. Band": "LO",
+            "Conf. Ceil.": "1-7",
+            "CL": {
+                "Min": "1.5",
+                "Max": "7.0"
+            },
+            "1/2": {
+                "Min": "2.0",
+                "Max": "7.0"
+            },
+            "DT": {
+                "Min": "2.0",
+                "Max": "6.5"
+            }
+        }
+    ],
+    "Climb_Capability_Chart": [
+        {
+            "Dive Vel.": "10.0",
+            "CL AB": "1.0",
+            "CL Other": "0.5",
+            "1/2 AB": "1.0",
+            "1/2 Other": "0.5",
+            "DT AB": "1.0",
+            "DT Other": "0.5",
+            "Alt. Band": "EH+"
+        },
+        {
+            "Dive Vel.": "10.0",
+            "CL AB": "2.0",
+            "CL Other": "0.5",
+            "1/2 AB": "1.0",
+            "1/2 Other": "0.5",
+            "DT AB": "1.0",
+            "DT Other": "0.5",
+            "Alt. Band": "VH"
+        },
+        {
+            "Dive Vel.": "9.5",
+            "CL AB": "2.0",
+            "CL Other": "0.5",
+            "1/2 AB": "1.0",
+            "1/2 Other": "0.5",
+            "DT AB": "1.0",
+            "DT Other": "0.5",
+            "Alt. Band": "HI"
+        },
+        {
+            "Dive Vel.": "9.0",
+            "CL AB": "2.0",
+            "CL Other": "1.0",
+            "1/2 AB": "2.0",
+            "1/2 Other": "1.0",
+            "DT AB": "1.0",
+            "DT Other": "0.5",
+            "Alt. Band": "MH"
+        },
+        {
+            "Dive Vel.": "8.0",
+            "CL AB": "3.0",
+            "CL Other": "1.0",
+            "1/2 AB": "2.0",
+            "1/2 Other": "1.0",
+            "DT AB": "2.0",
+            "DT Other": "1.0",
+            "Alt. Band": "ML"
+        },
+        {
+            "Dive Vel.": "7.5",
+            "CL AB": "3.0",
+            "CL Other": "1.0",
+            "1/2 AB": "2.0",
+            "1/2 Other": "1.0",
+            "DT AB": "2.0",
+            "DT Other": "1.0",
+            "Alt. Band": "LO"
+        }
+    ],
+    "Avionics_Electronics": {
+        "Radar": "Hughes MG-3",
+        "ECCM": "0",
+        "Arcs": "180+",
+        "Search": "90 - 10",
+        "Track": "40 - 8",
+        "Lock-on": "7",
+        "ECM": "F-102A",
+        "IFF": "Yes",
+        "RWR": "\u2014",
+        "DDS": "\u2014",
+        "DJM": "\u2014",
+        "AJM": "\u2014"
+    },
+    "Weapons_and_Systems": {
+        "Gun Type": "NONE",
+        "Roll to Hit": "\u2014",
+        "Ammunition": "\u2014",
+        "Gunsight Mods": "\u2014",
+        "Radar Ranging": "\u2014",
+        "AtA/AtG": "\u2014",
+        "Bomb System": "NA",
+        "Technology": "IRSTS - A (1963+), C. C. Rocket Attack"
+    },
+    "Configuration_and_Limits": {
+        "Configuration Points Limits": "CL = 0 - 3, 1/2 = 4 - 6, DT = 7+",
+        "Load Limit": "4,000",
+        "Weapons Stations": [
+            {
+                "Weapon Stations": "1,3",
+                "Station Limits": "1500",
+                "Allowed Loads": "FT only."
+            },
+            {
+                "Weapon Stations": "2*",
+                "Station Limits": "1000",
+                "Allowed Loads": "IRM, RHM, Nuc. RK."
+            }
+        ]
+    },
+    "Notes_and_Variants": [
+        "Smoker in Military Power",
+        "1. May only use AIM-4 and AIM-26 type missiles.",
+        "2. IRSTS technology not available before 1963.",
+        "3. Low Transonic Drag (LTD).",
+        "4. Poor Supersonic Maneuverer (PSM).",
+        "5. High Bleed Rate.",
+        "* Internal Weapons Bay: The weapons bay is limited to the following load options;",
+        "a) Up to six AIM-4 IRMs and RHMs plus 2 factors of air to air rockets.",
+        "b) Up to three AIM-4s and one AIM-26 plus 1 factor of air to air rockets.",
+        "c) Two AIM-26 plus 1 factor of air to air rockets."
+    ],
+    "V.P.s": "F-102= 20, 14, 6, 2"
+}

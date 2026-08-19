@@ -1,0 +1,286 @@
+{
+    "Aircraft": "MiG-17/17P Fresco-A/B",
+    "Crew": "Pilot only",
+    "Aircraft_Characteristics": {
+        "Cruise Speed": "4.5",
+        "Climb Speed": "3.5",
+        "Visibility": "4",
+        "Size Modifier": "+1",
+        "Vulnerability": "+1",
+        "Restr. Arcs": "180L",
+        "Blind Arcs": "30",
+        "Internal Fuel": "130",
+        "Ata Refuel": "No",
+        "Ejection Seat": "Erly"
+    },
+    "Air_Power": {
+        "Maneuver Costs": "HFP/Decel",
+        "Lag/Displ. Rolls": "1/1.5",
+        "Vertical Rolls": "0/.5"
+    },
+    "Power_Chart_Accel": [
+        {
+            "Power": "Aft. Bur.",
+            "CL": "-",
+            "1/2": "-",
+            "DT": "-",
+            "Fuel": "-"
+        },
+        {
+            "Power": "Military",
+            "CL": "1.5",
+            "1/2": "1.0",
+            "DT": "1.0",
+            "Fuel": "1"
+        },
+        {
+            "Power": "Normal",
+            "CL": "0",
+            "1/2": "0",
+            "DT": "0",
+            "Fuel": ".5"
+        },
+        {
+            "Power": "Idle",
+            "CL": "0.5",
+            "1/2": "0.5",
+            "DT": "1.0",
+            "Fuel": "0"
+        },
+        {
+            "Power": "Spbr",
+            "CL": "0.5",
+            "1/2": "0.5",
+            "DT": "1.0",
+            "Fuel": "-"
+        }
+    ],
+    "Turn_Drag_Chart_Decel": [
+        {
+            "Turn": "TT",
+            "CL": "0",
+            "1/2": "0",
+            "DT": "1"
+        },
+        {
+            "Turn": "HT",
+            "CL": "1",
+            "1/2": "1",
+            "DT": "1"
+        },
+        {
+            "Turn": "BT",
+            "CL": "2",
+            "1/2": "2",
+            "DT": "3"
+        },
+        {
+            "Turn": "ET",
+            "CL": "3",
+            "1/2": "3",
+            "DT": "-"
+        }
+    ],
+    "Minimum_Maximum_Velocity_Chart": [
+        {
+            "Alt. Band": "EH+",
+            "Conf. Ceil.": "46+",
+            "CL": {
+                "Min": "3",
+                "Max": "5.5"
+            },
+            "1/2": {
+                "Min": "3",
+                "Max": "5"
+            },
+            "DT": {
+                "Min": "3.5",
+                "Max": "5"
+            }
+        },
+        {
+            "Alt. Band": "VH",
+            "Conf. Ceil.": "36-45",
+            "CL": {
+                "Min": "2.5",
+                "Max": "6"
+            },
+            "1/2": {
+                "Min": "3",
+                "Max": "5"
+            },
+            "DT": {
+                "Min": "3",
+                "Max": "5"
+            }
+        },
+        {
+            "Alt. Band": "HI",
+            "Conf. Ceil.": "26-35",
+            "CL": {
+                "Min": "2",
+                "Max": "6"
+            },
+            "1/2": {
+                "Min": "2.5",
+                "Max": "5.5"
+            },
+            "DT": {
+                "Min": "2.5",
+                "Max": "5"
+            }
+        },
+        {
+            "Alt. Band": "MH",
+            "Conf. Ceil.": "17-25",
+            "CL": {
+                "Min": "1.5",
+                "Max": "6"
+            },
+            "1/2": {
+                "Min": "2",
+                "Max": "5.5"
+            },
+            "DT": {
+                "Min": "2",
+                "Max": "5"
+            }
+        },
+        {
+            "Alt. Band": "ML",
+            "Conf. Ceil.": "8-16",
+            "CL": {
+                "Min": "1",
+                "Max": "6.5"
+            },
+            "1/2": {
+                "Min": "1.5",
+                "Max": "6"
+            },
+            "DT": {
+                "Min": "1.5",
+                "Max": "5.5"
+            }
+        },
+        {
+            "Alt. Band": "LO",
+            "Conf. Ceil.": "1-7",
+            "CL": {
+                "Min": "1",
+                "Max": "6.5"
+            },
+            "1/2": {
+                "Min": "1.5",
+                "Max": "6"
+            },
+            "DT": {
+                "Min": "1.5",
+                "Max": "5.5"
+            }
+        }
+    ],
+    "Climb_Capability_Chart": [
+        {
+            "Dive Vel.": "6.5",
+            "CL AB": "-",
+            "CL Other": ".5",
+            "1/2 AB": "-",
+            "1/2 Other": ".5",
+            "DT AB": "-",
+            "DT Other": ".5",
+            "Alt. Band": "EH+"
+        },
+        {
+            "Dive Vel.": "6.5",
+            "CL AB": "-",
+            "CL Other": ".5",
+            "1/2 AB": "-",
+            "1/2 Other": ".5",
+            "DT AB": "-",
+            "DT Other": ".5",
+            "Alt. Band": "VH"
+        },
+        {
+            "Dive Vel.": "7",
+            "CL AB": "-",
+            "CL Other": ".5",
+            "1/2 AB": "-",
+            "1/2 Other": ".5",
+            "DT AB": "-",
+            "DT Other": ".5",
+            "Alt. Band": "HI"
+        },
+        {
+            "Dive Vel.": "7",
+            "CL AB": "-",
+            "CL Other": "1",
+            "1/2 AB": "-",
+            "1/2 Other": ".5",
+            "DT AB": "-",
+            "DT Other": ".5",
+            "Alt. Band": "MH"
+        },
+        {
+            "Dive Vel.": "7.5",
+            "CL AB": "-",
+            "CL Other": "1",
+            "1/2 AB": "-",
+            "1/2 Other": "1",
+            "DT AB": "-",
+            "DT Other": ".5",
+            "Alt. Band": "ML"
+        },
+        {
+            "Dive Vel.": "7.5",
+            "CL AB": "-",
+            "CL Other": "1",
+            "1/2 AB": "-",
+            "1/2 Other": "1",
+            "DT AB": "-",
+            "DT Other": "1",
+            "Alt. Band": "LO"
+        }
+    ],
+    "Avionics_Electronics": {
+        "Radar": "Scan Odd (P only)",
+        "ECCM": "0",
+        "Arcs": "Limited",
+        "Search": "18-6",
+        "Track": "6-6",
+        "Lock-on": "6",
+        "ECM": "MIG-17",
+        "IFF": "Yes",
+        "RWR": "-",
+        "DDS": "-",
+        "DJM": "-",
+        "AJM": "-"
+    },
+    "Weapons_and_Systems": {
+        "Gun Type": "2 23mm 1 37mm",
+        "Roll to Hit": "0=4, 1=2, 2=1",
+        "Ammunition": "3.0",
+        "Gunsight Mods": "HT+2, BT+3",
+        "Radar Ranging": "(P only) RE",
+        "AtA/AtG": "5/4",
+        "Bomb System": "Manual (-0)",
+        "Technology": "None"
+    },
+    "Configuration_and_Limits": {
+        "Configuration Points Limits": "CL=0-2, 1/2=3-4, DT=5+",
+        "Load Limit": "1,400",
+        "Weapons Stations": [
+            {
+                "Weapon Stations": "1,2",
+                "Station Limits": "700",
+                "Allowed Loads": "BB, RK, RP, FT"
+            }
+        ]
+    },
+    "Notes_and_Variants": [
+        "1. High Transonic Drive (HTD).",
+        "2. Low Roll Rate if speed >= 4.0.",
+        "3. No Lag/Displacement rolls if speed >= 5.0.",
+        "4. MiG-17 has no radar; Scan Odd is for MiG-17P."
+    ],
+    "V.P.s": "17=9,6,3,1  17P=10,7,3,1"
+}

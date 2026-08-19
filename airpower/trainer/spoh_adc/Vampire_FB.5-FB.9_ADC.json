@@ -1,0 +1,291 @@
+{
+    "Aircraft": "Vampire FB.5/FB.9",
+    "Crew": "Pilot only",
+    "Aircraft_Characteristics": {
+        "Cruise Speed": "3.5",
+        "Climb Speed": "3.0",
+        "Visibility": "4",
+        "Size Modifier": "+1",
+        "Vulnerability": "0",
+        "Restr. Arcs": "-",
+        "Blind Arcs": "30",
+        "Internal Fuel": "200",
+        "Ata Refuel": "No",
+        "Ejection Seat": "Erly"
+    },
+    "Air_Power": {
+        "Maneuver Costs": "HFP/Decel",
+        "Lag/Displ. Rolls": "1/1",
+        "Vertical Rolls": "0/.5"
+    },
+    "Power_Chart_Accel": [
+        {
+            "Power": "Aft. Bur.",
+            "CL": "-",
+            "1/2": "-",
+            "DT": "-",
+            "Fuel": "-"
+        },
+        {
+            "Power": "Military",
+            "CL": "1.0",
+            "1/2": "1.0",
+            "DT": "0.5",
+            "Fuel": "1"
+        },
+        {
+            "Power": "Normal",
+            "CL": "0",
+            "1/2": "0",
+            "DT": "0",
+            "Fuel": "0.5"
+        },
+        {
+            "Power": "Idle",
+            "CL": "0.5",
+            "1/2": "0.5",
+            "DT": "0.5",
+            "Fuel": "0"
+        },
+        {
+            "Power": "Spbr",
+            "CL": "0.5",
+            "1/2": "0.5",
+            "DT": "0.5",
+            "Fuel": "-"
+        }
+    ],
+    "Turn_Drag_Chart_Decel": [
+        {
+            "Turn": "TT",
+            "CL": "0",
+            "1/2": "0",
+            "DT": "0"
+        },
+        {
+            "Turn": "HT",
+            "CL": "1",
+            "1/2": "1",
+            "DT": "1"
+        },
+        {
+            "Turn": "BT",
+            "CL": "1",
+            "1/2": "1",
+            "DT": "1"
+        },
+        {
+            "Turn": "ET",
+            "CL": "-",
+            "1/2": "-",
+            "DT": "-"
+        }
+    ],
+    "Minimum_Maximum_Velocity_Chart": [
+        {
+            "Alt. Band": "EH+",
+            "Conf. Ceil.": "46+",
+            "CL": {
+                "Min": "-",
+                "Max": "-"
+            },
+            "1/2": {
+                "Min": "-",
+                "Max": "-"
+            },
+            "DT": {
+                "Min": "-",
+                "Max": "-"
+            }
+        },
+        {
+            "Alt. Band": "VH",
+            "Conf. Ceil.": "36-45",
+            "CL": {
+                "Min": "2.5",
+                "Max": "5"
+            },
+            "1/2": {
+                "Min": "3",
+                "Max": "4.5"
+            },
+            "DT": {
+                "Min": "3",
+                "Max": "4"
+            }
+        },
+        {
+            "Alt. Band": "HI",
+            "Conf. Ceil.": "26-35",
+            "CL": {
+                "Min": "2",
+                "Max": "5"
+            },
+            "1/2": {
+                "Min": "2.5",
+                "Max": "4.5"
+            },
+            "DT": {
+                "Min": "2.5",
+                "Max": "4"
+            }
+        },
+        {
+            "Alt. Band": "MH",
+            "Conf. Ceil.": "17-25",
+            "CL": {
+                "Min": "1.5",
+                "Max": "5*"
+            },
+            "1/2": {
+                "Min": "2",
+                "Max": "4.5*"
+            },
+            "DT": {
+                "Min": "2",
+                "Max": "4.5*"
+            }
+        },
+        {
+            "Alt. Band": "ML",
+            "Conf. Ceil.": "8-16",
+            "CL": {
+                "Min": "1.5",
+                "Max": "5*"
+            },
+            "1/2": {
+                "Min": "1.5",
+                "Max": "4.5*"
+            },
+            "DT": {
+                "Min": "1.5",
+                "Max": "4.5*"
+            }
+        },
+        {
+            "Alt. Band": "LO",
+            "Conf. Ceil.": "1-7",
+            "CL": {
+                "Min": "1",
+                "Max": "5*"
+            },
+            "1/2": {
+                "Min": "1.5",
+                "Max": "4.5*"
+            },
+            "DT": {
+                "Min": "1.5",
+                "Max": "4.5*"
+            }
+        }
+    ],
+    "Climb_Capability_Chart": [
+        {
+            "Dive Vel.": "-",
+            "CL AB": "-",
+            "CL Other": "-",
+            "1/2 AB": "-",
+            "1/2 Other": "-",
+            "DT AB": "-",
+            "DT Other": "-",
+            "Alt. Band": "EH+"
+        },
+        {
+            "Dive Vel.": "6",
+            "CL AB": "-",
+            "CL Other": ".5",
+            "1/2 AB": "-",
+            "1/2 Other": ".5",
+            "DT AB": "-",
+            "DT Other": ".5",
+            "Alt. Band": "VH"
+        },
+        {
+            "Dive Vel.": "6",
+            "CL AB": "-",
+            "CL Other": ".5",
+            "1/2 AB": "-",
+            "1/2 Other": ".5",
+            "DT AB": "-",
+            "DT Other": ".5",
+            "Alt. Band": "HI"
+        },
+        {
+            "Dive Vel.": "6",
+            "CL AB": "-",
+            "CL Other": ".5",
+            "1/2 AB": "-",
+            "1/2 Other": ".5",
+            "DT AB": "-",
+            "DT Other": ".5",
+            "Alt. Band": "MH"
+        },
+        {
+            "Dive Vel.": "6",
+            "CL AB": "-",
+            "CL Other": ".5",
+            "1/2 AB": "-",
+            "1/2 Other": ".5",
+            "DT AB": "-",
+            "DT Other": ".5",
+            "Alt. Band": "ML"
+        },
+        {
+            "Dive Vel.": "6",
+            "CL AB": "-",
+            "CL Other": "1*",
+            "1/2 AB": "-",
+            "1/2 Other": "1*",
+            "DT AB": "-",
+            "DT Other": ".5",
+            "Alt. Band": "LO"
+        }
+    ],
+    "Avionics_Electronics": {
+        "Radar": "None",
+        "ECCM": "-",
+        "Arcs": "-",
+        "Search": "-",
+        "Track": "-",
+        "Lock-on": "-",
+        "ECM": "FB.5",
+        "IFF": "-",
+        "RWR": "-",
+        "DDS": "-",
+        "DJM": "-",
+        "AJM": "-"
+    },
+    "Weapons_and_Systems": {
+        "Gun Type": "Four 20mm",
+        "Roll to Hit": "0=7, 1=4, 2=3",
+        "Ammunition": "5.0",
+        "Gunsight Mods": "HT+1, BT+2",
+        "Radar Ranging": "-",
+        "AtA/AtG": "5/6*",
+        "Bomb System": "Manual (-0)",
+        "Technology": "None"
+    },
+    "Configuration_and_Limits": {
+        "Configuration Points Limits": "CL=0-2, 1/2=3-4, DT=5+",
+        "Load Limit": "2000",
+        "Weapons Stations": [
+            {
+                "Weapon Stations": "1-4, 7-10",
+                "Station Limits": "100",
+                "Allowed Loads": "RK"
+            },
+            {
+                "Weapon Stations": "5,6",
+                "Station Limits": "1000",
+                "Allowed Loads": "FT, BB"
+            }
+        ]
+    },
+    "Notes_and_Variants": [
+        "1. High transonic drag (HTD).",
+        "2. If speed <= 4.0 aircraft is rapid accel.",
+        "Variant: T-55: Crew: pilot, observer; internal gun: two 20mm...",
+        "Variant: Canadian Vampire F.3: Delete all stations, reduce asterisked max speeds by 0.5..."
+    ],
+    "V.P.s": "FB.5,FB.9=5,3,2,1  T-55=4,3,2,1"
+}

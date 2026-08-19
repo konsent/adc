@@ -1,0 +1,288 @@
+{
+    "Aircraft": "BAC Lightning F.1/F.2",
+    "Crew": "Pilot only",
+    "Aircraft_Characteristics": {
+        "Cruise Speed": "6.0",
+        "Climb Speed": "4.5",
+        "Visibility": "6",
+        "Size Modifier": "0",
+        "Vulnerability": "-1",
+        "Restr. Arcs": "60",
+        "Blind Arcs": "30",
+        "Internal Fuel": "375",
+        "Ata Refuel": "Yes",
+        "Ejection Seat": "Std."
+    },
+    "Air_Power": {
+        "Maneuver Costs": "HFP/Decel",
+        "Lag/Displ. Rolls": "1/1",
+        "Vertical Rolls": "0/0"
+    },
+    "Power_Chart_Accel": [
+        {
+            "Power": "Aft. Bur.",
+            "CL": "2.5",
+            "1/2": "2.0",
+            "DT": "2.0",
+            "Fuel": "10"
+        },
+        {
+            "Power": "Military",
+            "CL": "1.5",
+            "1/2": "1.5",
+            "DT": "1.0",
+            "Fuel": "2"
+        },
+        {
+            "Power": "Normal",
+            "CL": "0",
+            "1/2": "0",
+            "DT": "0",
+            "Fuel": "1"
+        },
+        {
+            "Power": "Idle",
+            "CL": "0.5",
+            "1/2": "0.5",
+            "DT": "0.5",
+            "Fuel": "0"
+        },
+        {
+            "Power": "Spbr",
+            "CL": "0.5",
+            "1/2": "1.0",
+            "DT": "1.0",
+            "Fuel": "-"
+        }
+    ],
+    "Turn_Drag_Chart_Decel": [
+        {
+            "Turn": "TT",
+            "CL": "2",
+            "1/2": "2",
+            "DT": "2"
+        },
+        {
+            "Turn": "HT",
+            "CL": "2",
+            "1/2": "3",
+            "DT": "4"
+        },
+        {
+            "Turn": "BT",
+            "CL": "4",
+            "1/2": "4",
+            "DT": "4"
+        },
+        {
+            "Turn": "ET",
+            "CL": "-",
+            "1/2": "-",
+            "DT": "-"
+        }
+    ],
+    "Minimum_Maximum_Velocity_Chart": [
+        {
+            "Alt. Band": "EH+",
+            "Conf. Ceil.": "46+",
+            "CL": {
+                "Min": "4.5",
+                "Max": "13"
+            },
+            "1/2": {
+                "Min": "5",
+                "Max": "11.5"
+            },
+            "DT": {
+                "Min": "5",
+                "Max": "10.5"
+            }
+        },
+        {
+            "Alt. Band": "VH",
+            "Conf. Ceil.": "36-45",
+            "CL": {
+                "Min": "4",
+                "Max": "12.5"
+            },
+            "1/2": {
+                "Min": "4.5",
+                "Max": "10.5"
+            },
+            "DT": {
+                "Min": "4.5",
+                "Max": "9.5"
+            }
+        },
+        {
+            "Alt. Band": "HI",
+            "Conf. Ceil.": "26-35",
+            "CL": {
+                "Min": "3.5",
+                "Max": "10.5"
+            },
+            "1/2": {
+                "Min": "3.5",
+                "Max": "9.5"
+            },
+            "DT": {
+                "Min": "4",
+                "Max": "8.5"
+            }
+        },
+        {
+            "Alt. Band": "MH",
+            "Conf. Ceil.": "17-25",
+            "CL": {
+                "Min": "3",
+                "Max": "9.5"
+            },
+            "1/2": {
+                "Min": "3",
+                "Max": "8.5"
+            },
+            "DT": {
+                "Min": "3.5",
+                "Max": "8"
+            }
+        },
+        {
+            "Alt. Band": "ML",
+            "Conf. Ceil.": "8-16",
+            "CL": {
+                "Min": "2.5",
+                "Max": "8.5"
+            },
+            "1/2": {
+                "Min": "2.5",
+                "Max": "8"
+            },
+            "DT": {
+                "Min": "2.5",
+                "Max": "7.5"
+            }
+        },
+        {
+            "Alt. Band": "LO",
+            "Conf. Ceil.": "1-7",
+            "CL": {
+                "Min": "2",
+                "Max": "8"
+            },
+            "1/2": {
+                "Min": "2",
+                "Max": "8"
+            },
+            "DT": {
+                "Min": "2",
+                "Max": "7.5"
+            }
+        }
+    ],
+    "Climb_Capability_Chart": [
+        {
+            "Dive Vel.": "14",
+            "CL AB": "2",
+            "CL Other": ".5",
+            "1/2 AB": "1",
+            "1/2 Other": ".5",
+            "DT AB": "1",
+            "DT Other": "0",
+            "Alt. Band": "EH+"
+        },
+        {
+            "Dive Vel.": "14",
+            "CL AB": "3",
+            "CL Other": "1",
+            "1/2 AB": "2",
+            "1/2 Other": ".5",
+            "DT AB": "1",
+            "DT Other": ".5",
+            "Alt. Band": "VH"
+        },
+        {
+            "Dive Vel.": "12",
+            "CL AB": "4",
+            "CL Other": "1",
+            "1/2 AB": "2",
+            "1/2 Other": "1",
+            "DT AB": "1",
+            "DT Other": ".5",
+            "Alt. Band": "HI"
+        },
+        {
+            "Dive Vel.": "12",
+            "CL AB": "5",
+            "CL Other": "2",
+            "1/2 AB": "3",
+            "1/2 Other": "1",
+            "DT AB": "1",
+            "DT Other": ".5",
+            "Alt. Band": "MH"
+        },
+        {
+            "Dive Vel.": "11",
+            "CL AB": "6",
+            "CL Other": "2",
+            "1/2 AB": "4",
+            "1/2 Other": "1",
+            "DT AB": "2",
+            "DT Other": "1",
+            "Alt. Band": "ML"
+        },
+        {
+            "Dive Vel.": "10",
+            "CL AB": "6",
+            "CL Other": "3",
+            "1/2 AB": "4",
+            "1/2 Other": "2",
+            "DT AB": "2",
+            "DT Other": "1",
+            "Alt. Band": "LO"
+        }
+    ],
+    "Avionics_Electronics": {
+        "Radar": "Air Pass",
+        "ECCM": "0",
+        "Arcs": "180+",
+        "Search": "80-12",
+        "Track": "60-10",
+        "Lock-on": "6",
+        "ECM": "F.1/2",
+        "IFF": "Yes",
+        "RWR": "-",
+        "DDS": "-",
+        "DJM": "-",
+        "AJM": "-"
+    },
+    "Weapons_and_Systems": {
+        "Gun Type": "2 30mm Aden",
+        "Roll to Hit": "0=6, 1=3, 2=2",
+        "Ammunition": "3.0",
+        "Gunsight Mods": "HT+1, BT+2",
+        "Radar Ranging": "RE",
+        "AtA/AtG": "6/6*",
+        "Bomb System": "Manual (-0)",
+        "Technology": "C.C. Rocket Attack"
+    },
+    "Configuration_and_Limits": {
+        "Configuration Points Limits": "CL=0-2, 1/2=3-6, DT=7+",
+        "Load Limit": "600",
+        "Weapons Stations": [
+            {
+                "Weapon Stations": "1,2",
+                "Station Limits": "300",
+                "Allowed Loads": "IRM"
+            }
+        ]
+    },
+    "Notes_and_Variants": [
+        "1. Stations 1 and 2 can be deleted and replaced with a gun pack...",
+        "2. Rapid acceleration aircraft. High roll rate.",
+        "3. May use Firestreak missiles only.",
+        "4. F.1 is not Ata refuelable.",
+        "Variant: F.1A: As F.1, but is Ata refuelable.",
+        "Variant: F.2A: Fuel = 510; low transonic drag (LTD); good supersonic maneuver."
+    ],
+    "V.P.s": "F.1/1A/2=16,10,4,3  F.2A=19,11,5,3"
+}

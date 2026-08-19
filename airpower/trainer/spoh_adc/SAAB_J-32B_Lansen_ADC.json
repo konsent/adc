@@ -1,0 +1,299 @@
+{
+    "Aircraft": "SAAB J-32B Lansen",
+    "Crew": "Pilot, Radar Officer",
+    "Aircraft_Characteristics": {
+        "Cruise Speed": "5.0",
+        "Climb Speed": "4.0",
+        "Visibility": "6",
+        "Size Modifier": "0",
+        "Vulnerability": "0",
+        "Restr. Arcs": "-",
+        "Blind Arcs": "30",
+        "Internal Fuel": "300",
+        "Ata Refuel": "No",
+        "Ejection Seat": "Std."
+    },
+    "Air_Power": {
+        "Maneuver Costs": "HFP/Decel",
+        "Lag/Displ. Rolls": "1/1",
+        "Vertical Rolls": "0/.5"
+    },
+    "Power_Chart_Accel": [
+        {
+            "Power": "Aft. Bur.",
+            "CL": "2.0",
+            "1/2": "2.0",
+            "DT": "1.5",
+            "Fuel": "6"
+        },
+        {
+            "Power": "Military",
+            "CL": "1.5",
+            "1/2": "1.0",
+            "DT": "1.0",
+            "Fuel": "2"
+        },
+        {
+            "Power": "Normal",
+            "CL": "0",
+            "1/2": "0",
+            "DT": "0",
+            "Fuel": "1"
+        },
+        {
+            "Power": "Idle",
+            "CL": "0.5",
+            "1/2": "0.5",
+            "DT": "0.5",
+            "Fuel": "0"
+        },
+        {
+            "Power": "Spbr",
+            "CL": "0.5",
+            "1/2": "0.5",
+            "DT": "1.0",
+            "Fuel": "-"
+        }
+    ],
+    "Turn_Drag_Chart_Decel": [
+        {
+            "Turn": "TT",
+            "CL": "1",
+            "1/2": "1",
+            "DT": "1"
+        },
+        {
+            "Turn": "HT",
+            "CL": "1",
+            "1/2": "1",
+            "DT": "2"
+        },
+        {
+            "Turn": "BT",
+            "CL": "3",
+            "1/2": "3",
+            "DT": "3"
+        },
+        {
+            "Turn": "ET",
+            "CL": "-",
+            "1/2": "-",
+            "DT": "-"
+        }
+    ],
+    "Minimum_Maximum_Velocity_Chart": [
+        {
+            "Alt. Band": "EH+",
+            "Conf. Ceil.": "46+",
+            "CL": {
+                "Min": "3",
+                "Max": "5.5"
+            },
+            "1/2": {
+                "Min": "3.5",
+                "Max": "5"
+            },
+            "DT": {
+                "Min": "-",
+                "Max": "-"
+            }
+        },
+        {
+            "Alt. Band": "VH",
+            "Conf. Ceil.": "36-45",
+            "CL": {
+                "Min": "3",
+                "Max": "6"
+            },
+            "1/2": {
+                "Min": "3",
+                "Max": "5.5"
+            },
+            "DT": {
+                "Min": "3.5",
+                "Max": "5"
+            }
+        },
+        {
+            "Alt. Band": "HI",
+            "Conf. Ceil.": "26-35",
+            "CL": {
+                "Min": "2.5",
+                "Max": "6"
+            },
+            "1/2": {
+                "Min": "3",
+                "Max": "6"
+            },
+            "DT": {
+                "Min": "3",
+                "Max": "5.5"
+            }
+        },
+        {
+            "Alt. Band": "MH",
+            "Conf. Ceil.": "17-25",
+            "CL": {
+                "Min": "2",
+                "Max": "6.5"
+            },
+            "1/2": {
+                "Min": "2.5",
+                "Max": "6"
+            },
+            "DT": {
+                "Min": "2.5",
+                "Max": "5.5"
+            }
+        },
+        {
+            "Alt. Band": "ML",
+            "Conf. Ceil.": "8-16",
+            "CL": {
+                "Min": "2",
+                "Max": "6.5"
+            },
+            "1/2": {
+                "Min": "2",
+                "Max": "6.5"
+            },
+            "DT": {
+                "Min": "2",
+                "Max": "6"
+            }
+        },
+        {
+            "Alt. Band": "LO",
+            "Conf. Ceil.": "1-7",
+            "CL": {
+                "Min": "1.5",
+                "Max": "7"
+            },
+            "1/2": {
+                "Min": "1.5",
+                "Max": "6.5"
+            },
+            "DT": {
+                "Min": "2",
+                "Max": "6"
+            }
+        }
+    ],
+    "Climb_Capability_Chart": [
+        {
+            "Dive Vel.": "7.5",
+            "CL AB": "1",
+            "CL Other": ".5",
+            "1/2 AB": "0",
+            "1/2 Other": "1",
+            "DT AB": "0",
+            "DT Other": "0",
+            "Alt. Band": "EH+"
+        },
+        {
+            "Dive Vel.": "7.5",
+            "CL AB": "1",
+            "CL Other": ".5",
+            "1/2 AB": "1",
+            "1/2 Other": "0",
+            "DT AB": "1",
+            "DT Other": "0",
+            "Alt. Band": "VH"
+        },
+        {
+            "Dive Vel.": "7.5",
+            "CL AB": "1",
+            "CL Other": ".5",
+            "1/2 AB": "1",
+            "1/2 Other": ".5",
+            "DT AB": "1",
+            "DT Other": "0",
+            "Alt. Band": "HI"
+        },
+        {
+            "Dive Vel.": "7.5",
+            "CL AB": "2",
+            "CL Other": ".5",
+            "1/2 AB": "1",
+            "1/2 Other": ".5",
+            "DT AB": "1",
+            "DT Other": ".5",
+            "Alt. Band": "MH"
+        },
+        {
+            "Dive Vel.": "7.5",
+            "CL AB": "2",
+            "CL Other": "1",
+            "1/2 AB": "2",
+            "1/2 Other": ".5",
+            "DT AB": "1",
+            "DT Other": ".5",
+            "Alt. Band": "ML"
+        },
+        {
+            "Dive Vel.": "7.5",
+            "CL AB": "3",
+            "CL Other": "1",
+            "1/2 AB": "2",
+            "1/2 Other": "1",
+            "DT AB": "1",
+            "DT Other": ".5",
+            "Alt. Band": "LO"
+        }
+    ],
+    "Avionics_Electronics": {
+        "Radar": "Erickson",
+        "ECCM": "0",
+        "Arcs": "180+",
+        "Search": "60-10",
+        "Track": "30-6",
+        "Lock-on": "7",
+        "ECM": "J-32B",
+        "IFF": "Yes",
+        "RWR": "-",
+        "DDS": "-",
+        "DJM": "-",
+        "AJM": "-"
+    },
+    "Weapons_and_Systems": {
+        "Gun Type": "4 30mm Aden",
+        "Roll to Hit": "0=7, 1=4, 2=3",
+        "Ammunition": "3.0",
+        "Gunsight Mods": "HT+1, BT+2",
+        "Radar Ranging": "RE",
+        "AtA/AtG": "7/12",
+        "Bomb System": "Manual (-0)",
+        "Technology": "None"
+    },
+    "Configuration_and_Limits": {
+        "Configuration Points Limits": "CL=0-4, 1/2=5-7, DT=8+",
+        "Load Limit": "3,000",
+        "Weapons Stations": [
+            {
+                "Weapon Stations": "1,4",
+                "Station Limits": "500",
+                "Allowed Loads": "BB, RP, RK, IRM, EP"
+            },
+            {
+                "Weapon Stations": "2,3",
+                "Station Limits": "1500",
+                "Allowed Loads": "BB, RP, RK, ASM, IRM, FT"
+            },
+            {
+                "Weapon Stations": "5-7, 14-16",
+                "Station Limits": "225",
+                "Allowed Loads": "BB, RK"
+            },
+            {
+                "Weapon Stations": "8-10, 11-13",
+                "Station Limits": "225",
+                "Allowed Loads": "RK"
+            }
+        ]
+    },
+    "Notes_and_Variants": [
+        "1. May use AIM-9 IRMs.",
+        "Variant: J-32E ECM aircraft: No guns; delete stations 5-16; RWR B; carries EP, FT only."
+    ],
+    "V.P.s": "J-32B=16,10,5,2  J-32E=17,11,6,2"
+}

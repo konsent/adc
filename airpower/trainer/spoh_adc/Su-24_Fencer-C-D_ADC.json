@@ -1,0 +1,302 @@
+{
+    "Aircraft": "Su-24 Fencer-C/D",
+    "Crew": "Pilot, Weapons Officer",
+    "Aircraft_Characteristics": {
+        "Cruise Speed": "5.0",
+        "Climb Speed": "4.5",
+        "Visibility": "8",
+        "Size Modifier": "-1",
+        "Vulnerability": "0",
+        "Restr. Arcs": "-",
+        "Blind Arcs": "60",
+        "Internal Fuel": "1100",
+        "Ata Refuel": "Yes",
+        "Ejection Seat": "Std."
+    },
+    "Air_Power": {
+        "Maneuver Costs": "HFP/Decel",
+        "Lag/Displ. Rolls": "1.5/1.5",
+        "Vertical Rolls": "0/.5"
+    },
+    "Power_Chart_Accel": [
+        {
+            "Power": "Aft. Bur.",
+            "CL": "3.0",
+            "1/2": "2.5",
+            "DT": "2.0",
+            "Fuel": "20"
+        },
+        {
+            "Power": "Military",
+            "CL": "1.5",
+            "1/2": "1.0",
+            "DT": "1.0",
+            "Fuel": "6"
+        },
+        {
+            "Power": "Normal",
+            "CL": "0",
+            "1/2": "0",
+            "DT": "0",
+            "Fuel": "2"
+        },
+        {
+            "Power": "Idle",
+            "CL": "0.5",
+            "1/2": "0.5",
+            "DT": "0.5",
+            "Fuel": "0"
+        },
+        {
+            "Power": "Spbr",
+            "CL": "0.5",
+            "1/2": "1.0",
+            "DT": "1.0",
+            "Fuel": "-"
+        }
+    ],
+    "Turn_Drag_Chart_Decel": [
+        {
+            "Turn": "TT",
+            "CL": "2,2,3",
+            "1/2": "2,2,3",
+            "DT": "2,2,3"
+        },
+        {
+            "Turn": "HT",
+            "CL": "4,4,5",
+            "1/2": "4,4,5",
+            "DT": "4,4,5"
+        },
+        {
+            "Turn": "BT",
+            "CL": "5,6,6",
+            "1/2": "5,6,6",
+            "DT": "5,6,6"
+        },
+        {
+            "Turn": "ET",
+            "CL": "-",
+            "1/2": "-",
+            "DT": "-"
+        }
+    ],
+    "Minimum_Maximum_Velocity_Chart": [
+        {
+            "Alt. Band": "EH+",
+            "Conf. Ceil.": "46+",
+            "CL": {
+                "Min": "4",
+                "Max": "14"
+            },
+            "1/2": {
+                "Min": "-",
+                "Max": "-"
+            },
+            "DT": {
+                "Min": "-",
+                "Max": "-"
+            }
+        },
+        {
+            "Alt. Band": "VH",
+            "Conf. Ceil.": "36-45",
+            "CL": {
+                "Min": "3.5",
+                "Max": "12"
+            },
+            "1/2": {
+                "Min": "4",
+                "Max": "10"
+            },
+            "DT": {
+                "Min": "-",
+                "Max": "-"
+            }
+        },
+        {
+            "Alt. Band": "HI",
+            "Conf. Ceil.": "26-35",
+            "CL": {
+                "Min": "3",
+                "Max": "11"
+            },
+            "1/2": {
+                "Min": "3.5",
+                "Max": "9.5"
+            },
+            "DT": {
+                "Min": "3.5",
+                "Max": "8"
+            }
+        },
+        {
+            "Alt. Band": "MH",
+            "Conf. Ceil.": "17-25",
+            "CL": {
+                "Min": "2.5",
+                "Max": "10"
+            },
+            "1/2": {
+                "Min": "3",
+                "Max": "9"
+            },
+            "DT": {
+                "Min": "3",
+                "Max": "7"
+            }
+        },
+        {
+            "Alt. Band": "ML",
+            "Conf. Ceil.": "8-16",
+            "CL": {
+                "Min": "2",
+                "Max": "9.5"
+            },
+            "1/2": {
+                "Min": "2.5",
+                "Max": "8"
+            },
+            "DT": {
+                "Min": "2.5",
+                "Max": "6.5"
+            }
+        },
+        {
+            "Alt. Band": "LO",
+            "Conf. Ceil.": "1-7",
+            "CL": {
+                "Min": "2",
+                "Max": "9"
+            },
+            "1/2": {
+                "Min": "2",
+                "Max": "7.5"
+            },
+            "DT": {
+                "Min": "2",
+                "Max": "6"
+            }
+        }
+    ],
+    "Climb_Capability_Chart": [
+        {
+            "Dive Vel.": "16",
+            "CL AB": "1",
+            "CL Other": ".5",
+            "1/2 AB": "-",
+            "1/2 Other": "-",
+            "DT AB": "-",
+            "DT Other": "-",
+            "Alt. Band": "EH+"
+        },
+        {
+            "Dive Vel.": "14",
+            "CL AB": "2",
+            "CL Other": "1",
+            "1/2 AB": "1",
+            "1/2 Other": ".5",
+            "DT AB": "-",
+            "DT Other": "-",
+            "Alt. Band": "VH"
+        },
+        {
+            "Dive Vel.": "12",
+            "CL AB": "2",
+            "CL Other": "1",
+            "1/2 AB": "1",
+            "1/2 Other": ".5",
+            "DT AB": "1",
+            "DT Other": ".5",
+            "Alt. Band": "HI"
+        },
+        {
+            "Dive Vel.": "12",
+            "CL AB": "3",
+            "CL Other": "1",
+            "1/2 AB": "2",
+            "1/2 Other": "1",
+            "DT AB": "1",
+            "DT Other": ".5",
+            "Alt. Band": "MH"
+        },
+        {
+            "Dive Vel.": "10",
+            "CL AB": "4",
+            "CL Other": "2",
+            "1/2 AB": "3",
+            "1/2 Other": "1",
+            "DT AB": "1",
+            "DT Other": ".5",
+            "Alt. Band": "ML"
+        },
+        {
+            "Dive Vel.": "10",
+            "CL AB": "4",
+            "CL Other": "2",
+            "1/2 AB": "3",
+            "1/2 Other": "1",
+            "DT AB": "2",
+            "DT Other": "1",
+            "Alt. Band": "LO"
+        }
+    ],
+    "Avionics_Electronics": {
+        "Radar": "Su-24",
+        "ECCM": "1",
+        "Arcs": "180+",
+        "Search": "180-20",
+        "Track": "60-20",
+        "Lock-on": "7",
+        "ECM": "Su-24C / Su-24D",
+        "IFF": "Yes / Yes",
+        "RWR": "B / B",
+        "DDS": "A / A",
+        "DJM": "A2 / A4",
+        "AJM": "A3 / B4"
+    },
+    "Weapons_and_Systems": {
+        "Gun Type": "30mm Gatling",
+        "Roll to Hit": "0=5, 1=3, 2=1",
+        "Ammunition": "4.0",
+        "Gunsight Mods": "HT+1, BT+2",
+        "Radar Ranging": "RE",
+        "AtA/AtG": "7/9",
+        "Bomb System": "Computed (-2)",
+        "Technology": "HUD Interface, Terrain Following B, Laser Spot Tracker, Auto Track, TV/IR Optics, (D only) Laser Designator B"
+    },
+    "Configuration_and_Limits": {
+        "Configuration Points Limits": "CL=0-8, 1/2=9-15, DT=16+",
+        "Load Limit": "22,000",
+        "Weapons Stations": [
+            {
+                "Weapon Stations": "1,4",
+                "Station Limits": "2200",
+                "Allowed Loads": "BB, BG, RP, RG, RK, WR, IRM, EP, DP, ARM"
+            },
+            {
+                "Weapon Stations": "2,3",
+                "Station Limits": "4500",
+                "Allowed Loads": "BB, BG, RP, RG, RK, IRM, ARM, GP, EP, LP, OP, FT, WR"
+            },
+            {
+                "Weapon Stations": "5,6",
+                "Station Limits": "2200",
+                "Allowed Loads": "BB, BG, EP, PP, WR, RP, WP"
+            },
+            {
+                "Weapon Stations": "7,8",
+                "Station Limits": "2200",
+                "Allowed Loads": "BB, BG, EP, FT"
+            }
+        ]
+    },
+    "Notes_and_Variants": [
+        "1. Computerized swing wing...",
+        "2. Poor supersonic maneuver (PSSM). High bleed if speed >= 7.5.",
+        "3. HTD/NTD/LTD for wings forward/mid/aft.",
+        "4. May use AA-2, AA-8 type IRMs.",
+        "Restrictions on stations..."
+    ],
+    "V.P.s": "Su-24C=30,20,10,5  Su-24D=32,22,11,5"
+}
