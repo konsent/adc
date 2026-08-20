@@ -247,7 +247,10 @@ export function drawGroundUnits(svg, units, hexSize) {
     image.setAttribute('clip-path', `url(#${clipId})`);
     image.setAttribute('opacity', unit.killed ? '0.2' : '1');
     const title = document.createElementNS(NS, 'title');
-    title.textContent = `${unit.label}\n${unit.killed ? '파괴됨' : unit.suppressed ? '억제됨' : '정상'} · 피해 ${unit.hits ?? 0}`;
+    // 레이더 상태는 SEAD 판단의 핵심이므로 툴팁에 함께 싣는다.
+    const radar = !unit.radar ? '' : unit.radarDisabled ? '\n레이더: ARM으로 파괴됨' : unit.radarOff ? '\n레이더: 셧다운' : '\n레이더: 가동 중';
+    title.textContent = `${unit.label}\n${unit.killed ? '파괴됨' : unit.suppressed ? '억제됨' : '정상'} · 피해 ${unit.hits ?? 0}`
+      + `${radar}${unit.ready !== undefined ? `\n즉응탄 ${unit.ready}` : ''}`;
     image.appendChild(title); g.appendChild(image);
     const frame = document.createElementNS(NS, 'rect');
     frame.setAttribute('x', x - size / 2); frame.setAttribute('y', y - size / 2);
@@ -256,7 +259,8 @@ export function drawGroundUnits(svg, units, hexSize) {
     g.appendChild(frame);
     const label = document.createElementNS(NS, 'text');
     label.setAttribute('x', x); label.setAttribute('y', y + size * 0.72); label.setAttribute('class', 'marker-label');
-    label.textContent = `${unit.label}${unit.killed ? ' X' : unit.suppressed ? ' S' : ''}`; g.appendChild(label);
+    const radarMark = unit.radar ? (unit.radarDisabled ? ' ⌀' : unit.radarOff ? ' ○' : ' ◉') : '';
+    label.textContent = `${unit.label}${unit.killed ? ' X' : unit.suppressed ? ' S' : ''}${radarMark}`; g.appendChild(label);
   });
 }
 

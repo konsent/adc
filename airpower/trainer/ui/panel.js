@@ -16,6 +16,7 @@ import { orderOfFlight, CATEGORY_LABEL } from '../engine/order-of-flight.js';
 import { angleOff, rearArcOf } from '../engine/geometry.js';
 import { resolveVisualSighting } from '../engine/sighting.js';
 import { T5_STORES, canAttackGround, resolveAaa, resolveGroundAttack, vcAssault } from '../rules/ground-combat.js';
+import { ARM_PROFILE, T6_STORES, canLaunchArm, passdown, radarReactivate, radarShutdown, resolveArm, samLockOn, samShot } from '../rules/sam-arm.js';
 
 const HEX_SIZE = 34;
 const svg = document.getElementById('svg');
@@ -69,6 +70,11 @@ let groundUnits = [];
 let groundTargetIndex = 0;
 let t5Stores = null;
 let groundResult = null;
+// T-6: 폭격기 그룹, ARM 발사 횟수, SAM 상호작용 로그.
+let bombers = [];
+let bomberScore = 0;
+let armAttacksUsed = 0;
+let samAlert = false;
 let neutrals = [];
 let markers = [];
 let alertsCollapsed = false;
@@ -113,6 +119,15 @@ const BRIEFINGS = {
   'spoh-t5-palm-gate': {
     story: '제1항공특공대대에 자원한 당신은 베트남에서 포위된 미 육군 그린베레 전초기지를 지원합니다. 프로펠러 스카이레이더 두 대로 VC 보병과 AAA를 상대하는 첫 지상공격 임무입니다.',
     focus: ['그린베레 전초기지를 보존하고 VC 보병의 공격을 저지합니다.', '기총·주니 로켓·HE 폭탄·네이팜을 사거리와 조준 조건에 맞춰 사용합니다.', 'AAA 사거리와 6·12턴 VC 공격 전에 위협 지상군을 억제하거나 파괴합니다.'],
+  },
+  'spoh-t6-wild-weasel': {
+    story: '1967년 북베트남. F-105G 와일드 위즐 2기로 SA-2 방공망에 먼저 뛰어들어 레이더를 침묵시키고, 게임-턴 4에 진입하는 F-105D 폭격기 4대가 북쪽으로 빠져나갈 길을 열어야 합니다.',
+    focus: [
+      'Rule 25: SA-2는 QRC 미탑재라 두 번째 락온 기회에만 사격합니다. TFF로 20헥스 밖을 저공 통과하면 MTI 없는 레이더에는 잡히지 않습니다.',
+      'Rule 26: 슈라이크(14헥스)/스탠더드 ARM(24헥스)은 수평·하강 직선 비행에서만, 턴당 2발까지 발사합니다. 표적 레이더가 켜져 있어야 유도됩니다.',
+      'Rule 26.4 TGL: 짝수 명중 + D 이상이면 레이더가 영구 파괴됩니다. 포대는 1d10≤6으로 긴급 셧다운/재가동을 시도합니다.',
+      '북쪽 가장자리로 탈출한 F-105D 1대당 10점. 다른 가장자리로 나가면 격추로 간주합니다.',
+    ],
   },
 };
 
@@ -172,8 +187,13 @@ function newScenario(lesson = scenario?.lesson ?? 1) {
   neutrals = scenario.neutrals?.map(unit => ({ ...unit, hex: { ...unit.hex } })) ?? [];
   markers = scenario.markers?.map(marker => ({ ...marker, hex: { ...marker.hex } })) ?? [];
   groundTargetIndex = 0;
-  t5Stores = scenario.t5 ? [{ ...T5_STORES }, ...(scenario.friendlies ?? []).map(() => ({ ...T5_STORES }))] : null;
+  const storeTemplate = scenario.t6 ? T6_STORES : T5_STORES;
+  t5Stores = scenario.t5 ? [{ ...storeTemplate }, ...(scenario.friendlies ?? []).map(() => ({ ...storeTemplate }))] : null;
   groundResult = null;
+  bombers = [];
+  bomberScore = 0;
+  armAttacksUsed = 0;
+  samAlert = false;
   opponentTrails = [];
   if (scenario.solitaire) {
     setupOpponents();
@@ -489,6 +509,126 @@ function moveT2Tug() {
   notices.push({ kind: 'move', turn: state.turnNumber, msg: `T-33 예인기 이동: ${boardHexOf(tug.hex)} → ${boardHexOf(hex)} · 우측 30도 선회.` });
 }
 
+const d10 = () => 1 + Math.floor(Math.random() * 10);
+
+/** 참고 2·3: 게임-턴 4 종료 시 F-105D 4대를 배치하고, 이후 매 턴 북쪽으로 직진시킨다. */
+function moveT6Bombers(turn) {
+  if (!scenario.bombers) return;
+  const spec = scenario.bombers;
+  if (turn === spec.entryTurn && !bombers.length) {
+    bombers = spec.hexes.map((spot, index) => ({
+      id: `bomber${index + 1}`, label: `F-105D #${index + 1}`, aircraftId: spec.aircraft,
+      hex: hexOfScenarioMapT6(spot), facing: spec.facing, alt: spec.alt, speed: spec.speed,
+      escaped: false, killed: false, evading: false,
+    }));
+    notices.push({ kind: 'move', turn, msg: `F-105D 폭격기 4대가 진입했습니다 (속도 ${spec.speed}, 고도 ${spec.alt}, 북쪽 직진).` });
+    return;
+  }
+  bombers.forEach(bomber => {
+    if (bomber.escaped || bomber.killed) return;
+    // 참고 3: SAM 공격을 받는 중에는 무작위 이동, 아니면 북쪽 직진.
+    const facing = bomber.evading ? [0, 2, 10][Math.floor(Math.random() * 3)] : 0;
+    let hex = { ...bomber.hex };
+    for (let step = 0; step < Math.round(bomber.speed); step += 1) hex = neighbor(hex, facing);
+    bomber.hex = hex; bomber.facing = facing;
+    // 참고 4: 북쪽 가장자리 탈출은 10점, 그 외 가장자리는 격추 처리.
+    const edge = t6EdgeOf(hex);
+    if (edge === 'north') { bomber.escaped = true; bomberScore += 10; notices.push({ kind: 'ok', turn, msg: `${bomber.label}가 북쪽 가장자리로 무사히 탈출했습니다. +10점.` }); }
+    else if (edge) { bomber.killed = true; notices.push({ kind: 'kill', turn, msg: `${bomber.label}가 ${edge} 가장자리로 이탈해 격추 처리됩니다.` }); }
+  });
+}
+
+function hexOfScenarioMapT6(spot) {
+  const cell = scenario.mapCells?.find(item => item.boardHex === spot.boardHex);
+  return cell ? { q: cell.q, r: cell.r } : hexOfBoardHex(spot.boardHex);
+}
+
+/** 플레이 영역 밖으로 나갔는지와 어느 가장자리인지 판정한다. */
+function t6EdgeOf(hex) {
+  const cells = scenario.mapCells ?? [];
+  if (!cells.length) return null;
+  const minQ = Math.min(...cells.map(c => c.q)); const maxQ = Math.max(...cells.map(c => c.q));
+  const minR = Math.min(...cells.map(c => c.r)); const maxR = Math.max(...cells.map(c => c.r));
+  if (hex.r < minR) return 'north';
+  if (hex.r > maxR) return 'south';
+  if (hex.q < minQ) return 'west';
+  if (hex.q > maxQ) return 'east';
+  return null;
+}
+
+/**
+ * Rule 25.0 SAM 상호작용 단계. 참고 2: SAM은 항상 가장 가까운 시야 내 F-105에 락온한다.
+ * 폭격기(F-105D)도 표적이 되며, 피격 대상이 되면 무작위 회피로 전환된다.
+ */
+function resolveT6SamPhase(turn) {
+  if (!scenario.t6 || failed) return;
+  // Rule 26.5: 셧다운한 레이더는 이 단계에서 재가동을 시도한다.
+  groundUnits = groundUnits.map(unit => {
+    const reactivation = unit.radarOff && !unit.killed ? radarReactivate(unit) : null;
+    if (reactivation?.success) notices.push({ kind: 'move', turn, msg: `${unit.label} 레이더가 재가동했습니다 (주사위 ${reactivation.roll}).` });
+    return reactivation ? reactivation.unit : unit;
+  });
+
+  const sams = groundUnits.filter(unit => unit.type === 'sam' && !unit.killed);
+  for (const sam of sams) {
+    const index = groundUnits.indexOf(sam);
+    // 참고 2: 가장 가까운 F-105 (위즐 편대 + 폭격기 그룹) 순으로 표적을 고른다.
+    const candidates = [
+      ...flight.filter(jet => jet.damage !== 'K').map((jet, i) => ({ kind: 'weasel', jet, i, hex: jet.hex })),
+      ...bombers.filter(b => !b.killed && !b.escaped).map(b => ({ kind: 'bomber', bomber: b, hex: b.hex })),
+    ].sort((a, b) => distance(sam.hex, a.hex) - distance(sam.hex, b.hex));
+    if (!candidates.length) continue;
+    const pick = candidates[0];
+    const aircraft = pick.kind === 'weasel' ? pick.jet : { ...pick.bomber, tff: false };
+    // Rule 25.1: T-6에는 CCU가 없으므로 Passdown 보너스는 성립하지 않는다.
+    const pass = passdown(d10(), false);
+    // Rule 25.2 QRC: SA-2는 일반 사양이라 두 번째 락온 기회만 사용한다.
+    const lock = samLockOn(sam, aircraft, { passdownDrm: pass.drm, opportunity: 2 });
+    if (!lock.locked) {
+      if (lock.reason && lock.range !== undefined) notices.push({ kind: 'move', turn, msg: `${sam.label} 락온 실패: ${lock.reason}` });
+      continue;
+    }
+    groundUnits[index] = { ...sam, ready: sam.ready - 1 };
+    samAlert = true;
+    // 참고 3: 미사일이 명중하거나 빗나갈 때까지 폭격기는 무작위로 회피한다.
+    if (pick.kind === 'bomber') pick.bomber.evading = true;
+    const shot = samShot(sam, aircraft, { tffPenalty: lock.tffPenalty });
+    if (!shot.hit) {
+      // 참고 3: 빗나가면 회피를 끝내고 최단 방향으로 북쪽에 복귀한다.
+      if (pick.kind === 'bomber') { pick.bomber.evading = false; pick.bomber.facing = 0; }
+      notices.push({ kind: 'move', turn, msg: `${sam.label} 발사 → ${pick.kind === 'weasel' ? `F-105G #${pick.i + 1}` : pick.bomber.label}: 빗나감 (주사위 ${shot.roll}/목표 ${shot.target}). 폭격기는 북쪽으로 복귀합니다.` });
+      continue;
+    }
+    if (pick.kind === 'bomber') {
+      pick.bomber.killed = true;
+      notices.push({ kind: 'kill', turn, msg: `${sam.label} 명중 → ${pick.bomber.label} 격추.` });
+    } else {
+      const damage = rollDamage(shot.rating, d10(), pick.jet, { missile: true }).result;
+      flight[pick.i] = applyDamage(pick.jet, damage);
+      if (pick.i === activeIndex) state = flight[pick.i];
+      notices.push({ kind: 'kill', turn, msg: `${sam.label} 명중 → F-105G #${pick.i + 1} 피해 ${damage}.` });
+    }
+  }
+  if (flight.every(jet => jet.damage === 'K')) failed = '와일드 위즐 편대가 전멸했습니다.';
+}
+
+/**
+ * 참고 5: 파괴한 VC 유닛 점수에서 잃은 아군 점수를 뺀다. 그린베레는 세 배 가치라
+ * 유닛 데이터에 이미 3배(6점)로 들어 있다. 그린베레가 전멸하면 미 공군은 승리할 수
+ * 없고, 점수가 앞서야 겨우 무승부가 된다.
+ */
+function t5Score() {
+  const sum = units => units.reduce((total, unit) => total + (unit.points ?? 0), 0);
+  const usaf = sum(groundUnits.filter(unit => unit.side === 'vc' && unit.killed));
+  const beretLost = groundUnits.some(unit => unit.id === 'gb' && unit.killed);
+  const vc = sum(groundUnits.filter(unit => unit.side === 'friendly' && unit.killed));
+  const net = usaf - vc;
+  const verdict = beretLost
+    ? (net > 0 ? '그린베레 전멸 — 최선은 무승부' : '그린베레 전멸 — 패배')
+    : net > 0 ? '미 공군 우세' : net < 0 ? '베트콩 우세' : '호각';
+  return { usaf, vc, net, verdict, beretLost };
+}
+
 function resolveT5GroundPhase(turn) {
   if (!scenario.t5 || failed) return;
   const activeAaa = groundUnits.filter(unit => unit.type === 'aaa' && !unit.killed && !unit.suppressed);
@@ -511,7 +651,8 @@ function resolveT5GroundPhase(turn) {
     const assault = vcAssault(groundUnits.filter(unit => unit.side === 'vc' && unit.type === 'infantry'), greenBeret, 1 + Math.floor(Math.random() * 10));
     groundUnits = groundUnits.map(unit => unit.id === 'gb' ? assault.unit : unit);
     notices.push({ kind: assault.unit.killed ? 'kill' : 'move', turn, msg: `VC 전초기지 공격: ${assault.attackers}:1 · DRM +${assault.drm} · ${assault.result}${assault.unit.killed ? ' — 그린베레 전멸.' : ''}` });
-    if (assault.unit.killed) failed = '그린베레 전초기지가 전멸했습니다. 미 공군은 승리할 수 없습니다.';
+    // 참고 5: 전멸해도 점수가 앞서면 무승부까지는 가능하므로 현재 점수를 함께 알린다.
+    if (assault.unit.killed) failed = `그린베레 전초기지가 전멸했습니다. 미 공군은 승리할 수 없습니다 (${t5Score().verdict}).`;
   }
   // Suppression lasts the current and following turn; clear only after that turn's ground phase.
   groundUnits = groundUnits.map(unit => unit.suppressed && unit.suppressedTurn < turn - 1 ? { ...unit, suppressed: false } : unit);
@@ -772,7 +913,12 @@ function redraw() {
   else clearLayer(svg, 'friendly');
   if (opponents.length) opponents.forEach((opponent, index) => drawAircraft(svg, opponent.position, opponent.facing, size, opponent.aircraftId, { layerName: 'target', marker: `OPPONENT ${index + 1}`, status: aircraftStatus(opponent), clear: index === 0, tooltip: aircraftTooltip(opponent) }));
   else clearLayer(svg, 'target');
-  if (neutrals.length) neutrals.forEach((unit, index) => drawAircraft(svg, { kind: 'center', hex: unit.hex }, unit.facing, size, unit.aircraftId, { layerName: 'neutral', marker: unit.label, clear: index === 0, tooltip: `${AIRCRAFT[unit.aircraftId]?.title ?? unit.aircraftId}\n중립 기체 · ${unit.label}${unit.alt ? `\n고도 ${unit.alt} · 속도 ${unit.speed.toFixed(1)}` : ''}` }));
+  // T-6 폭격기 그룹도 플레이어가 조작하지 않으므로 중립 레이어를 함께 쓴다.
+  const neutralDraw = [
+    ...neutrals,
+    ...bombers.filter(b => !b.killed && !b.escaped).map(b => ({ hex: b.hex, facing: b.facing, aircraftId: b.aircraftId, label: b.label, alt: b.alt, speed: b.speed })),
+  ];
+  if (neutralDraw.length) neutralDraw.forEach((unit, index) => drawAircraft(svg, { kind: 'center', hex: unit.hex }, unit.facing, size, unit.aircraftId, { layerName: 'neutral', marker: unit.label, clear: index === 0, tooltip: `${AIRCRAFT[unit.aircraftId]?.title ?? unit.aircraftId}\n중립 기체 · ${unit.label}${unit.alt ? `\n고도 ${unit.alt} · 속도 ${unit.speed.toFixed(1)}` : ''}` }));
   else clearLayer(svg, 'neutral');
   drawAircraft(svg, state.position, state.facing, size, state.aircraftId, { status: aircraftStatus(state), tooltip: aircraftTooltip(state) });
   renderAircraftHud();
@@ -976,7 +1122,7 @@ function logAction(action, before, newViolations) {
 function act(action) {
   const before = state;
   const violationsBefore = violations.length;
-  history.push({ state, path: [...path], wpIndex, hillPasses: [...hillPasses], violations: [...violations], completed, failed, debugLog: [...debugLog], notices: [...notices], opponentTrails: opponentTrails.map(t => [...t]), combatTarget, targetIndex, opponents, gunShots: [...gunShots], combatResult, pendingDamage, flight: [...flight], activeIndex, flightPaths: flightPaths.map(p => [...p]), flightShots: flightShots.map(s => [...s]), flightOrder, trainingTurns: trainingTurns.map(turn => ({ ...turn })), trainingEvents: [...trainingEvents], trainingResult, groundUnits: groundUnits.map(unit => ({ ...unit, hex: { ...unit.hex } })), groundTargetIndex, t5Stores: t5Stores?.map(stores => ({ ...stores })), groundResult });
+  history.push({ state, path: [...path], wpIndex, hillPasses: [...hillPasses], violations: [...violations], completed, failed, debugLog: [...debugLog], notices: [...notices], opponentTrails: opponentTrails.map(t => [...t]), combatTarget, targetIndex, opponents, gunShots: [...gunShots], combatResult, pendingDamage, flight: [...flight], activeIndex, flightPaths: flightPaths.map(p => [...p]), flightShots: flightShots.map(s => [...s]), flightOrder, trainingTurns: trainingTurns.map(turn => ({ ...turn })), trainingEvents: [...trainingEvents], trainingResult, groundUnits: groundUnits.map(unit => ({ ...unit, hex: { ...unit.hex } })), groundTargetIndex, t5Stores: t5Stores?.map(stores => ({ ...stores })), groundResult, bombers: bombers.map(b => ({ ...b, hex: { ...b.hex } })), bomberScore, armAttacksUsed, samAlert });
   settlementReport = null;
   const found = validate(state, action, { activeRules: scenario.activeRules, lesson: scenario.lesson });
   // 선회율/비행 타입 선언은 같은 턴에 바꿔 선택할 수 있다. 새 선언은 이전 선언의
@@ -1025,6 +1171,10 @@ function undo() {
   trainingEvents = prev.trainingEvents ?? [];
   trainingResult = prev.trainingResult ?? null;
   groundUnits = prev.groundUnits ?? groundUnits;
+  bombers = prev.bombers ?? bombers;
+  bomberScore = prev.bomberScore ?? bomberScore;
+  armAttacksUsed = prev.armAttacksUsed ?? armAttacksUsed;
+  samAlert = prev.samAlert ?? samAlert;
   groundTargetIndex = prev.groundTargetIndex ?? 0;
   t5Stores = prev.t5Stores ?? t5Stores;
   groundResult = prev.groundResult ?? null;
@@ -1060,6 +1210,9 @@ function nextTurn() {
   moveT2Tug();
   if (opponents.length) moveOpponents();
   resolveT5GroundPhase(before.turnNumber);
+  moveT6Bombers(before.turnNumber);
+  resolveT6SamPhase(before.turnNumber);
+  armAttacksUsed = 0;
   refreshVisualSighting();
   computeOrder();
   gunShots = [];
@@ -1396,6 +1549,39 @@ function fireGround(kind) {
   redraw();
 }
 
+/** Rule 26.2/26.4: ARM 발사는 턴의 공대지 공격 1회를 소모하고, 턴당 2발이 상한이다. */
+function fireArm(kind) {
+  const target = groundUnits[groundTargetIndex];
+  const stores = t5Stores?.[activeIndex];
+  if (!target || !stores || !stores[kind]) return;
+  const error = canLaunchArm(state, target, kind, { armAttacksUsed });
+  if (error) { groundResult = { error }; redraw(); return; }
+  const result = resolveArm(target, kind);
+  stores[kind] -= 1;
+  armAttacksUsed += 1;
+  groundUnits = groundUnits.map((unit, index) => index === groundTargetIndex
+    ? { ...result.unit, suppressedTurn: result.unit.suppressed ? state.turnNumber : unit.suppressedTurn }
+    : unit);
+  groundResult = { ...result, weapon: result.arm, ratio: '-', fas: '-', target: groundUnits[groundTargetIndex] };
+  notices.push({
+    kind: result.radarDisabled ? 'kill' : 'move', turn: state.turnNumber,
+    msg: result.hit
+      ? `${result.arm} → ${target.label}: 명중(${result.hitRoll}) ${result.result}${result.radarDisabled ? ' · TGL 레이더 영구 파괴' : ''}.`
+      : `${result.arm} → ${target.label}: 빗나감 (주사위 ${result.hitRoll}).`,
+  });
+  redraw();
+}
+
+/** Rule 26.5: ARM 경보를 받은 포대는 긴급 셧다운을 시도할 수 있다. */
+function samShutdown() {
+  const target = groundUnits[groundTargetIndex];
+  const attempt = target ? radarShutdown(target) : null;
+  if (!attempt) { groundResult = { error: '셧다운할 수 있는 레이더가 아닙니다.' }; redraw(); return; }
+  groundUnits = groundUnits.map((unit, index) => index === groundTargetIndex ? attempt.unit : unit);
+  notices.push({ kind: 'move', turn: state.turnNumber, msg: `${target.label} 긴급 셧다운 ${attempt.success ? '성공' : '실패'} (주사위 ${attempt.roll}).` });
+  redraw();
+}
+
 function toggleTff() {
   if (!scenario.t5) return;
   if (!state.tff) {
@@ -1410,10 +1596,18 @@ function groundCombatHtml() {
   const target = groundUnits[groundTargetIndex] ?? groundUnits[0];
   const stores = t5Stores[activeIndex];
   const report = groundResult?.error ? `공격 불가: ${groundResult.error}` : groundResult ? `${groundResult.weapon} · FAS ${groundResult.fas} · ${groundResult.ratio}:1 · 주사위 결과 ${groundResult.result} → ${groundResult.target.label}` : '표적을 선택하고 공대지 무장을 사용하십시오. 조준에는 최소 1 HFP 직선 비행이 필요합니다.';
-  return `<div class="row"><label>공대지 공격 · T-5</label>
+  // T-6은 네이팜 대신 ARM 두 종을 싣는다.
+  const armRow = scenario.t6 ? `<div class="debug-actions"><button id="arm-shrike" ${stores.shrike ? '' : 'disabled'}>${ARM_PROFILE.shrike.label} (${stores.shrike})</button><button id="arm-standard" ${stores.standard ? '' : 'disabled'}>${ARM_PROFILE.standard.label} (${stores.standard})</button><button id="sam-shutdown">표적 레이더 셧다운 시도</button></div>` : '';
+  const t6Status = scenario.t6 ? `<div class="turn-help">ARM 사용 ${armAttacksUsed}/2 · 폭격기 탈출 점수 ${bomberScore} · ${samAlert ? 'SAM 활동 감지됨' : 'SAM 조용함'}</div>` : '';
+  const t5Status = scenario.t6 ? '' : (() => {
+    const score = t5Score();
+    return `<div class="turn-help">점수 ${score.net >= 0 ? '+' : ''}${score.net} (VC 격파 +${score.usaf} / 아군 손실 −${score.vc}) · ${score.verdict}</div>`;
+  })();
+  return `<div class="row"><label>공대지 공격 · ${scenario.t6 ? 'T-6 SEAD' : 'T-5'}</label>
     <select id="ground-target">${groundUnits.map((unit, index) => `<option value="${index}" ${index === groundTargetIndex ? 'selected' : ''} ${unit.killed ? 'disabled' : ''}>${unit.label} · ${boardHexOf(unit.hex)} · ${unit.killed ? '파괴' : unit.suppressed ? '억제' : `D ${unit.hits ?? 0}`}</option>`).join('')}</select>
-    <div class="debug-actions"><button id="ground-gun">기총 (${stores.gun === Infinity ? '무제한' : stores.gun})</button><button id="ground-rocket" ${stores.rocket ? '' : 'disabled'}>로켓 (${stores.rocket})</button><button id="ground-bomb" ${stores.bomb ? '' : 'disabled'}>HE 폭탄 (${stores.bomb})</button><button id="ground-napalm" ${stores.napalm ? '' : 'disabled'}>네이팜 (${stores.napalm})</button></div>
-    <div class="debug-actions"><button id="tff">${state.tff ? 'TFF 이탈' : 'TFF 진입'}</button></div><div class="turn-help">${report}</div>
+    <div class="debug-actions"><button id="ground-gun">기총 (${stores.gun === Infinity ? '무제한' : stores.gun})</button><button id="ground-rocket" ${stores.rocket ? '' : 'disabled'}>로켓 (${stores.rocket})</button><button id="ground-bomb" ${stores.bomb ? '' : 'disabled'}>HE 폭탄 (${stores.bomb})</button>${scenario.t6 ? '' : `<button id="ground-napalm" ${stores.napalm ? '' : 'disabled'}>네이팜 (${stores.napalm})</button>`}</div>
+    ${armRow}
+    <div class="debug-actions"><button id="tff">${state.tff ? 'TFF 이탈' : 'TFF 진입'}</button></div><div class="turn-help">${report}</div>${t6Status}${t5Status}
   </div>`;
 }
 
@@ -1557,6 +1751,7 @@ function renderPanel() {
             <option value="spoh-t3-first-dogfight" ${scenarioMode === 'spoh-t3-first-dogfight' ? 'selected' : ''}>[SPOH] T-3: 첫 공중전</option>
              <option value="spoh-t4-missile-age" ${scenarioMode === 'spoh-t4-missile-age' ? 'selected' : ''}>[SPOH] T-4: 미사일 시대</option>
              <option value="spoh-t5-palm-gate" ${scenarioMode === 'spoh-t5-palm-gate' ? 'selected' : ''}>[SPOH] T-5: 팜 게이트 작전</option>
+             <option value="spoh-t6-wild-weasel" ${scenarioMode === 'spoh-t6-wild-weasel' ? 'selected' : ''}>[SPOH] T-6: 와일드 위즐!</option>
       </select>
       ${scenario.source ? `<div class="turn-help">출처: ${scenario.source}${
         scenario.maxTurns ? ` · 원문 제한: ${scenario.maxTurns}턴 이내`
@@ -1776,6 +1971,9 @@ function renderPanel() {
   const groundTarget = panel.querySelector('#ground-target');
   if (groundTarget) groundTarget.onchange = e => { groundTargetIndex = +e.target.value; groundResult = null; redraw(); };
   ['gun', 'rocket', 'bomb', 'napalm'].forEach(kind => { const button = panel.querySelector(`#ground-${kind}`); if (button) button.onclick = () => fireGround(kind); });
+  ['shrike', 'standard'].forEach(kind => { const button = panel.querySelector(`#arm-${kind}`); if (button) button.onclick = () => fireArm(kind); });
+  const shutdown = panel.querySelector('#sam-shutdown');
+  if (shutdown) shutdown.onclick = samShutdown;
   const tff = panel.querySelector('#tff');
   if (tff) tff.onclick = toggleTff;
   const aim4a = panel.querySelector('#launch-aim4a');

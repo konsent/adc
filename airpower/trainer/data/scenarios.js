@@ -1,5 +1,5 @@
 import { rulesFor } from '../rules/index.js';
-import { hexOfBoardHex, hexOfScenarioMap, scenarioMapCells, spohMapBackgrounds, spohMapCells } from '../engine/hex.js';
+import { SPOH_MAPS, hexOfBoardHex, hexOfScenarioMap, scenarioMapCells, spohMapBackgrounds, spohMapCells } from '../engine/hex.js';
 
 // 출처: ../scenario/air_superiority_scenario.md, T-2 Check Ride (p.32).
 // 원문 Map A 좌표는 시작 헥스 1021을 axial 원점으로 옮겨 현재 훈련 맵에 맞춘다.
@@ -241,20 +241,79 @@ const SPOH_T4 = {
 const SPOH_T5 = {
   id: 'spoh-t5-palm-gate', title: '[SPOH] T-5 팜 게이트 작전!', source: 'Speed of Heat T-5, Vietnam 1964', lesson: 4,
   solitaire: true, t5: true, maxTurns: 15, aircraft: 'SPOH-A-1H-SKYRAIDER',
-  start: { hex: hexOfBoardHex('5211'), boardHex: '5211', facing: 4, alt: 5, speed: 2.5, flightType: 'LVL', configuration: 'DT', load: 21 },
-  friendlies: [{ aircraft: 'SPOH-A-1H-SKYRAIDER', hex: hexOfBoardHex('5112'), boardHex: '5112', facing: 4, alt: 5, speed: 2.5, configuration: 'DT', load: 21 }],
+  // 참고 1: 폭탄 6 + 주니 2 + 네이팜 3 = 총 적재량 19.5, 무게 5,600.
+  start: { hex: hexOfBoardHex('5211'), boardHex: '5211', facing: 4, alt: 5, speed: 2.5, flightType: 'LVL', configuration: 'DT', load: 19.5 },
+  friendlies: [{ aircraft: 'SPOH-A-1H-SKYRAIDER', hex: hexOfBoardHex('5112'), boardHex: '5112', facing: 4, alt: 5, speed: 2.5, configuration: 'DT', load: 19.5 }],
   groundUnits: [
-    { id: 'gb', side: 'friendly', type: 'infantry', label: '그린베레', hex: hexOfBoardHex('6008'), defense: 1, fragile: true, elevation: 0 },
-    { id: 'vc1', side: 'vc', type: 'infantry', label: 'VC 보병 1', hex: hexOfBoardHex('5907'), defense: 1, fragile: true, elevation: 0 },
-    { id: 'vc2', side: 'vc', type: 'infantry', label: 'VC 보병 2', hex: hexOfBoardHex('5907'), defense: 1, fragile: true, elevation: 0 },
-    { id: 'vc3', side: 'vc', type: 'infantry', label: 'VC 보병 3', hex: hexOfBoardHex('6007'), defense: 1, fragile: true, elevation: 0 },
-    { id: 'vc4', side: 'vc', type: 'infantry', label: 'VC 보병 4', hex: hexOfBoardHex('6007'), defense: 1, fragile: true, elevation: 0 },
-    { id: 'zpu', side: 'vc', type: 'aaa', label: 'ZPU-1 14.5mm', image: 'ZPU-1Front.gif', hex: hexOfBoardHex('5807'), defense: 2, range: 5, hit: 3, rating: 1, elevation: 0 },
-    { id: 'zpu2', side: 'vc', type: 'aaa', label: 'ZPU-1 14.5mm', image: 'ZPU-1Front.gif', hex: hexOfBoardHex('6012'), defense: 2, range: 5, hit: 3, rating: 1, elevation: 0 },
-    { id: 'zu23', side: 'vc', type: 'aaa', label: 'ZU-23 23mm', image: 'ZU-23Front.gif', hex: hexOfBoardHex('6611'), defense: 2, range: 6, hit: 4, rating: 2, elevation: 0 },
+    // 참고 5: 그린베레는 세 배 가치(보병 2점 × 3 = 6점)로 집계한다.
+    { id: 'gb', side: 'friendly', type: 'infantry', label: '그린베레', hex: hexOfBoardHex('6008'), defense: 1, fragile: true, elevation: 0, points: 6 },
+    { id: 'vc1', side: 'vc', type: 'infantry', label: 'VC 보병 1', hex: hexOfBoardHex('5907'), defense: 1, fragile: true, elevation: 0, points: 2 },
+    { id: 'vc2', side: 'vc', type: 'infantry', label: 'VC 보병 2', hex: hexOfBoardHex('5907'), defense: 1, fragile: true, elevation: 0, points: 2 },
+    { id: 'vc3', side: 'vc', type: 'infantry', label: 'VC 보병 3', hex: hexOfBoardHex('6007'), defense: 1, fragile: true, elevation: 0, points: 2 },
+    { id: 'vc4', side: 'vc', type: 'infantry', label: 'VC 보병 4', hex: hexOfBoardHex('6007'), defense: 1, fragile: true, elevation: 0, points: 2 },
+    { id: 'zpu', side: 'vc', type: 'aaa', label: 'ZPU-1 14.5mm', image: 'ZPU-1Front.gif', hex: hexOfBoardHex('5807'), defense: 2, range: 5, hit: 3, rating: 1, elevation: 0, points: 3 },
+    { id: 'zpu2', side: 'vc', type: 'aaa', label: 'ZPU-1 14.5mm', image: 'ZPU-1Front.gif', hex: hexOfBoardHex('6012'), defense: 2, range: 5, hit: 3, rating: 1, elevation: 0, points: 3 },
+    { id: 'zu23', side: 'vc', type: 'aaa', label: 'ZU-23 23mm', image: 'ZU-23Front.gif', hex: hexOfBoardHex('6611'), defense: 2, range: 6, hit: 4, rating: 2, elevation: 0, points: 4 },
   ],
   victory: '15턴 동안 그린베레를 보존하고 VC를 저지하십시오. 그린베레 점수는 3배입니다.',
   mapCells: spohMapCells(['spoh-c1']), mapBackgrounds: spohMapBackgrounds(['spoh-c1']), hexSize: 37,
+};
+
+// T-6은 B1(북) / C1(중앙) / B2(남)을 세로로 이어 붙인다. 각 맵은 20열 15행.
+// 인쇄 원점(col/row)이 맵마다 다르므로 오프셋은 손으로 적지 않고 SPOH_MAPS에서 역산한다.
+function spohT6Layout() {
+  const order = ['spoh-b1', 'spoh-c1', 'spoh-b2'];
+  const maps = order.map((id, index) => ({
+    id,
+    q: SPOH_MAPS[order[0]].col - SPOH_MAPS[id].col,
+    r: index * 15 - (SPOH_MAPS[id].row - SPOH_MAPS[order[0]].row),
+  }));
+  const cells = maps.flatMap(layout => spohMapCells([layout.id]).map(cell => ({ ...cell, q: cell.q + layout.q, r: cell.r + layout.r })));
+  const backgrounds = spohMapBackgrounds(maps.map(map => map.id)).map((background, index) => ({
+    ...background,
+    minQ: background.minQ + maps[index].q, maxQ: background.maxQ + maps[index].q,
+    minR: background.minR + maps[index].r, maxR: background.maxR + maps[index].r,
+  }));
+  const hex = (map, boardHex) => {
+    const layout = maps.find(item => item.id === map);
+    const raw = hexOfBoardHex(boardHex);
+    return { q: raw.q + layout.q, r: raw.r + layout.r };
+  };
+  return { cells, backgrounds, hex, maps };
+}
+const SPOH_T6_LAYOUT = spohT6Layout();
+const T6 = (map, boardHex) => SPOH_T6_LAYOUT.hex(map, boardHex);
+const SPOH_T6 = {
+  id: 'spoh-t6-wild-weasel', title: '[SPOH] T-6 와일드 위즐!', source: 'Speed of Heat T-6, North Vietnam 1967', lesson: 4,
+  solitaire: true, t5: true, t6: true, maxTurns: 15, aircraft: 'SPOH-F-105G-WILD-WEASEL',
+  start: { hex: T6('spoh-b2', '4030'), boardHex: '4030', facing: 0, alt: 20, speed: 6, flightType: 'LVL', configuration: 'DT', load: 18 },
+  friendlies: [{ aircraft: 'SPOH-F-105G-WILD-WEASEL', hex: T6('spoh-b2', '4130'), boardHex: '4130', facing: 0, alt: 20, speed: 6, configuration: 'DT', load: 18 }],
+  // 게임-턴 4 종료 시 진입하는 F-105D 폭격기 4대. 속도 5.0, 고도 10, 북쪽 직진.
+  bombers: {
+    entryTurn: 4, speed: 5, alt: 10, facing: 0, aircraft: 'SPOH-F-105D-THUNDERCHIEF',
+    hexes: [
+      { map: 'spoh-b2', boardHex: '3730' }, { map: 'spoh-b2', boardHex: '3830' },
+      { map: 'spoh-b2', boardHex: '4129' }, { map: 'spoh-b2', boardHex: '4230' },
+    ],
+  },
+  groundUnits: [
+    { id: 'sa2a', side: 'vc', type: 'sam', label: 'SA-2B 발사 유닛 1', image: 'SA2Front.gif', hex: T6('spoh-b1', '4409'), boardHex: '4409',
+      defense: 2, elevation: 0, radar: true, mti: false, qrc: false, volley: 3, ready: 6,
+      range: 30, minAlt: 3, lock: 6, hit: 6, rating: 8, guidance: 'CG' },
+    { id: 'sa2b', side: 'vc', type: 'sam', label: 'SA-2B 발사 유닛 2', image: 'SA2-CFront.gif', hex: T6('spoh-c1', '5506'), boardHex: '5506',
+      defense: 2, elevation: 0, radar: true, mti: false, qrc: false, volley: 3, ready: 6,
+      range: 30, minAlt: 3, lock: 6, hit: 6, rating: 8, guidance: 'CG' },
+    { id: 's60', side: 'vc', type: 'aaa', label: 'S-60 57mm', image: 'S-60Front.gif', hex: T6('spoh-b1', '3907'), boardHex: '3907',
+      defense: 2, elevation: 0, range: 12, hit: 4, rating: 4, radar: true, fcr: true },
+    { id: 'zu23', side: 'vc', type: 'aaa', label: 'ZU-23 23mm', image: 'ZU-23Front.gif', hex: T6('spoh-b1', '4213'), boardHex: '4213',
+      defense: 2, elevation: 0, range: 6, hit: 4, rating: 2 },
+    { id: 'aaa37', side: 'vc', type: 'aaa', label: '37mm 대공포', image: 'M38Front.gif', hex: T6('spoh-c1', '6008'), boardHex: '6008',
+      defense: 2, elevation: 0, range: 8, hit: 4, rating: 3 },
+    { id: 'ks12', side: 'vc', type: 'aaa', label: 'KS-12 85mm', image: 'KS-12Front.gif', hex: T6('spoh-c1', '6612'), boardHex: '6612',
+      defense: 2, elevation: 0, range: 18, hit: 5, rating: 5, radar: true, fcr: true },
+  ],
+  victory: '15턴 동안 SAM 방공망을 제압하고 F-105D 폭격기를 북쪽으로 통과시키십시오. 북쪽 탈출 폭격기 1대당 10점입니다.',
+  mapCells: SPOH_T6_LAYOUT.cells, mapBackgrounds: SPOH_T6_LAYOUT.backgrounds, hexSize: 30,
 };
 
 export const SCENARIOS = {
@@ -277,6 +336,7 @@ export const SCENARIOS = {
   'spoh-t3-first-dogfight': SPOH_T3,
   'spoh-t4-missile-age': SPOH_T4,
   'spoh-t5-palm-gate': SPOH_T5,
+  'spoh-t6-wild-weasel': SPOH_T6,
 };
 
 export function loadScenario(id, { scope = 'basic' } = {}) {
@@ -290,6 +350,7 @@ export function loadScenario(id, { scope = 'basic' } = {}) {
     markers: scenario.markers?.map(marker => ({ ...marker, hex: { ...marker.hex } })),
     neutrals: scenario.neutrals?.map(unit => ({ ...unit, hex: { ...unit.hex } })),
     groundUnits: scenario.groundUnits?.map(unit => ({ ...unit, hex: { ...unit.hex } })),
+    bombers: scenario.bombers ? { ...scenario.bombers, hexes: scenario.bombers.hexes.map(spot => ({ ...spot })) } : undefined,
     maps: scenario.maps ? [...scenario.maps] : undefined,
     mapCells: scenario.mapCells ?? (scenario.maps ? scenarioMapCells(scenario.maps) : undefined),
     mapBackgrounds: scenario.mapBackgrounds ? [...scenario.mapBackgrounds] : undefined,

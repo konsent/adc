@@ -52,9 +52,12 @@ export function resolveAaa(aaa, aircraft, roll) {
   return { hit: roll <= target, target, rating: aaa.rating, roll };
 }
 
+// T-5 참고 3: 인접한 생존 VC가 그린베레를 공격한다. 억제된 유닛도 참가하되,
+// 억제 1건당 +1, "D" 명중 1건당 +1을 주사위에 더한다(공격자에게 불리).
+// groundResult는 roll - drm으로 판정하므로 원문의 "+1"은 음수 drm으로 넘긴다.
 export function vcAssault(vcUnits, greenBeret, roll) {
-  const attackers = vcUnits.filter(unit => !unit.killed && !unit.suppressed && distance(unit.hex, greenBeret.hex) === 1);
-  const drm = attackers.reduce((sum, unit) => sum + (unit.hits ?? 0), 0);
-  const combat = groundResult(attackers.length, greenBeret.defense, roll, drm);
-  return { attackers: attackers.length, drm, ...combat, unit: applyGroundResult(greenBeret, combat.result) };
+  const attackers = vcUnits.filter(unit => !unit.killed && distance(unit.hex, greenBeret.hex) === 1);
+  const penalty = attackers.reduce((sum, unit) => sum + (unit.hits ?? 0) + (unit.suppressed ? 1 : 0), 0);
+  const combat = groundResult(attackers.length, greenBeret.defense, roll, -penalty);
+  return { attackers: attackers.length, drm: penalty, ...combat, unit: applyGroundResult(greenBeret, combat.result) };
 }

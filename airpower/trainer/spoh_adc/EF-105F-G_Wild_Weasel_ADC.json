@@ -1,0 +1,300 @@
+{
+    "Aircraft": "EF-105F/G Wild Weasel",
+    "Crew": "Pilot, Weapons Officer",
+    "Aircraft_Characteristics": {
+        "Cruise Speed": "5.5",
+        "Climb Speed": "4.5",
+        "Visibility": "7",
+        "Size Modifier": "0",
+        "Vulnerability": "+1",
+        "Restr. Arcs": "\u2014",
+        "Blind Arcs": "60-",
+        "Internal Fuel": "500",
+        "Ata Refuel": "Yes",
+        "Ejection Seat": "Std."
+    },
+    "Air_Power": {
+        "Maneuver Costs": "HFP | Decel",
+        "Lag/Displ. Rolls": "1.0 | 1.0",
+        "Vertical Rolls": "0.0 | 0.0"
+    },
+    "Power_Chart_Accel": [
+        {
+            "Power": "Aft. Bur.",
+            "CL": "2.5",
+            "1/2": "2.0",
+            "DT": "1.5",
+            "Fuel": "9.0"
+        },
+        {
+            "Power": "Military",
+            "CL": "1.0",
+            "1/2": "1.0",
+            "DT": "1.0",
+            "Fuel": "3.0"
+        },
+        {
+            "Power": "Normal",
+            "CL": "0.0",
+            "1/2": "0.0",
+            "DT": "0.0",
+            "Fuel": "1.0"
+        },
+        {
+            "Power": "Idle FP",
+            "CL": "0.5",
+            "1/2": "0.5",
+            "DT": "0.5",
+            "Fuel": "0.0"
+        },
+        {
+            "Power": "Sp.Br. FP",
+            "CL": "0.5",
+            "1/2": "1.0",
+            "DT": "1.0",
+            "Fuel": "\u2014"
+        }
+    ],
+    "Turn_Drag_Chart_Decel": [
+        {
+            "Turn": "TT",
+            "CL": "2.0",
+            "1/2": "2.0",
+            "DT": "2.0"
+        },
+        {
+            "Turn": "HT",
+            "CL": "3.0",
+            "1/2": "4.0",
+            "DT": "4.0"
+        },
+        {
+            "Turn": "BT",
+            "CL": "4.0",
+            "1/2": "5.0",
+            "DT": "5.0"
+        },
+        {
+            "Turn": "ET",
+            "CL": "NA",
+            "1/2": "NA",
+            "DT": "NA"
+        }
+    ],
+    "Minimum_Maximum_Velocity_Chart": [
+        {
+            "Alt. Band": "EH+",
+            "Conf. Ceil.": "46+",
+            "CL": {
+                "Min": "-",
+                "Max": "-"
+            },
+            "1/2": {
+                "Min": "-",
+                "Max": "-"
+            },
+            "DT": {
+                "Min": "-",
+                "Max": "-"
+            }
+        },
+        {
+            "Alt. Band": "VH",
+            "Conf. Ceil.": "36-45",
+            "CL": {
+                "Min": "4.0",
+                "Max": "9.0"
+            },
+            "1/2": {
+                "Min": "4.0",
+                "Max": "8.5"
+            },
+            "DT": {
+                "Min": "-",
+                "Max": "-"
+            }
+        },
+        {
+            "Alt. Band": "HI",
+            "Conf. Ceil.": "26-35",
+            "CL": {
+                "Min": "3.5",
+                "Max": "8.5"
+            },
+            "1/2": {
+                "Min": "3.5",
+                "Max": "8.0"
+            },
+            "DT": {
+                "Min": "4.0",
+                "Max": "7.5"
+            }
+        },
+        {
+            "Alt. Band": "MH",
+            "Conf. Ceil.": "17-25",
+            "CL": {
+                "Min": "3.0",
+                "Max": "8.5"
+            },
+            "1/2": {
+                "Min": "3.0",
+                "Max": "7.5"
+            },
+            "DT": {
+                "Min": "3.5",
+                "Max": "7.0"
+            }
+        },
+        {
+            "Alt. Band": "ML",
+            "Conf. Ceil.": "8-16",
+            "CL": {
+                "Min": "2.5",
+                "Max": "8.0"
+            },
+            "1/2": {
+                "Min": "2.5",
+                "Max": "7.5"
+            },
+            "DT": {
+                "Min": "3.0",
+                "Max": "6.5"
+            }
+        },
+        {
+            "Alt. Band": "LO",
+            "Conf. Ceil.": "1-7",
+            "CL": {
+                "Min": "2.0",
+                "Max": "7.5"
+            },
+            "1/2": {
+                "Min": "2.5",
+                "Max": "7.0"
+            },
+            "DT": {
+                "Min": "2.5",
+                "Max": "6.0"
+            }
+        }
+    ],
+    "Climb_Capability_Chart": [
+        {
+            "Dive Vel.": "\u2014",
+            "CL AB": "\u2014",
+            "CL Other": "\u2014",
+            "1/2 AB": "\u2014",
+            "1/2 Other": "\u2014",
+            "DT AB": "\u2014",
+            "DT Other": "\u2014",
+            "Alt. Band": "EH+"
+        },
+        {
+            "Dive Vel.": "11.0",
+            "CL AB": "1.0",
+            "CL Other": "0.5",
+            "1/2 AB": "1.0",
+            "1/2 Other": "0.5",
+            "DT AB": "\u2014",
+            "DT Other": "\u2014",
+            "Alt. Band": "VH"
+        },
+        {
+            "Dive Vel.": "10.5",
+            "CL AB": "2.0",
+            "CL Other": "0.5",
+            "1/2 AB": "1.0",
+            "1/2 Other": "0.5",
+            "DT AB": "1.0",
+            "DT Other": "0.5",
+            "Alt. Band": "HI"
+        },
+        {
+            "Dive Vel.": "10.0",
+            "CL AB": "3.0",
+            "CL Other": "1.0",
+            "1/2 AB": "2.0",
+            "1/2 Other": "1.0",
+            "DT AB": "1.0",
+            "DT Other": "0.5",
+            "Alt. Band": "MH"
+        },
+        {
+            "Dive Vel.": "9.5",
+            "CL AB": "3.0",
+            "CL Other": "1.0",
+            "1/2 AB": "2.0",
+            "1/2 Other": "1.0",
+            "DT AB": "1.0",
+            "DT Other": "0.5",
+            "Alt. Band": "ML"
+        },
+        {
+            "Dive Vel.": "8.5",
+            "CL AB": "4.0",
+            "CL Other": "2.0",
+            "1/2 AB": "3.0",
+            "1/2 Other": "1.0",
+            "DT AB": "2.0",
+            "DT Other": "1.0",
+            "Alt. Band": "LO"
+        }
+    ],
+    "Avionics_Electronics": {
+        "Radar": "R-14A",
+        "ECCM": "0",
+        "Arcs": "180+",
+        "Search": "60 - 15",
+        "Track": "40 - 10",
+        "Lock-On": "7",
+        "ECM": "EF-105F / EF-105G",
+        "IFF": "Yes / Yes",
+        "RWR": "A / B",
+        "DDS": "A / B",
+        "DJM": "\u2014 / A3",
+        "AJM": "\u2014 / A3"
+    },
+    "Weapons_and_Systems": {
+        "Gun Type": "20mm M61 Vulcan",
+        "Roll to Hit": "0=7, 1=5, 2=3",
+        "Ammunition": "5.0",
+        "Gunsight Mods": "HT+1, BT+2",
+        "Radar Ranging": "RE",
+        "AtA / AtG Rating": "6 / 8 *",
+        "Bomb System": "F= Manual (-0)  G= Ballistic (-1)",
+        "Technology": "NONE"
+    },
+    "Configuration_and_Limits": {
+        "Configuration Points Limits": "CL = 0 - 4, 1/2 = 5 - 10, DT = 11+",
+        "Load Limit": "12,500",
+        "Weapons Stations": [
+            {
+                "Weapon Stations": "1,5",
+                "Station Limits": "1000",
+                "Allowed Loads": "BB, RP, RG, WR, EP, MDR, IRM, ARM."
+            },
+            {
+                "Weapon Stations": "2,4",
+                "Station Limits": "3500",
+                "Allowed Loads": "BB, RP, RG, WR, EP, ADR, ARM, FT."
+            },
+            {
+                "Weapon Stations": "3",
+                "Station Limits": "5000",
+                "Allowed Loads": "BB, RP, WR, EP, FT."
+            }
+        ]
+    },
+    "Notes_and_Variants": [
+        "Smoker in Military Power",
+        "1. Radar air to ground mode; Gr. NAV (180), Gr. Attack (90).",
+        "2. EF-105F ECM upgrade: RWR=B in 1968.",
+        "3. EF-105G post-war ECM upgrade: RWR=C, AJM= B4.",
+        "4. Rapid Accel Aircraft when CL configured.",
+        "5. Low Transonic Drag (LTD).",
+        "6. EF-105F may not use AGM-78 ARM until 1968+.",
+        "Note: May use AIM-9B IRMs, AGM-48 and AGM-78 ARMs, AGM-12 RGs only."
+    ],
+    "V.P.s": "EF-105F= 26,18,9,4  EF-105G=28,20,10,5"
+}

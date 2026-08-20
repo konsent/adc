@@ -10,7 +10,7 @@ const CARD_FILES = [
   'Su-15_Flagon-A_ADC.json', 'Su-15_Flagon-D_ADC.json', 'Su-15_Flagon-F_ADC.json', 'Su-17-20_Fitter-C_ADC.json', 'Su-22_Fitter-H-J-K_ADC.json', 'Su-24_Fencer-C-D_ADC.json', 'Su-25_Frogfoot-A_ADC.json', 'Su-27_Flanker-B_ADC.json', 'Super_Etendard_ADC.json', 'Vampire_FB.35-SE.535_Mistral_ADC.json', 'Vampire_FB.5-FB.9_ADC.json',
 ];
 
-CARD_FILES.push('F-102A_Delta_Dagger_ADC.json', 'Tu-95M_Bear_A_ADC.json');
+CARD_FILES.push('F-102A_Delta_Dagger_ADC.json', 'Tu-95M_Bear_A_ADC.json', 'EF-105F-G_Wild_Weasel_ADC.json');
 
 function aircraftId(file) {
   if (file === 'F-4E_Phantom_II_slatted_wings_ADC.json') return 'SPOH-F4E';
@@ -24,6 +24,7 @@ function counterFor(title) {
   if (name.includes('f-15')) return 'f-15c-eagle.jpg';
   if (name.includes('f-16')) return 'f-16c-fighting-falcon.jpg';
   if (name.includes('f-4') || name.includes('phantom')) return 'f-4e-phantom-ii.jpg';
+  if (name.includes('f-105')) return 'spoh/F105WW.gif';
   if (name.includes('f-104')) return 'spoh/F104.gif';
   if (name.includes('f-102')) return 'spoh/F102.gif';
   if (name.includes('tu-95')) return 'spoh/TU95.gif';
@@ -186,6 +187,22 @@ async function loadSpohAircraft() {
     roll: { fp: 1, decel: 1 }, verticalRoll: { fp: 0, decel: 0 }, traits: { hpr: false, rollRate: 'low', ssm: 'normal', rapidAccel: false, rapidPowerResponse: false, canard: false, bleedRate: 'normal', slats: false, viff: false, highAoA: false, verified: false }, spoh: true, source: 'T-5 scenario data',
   };
   counters['SPOH-A-1H-SKYRAIDER'] = 'spoh/A-1.gif';
+  // T-6의 두 F-105 변형은 EF-105F/G 와일드 위즐 ADC 카드를 그대로 따른다.
+  const weasel = aircraft['SPOH-EF-105F-G-WILD-WEASEL'];
+  if (weasel) {
+    aircraft['SPOH-F-105G-WILD-WEASEL'] = {
+      ...weasel, id: 'SPOH-F-105G-WILD-WEASEL', title: 'F-105G Wild Weasel',
+      // Rule 26.2: APR-38 RHAW 탑재 기체는 급강하 방위각 측정(Fix) 기동을 면제받는다.
+      hts: true, rwr: 'D',
+    };
+    counters['SPOH-F-105G-WILD-WEASEL'] = 'spoh/F105WW.gif';
+    // F-105D는 전용 카드가 없어 같은 기골의 위즐 카드를 쓰되 RHAW 장비만 뺀다.
+    aircraft['SPOH-F-105D-THUNDERCHIEF'] = {
+      ...weasel, id: 'SPOH-F-105D-THUNDERCHIEF', title: 'F-105D Thunderchief',
+      hts: false, rwr: 'B', source: `${weasel.source} (F-105D 대체)`,
+    };
+    counters['SPOH-F-105D-THUNDERCHIEF'] = 'spoh/F105.gif';
+  }
   return { aircraft, counters };
 }
 
