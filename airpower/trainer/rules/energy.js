@@ -57,8 +57,8 @@ export function settle(state) {
     const d = dragFor(ac, state.turnProgress.rate, state.speed);
     if (d) decel.push({ label: `${state.turnProgress.rate} 선회 드래그`, value: d });
   }
-  // 지속 선회 (2회 이상 회전 시 추가분마다)
-  if (state.facingChanges >= 2) {
+  // Rule 7.2는 고급 규칙에서만 지속 선회의 추가 항력을 부과한다.
+  if (state.advancedRules && state.facingChanges >= 2) {
     const extra = state.facingChanges - 1;
     const per = BLEED_DECEL[ac.traits.bleedRate];
     decel.push({ label: `지속 선회 ${extra}회 추가`, value: extra * per });

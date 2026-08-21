@@ -8,9 +8,10 @@ const DIVING = new Set(['SD', 'UD', 'VD']);
 export function isClimbing(t) { return CLIMBING.has(t); }
 export function isDiving(t) { return DIVING.has(t); }
 
-export function createState({ aircraftId, hex, facing, alt, speed }) {
+export function createState({ aircraftId, hex, facing, alt, speed, advancedRules = false }) {
   return {
     aircraftId,
+    advancedRules,
     hex: { ...hex },
     position: centerPosition(hex),
     facing: normalizeFacing(facing),

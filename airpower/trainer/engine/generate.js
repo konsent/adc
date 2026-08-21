@@ -105,7 +105,7 @@ export function generate({ lesson = 1, aircraftId = 'MIG-29', seed = 1, turns = 
   const cycle = ['SC', 'SD', 'SC', 'SD'];
 
   // 경로 시뮬레이션. altitude-cycle은 상승과 하강을 번갈아 강제한다.
-  let s = createState({ aircraftId, ...start });
+  let s = createState({ aircraftId, ...start, advancedRules: scope === 'all' });
   const snapshots = [];
   for (let t = 0; t < turns; t++) {
     const flightType = profile === 'altitude-cycle' ? cycle[t % cycle.length] : null;

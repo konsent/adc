@@ -174,7 +174,7 @@ function newScenario(lesson = scenario?.lesson ?? 1) {
   const initialSpeed = initialVelocity
     ? Math.min(initialVelocity.max, Math.max(initialVelocity.min, scenario.start.speed))
     : scenario.start.speed;
-  state = beginTurn(createState({ aircraftId: scenario.aircraft, ...scenario.start, speed: initialSpeed }));
+  state = beginTurn(createState({ aircraftId: scenario.aircraft, ...scenario.start, speed: initialSpeed, advancedRules: scope === 'all' }));
   state = { ...state, ammo: gunOf(state.aircraftId)?.ammo ?? null };
   // 셋업 직후의 상대 선공(opponentsFirst)도 기록해야 하므로 로그를 먼저 비운다.
   debugLog = [];
@@ -383,7 +383,7 @@ function selectAircraft(index) {
 function setupOpponents() {
   // 시나리오의 주기 + friendlies를 하나의 조종 가능한 편대로 합친다.
   flight = [state, ...(scenario.friendlies ?? []).map(unit => ({
-    ...beginTurn(createState({ ...unit, aircraftId: unit.aircraft })), map: unit.map, boardHex: unit.boardHex,
+    ...beginTurn(createState({ ...unit, aircraftId: unit.aircraft, advancedRules: scope === 'all' })), map: unit.map, boardHex: unit.boardHex,
     configuration: unit.configuration, load: unit.load,
     ammo: gunOf(unit.aircraft)?.ammo ?? null,
   }))];
@@ -392,7 +392,7 @@ function setupOpponents() {
   flightShots = flight.map(() => []);
   flightDone = [];
   opponents = (scenario.opponents ?? []).map(unit => ({
-    ...beginTurn(createState({ ...unit, aircraftId: unit.aircraft })),
+    ...beginTurn(createState({ ...unit, aircraftId: unit.aircraft, advancedRules: scope === 'all' })),
     map: unit.map,
     boardHex: unit.boardHex,
     movementMode: unit.movementMode,
