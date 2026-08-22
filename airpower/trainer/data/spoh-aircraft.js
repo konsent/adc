@@ -117,7 +117,11 @@ function normalize(id, card, source) {
     climb[band] = number(row['CL AB'], number(row['CL Other'], 0));
   }
 
-  const drag = Object.fromEntries(card.Turn_Drag_Chart_Decel.map(row => [row.Turn, firstNumber(row.CL)]));
+  const dragByConfiguration = Object.fromEntries(['CL', '1/2', 'DT'].map(configuration => [
+    configuration,
+    Object.fromEntries(card.Turn_Drag_Chart_Decel.map(row => [row.Turn, firstNumber(row[configuration])])),
+  ]));
+  const drag = dragByConfiguration.CL;
   const [rollFp, rollDecel] = String(card.Air_Power['Lag/Displ. Rolls']).split('/').map(value => number(value));
   const [verticalFp, verticalDecel] = String(card.Air_Power['Vertical Rolls']).split('/').map(value => number(value));
   const power = {
@@ -140,6 +144,7 @@ function normalize(id, card, source) {
     velocity,
     climb,
     drag,
+    dragByConfiguration,
     dragHighSpeed: { ...drag },
     dragThreshold: null,
     roll: { fp: rollFp, decel: rollDecel },

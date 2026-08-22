@@ -1,0 +1,175 @@
+{
+  "air_power_pilot_crew_quality_tables": {
+    "pilot_crew_generation_tables": {
+      "national_training_standard": {
+        "columns": [
+          "Quality",
+          "Excellent",
+          "Good",
+          "Average",
+          "Limited",
+          "Poor"
+        ],
+        "data": [
+          {"Quality": "Veteran", "Excellent": "1-3", "Good": "1-2", "Average": "1", "Limited": "1", "Poor": "NA"},
+          {"Quality": "Regular", "Excellent": "4-8", "Good": "3-7", "Average": "2-6", "Limited": "2-4", "Poor": "1-4"},
+          {"Quality": "Novice", "Excellent": "9-10", "Good": "8-9", "Average": "7-9", "Limited": "5-8", "Poor": "5-7"},
+          {"Quality": "Green", "Excellent": "NA", "Good": "10", "Average": "10", "Limited": "9-10", "Poor": "8-10"}
+        ],
+        "notes": [
+          "Roll one die per aircrew; reference training standard and roll to find crew quality at left. Example; die roll of \"6\" under Good = Regular."
+        ]
+      },
+      "aircrew_attributes_determination": {
+        "columns": [
+          "Attr. Level",
+          "Eyesight",
+          "Fitness",
+          "Confidence"
+        ],
+        "data": [
+          {"Attr. Level": "Excellent", "Eyesight": "1-2", "Fitness": "1-3", "Confidence": "1-2"},
+          {"Attr. Level": "Average", "Eyesight": "3-9", "Fitness": "4-8", "Confidence": "3-8"},
+          {"Attr. Level": "Poor", "Eyesight": "10", "Fitness": "9-10", "Confidence": "9-10"}
+        ],
+        "notes": [
+          "Roll once per attribute per aircrew; cross reference as above to find level of attribute (either excellent, average, or poor).",
+          "Excellent Eyesight = -1 and Poor Eyesight = +1 for sighting die rolls.",
+          "Excellent Fitness = +1 and Poor Fitness = -1 for GLOC and Post-Egress Fate die rolls.",
+          "Excellent Confidence = +1 and Poor Confidence = -1 to Initiative, Departure and Post-Egress Fate die rolls."
+        ]
+      },
+      "aircrew_special_characteristics_determination": {
+        "columns": [
+          "Crew Quality",
+          "Sierra Hotel",
+          "Tactics Master",
+          "Combat Hero"
+        ],
+        "data": [
+          {"Crew Quality": "Veteran", "Sierra Hotel": "1", "Tactics Master": "1-3", "Combat Hero": "1-2"},
+          {"Crew Quality": "Regular", "Sierra Hotel": "1", "Tactics Master": "1-2", "Combat Hero": "1"},
+          {"Crew Quality": "Novice", "Sierra Hotel": "1", "Tactics Master": "1", "Combat Hero": "NA"}
+        ],
+        "notes": [
+          "Roll once per characteristic per Veteran, Regular, and Novice aircrew. Result <= to above number gives them the characteristic.",
+          "Tactics Master acquisition modifiers = -1 if Training Standard = Excellent; +1 if Training Standard = Limited or Poor."
+        ]
+      }
+    },
+    "ejection_bail_out_success_table": {
+      "type_ejection_seat": {
+        "columns": [
+          "Aircraft Damage",
+          "None",
+          "Early",
+          "Standard",
+          "Advanced"
+        ],
+        "data": [
+          {"Aircraft Damage": "None", "None": "7", "Early": "8", "Standard": "9", "Advanced": "9"},
+          {"Aircraft Damage": "L, or 2L", "None": "6", "Early": "7", "Standard": "8", "Advanced": "9"},
+          {"Aircraft Damage": "H, or C", "None": "5", "Early": "6", "Standard": "7", "Advanced": "8"},
+          {"Aircraft Damage": "Kill by Progressive Damage die roll.", "None": "3", "Early": "5", "Standard": "6", "Advanced": "8"},
+          {"Aircraft Damage": "Kill by weapon with attack rating of 6 or less.", "None": "2", "Early": "4", "Standard": "6", "Advanced": "7"},
+          {"Aircraft Damage": "Kill by weapon with attack rating of 7 or more.", "None": "1", "Early": "2", "Standard": "4", "Advanced": "6"}
+        ],
+        "notes": [
+          "Roll one die when egressing. If result, after applying modifiers is <= to above numbers; Egress succeeds.",
+          "Bail-outs allowed only if speed <= 4.0 and if A/C was destroyed, only if at least 4 levels above ground."
+        ]
+      },
+      "ejection_bailout_die_roll_modifiers": [
+        "1. Aircraft at T-Level = +2",
+        "2. Aircraft 1 or 2 levels above ground = +1",
+        "3. Aircraft Speed <= 3.0 at egress = -1",
+        "4. Aircraft Speed >= 5.0 at egress = +1",
+        "5. Aircraft Speed >= High Mach at egress = +3"
+      ],
+      "post_egress_fate_table": {
+        "data": [
+          {"Die Roll": "1-2", "Fate": "M.I.A."},
+          {"Die Roll": "3-5", "Fate": "P.O.W."},
+          {"Die Roll": "6-10", "Fate": "Rescued"}
+        ],
+        "modifiers": [
+          "1. Crew Egressed over friendly territory = +2.",
+          "2. Crew Egressed over enemy territory = -2.",
+          "3. Dedicated search and rescue forces available = +2.",
+          "4. Excellent fitness = +1. Poor fitness = -1.",
+          "5. Excellent Confidence = +1. Poor Confidence = -1."
+        ]
+      }
+    },
+    "pilot_crew_ability_modifiers": {
+      "summary_table": {
+        "columns": [
+          "Action",
+          "Spec. Characteristic S.H.",
+          "Spec. Characteristic T.M.",
+          "Spec. Characteristic C.H.",
+          "Crew Quality Vet.",
+          "Crew Quality Reg.",
+          "Crew Quality Nov.",
+          "Crew Quality Green"
+        ],
+        "data": [
+          {"Action": "Initiative", "S.H.": "+1", "T.M.": "+1", "C.H.": "+1", "Vet.": "+1", "Reg.": "0", "Nov.": "-1", "Green": "-2"},
+          {"Action": "Sighting", "S.H.": "0", "T.M.": "-1", "C.H.": "0", "Vet.": "-1", "Reg.": "0", "Nov.": "+1", "Green": "+2"},
+          {"Action": "Radar Use", "S.H.": "0", "T.M.": "-1", "C.H.": "0", "Vet.": "-1", "Reg.": "0", "Nov.": "+1", "Green": "+2"},
+          {"Action": "Wpn. Launch", "S.H.": "0", "T.M.": "-1", "C.H.": "-1", "Vet.": "-1", "Reg.": "0", "Nov.": "0", "Green": "+1"},
+          {"Action": "Gun & Atg Attack", "S.H.": "0", "T.M.": "0", "C.H.": "-1", "Vet.": "-1", "Reg.": "0", "Nov.": "+1", "Green": "+2"},
+          {"Action": "Departure", "S.H.": "+1", "T.M.": "0", "C.H.": "0", "Vet.": "+1", "Reg.": "0", "Nov.": "-1", "Green": "-2"},
+          {"Action": "Recovery", "S.H.": "-1", "T.M.": "0", "C.H.": "0", "Vet.": "-1", "Reg.": "0", "Nov.": "0", "Green": "+2"}
+        ],
+        "notes": [
+          "Sierra Hotel pilot increases position of advantage one level.",
+          "These modifiers are also shown on the other play aids charts."
+        ]
+      },
+      "loss_of_aircrew_vps_for_campaign_scenarios": {
+        "columns": [
+          "Crew Quality",
+          "Killed",
+          "FATE M.I.A.",
+          "FATE P.O.W."
+        ],
+        "data": [
+          {"Crew Quality": "Green", "Killed": "6", "M.I.A.": "2", "P.O.W.": "10"},
+          {"Crew Quality": "Novice", "Killed": "8", "M.I.A.": "4", "P.O.W.": "10"},
+          {"Crew Quality": "Regular", "Killed": "10", "M.I.A.": "6", "P.O.W.": "12"},
+          {"Crew Quality": "Veteran", "Killed": "15", "M.I.A.": "8", "P.O.W.": "15"},
+          {"Crew Quality": "Combat Hero", "Killed": "+6", "M.I.A.": "+2", "P.O.W.": "+10"}
+        ]
+      }
+    },
+    "pilot_quality_flight_and_damage_control_restrictions": {
+      "pilot_quality_flight_restrictions": {
+        "Green": [
+          "1. No ET turns, no Snap turning.",
+          "2. No T-level flight, no Viff maneuvers.",
+          "3. No VTOL flight, no Vert. Rev. maneuvers.",
+          "4. May not use High Pitch Rate A/C abilities.",
+          "5. May not engage attacking missiles.",
+          "6. Risks disorientation for rolling maneuvers.",
+          "7. Risks disorientation for Vert. climbs/dives.",
+          "8. -2 die roll modifier for GLOC."
+        ],
+        "Novice": [
+          "1. No Vertical Reverse maneuvers.",
+          "2. May not use High Pitch Rate A/C abilities.",
+          "3. Risks disorientation for Vertical rolls.",
+          "4. -1 die roll modifier for GLOC."
+        ]
+      },
+      "pilot_damage_control_restrictions": {
+        "Green": [
+          "May do damage control only if in multi-crew A/C and other crewmember is Reg. or Vet. In this case damage control is as for Novice."
+        ],
+        "Novice": [
+          "Must perform damage control for two turns in a row to complete unless in multi-crew A/C and other crewmember is Reg. or Veteran. In this case damage control is done normally."
+        ]
+      }
+    }
+  }
+}

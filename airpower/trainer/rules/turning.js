@@ -1,5 +1,6 @@
-import { AIRCRAFT, bandOf } from '../data/aircraft.js';
+import { AIRCRAFT, bandOf, dragFor } from '../data/aircraft.js';
 import { turnCost } from '../data/turnchart.js';
+import { spohTurnCost } from '../data/spoh-turnchart.js';
 
 /** 선회율별 최소 속도 가산치 (Rule 7.4) */
 const MIN_SPEED_BONUS = { EZ: 0, TT: 0.5, HT: 1.0, BT: 1.5, ET: 2.0 };
@@ -20,6 +21,17 @@ export default {
     const { rate, dir } = action.turn;
     const out = [];
 
+    // ADC Turn Drag Decel 표의 NA는 해당 설정에서 그 선회율을 쓸 수 없다는 뜻이다.
+    if (dragFor(ac, rate, state.speed, state.configuration) === null) {
+      out.push({
+        rule: 'ADC Turn Drag Decel',
+        severity: 'illegal',
+        msg: `${ac.title}는 ${state.configuration} 설정에서 ${rate} 선회를 지원하지 않습니다(ADC Turn Drag Decel: NA).`,
+        fix: '더 완만한 선회율을 선택하거나 기체 설정을 변경하세요.',
+        ref: 'Aircraft Data Card',
+      });
+    }
+
     // Rule 7.4 — 최소 선회 속도
     const canard = ac.traits.canard ? 0.5 : 0;
     const required = ac.velocity[band].min + MIN_SPEED_BONUS[rate] - canard;
@@ -35,7 +47,7 @@ export default {
     }
 
     // Rule 7.1 — 차트상 사용 불가(NA)
-    const cost = turnCost(band, state.speed, rate);
+    const cost = (ac.spoh ? spohTurnCost : turnCost)(band, state.speed, rate);
     if (cost === null) {
       out.push({
         rule: '7.1',

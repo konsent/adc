@@ -275,13 +275,13 @@ export const AIRCRAFT = {
   ...SPOH_AIRCRAFT,
 };
 
-/** 현재 속도에 맞는 선회 드래그 값. null이면 해당 선회율 사용 불가. */
-export function dragFor(aircraft, rate, speed) {
-  const table = (aircraft.dragThreshold !== null && speed >= aircraft.dragThreshold)
+/** 현재 속도·설정에 맞는 선회 드래그 값. 명시적 null이면 해당 선회율 사용 불가. */
+export function dragFor(aircraft, rate, speed, configuration = 'CL') {
+  const speedTable = (aircraft.dragThreshold !== null && speed >= aircraft.dragThreshold)
     ? aircraft.dragHighSpeed
     : aircraft.drag;
-  const v = table[rate];
-  return v === undefined ? null : v;
+  const table = aircraft.dragByConfiguration?.[configuration] ?? speedTable;
+  return table[rate];
 }
 
 const POWER_BAND_INDEX = { LO: 0, ML: 0, MH: 1, HI: 1, VH: 2, EH: 2, UH: 2 };

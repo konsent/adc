@@ -1,0 +1,342 @@
+{
+  "page1": {
+    "air_to_air_gun_and_rocket_attack_modifiers": {
+      "aircraft_related": {
+        "firer_snap_shooting": 1,
+        "firer_l_or_2l_damaged": 1,
+        "firer_h_damaged": 2,
+        "firer_c_damaged": 3,
+        "re_radar_ranging": -1,
+        "ca_radar_ranging": -2,
+        "ig_radar_ranging": -3,
+        "each_1_3d_fps_of_ssgt": -1,
+        "target_ac_size": "Var. +,-",
+        "gunsight_turn_rate": "Var. +,-"
+      },
+      "angle_off_related": {
+        "0_line": -2,
+        "30_arc": 0,
+        "60_arc": 2,
+        "90_arc": 4,
+        "120_arc": 4,
+        "150_arc": 4,
+        "180_arc": 3,
+        "180_line": 2,
+        "vertical_attack": 2
+      },
+      "crew_related": {
+        "veteran_pilot": -1,
+        "combat_hero_pilot": -1,
+        "novice_pilot": 1,
+        "green_pilot": 2
+      }
+    },
+    "aircraft_damage_table": {
+      "die_roll": ["0-", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10+"],
+      "weapon_attack_rating": {
+        "1": ["K", "C", "H", "L", "L", "L", "L", "-", "-", "-", "-"],
+        "2": ["K", "C", "H", "H", "L", "L", "L", "L", "-", "-", "-"],
+        "3": ["K", "K", "C", "H", "H", "2L", "L", "L", "L", "-", "-"],
+        "4": ["K", "K", "K", "C", "H", "H", "H", "L", "L", "L", "-"],
+        "5": ["K", "K", "K", "K", "C", "C", "H", "H", "2L", "L", "L"],
+        "6": ["K", "K", "K", "K", "C", "C", "C", "H", "H", "2L", "L"],
+        "7": ["K", "K", "K", "K", "K", "C", "C", "C", "H", "H", "2L"],
+        "8": ["K", "K", "K", "K", "K", "K", "C", "C", "H", "H", "H"],
+        "9": ["K", "K", "K", "K", "K", "K", "K", "C", "H", "H", "H"],
+        "10": ["K", "K", "K", "K", "K", "K", "K", "K", "C", "C", "H"]
+      },
+      "damage_modifiers": [
+        "Shift one column right if aircraft already L or more damaged.",
+        "Shift one column left if hit was from gun snap shot.",
+        "-2 to die roll if air to air rocket hit or direct hit from missile.",
+        "Plus or Minus Aircraft Vulnerability as listed on target ADC."
+      ]
+    },
+    "cumulative_hits_effects": {
+      "three_l": "H Damage",
+      "two_h": "C Damage",
+      "two_c": "K Aircraft Killed",
+      "c_plus_h": "K Aircraft Killed"
+    },
+    "progressive_damage_table": {
+      "L_or_2L": {"die_roll_or_less": 2, "increased_damage": "H"},
+      "H": {"die_roll_or_less": 3, "increased_damage": "C"},
+      "C": {"die_roll_or_less": 4, "increased_damage": "K"}
+    },
+    "air_to_air_rocketry_table": {
+      "range_to_tgt": {
+        "1": [1, 2, 2, 3, 3, 4, 4, 5, 6, 6],
+        "2": [0, 1, 2, 2, 2, 3, 3, 4, 4, 5],
+        "3": [0, 1, 1, 1, 2, 2, 2, 2, 3, 3],
+        "4": [0, 0, 1, 1, 1, 1, 2, 2, 2, 2]
+      },
+      "attack_rating": [3, 4, 4, 5, 5, 6, 6, 7, 7, 8],
+      "note": "above = die roll to hit numbers"
+    },
+    "rocketry_modifiers": [
+      "If C.C. Rocket Attack Technology in effect, apply a -2 modifier to the hit roll.",
+      "All other gun and rocket attack modifiers apply as well."
+    ],
+    "cc_rocket_attack_procedure": "Target must be locked-on by radar, and firer may only use TT or less turns, altitude changes of no more than 1 level, and no maneuvers except slides up to the point of firing.",
+    "aircraft_damage_effects": {
+      "-": "Superficial Damage; no adverse effects.",
+      "L": "Light Damage; no ET turns allowed, lose High Pitch Rate, aircraft becomes Low Roll Rate.",
+      "2L": "Light Damage; as L plus no BT turns allowed, +1 to all preparatory move requirements.",
+      "H": "Heavy Damage; as 2L plus Mil and A/B power halved, CCC halved, no roll maneuvers allowed, no supersonic flight allowed. Roll once for Systems Loss.",
+      "C": "Crippled; as H plus lose A/B power, no HT turns, A/C smokes, lose all technology. Roll for again Systems loss.",
+      "K": "Aircraft Killed (shot down), remove from play.",
+      "note": "If end speed > High Transonic when \"H\" or \"C\" damaged, roll twice for prog. damage even if Damage Control done."
+    },
+    "systems_loss_table": {
+      "1": "Cockpit: Pilot Killed, remove aircraft from play.",
+      "2": "Cockpit: Crewman Killed. Lose multi-crew bonuses, and lose radar and weapon technology. Bomb system = manual.",
+      "3": "One Engine permanently flamed out.",
+      "4_5": "Radar disabled. Lose all radar functions.",
+      "6_7": "ECM disabled. Lose all ECM functions.",
+      "8": "Weapons System disabled, aircraft may no longer attack. Jettison stores.",
+      "9": "Internal guns and any gunpods disabled.",
+      "10": "Technology disabled, lose all technology."
+    }
+  },
+  "page2": {
+    "air_to_air_missile_launch_modifiers_table": {
+      "ir_missiles": [
+        "+2 for each Turn Rate over Launch Gee.",
+        "+2 If fired from LO or ML alt. band at lower target.",
+        "+3 If fired into sun clutter; if fired out-of-envelope.",
+        "+3 If fired at lower target above highest cloud layer.",
+        "+ lesser of Flare PPL or missile Flare Vulnerability number if DDS program in effect."
+      ],
+      "br_rh_and_ah_missiles": [
+        "+2 for each Turn Rate over Launch Gee.",
+        "+3 If Snap Fired; if fired out-of-envelope."
+      ],
+      "crew_quality_effects": {
+        "green": 1,
+        "veteran": -1,
+        "tactics_master_combat_hero_or_both": -1
+      },
+      "aircraft_damage_effects": {
+        "l_or_2l": 1,
+        "h": 2,
+        "c": 2
+      }
+    },
+    "sam_launch_modifiers_table": {
+      "ir_sams": [
+        "+ lesser of Flare PPL or missile Flare Vulnerability number if DDS program in effect.",
+        "+3 if fired into SUN Clutter."
+      ],
+      "br_cg_cw_tvm_og_and_lg_sams": "No launch modifiers apply."
+    },
+    "air_to_air_and_sam_missile_attack_modifiers_table": {
+      "irms_and_ir_sams": [
+        "-3 If target in Afterburner Power.",
+        "-1 If target in Military Power.",
+        "+1 If target in Idle Power.",
+        "+2 If missile must lose 2 or more levels during proportional move of attack against tgt. in LO alt. band (ground clutter).",
+        "+1 If target in Terrain Following Flight.",
+        "+ lesser of Flare PPL or missile Flare Vulnerability no."
+      ],
+      "brms_rhms_ahms_and_br_cg_cw_and_tvm_sams": [
+        "+ DJM rating – missile ECCM.",
+        "+ lesser of Chaff PPL or missile Chaff Vulnerability.",
+        "+ lesser of Mini-jammer PPL or Chaff Vulnerability +1.",
+        "+ Ground clutter (air to air missiles only) = 6 – target Altitude above terrain – missile ECCM.",
+        "+ Listed \"T\" level modifier (SAMs only, if applicable)."
+      ],
+      "og_and_lg_sams": "No modifiers other than angle-off and A/C size apply.",
+      "all_missiles": [
+        "+/- Target A/C Size Modifier from ADC.",
+        "-1 if Target A/C did not Engage the missile."
+      ],
+      "reminder": "Max launch range of RHM/AHM = 3 x radar Track Str.#."
+    },
+    "missile_angle_off_modifiers_to_attack": {
+      "angle_off_arc": ["0 Line", "30 arcs", "60 arcs", "90 / 120 arcs", "150 arcs", "180 arcs, line"],
+      "seeker_or_guidance": {
+        "E": [-1, 0, 1, 3, 4, 5],
+        "I": [-1, 0, 0, 2, 3, 4],
+        "M": [-1, 0, 0, 2, 2, 3],
+        "A": [-2, 0, 0, 2, 2, 1],
+        "BR": [0, 0, 1, 3, 5, 5],
+        "RH": [-1, 0, 0, 3, 2, 1],
+        "AH": [-2, 0, 0, 2, 2, 1],
+        "CG": [-1, 0, 0, 2, 2, 1],
+        "CW": [-1, 0, 0, 3, 2, 1],
+        "TVM": [-1, 0, 0, 2, 1, 1],
+        "OG": [0, 0, 1, 3, 2, 1],
+        "LG": [-1, 0, 0, 2, 2, 1]
+      }
+    },
+    "aaa_unit_attack_modifiers": [
+      "+1 If AAA unit \"D\" damaged.",
+      "+2 If AAA unit \"2D\" damaged.",
+      "+1 If firing into SUN Clutter.",
+      "+2 If integral FCR jammed or not used.",
+      "-1 If FCR-A unit in use.",
+      "-2 If FCR-B or C unit in use.",
+      "-3 If FCR-D unit in use."
+    ],
+    "djm_chaff_effects_versus_fcrs": {
+      "A": {"ppl": 1, "lf": 1, "hf": 1, "vf": 0, "mw": 0},
+      "B": {"ppl": "2-3", "lf": 2, "hf": 2, "vf": 1, "mw": 0},
+      "C": {"ppl": "4-5", "lf": 2, "hf": 2, "vf": 2, "mw": 1},
+      "D": {"ppl": 6, "lf": 2, "hf": 2, "vf": 2, "mw": 2}
+    },
+    "jinking_versus_aaa": {
+      "short": "BT Turns, Snap-Turns, or Rolls or VIFF Maneuvers.",
+      "medium_and_long": "As above plus HT Turns.",
+      "die_roll_to_evade_hit": {
+        "6+": "If AAA not FCR aimed.",
+        "8+": "If AAA is FCR aimed.",
+        "note": "Apply Aircraft Size Modifier from ADC to this die roll."
+      }
+    },
+    "random_aaa_fire_table": {
+      "aimed_fire_attempt_roll": {
+        "short": "8 or Less",
+        "medium": "6 or Less",
+        "long": "4 or Less"
+      },
+      "plotted_fire_procedure": [
+        "Target A/C is one nearest Heavy AAA unit.",
+        "Roll one die referencing Random Plotted Fire Diagram.",
+        "Roll Die Twice; Subtract 2d roll from first for Altitude difference in levels from Target Altitude."
+      ]
+    }
+  },
+  "page3": {
+    "air_to_ground_attack_release_points": {
+      "atg_rockets": {
+        "0": "—",
+        "1": "T–4*",
+        "2": "1–8",
+        "3": "2–12",
+        "4": "2–10",
+        "5": "3–10",
+        "6": "4–9",
+        "7": "4–7",
+        "8": "4–5",
+        "note": "* If A/C in TFF +2"
+      },
+      "level_bombing": {
+        "low_drag": {
+          "0": {"allowed": "—", "mod": "—"},
+          "1": {"allowed": "1–2", "mod": 0},
+          "2": {"allowed": "3–4", "mod": 0},
+          "3": {"allowed": "5–6", "mod": 1},
+          "4": {"allowed": "7–8", "mod": 2},
+          "5": {"allowed": "9–10", "mod": 3},
+          "6-7": {"allowed": "11–15", "mod": 5},
+          "8-9": {"allowed": "16–25", "mod": 7},
+          "10-12": {"allowed": "26–40", "mod": 8}
+        },
+        "high_drag": {
+          "0": {"allowed": "T–2", "mod": -1},
+          "1": {"allowed": "3–6", "mod": 0},
+          "2": {"allowed": "7–10", "mod": 1},
+          "3": {"allowed": "11–14", "mod": 2},
+          "4": {"allowed": "15–18", "mod": 3},
+          "5": {"allowed": "19–24", "mod": 5},
+          "6-7": {"allowed": "25–32", "mod": 7},
+          "8-9": {"allowed": "33–40", "mod": 9},
+          "10-12": {"allowed": "—", "mod": "—"}
+        }
+      },
+      "dive_bombing": {
+        "low_drag": {
+          "0": {"allowed": "1–3", "mod": -2},
+          "1": {"allowed": "4–6", "mod": -1},
+          "2": {"allowed": "7–10", "mod": 0},
+          "3": {"allowed": "11–12", "mod": 1},
+          "4": {"allowed": "13–15", "mod": 2},
+          "5": {"allowed": "16–20", "mod": 4},
+          "6-7": {"allowed": "—", "mod": "—"},
+          "8-9": {"allowed": "—", "mod": "—"},
+          "10-12": {"allowed": "—", "mod": "—"}
+        },
+        "high_drag": {
+          "0": {"allowed": "1–3", "mod": -1},
+          "1": {"allowed": "4–8", "mod": 0},
+          "2": {"allowed": "9–14", "mod": 2},
+          "3": {"allowed": "15–20", "mod": 4},
+          "4": {"allowed": "—", "mod": "—"},
+          "5": {"allowed": "—", "mod": "—"},
+          "6-7": {"allowed": "—", "mod": "—"},
+          "8-9": {"allowed": "—", "mod": "—"},
+          "10-12": {"allowed": "—", "mod": "—"}
+        }
+      }
+    },
+    "atg_rocket_modifiers": {
+      "1-4": 0,
+      "5-6": 1,
+      "7": 2,
+      "8": 3,
+      "9-10": 5
+    },
+    "final_attack_strength_computations": {
+      "individual_weapons": "ALL – Use listed Strength versus Hard / Soft Target.",
+      "multiple_weapons": {
+        "guns": "Sum of Attack Ratings of all guns & GPs fired.",
+        "cbus_rps": "Sum of Attack Strengths.",
+        "rk_volley": "2/3 Sum of Attack Strengths (Round up).",
+        "bbs_bgs_fire_napalm": "2/3 Sum as above.",
+        "fae": "1/2 Sum of Attack Strengths (Round up)."
+      },
+      "versus_secondary_targets": {
+        "cbus_fire_napalm_and_rp_salvos_of_4_or_more_pods": "2/3 FAS used on Primary Target.",
+        "all_others": "1/3 FAS used on Primary Target (Note: make adjustments for Hard / Soft targets)."
+      }
+    },
+    "aiming_requirements_table": {
+      "manual": "2/3 aircraft FPs",
+      "ballistic": "1/2 aircraft FPs",
+      "computed": "1/3 aircraft FPs",
+      "advanced": "1/3 aircraft FPs",
+      "note": "Always round down fractions."
+    },
+    "air_to_ground_attack_table": {
+      "fas_defense_strength_odds_ratio": ["1-4 or less", "1-3", "1-2", "1-1", "1.5-1", "2-1", "3-1", "4-1", "5-1", "6-1", "8-1", "10-1", "12-1 or more"],
+      "die_roll": {
+        "0_or_less": ["S", "D", "2D", "K", "K", "K", "K", "K", "K", "K", "K", "K", "K"],
+        "1": ["S", "D", "2D", "2D", "K", "K", "K", "K", "K", "K", "K", "K", "K"],
+        "2": ["S", "S", "D", "D", "2D", "2D", "K", "K", "K", "K", "K", "K", "K"],
+        "3": ["—", "S", "S", "D", "2D", "2D", "2D", "2D", "K", "K", "K", "K", "K"],
+        "4": ["—", "S", "S", "S", "D", "2D", "2D", "2D", "2D", "K", "K", "K", "K"],
+        "5": ["—", "—", "S", "S", "D", "D", "D", "2D", "2D", "2D", "K", "K", "K"],
+        "6": ["—", "—", "—", "S", "S", "D", "D", "D", "2D", "2D", "2D", "K", "K"],
+        "7": ["—", "—", "—", "—", "S", "S", "D", "D", "D", "2D", "2D", "2D", "K"],
+        "8": ["—", "—", "—", "—", "S", "S", "D", "D", "D", "D", "2D", "2D", "K"],
+        "9": ["—", "—", "—", "—", "—", "S", "S", "D", "D", "D", "D", "2D", "2D"],
+        "10+": ["—", "—", "—", "—", "—", "—", "S", "S", "S", "D", "D", "2D", "2D"]
+      }
+    },
+    "air_to_ground_attack_die_roll_modifiers": {
+      "ac_l_2l_damaged": 1,
+      "ac_h_damaged": 2,
+      "ac_c_damaged": 3,
+      "aiming_not_complete": 3,
+      "attack_on_secondary_tgt": 3,
+      "novice_pilot_crewman": 1,
+      "green_pilot_crewman": 2,
+      "aircraft_bombsight": "variable, see A/C ADC.",
+      "fire_or_napalm_type_weapons": "+1 for each Level above 1 over tgt. at release",
+      "each_3_bb_bg_weapons_dropped_at_once": -1,
+      "each_1_3_fps_expended_as_tracking_time": -1,
+      "using_laser_spot_tracker_and_tgt_laser_marked": -1,
+      "combat_hero_veteran_pilot_crewman": -1,
+      "release_point_effect": "see above.",
+      "strafing_at_range_3_or_4": 2,
+      "cg_guided_weapon": -2,
+      "acg_guided_weapon": -3,
+      "smart_guided_weapon": -4,
+      "laser_guided_weapon": -4,
+      "terrain_effects": "variable, see TEC.",
+      "toss_bombing": "+1 per hex of distance, +2 per hex if target unsighted.",
+      "laser_toss_bombing": "+1 per two hexes distance, +1 per hex if target unsighted.",
+      "arm_and_asm_weapons": "use only Terrain modifiers when attacking."
+    }
+  }
+}

@@ -2,6 +2,21 @@ import { distance } from '../engine/hex.js';
 
 export const T5_STORES = { gun: Infinity, rocket: 2, bomb: 6, napalm: 3 };
 
+// Ground VP Table: K/2D/D 결과를 캠페인·범용 시나리오 점수로 환산한다.
+const GROUND_VP = {
+  'ZPU-1 14.5mm': [3, 2, 1], 'ZPU-4 14.5mm': [5, 3, 2], 'ZU-23 23mm': [6, 4, 2],
+  'M-38 37mm': [6, 4, 2], 'S-60 57mm': [8, 5, 3], 'KS-12 85mm': [9, 6, 5],
+  'Infantry Platoon': [5, 3, 2], 'Medium Armor': [10, 6, 2],
+  'FCR - A and B': [6, 4, 2], 'EWR - A and B': [12, 8, 4], 'CCU Facility': [10, 6, 4],
+  'SA-2B/C Guideline': [8, 5, 3],
+};
+
+export function groundVictoryPoints(unit, result) {
+  const values = unit.vp ?? GROUND_VP[unit.vpType ?? unit.label];
+  if (!values) return 0;
+  return result === 'K' ? values[0] : result === '2D' ? values[1] : result === 'D' ? values[2] : 0;
+}
+
 export function groundResult(fas, defense, roll, drm = 0) {
   const ratio = Math.max(1, Math.floor(fas / defense));
   const score = roll - drm;

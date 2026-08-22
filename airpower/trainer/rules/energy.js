@@ -29,7 +29,9 @@ export function settle(state) {
     // 피해 상태면 A/B·Mil 가속 포인트가 반감된다 (Damage Effects §3).
     const factor = damageLimits(state.damage).accelFactor;
     // ponytail: 고도 감쇠(§4)는 이미 기체별 power 밴드 표에 반영돼 있어 다시 곱하지 않는다.
-    const v = clampAccel(ac, state.power, band, state.powerAccel) * factor;
+    const rareAirFactor = ac.spoh && (band === 'EH' || band === 'UH') ? 1 / 3
+      : ac.spoh && band === 'VH' ? 2 / 3 : 1;
+    const v = clampAccel(ac, state.power, band, state.powerAccel) * factor * rareAirFactor;
     if (v > 0) accel.push({ label: `${state.power} 파워${factor < 1 ? ` (피해 ×${factor})` : ''}`, value: v });
   }
   if (state.accelCarry > 0) {
@@ -54,7 +56,7 @@ export function settle(state) {
   }
   // 선회 드래그
   if (state.turnProgress && state.facingChanges > 0) {
-    const d = dragFor(ac, state.turnProgress.rate, state.speed);
+    const d = dragFor(ac, state.turnProgress.rate, state.speed, state.configuration);
     if (d) decel.push({ label: `${state.turnProgress.rate} 선회 드래그`, value: d });
   }
   // Rule 7.2는 고급 규칙에서만 지속 선회의 추가 항력을 부과한다.

@@ -1,0 +1,98 @@
+{
+  "ground_unit_victory_point_table": {
+    "target_markers": [
+      {"unit_type": "Truck", "kill": 4, "2d": 2, "d": 1},
+      {"unit_type": "Locomotive", "kill": 12, "2d": 8, "d": 4},
+      {"unit_type": "Train", "kill": 5, "2d": 3, "d": 2},
+      {"unit_type": "POL Marker", "kill": 15, "2d": 10, "d": 5},
+      {"unit_type": "Small Bridge", "kill": 6, "2d": 3, "d": 1},
+      {"unit_type": "Large Building", "kill": 7, "2d": 5, "d": 3},
+      {"unit_type": "Aircraft Hangar", "kill": 8, "2d": 6, "d": 4},
+      {"unit_type": "Tower", "kill": 5, "2d": 3, "d": 2},
+      {"unit_type": "Sampan/Barge", "kill": 4, "2d": 2, "d": 1}
+    ],
+    "aaa_units": [
+      {"unit_type": "ZPU-1 14.5mm", "kill": 3, "2d": 2, "d": 1},
+      {"unit_type": "ZPU-4 14.5mm", "kill": 5, "2d": 3, "d": 2},
+      {"unit_type": "ZU-23 23mm", "kill": 6, "2d": 4, "d": 2},
+      {"unit_type": "M-38 37mm", "kill": 6, "2d": 4, "d": 2},
+      {"unit_type": "S-60 57mm", "kill": 8, "2d": 5, "d": 3},
+      {"unit_type": "KS-12 85mm", "kill": 9, "2d": 6, "d": 5}
+    ],
+    "ground_units": [
+      {"unit_type": "Infantry Platoon", "kill": 5, "2d": 3, "d": 2},
+      {"unit_type": "Infantry with SA-7 *", "kill": 9, "2d": 6, "d": 3},
+      {"unit_type": "Medium Armor", "kill": 10, "2d": 6, "d": 2}
+    ],
+    "radars_and_sams": [
+      {"unit_type": "FCR - A and B", "kill": 6, "2d": 4, "d": 2},
+      {"unit_type": "EWR - A and B", "kill": 12, "2d": 8, "d": 4},
+      {"unit_type": "CCU Facility", "kill": 10, "2d": 6, "d": 4},
+      {"unit_type": "SA-2B/C Guideline *", "kill": 8, "2d": 5, "d": 3}
+    ],
+    "special_notes_sam": [
+      "* Add 2 V.P.s for every missile destroyed or lost due to damage to the SAM equipped unit."
+    ],
+    "terrain_hexes": [
+      {"unit_type": "Railroad", "kill": 5, "2d": 3, "d": 2},
+      {"unit_type": "Runway", "kill": 8, "2d": 6, "d": 4},
+      {"unit_type": "Built Up Area", "kill": 8, "2d": 6, "d": 4},
+      {"unit_type": "Urban/Village Area", "kill": 2, "2d": 1, "d": 0},
+      {"unit_type": "Major Bridge **", "kill": 30, "2d": 20, "d": 10},
+      {"unit_type": "Minor Bridge **", "kill": 18, "2d": 12, "d": 6},
+      {"unit_type": "Small Bridge **", "kill": 6, "2d": 3, "d": 1}
+    ],
+    "special_notes_bridge": [
+      "** A major bridge is one two or more hexes long. A minor bridge is one one hex long. A small bridge exists where roads cross streams and rivers without a bridge symbol depicted."
+    ],
+    "aircraft_vp_table": [
+      {"aircraft_type": "B-29 or Tu-4", "kill": 24, "cripple": 16, "heavy": 8, "light": 4},
+      {"aircraft_type": "B-36 or Tu-95", "kill": 30, "refer": 20, "heavy": 10, "light": 5},
+      {"aircraft_type": "O-1E Birddog", "kill": 3, "cripple": 2, "heavy": 1, "light": 0},
+      {"aircraft_type": "O-2A Skymaster", "kill": 5, "cripple": 3, "heavy": 2, "light": 1},
+      {"aircraft_type": "OV-10 Bronco", "kill": 8, "cripple": 5, "heavy": 3, "light": 1},
+      {"aircraft_type": "AC-130 Spectre", "kill": 30, "cripple": 20, "heavy": 10, "light": 5},
+      {"aircraft_type": "HH-53 Jolly Green", "kill": 30, "cripple": 20, "heavy": 10, "light": 5}
+    ]
+  },
+  "random_aircraft_movement_rules": {
+    "action_codes": {
+      "H": "Move forward one hex or hexside.",
+      "L": "Face left 30 degrees.",
+      "R": "Face Right 30 degrees.",
+      "C": "Climb one altitude level.",
+      "D": "Dive one altitude level."
+    },
+    "general_rules": [
+      "Randomly moving aircraft need only have their speed and altitude recorded each game-turn. A full log is not required. Randomly moving aircraft always move first.",
+      "To use the tables, reference the angle-off position an attacking missile or aircraft is in with regard to the randomly moving one. Roll one die and consult the appropriate column of the chart. The result will be a series of coded actions, separated by commas, that the randomly moving aircraft must perform. Aircraft perform as many commas worth of actions from left to right as it has speed points.",
+      "Note: Damaged aircraft always perform one action less than their listed speed and have all \"C\" codes changed to \"H\"."
+    ],
+    "random_movement_tables": {
+      "attacker_in_targets_150_to_180_arcs": [
+        {"die_roll": "1, 2", "moves": ["H", "H", "H", "HL", "H", "H"]},
+        {"die_roll": "3, 4", "moves": ["H", "H", "H", "HR", "H", "H"]},
+        {"die_roll": "5, 6", "moves": ["H", "HD", "HD", "HL", "H", "H"]},
+        {"die_roll": "7, 8", "moves": ["H", "DR", "DD", "H", "H", "H"]},
+        {"die_roll": "9", "moves": ["H", "DDL", "H", "DD", "H", "H"]},
+        {"die_roll": "10", "moves": ["H", "DDR", "H", "DD", "H", "H"]}
+      ],
+      "attacker_in_targets_90_to_120_arcs": [
+        {"die_roll": "1, 2", "moves": ["H", "H", "HL", "H", "HL", "H"]},
+        {"die_roll": "3, 4", "moves": ["H", "H", "HR", "H", "HR", "H"]},
+        {"die_roll": "5, 6", "moves": ["H", "C", "HL", "CL", "H", "H"]},
+        {"die_roll": "7, 8", "moves": ["H", "CR", "H", "CR", "H", "H"]},
+        {"die_roll": "9", "moves": ["H", "DD", "DL", "H", "HL", "H"]},
+        {"die_roll": "10", "moves": ["H", "DD", "DR", "H", "HR", "H"]}
+      ],
+      "attacker_in_targets_60_or_less_arcs": [
+        {"die_roll": "1, 2", "moves": ["H", "HL", "HL", "H", "HL", "H"]},
+        {"die_roll": "3, 4", "moves": ["H", "HR", "HR", "H", "HR", "H"]},
+        {"die_roll": "5, 6", "moves": ["H", "HL", "CL", "H", "H", "HL"]},
+        {"die_roll": "7, 8", "moves": ["H", "HR", "CR", "H", "HR", "H"]},
+        {"die_roll": "9", "moves": ["H", "HL", "DD", "DL", "H", "HL"]},
+        {"die_roll": "10", "moves": ["H", "HL", "DD", "DR", "H", "HL"]}
+      ]
+    }
+  }
+}

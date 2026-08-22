@@ -1,0 +1,211 @@
+{
+  "air_power_electronic_warfare_tables": {
+    "page_1": {
+      "bjm_stand_off_jamming_table": {
+        "columns": [
+          "BJM Type",
+          "Allowed Stand-Off Attacks (Pilot Only / Multi-Crew A/C)",
+          "Angle-Off Coverage"
+        ],
+        "data": [
+          {"BJM Type": "A", "Allowed Stand-Off Attacks": "1 / 1", "Angle-Off Coverage": "180+ and 30-"},
+          {"BJM Type": "B", "Allowed Stand-Off Attacks": "2 / 2", "Angle-Off Coverage": "150+ and 60-"},
+          {"BJM Type": "C", "Allowed Stand-Off Attacks": "2 / 3", "Angle-Off Coverage": "As B, or into any 3 adjacent arcs."},
+          {"BJM Type": "D", "Allowed Stand-Off Attacks": "2 / 4", "Angle-Off Coverage": "As B, or into any angle-off arcs."}
+        ],
+        "formula": "Jamming Success Die Roll = BJM No. - Radar ECCM.",
+        "notes": [
+          "Noise Jamming Arcs = as for A, B, C above. Treat a BJM D as a C when noise jamming."
+        ]
+      },
+      "bjm_programming_flexibility": {
+        "columns": [
+          "TYPE",
+          "PROGRAMMING OPTIONS"
+        ],
+        "data": [
+          {"TYPE": "A", "PROGRAMMING OPTIONS": "Pick Frequencies and Mode before play."},
+          {"TYPE": "B", "PROGRAMMING OPTIONS": "Pilot Only: as \"A\". Multi-crew: may pick Frequencies and Mode during Aircraft Decisions Phase of game-turn."},
+          {"TYPE": "C", "PROGRAMMING OPTIONS": "Pilot Only: as for Multi-crew above. Multi-crew: Same as above."},
+          {"TYPE": "D", "PROGRAMMING OPTIONS": "Pilot Only and Multi-crew: may change Frequencies and Mode at start of SAM Interaction Phase."}
+        ]
+      },
+      "ewr_passdown_modifiers": {
+        "modifiers": [
+          {"condition": "1. Target IFF is On", "value": "-2"},
+          {"condition": "2. Target AJM is On", "value": "+ AJM No. - EWR ECCM."},
+          {"condition": "3. BJM Noise in effect", "value": "+ BJM No. - EWR ECCM."},
+          {"condition": "4. Tgt. DDS Prog. On", "value": "+ Chaff and/or Mini-jammer effectiveness numbers."}
+        ],
+        "notes": [
+          "If multiple BJMs are in play, consider only the most effective one against the radar."
+        ]
+      },
+      "radar_sam_unit_lock_on_modifiers": {
+        "modifiers": [
+          {"condition": "1. Target IFF is On", "value": "-2"},
+          {"condition": "2. CCU inoperative", "value": "+2"},
+          {"condition": "3. Passdown recieved", "value": "-3"},
+          {"condition": "4. Tgt. DDS Prog. On", "value": "+ Chaff and/or Mini-jammer effectiveness numbers."},
+          {"condition": "5. Target AJM is On", "value": "+ AJM No. - TTR ECCM."},
+          {"condition": "6. BJM Noise in Effect", "value": "+ BJM No. - TTR ECCM."}
+        ],
+        "notes": [
+          "If multiple BJMs are in play, consider only the most effective one against the radar."
+        ]
+      },
+      "ir_og_lg_sam_unit_lock_on_modifiers": {
+        "modifiers": [
+          {"condition": "1. Associated CCU inoperative", "value": "+2"},
+          {"condition": "2. Unit in Target's SUN Clutter", "value": "+3"}
+        ]
+      },
+      "decoy_ppl_effectiveness_table": {
+        "data": [
+          {"Chaff PPL #": "1", "Mini-jam. PPL #": "-", "LF": "1", "MF": "1", "HF": "-", "VF": "-", "MW": "-", "SAM BR/CG": "-", "SAM CW/TVM": "-", "Search Lim./180": "1", "Search 150/120": "-", "Break Lim./180": "1", "Break 150/120": "-"},
+          {"Chaff PPL #": "2", "Mini-jam. PPL #": "1", "LF": "2", "MF": "1", "HF": "1", "VF": "-", "MW": "-", "SAM BR/CG": "1", "SAM CW/TVM": "-", "Search Lim./180": "1", "Search 150/120": "1", "Break Lim./180": "1", "Break 150/120": "1"},
+          {"Chaff PPL #": "3", "Mini-jam. PPL #": "-", "LF": "2", "MF": "2", "HF": "1", "VF": "1", "MW": "1", "SAM BR/CG": "2", "SAM CW/TVM": "1", "Search Lim./180": "2", "Search 150/120": "1", "Break Lim./180": "2", "Break 150/120": "1"},
+          {"Chaff PPL #": "4", "Mini-jam. PPL #": "2", "LF": "3", "MF": "2", "HF": "1", "VF": "1", "MW": "1", "SAM BR/CG": "3", "SAM CW/TVM": "1", "Search Lim./180": "2", "Search 150/120": "2", "Break Lim./180": "2", "Break 150/120": "2"},
+          {"Chaff PPL #": "5", "Mini-jam. PPL #": "3", "LF": "3", "MF": "2", "HF": "2", "VF": "2", "MW": "1", "SAM BR/CG": "3", "SAM CW/TVM": "2", "Search Lim./180": "3", "Search 150/120": "2", "Break Lim./180": "3", "Break 150/120": "2"},
+          {"Chaff PPL #": "6", "Mini-jam. PPL #": "4", "LF": "3", "MF": "3", "HF": "2", "VF": "2", "MW": "2", "SAM BR/CG": "4", "SAM CW/TVM": "2", "Search Lim./180": "4", "Search 150/120": "3", "Break Lim./180": "4", "Break 150/120": "3"},
+          {"Chaff PPL #": "-", "Mini-jam. PPL #": "5", "LF": "4", "MF": "3", "HF": "3", "VF": "2", "MW": "2", "SAM BR/CG": "4", "SAM CW/TVM": "3", "Search Lim./180": "4", "Search 150/120": "3", "Break Lim./180": "5", "Break 150/120": "3"},
+          {"Chaff PPL #": "-", "Mini-jam. PPL #": "6", "LF": "4", "MF": "4", "HF": "3", "VF": "3", "MW": "2", "SAM BR/CG": "5", "SAM CW/TVM": "4", "Search Lim./180": "4", "Search 150/120": "4", "Break Lim./180": "6", "Break 150/120": "4"}
+        ]
+      },
+      "rwr_and_internal_djm_ajm_coverage_tables": {
+        "data": [
+          {"Type": "A", "EWR": {"LF": "X", "MF": "-", "HF": "-"}, "FCR": {"LF": "X", "HF": "X", "VF": "-", "MW": "-"}, "TTR": {"LF": "X", "MF": "X", "HF": "X", "VF": "-", "MW": "-"}, "SAM Launches": {"BR": "X", "CG": "X", "CW": "-", "TVM": "-"}, "AIR Search": "-", "AIR Lock": "X", "Tgt. Illum.": "-", "AHM Active": "-"},
+          {"Type": "B", "EWR": {"LF": "X", "MF": "X", "HF": "X"}, "FCR": {"LF": "X", "HF": "X", "VF": "X", "MW": "-"}, "TTR": {"LF": "X", "MF": "X", "HF": "X", "VF": "X", "MW": "-"}, "SAM Launches": {"BR": "X", "CG": "X", "CW": "-", "TVM": "-"}, "AIR Search": "-", "AIR Lock": "X", "Tgt. Illum.": "X", "AHM Active": "-"},
+          {"Type": "C", "EWR": {"LF": "X", "MF": "X", "HF": "X"}, "FCR": {"LF": "X", "HF": "X", "VF": "X", "MW": "X"}, "TTR": {"LF": "X", "MF": "X", "HF": "X", "VF": "X", "MW": "X"}, "SAM Launches": {"BR": "X", "CG": "X", "CW": "X", "TVM": "-"}, "AIR Search": "X", "AIR Lock": "X", "Tgt. Illum.": "X", "AHM Active": "X"},
+          {"Type": "D", "EWR": {"LF": "X", "MF": "X", "HF": "X"}, "FCR": {"LF": "X", "HF": "X", "VF": "X", "MW": "X"}, "TTR": {"LF": "X", "MF": "X", "HF": "X", "VF": "X", "MW": "X"}, "SAM Launches": {"BR": "X", "CG": "X", "CW": "X", "TVM": "X"}, "AIR Search": "X", "AIR Lock": "X", "Tgt. Illum.": "X", "AHM Active": "X"}
+        ],
+        "notes": [
+          "1. \"X\" indicates radar operating in that frequency is detectable to RWR and vulnerable to DJMs and AJMs.",
+          "2. DJM and AJM pods have their frequency capabilities listed in the external stores tables under EPs.",
+          "3. Internal DJMs A and B cannot break CW or TVM lock-ons. Internal DJM C cannot break TVM lock-ons."
+        ]
+      }
+    },
+    "page_2": {
+      "sam_unit_break_lock_table": {
+        "data": [
+          {"SAM Type": "BR, CG", "ECM Type": "DJM - A, B, C, D", "BREAK-LOCK Die Roll Number": "DJM No. - TTR ECCM"},
+          {"SAM Type": "CW", "ECM Type": "DJM - C, D", "BREAK-LOCK Die Roll Number": "DJM No. - TTR ECCM"},
+          {"SAM Type": "TVM", "ECM Type": "DJM - D", "BREAK-LOCK Die Roll Number": "DJM No. - TTR ECCM"},
+          {"SAM Type": "BR,CG,CW,TVM", "ECM Type": "CHAFF", "BREAK-LOCK Die Roll Number": "Decoy Effectiveness #"},
+          {"SAM Type": "BR,CG,CW,TVM", "ECM Type": "Mini - Jammer", "BREAK-LOCK Die Roll Number": "Decoy Effectiveness #"},
+          {"SAM Type": "BR, CG", "ECM Type": "AJM", "BREAK-LOCK Die Roll Number": "1/2 AJM No. - TTR ECCM"},
+          {"SAM Type": "CW, TVM", "ECM Type": "AJM", "BREAK-LOCK Die Roll Number": "No Break-lock Capability"},
+          {"SAM Type": "OG, LG", "ECM Type": "FLARE", "BREAK-LOCK Die Roll Number": "\"1\" if any PPL # in Effect."}
+        ],
+        "notes": [
+          "1. Round up all half values.",
+          "2. Some DJM - A, B and some AJM pods may be noted as effective against CW and TVM SAMs, see EP tables."
+        ]
+      },
+      "air_radar_search_and_lock_on_modifiers": {
+        "data": [
+          {"ECM Type": "CHAFF", "Die Roll Modifiers": "Decoy Effectiveness No."},
+          {"ECM Type": "Mini - Jammer", "Die Roll Modifiers": "Decoy Effectiveness No."},
+          {"ECM Type": "AJM", "Die Roll Modifiers": "AJM No. - Air Radar ECCM"},
+          {"ECM Type": "BJM Noise", "Die Roll Modifiers": "BJM No. - Air Radar ECCM"}
+        ],
+        "additional_modifiers": [
+          "Radar Using Boresight for lookdown + 2"
+        ]
+      },
+      "air_radar_break_lock_table": {
+        "data": [
+          {"ECM Type": "CHAFF", "BREAK-LOCK Die Roll Number": "Decoy Effectiveness No."},
+          {"ECM Type": "MINI-JAMMER", "BREAK-LOCK Die Roll Number": "Decoy Effectiveness No."},
+          {"ECM Type": "DJM", "BREAK-LOCK Die Roll Number": "DJM No. - Air Radar ECCM"}
+        ]
+      },
+      "visual_sighting_tables": {
+        "relative_range_effects": {
+          "visual_range_in_hexes": {
+            "0-3": "-2",
+            "4-6": "-1",
+            "7-9": "0",
+            "10-12": "+1",
+            "13-15": "+2",
+            "16-20": "+3",
+            "21-30": "+5",
+            "31+": "+8"
+          },
+          "vas_range_in_hexes": {
+            "0-20": "0",
+            "21-30": "+1",
+            "31-40": "+2",
+            "41-50": "+3",
+            "51-60": "+4",
+            "61-70": "+5",
+            "71-80": "+6",
+            "81+": "+8"
+          }
+        },
+        "paint_scheme_position_weather_effects": {
+          "columns": ["TARGET A/C POSITION:", "Lower", "Level", "Higher", "In Haze", "In Stratus", "Silh. by Cloud"],
+          "data": [
+            {"TARGET A/C POSITION:": "Silver", "Lower": "-2", "Level": "-1", "Higher": "-1", "In Haze": "+1", "In Stratus": "+3", "Silh. by Cloud": "-1"},
+            {"TARGET A/C POSITION:": "Uncamoflauged", "Lower": "-1", "Level": "0", "Higher": "0", "In Haze": "+1", "In Stratus": "+3", "Silh. by Cloud": "-1"},
+            {"TARGET A/C POSITION:": "Camoflauged", "Lower": "+1", "Level": "0", "Higher": "-1", "In Haze": "0", "In Stratus": "+3", "Silh. by Cloud": "-2"},
+            {"TARGET A/C POSITION:": "Low Vis. Grey", "Lower": "0", "Level": "+1", "Higher": "+1", "In Haze": "+2", "In Stratus": "+3", "Silh. by Cloud": "-1"},
+            {"TARGET A/C POSITION:": "A/C Smoking", "Lower": "-1", "Level": "-2", "Higher": "-2", "In Haze": "NA", "In Stratus": "NA", "Silh. by Cloud": "NA"}
+          ]
+        },
+        "additional_modifiers": {
+          "number_of_ac_searching": {
+            "1 or 2": "0",
+            "3 or 4": "-1",
+            "5 to 8": "-2",
+            "9+": "-3"
+          },
+          "other_modifiers": [
+            {"condition": "Tgt. is just launched Missile or SAM*", "value": "-3"},
+            {"condition": "Tgt. is A/C which just launched Missile*", "value": "-3"},
+            {"condition": "Tgt. is in all searcher's Restricted Arcs", "value": "+2"},
+            {"condition": "Searcher is Looking out of Stratus", "value": "+2"},
+            {"condition": "Searcher is Veteran and Tactics Master", "value": "-2"},
+            {"condition": "Searcher is Veteran or Tactics Master", "value": "-1"},
+            {"condition": "Multi-crew A/C Searching", "value": "-1"},
+            {"condition": "Hud Interface Technology used", "value": "-1"},
+            {"condition": "Searcher has RWR indications", "value": "-1"},
+            {"condition": "Has Poor Eyes", "value": "+1"},
+            {"condition": "Has Exc. Eyes", "value": "-1"},
+            {"condition": "is Novice", "value": "+1"},
+            {"condition": "is Green", "value": "+2"},
+            {"condition": "Target using DDS Flare program", "value": "+ PPL No."}
+          ],
+          "notes": [
+            "* does not apply to smokeless missiles.",
+            "NOTE: All modifiers are cumulative. Disoriented or GLOC aircrew may not search."
+          ]
+        },
+        "sighting_rules_summary": {
+          "maximum_sighting_ranges": [
+            "by Eyeball = 4 x A/C Vis. No.",
+            "by V.A.S. = 6 x A/C Vis. No.",
+            "by V.A.S. with radar assist = 10 x A/C Vis. No.",
+            "at Night = 2 hexes.",
+            "at Night in A/B = 6 hexes."
+          ],
+          "target_id_ranges": [
+            "by Eyeball = 2 x A/C Vis. No.",
+            "by V.A.S. = 4 x A/C Vis. No.",
+            "at Night = Same position, facing and speed required.",
+            "With Tgt. I.D. radar technology available = 2d turn of Lock."
+          ],
+          "padlocking_pl": [
+            "One PL allowed per A/C.",
+            "Two PLs if multi-crew A/C.",
+            "No PLs allowed into blind arcs.",
+            "No PLs by Novices or Greens.",
+            "1 extra PL per Vet. or Tac. Mstr.",
+            "No PLs if in Target Sun Arc."
+          ]
+        }
+      }
+    }
+  }
+}

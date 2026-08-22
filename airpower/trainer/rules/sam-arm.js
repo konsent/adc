@@ -41,9 +41,15 @@ export function samLockOn(battery, aircraft, { roll = d10(), passdownDrm = 0, op
   if (!aircraft.tff && aircraft.alt < battery.minAlt) return { locked: false, reason: `최소 고도 ${battery.minAlt} 미만은 락온할 수 없습니다.`, range };
   // Rule 25.0: TFF 표적 타격 시 미사일 명중 롤에 +N 패널티(T+N 표기).
   const tffPenalty = aircraft.tff ? (battery.tffPenalty ?? 0) : 0;
-  const score = roll + passdownDrm + (aircraft.chaffActive ? 2 : 0);
+  // EW Chart: IFF, CCU, AJM/BJM, DDS를 유닛 데이터가 제공할 때만 누적한다.
+  const ewDrm = (aircraft.iffOn ? -2 : 0)
+    + (battery.ccuInoperative ? 2 : 0)
+    + (aircraft.ajm ? aircraft.ajm - (battery.eccm ?? 0) : 0)
+    + (aircraft.bjm ? aircraft.bjm - (battery.eccm ?? 0) : 0)
+    + (aircraft.chaffActive ? (aircraft.chaffEffectiveness ?? 2) : 0);
+  const score = roll + passdownDrm + ewDrm;
   const locked = score <= battery.lock;
-  return { locked, roll, score, target: battery.lock, range, tffPenalty, reason: locked ? null : '락온 판정 실패.' };
+  return { locked, roll, score, target: battery.lock, range, tffPenalty, ewDrm, reason: locked ? null : '락온 판정 실패.' };
 }
 
 /** Rule 25.0 발사 및 명중. CG 유도는 120도 아크 유지가 전제된다. */

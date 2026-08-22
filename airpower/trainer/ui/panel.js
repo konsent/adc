@@ -3,8 +3,10 @@ import { loadScenario } from '../data/scenarios.js';
 import { createState, beginTurn, applyAction, endTurn } from '../engine/state.js?v=power-slider-1';
 import { validate } from '../engine/validate.js?v=power-slider-1';
 import { settle, gradeSettlement } from '../rules/energy.js';
-import { AIRCRAFT, bandOf, accelRange, clampAccel } from '../data/aircraft.js';
+import { AIRCRAFT, bandOf, accelRange, clampAccel, dragFor } from '../data/aircraft.js';
 import { turnCost } from '../data/turnchart.js';
+import { spohTurnCost } from '../data/spoh-turnchart.js';
+import { MDT_MISSILES, missileEnvelope } from '../data/missiles.js';
 import { distance, hexOfBoardHex, neighbor, boardHexOf, scenarioMapCells, isOnScenarioMap, exitEdgeOf } from '../engine/hex.js?v=map-exit-2';
 import { hexCenter, renderMap, drawAircraft, drawHills, drawMarkers, drawGroundUnits, drawStart, drawWaypoints, drawPath, drawOpponentTrails, clearLayer } from './hexmap.js?v=briefing-hud-1';
 import { canFire, resolveShot } from '../rules/gunnery.js';
@@ -509,6 +511,17 @@ function moveT2Tug() {
   notices.push({ kind: 'move', turn: state.turnNumber, msg: `T-33 예인기 이동: ${boardHexOf(tug.hex)} → ${boardHexOf(hex)} · 우측 30도 선회.` });
 }
 
+/** T-1 참고 4: 두 번째 T-33은 매 턴 3 HFP를 이동하고, 2턴부터 좌 30도 선회한다. */
+function moveT1Rendezvous(turn) {
+  const movement = scenario.rendezvousFlight?.[turn - 1];
+  if (!movement) return;
+  const index = neutrals.findIndex(unit => unit.label === 'T-33 랑데부');
+  if (index < 0) return;
+  const t33 = neutrals[index];
+  neutrals[index] = { ...t33, hex: hexOfBoardHex(movement.end), facing: movement.endFacing };
+  notices.push({ kind: 'move', turn, msg: `T-33 랑데부 이동: ${movement.start} → ${movement.end} · ${turn > 1 ? '좌측 30도 선회.' : '직진.'}` });
+}
+
 const d10 = () => 1 + Math.floor(Math.random() * 10);
 
 /** 참고 2·3: 게임-턴 4 종료 시 F-105D 4대를 배치하고, 이후 매 턴 북쪽으로 직진시킨다. */
@@ -646,8 +659,8 @@ function resolveT5GroundPhase(turn) {
       notices.push({ kind: 'kill', turn, msg: `${aaa.label} 조준 사격 명중 (목표 ${result.target}) · A-1 #${index + 1} 피해 ${damage}.` });
     } else notices.push({ kind: 'move', turn, msg: `${aaa.label}가 가장 가까운 A-1에 사격했으나 빗나갔습니다 (주사위 ${result.roll}/목표 ${result.target}).` });
   }
-  if ([6, 12].includes(turn)) {
-    const greenBeret = groundUnits.find(unit => unit.id === 'gb');
+  const greenBeret = groundUnits.find(unit => unit.id === 'gb');
+  if ([6, 12].includes(turn) && greenBeret) {
     const assault = vcAssault(groundUnits.filter(unit => unit.side === 'vc' && unit.type === 'infantry'), greenBeret, 1 + Math.floor(Math.random() * 10));
     groundUnits = groundUnits.map(unit => unit.id === 'gb' ? assault.unit : unit);
     notices.push({ kind: assault.unit.killed ? 'kill' : 'move', turn, msg: `VC 전초기지 공격: ${assault.attackers}:1 · DRM +${assault.drm} · ${assault.result}${assault.unit.killed ? ' — 그린베레 전멸.' : ''}` });
@@ -758,7 +771,8 @@ function declareT3Exit() {
     redraw();
     return;
   }
-  const modifier = -Math.max(0, state.turnNumber - 6);
+  // 원문은 7턴을 플레이한 뒤부터 귀환 주사위에 턴당 -1을 준다.
+  const modifier = -Math.max(0, endedTurns - 7);
   const roll = 1 + Math.floor(Math.random() * 10);
   if (roll + modifier <= 1) {
     state = { ...state, damage: 'K' };
@@ -1122,7 +1136,7 @@ function logAction(action, before, newViolations) {
 function act(action) {
   const before = state;
   const violationsBefore = violations.length;
-  history.push({ state, path: [...path], wpIndex, hillPasses: [...hillPasses], violations: [...violations], completed, failed, debugLog: [...debugLog], notices: [...notices], opponentTrails: opponentTrails.map(t => [...t]), combatTarget, targetIndex, opponents, gunShots: [...gunShots], combatResult, pendingDamage, flight: [...flight], activeIndex, flightPaths: flightPaths.map(p => [...p]), flightShots: flightShots.map(s => [...s]), flightOrder, trainingTurns: trainingTurns.map(turn => ({ ...turn })), trainingEvents: [...trainingEvents], trainingResult, groundUnits: groundUnits.map(unit => ({ ...unit, hex: { ...unit.hex } })), groundTargetIndex, t5Stores: t5Stores?.map(stores => ({ ...stores })), groundResult, bombers: bombers.map(b => ({ ...b, hex: { ...b.hex } })), bomberScore, armAttacksUsed, samAlert });
+  history.push({ state, path: [...path], wpIndex, hillPasses: [...hillPasses], violations: [...violations], completed, failed, debugLog: [...debugLog], notices: [...notices], opponentTrails: opponentTrails.map(t => [...t]), combatTarget, targetIndex, opponents, gunShots: [...gunShots], combatResult, pendingDamage, flight: [...flight], activeIndex, flightPaths: flightPaths.map(p => [...p]), flightShots: flightShots.map(s => [...s]), flightOrder, trainingTurns: trainingTurns.map(turn => ({ ...turn })), trainingEvents: [...trainingEvents], trainingResult, neutrals: neutrals.map(unit => ({ ...unit, hex: { ...unit.hex } })), groundUnits: groundUnits.map(unit => ({ ...unit, hex: { ...unit.hex } })), groundTargetIndex, t5Stores: t5Stores?.map(stores => ({ ...stores })), groundResult, bombers: bombers.map(b => ({ ...b, hex: { ...b.hex } })), bomberScore, armAttacksUsed, samAlert });
   settlementReport = null;
   const found = validate(state, action, { activeRules: scenario.activeRules, lesson: scenario.lesson });
   // 선회율/비행 타입 선언은 같은 턴에 바꿔 선택할 수 있다. 새 선언은 이전 선언의
@@ -1170,6 +1184,7 @@ function undo() {
   trainingTurns = prev.trainingTurns ?? [];
   trainingEvents = prev.trainingEvents ?? [];
   trainingResult = prev.trainingResult ?? null;
+  neutrals = prev.neutrals ?? neutrals;
   groundUnits = prev.groundUnits ?? groundUnits;
   bombers = prev.bombers ?? bombers;
   bomberScore = prev.bomberScore ?? bomberScore;
@@ -1208,6 +1223,7 @@ function nextTurn() {
     if (flight.length) { flightPaths[activeIndex] = path = [{ kind: 'center', hex: { ...state.hex } }]; }
   }
   moveT2Tug();
+  moveT1Rendezvous(before.turnNumber);
   if (opponents.length) moveOpponents();
   resolveT5GroundPhase(before.turnNumber);
   moveT6Bombers(before.turnNumber);
@@ -1240,23 +1256,26 @@ function el(html) {
 }
 
 function turnRequirement(rate) {
-  const cost = turnCost(bandOf(state.alt), state.speed, rate);
+  const cost = (AIRCRAFT[state.aircraftId].spoh ? spohTurnCost : turnCost)(bandOf(state.alt), state.speed, rate);
   if (!cost) return '사용 불가';
-  if (cost.degrees) return '최소 HFP 1회: 60도';
+  if (cost.degrees) return `최소 HFP 1회: ${cost.degrees}도`;
   return `30도 선회까지 최소 HFP ${cost.fp}회`;
 }
 
 function turnButtons() {
+  const ac = AIRCRAFT[state.aircraftId];
   return ['EZ', 'TT', 'HT', 'BT', 'ET'].map(rate => {
-    const cost = turnCost(bandOf(state.alt), state.speed, rate);
+    const cost = (ac.spoh ? spohTurnCost : turnCost)(bandOf(state.alt), state.speed, rate);
+    const adcUnavailable = dragFor(ac, rate, state.speed, state.configuration) === null;
+    const unavailableReason = `${state.configuration} 설정에서 ${rate} 선회는 ADC Turn Drag Decel 표에 NA로 표시되어 사용할 수 없습니다.`;
     const active = state.turnProgress?.rate === rate;
     const progress = active && cost && !cost.degrees
       ? ` ${state.turnProgress.fp}/${cost.fp}`
       : '';
-    return `<div class="turn-rate ${active ? 'active' : ''}">
+    return `<div class="turn-rate ${active ? 'active' : ''}"${adcUnavailable ? ` title="${unavailableReason}"` : ''}>
       <span><b>${rate}</b><small>${turnRequirement(rate)}${progress}</small></span>
-      <button class="turn-btn ${active && state.turnProgress.dir === 'L' ? 'selected' : ''}" data-rate="${rate}" data-dir="L">좌</button>
-      <button class="turn-btn ${active && state.turnProgress.dir === 'R' ? 'selected' : ''}" data-rate="${rate}" data-dir="R">우</button>
+      <button class="turn-btn ${active && state.turnProgress.dir === 'L' ? 'selected' : ''}" data-rate="${rate}" data-dir="L"${adcUnavailable ? ` disabled title="${unavailableReason}"` : ''}>좌</button>
+      <button class="turn-btn ${active && state.turnProgress.dir === 'R' ? 'selected' : ''}" data-rate="${rate}" data-dir="R"${adcUnavailable ? ` disabled title="${unavailableReason}"` : ''}>우</button>
     </div>`;
   }).join('');
 }
@@ -1397,8 +1416,8 @@ function finishTraining() {
     const idle = trainingTurns.filter(turn => turn.idle).length;
     const breaks = trainingTurns.reduce((sum, turn) => sum + turn.breakChanges, 0);
     const score = fast + tactical - idle - breaks;
-    const rendezvous = scenario.markers.find(marker => marker.label === '랑데부 목표');
-    const objectiveDone = rendezvous && sameHex(state.hex, rendezvous.hex) && state.speed === 3 && state.facing === 11;
+    const rendezvous = neutrals.find(unit => unit.label === 'T-33 랑데부');
+    const objectiveDone = rendezvous && sameHex(state.hex, rendezvous.hex) && state.speed === rendezvous.speed && state.facing === rendezvous.facing;
     trainingResult = { score, passed: objectiveDone && score >= 2, grade: objectiveDone ? gradeTraining(score, true) : '랑데부 목표(2405·속도 3.0·NNW)를 달성하지 못했습니다.', lines: [`턴 ${turns}: 15턴 미만 +${fast}`, `TT 이하 최대 선회: +${tactical}`, `Idle 사용: -${idle}`, `BT 방향 전환: -${breaks}`] };
   } else {
     const shots = trainingEvents.filter(event => event.kind === 'shot' && event.rate < TURN_RANK.BT).length;
@@ -1661,25 +1680,23 @@ function launchT4Missile(type) {
   if (!target || target.damage === 'K' || !stores[type]) return;
   const range = distance(state.hex, target.hex) + Math.floor(Math.abs(state.alt - target.alt) / 2);
   const aspect = angleOff(state, target);
-  const envelope = type === 'aim4a'
-    ? aspect <= 60 ? [4, 15] : aspect <= 120 ? [6, 15] : [9, 18]
-    : [2, 12];
-  if (type === 'aim4b' && aspect > 60) { combatResult = { error: 'AIM-4B 초기 적외선 시커는 표적 후방 60도 안에서만 발사할 수 있습니다.' }; redraw(); return; }
-  if (range < envelope[0] || range > envelope[1]) { combatResult = { error: `AIM-4${type === 'aim4a' ? 'A' : 'B'} 사거리 봉투는 ${envelope[0]}~${envelope[1]}헥스입니다.` }; redraw(); return; }
-  if (type === 'aim4a' && t4RadarLock !== targetIndex) { combatResult = { error: 'AIM-4A는 발사 전 레이더 락온이 필요합니다.' }; redraw(); return; }
+  const missile = MDT_MISSILES[type];
+  const envelope = missileEnvelope(missile, aspect);
+  if (!envelope) { combatResult = { error: `${missile.label}은 현재 편각에서 발사할 수 없습니다.` }; redraw(); return; }
+  if (range < envelope.min || range > envelope.max) { combatResult = { error: `${missile.label} 사거리 봉투는 ${envelope.min}~${envelope.max}헥스입니다.` }; redraw(); return; }
+  if (missile.requiresRadar && t4RadarLock !== targetIndex) { combatResult = { error: `${missile.label}는 발사 전 레이더 락온이 필요합니다.` }; redraw(); return; }
   const launchRoll = 1 + Math.floor(Math.random() * 10);
   if (launchRoll === 8) { combatResult = { error: `발사 주사위 ${launchRoll}: 오발. 미사일은 레일에 남아 다음 턴 재시도할 수 있습니다.` }; redraw(); return; }
-  if (launchRoll > 7) { stores[type] -= 1; combatResult = { error: `발사 주사위 ${launchRoll}: 미사일 소실.` }; redraw(); return; }
+  if (launchRoll > missile.launch) { stores[type] -= 1; combatResult = { error: `발사 주사위 ${launchRoll}: 미사일 소실.` }; redraw(); return; }
   stores[type] -= 1;
-  const countermeasure = type === 'aim4a' ? 'chaff' : 'flare';
+  const countermeasure = missile.countermeasure;
   const protectedTarget = target[countermeasure] >= 2;
   if (protectedTarget) opponents[targetIndex] = { ...target, [countermeasure]: target[countermeasure] - 2 };
   const roll = 1 + Math.floor(Math.random() * 10);
-  // AIM-4A/B MDT: Direct Hit 5, Attack Rating 6. 적절한 ECM은 명중 전 미사일을 제거한다.
-  const hit = !protectedTarget && roll <= 5;
-  combatResult = { launchRoll, roll, target: 5, hit, rating: 6, missile: type === 'aim4a' ? 'AIM-4A' : 'AIM-4B', decoyed: protectedTarget };
+  const hit = !protectedTarget && roll <= missile.directHit;
+  combatResult = { launchRoll, roll, target: missile.directHit, hit, rating: missile.rating, missile: missile.label, decoyed: protectedTarget };
   if (hit) {
-    const result = rollDamage(6, 1 + Math.floor(Math.random() * 10), opponents[targetIndex]);
+    const result = rollDamage(missile.rating, 1 + Math.floor(Math.random() * 10), opponents[targetIndex], { missile: true });
     opponents[targetIndex] = applyDamage(opponents[targetIndex], result.result);
     combatTarget = opponents[targetIndex];
     combatResult.damage = result.result;

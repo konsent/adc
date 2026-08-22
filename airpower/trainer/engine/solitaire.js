@@ -1,6 +1,7 @@
 import { arcOf } from './geometry.js';
 import { applyAction } from './state.js';
 import { normalizeFacing } from './hex.js';
+import { AIRCRAFT } from '../data/aircraft.js';
 
 const NON_EVASIVE = {
   1: ['H'], 2: ['H'], 3: ['H'], 4: ['H'],
@@ -9,30 +10,38 @@ const NON_EVASIVE = {
   9: ['H', 'H', 'SD'], 10: ['H', 'H', 'SD'],
 };
 
-const EVASIVE = {
+// Air Superiority 솔리테어 표. SPOH Ground VP 표와 같은 이름의 행동 코드라도 결과가 다르다.
+const AS_EVASIVE = {
+  near: { 1:['R','HR','HR','H','HR','H'],2:['R','HR','HR','H','HR','H'],3:['L','HL','HL','H','HL','HD'],4:['L','HL','HL','H','HL','HD'],5:['R','C2','HR','H','C2R','H'],6:['R','C2','HR','H','C2R','H'],7:['H','HL','C2L','H','HL','H'],8:['H','HL','C2L','H','HL','H'],9:['R','H','HL','H','D2L','H'],10:['HD','HD','HDR','H','HR','H'] },
+  middle: { 1:['H','H','HL','H','HL','H'],2:['H','H','HL','H','HL','H'],3:['H','HR','H','HR','H','H'],4:['H','HR','H','HR','H','H'],5:['H','H','C','HL','C','CL'],6:['H','H','C','HL','C','CL'],7:['R','H','D','H','DR','H'],8:['R','H','D','H','DR','H'],9:['H','H','D2L','H','D','H'],10:['L','H','H','D2L','H','H'] },
+  rear: { 1:['H','H','H','HL','H','H'],2:['H','H','H','HL','H','H'],3:['H','HR','H','H','H','H'],4:['H','HR','H','H','H','H'],5:['H','H','HD','HD','HD','HD'],6:['H','H','HD','HD','HD','HD'],7:['H','H','HR','H','H','HR'],8:['H','H','HR','H','H','HR'],9:['H','H','HL','H','H','HL'],10:['R','H','CR','H','CR','H'] },
+};
+
+// 출처: speed_of_heat_scenario.md "무작위 이동 표" (T-3 및 T-6 참고 3).
+const SPOH_EVASIVE = {
   near: {
-    1: ['R', 'HR', 'HR', 'H', 'HR', 'H'], 2: ['R', 'HR', 'HR', 'H', 'HR', 'H'],
-    3: ['L', 'HL', 'HL', 'H', 'HL', 'HD'], 4: ['L', 'HL', 'HL', 'H', 'HL', 'HD'],
-    5: ['R', 'C2', 'HR', 'H', 'C2R', 'H'], 6: ['R', 'C2', 'HR', 'H', 'C2R', 'H'],
-    7: ['H', 'HL', 'C2L', 'H', 'HL', 'H'], 8: ['H', 'HL', 'C2L', 'H', 'HL', 'H'],
-    9: ['R', 'H', 'HL', 'H', 'D2L', 'H'],
-    10: ['HD', 'HD', 'HDR', 'H', 'HR', 'H'],
+    1: ['H', 'HL', 'HL', 'H', 'HL', 'H'], 2: ['H', 'HL', 'HL', 'H', 'HL', 'H'],
+    3: ['H', 'HR', 'HR', 'H', 'HR', 'H'], 4: ['H', 'HR', 'HR', 'H', 'HR', 'H'],
+    5: ['H', 'HL', 'CL', 'H', 'H', 'HL'], 6: ['H', 'HL', 'CL', 'H', 'H', 'HL'],
+    7: ['H', 'HR', 'CR', 'H', 'HR', 'H'], 8: ['H', 'HR', 'CR', 'H', 'HR', 'H'],
+    9: ['H', 'HL', 'DD', 'DL', 'H', 'HL'],
+    10: ['H', 'HL', 'DD', 'DR', 'H', 'HL'],
   },
   middle: {
     1: ['H', 'H', 'HL', 'H', 'HL', 'H'], 2: ['H', 'H', 'HL', 'H', 'HL', 'H'],
-    3: ['H', 'HR', 'H', 'HR', 'H', 'H'], 4: ['H', 'HR', 'H', 'HR', 'H', 'H'],
-    5: ['H', 'H', 'C', 'HL', 'C', 'CL'], 6: ['H', 'H', 'C', 'HL', 'C', 'CL'],
-    7: ['R', 'H', 'D', 'H', 'DR', 'H'], 8: ['R', 'H', 'D', 'H', 'DR', 'H'],
-    9: ['H', 'H', 'D2L', 'H', 'D', 'H'],
-    10: ['L', 'H', 'H', 'D2L', 'H', 'H'],
+    3: ['H', 'H', 'HR', 'H', 'HR', 'H'], 4: ['H', 'H', 'HR', 'H', 'HR', 'H'],
+    5: ['H', 'C', 'HL', 'CL', 'H', 'H'], 6: ['H', 'C', 'HL', 'CL', 'H', 'H'],
+    7: ['H', 'CR', 'H', 'CR', 'H', 'H'], 8: ['H', 'CR', 'H', 'CR', 'H', 'H'],
+    9: ['H', 'DD', 'DL', 'H', 'HL', 'H'],
+    10: ['H', 'DD', 'DR', 'H', 'HR', 'H'],
   },
   rear: {
     1: ['H', 'H', 'H', 'HL', 'H', 'H'], 2: ['H', 'H', 'H', 'HL', 'H', 'H'],
-    3: ['H', 'HR', 'H', 'H', 'H', 'H'], 4: ['H', 'HR', 'H', 'H', 'H', 'H'],
-    5: ['H', 'H', 'HD', 'HD', 'HD', 'HD'], 6: ['H', 'H', 'HD', 'HD', 'HD', 'HD'],
-    7: ['H', 'H', 'HR', 'H', 'H', 'HR'], 8: ['H', 'H', 'HR', 'H', 'H', 'HR'],
-    9: ['H', 'H', 'HL', 'H', 'H', 'HL'],
-    10: ['R', 'H', 'CR', 'H', 'CR', 'H'],
+    3: ['H', 'H', 'H', 'HR', 'H', 'H'], 4: ['H', 'H', 'H', 'HR', 'H', 'H'],
+    5: ['H', 'HD', 'HD', 'HL', 'H', 'H'], 6: ['H', 'HD', 'HD', 'HL', 'H', 'H'],
+    7: ['H', 'DR', 'DD', 'H', 'H', 'H'], 8: ['H', 'DR', 'DD', 'H', 'H', 'H'],
+    9: ['H', 'DDL', 'H', 'DD', 'H', 'H'],
+    10: ['H', 'DDR', 'H', 'DD', 'H', 'H'],
   },
 };
 
@@ -44,7 +53,10 @@ export function evasiveArc(attacker, target) {
 export function movementActions({ mode, die, attacker, target }) {
   if (!Number.isInteger(die) || die < 1 || die > 10) throw new Error(`주사위는 1~10이어야 합니다: ${die}`);
   if (mode === 'non-evasive') return NON_EVASIVE[die];
-  if (mode === 'evasive') return EVASIVE[evasiveArc(attacker, target)][die];
+  if (mode === 'evasive') {
+    const table = AIRCRAFT[target.aircraftId]?.spoh ? SPOH_EVASIVE : AS_EVASIVE;
+    return table[evasiveArc(attacker, target)][die];
+  }
   throw new Error(`알 수 없는 솔리테어 이동 모드: ${mode}`);
 }
 
@@ -77,12 +89,15 @@ function applyToken(state, token, { crippled, maxClimb }) {
 export function moveSolitaireOpponent(target, { attacker, die, maxClimb = 0 }) {
   const mode = target.movementMode;
   const damage = target.damage ?? 'none';
+  const spoh = AIRCRAFT[target.aircraftId]?.spoh;
   const speedLoss = damage === 'C' ? 2 : damage === 'H' ? 1 : 0;
   // Damage persists, but its FP penalty is applied only when the damage level
   // changes; do not subtract it again on every later solitaire turn.
   const previousLoss = target.damageSpeedPenalty ?? 0;
-  const speed = Math.max(0, target.speed + previousLoss - speedLoss);
-  const actions = movementPoints(mode, die, attacker, target, speed);
+  const speed = spoh ? target.speed : Math.max(0, target.speed + previousLoss - speedLoss);
+  let actions = movementPoints(mode, die, attacker, target, speed);
+  // SPOH 원문: 모든 손상 기체는 1행동을 덜 하고 C 코드는 H로 바꾼다.
+  if (spoh && damage !== 'none') actions = actions.slice(0, -1).map(token => token.replaceAll('C', 'H'));
   let next = { ...target, hex: { ...target.hex }, position: { ...target.position }, speed, damageSpeedPenalty: speedLoss };
   for (const token of actions) next = applyToken(next, token, { crippled: damage === 'C', maxClimb });
   if (mode === 'evasive' && die === 5 && evasiveArc(attacker, target) === 'near') next = { ...next, speed: Math.max(0, next.speed - 1) };

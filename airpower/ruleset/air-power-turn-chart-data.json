@@ -1,0 +1,154 @@
+{
+  "air_power_integrated_turn_charts": {
+    "turn_charts_by_altitude_band": [
+      {
+        "altitude_band": "LO and ML ALTITUDE BANDS",
+        "altitude_range": "1 - 7 and 8 - 16",
+        "start_speeds": ["1", "2", "3", "4", "5", "6", "7", "8", "10", "12", "14", "18+"],
+        "turn_rates": {
+          "EZ": [60, 1, 2, 3, 4, 6, 8, 10, 12, 14, 16, 20],
+          "TT": [90, 60, 1, 2, 3, 4, 5, 6, 8, 10, 12, 14],
+          "HT": ["NA", 90, 60, 1, 2, 2, 3, 4, 6, 8, 10, 12],
+          "BT": ["NA", "NA", 90, 60, 1, 1, 2, 3, 4, 6, 8, 10],
+          "ET": ["NA", "NA", "NA", 60, 60, 1, 1, 2, 3, 4, 6, 8]
+        },
+        "notes": [
+          "GLOC possible."
+        ]
+      },
+      {
+        "altitude_band": "MH ALTITUDE BAND",
+        "altitude_range": "17 - 25",
+        "start_speeds": ["1", "2", "3", "4", "5", "6", "7", "8", "10", "12", "14", "18+"],
+        "turn_rates": {
+          "EZ": [1, 2, 3, 4, 6, 8, 10, 12, 14, 16, 18, 22],
+          "TT": [60, 1, 2, 3, 4, 6, 7, 8, 10, 12, 14, 18],
+          "HT": ["NA", 60, 1, 2, 3, 4, 5, 6, 8, 10, 12, 14],
+          "BT": ["NA", "NA", 60, 1, 2, 2, 3, 4, 6, 7, 10, 11],
+          "ET": ["NA", "NA", "NA", 60, 1, 1, 2, 2, 4, 5, 7, 9]
+        },
+        "notes": [
+          "GLOC possible."
+        ]
+      },
+      {
+        "altitude_band": "HI ALTITUDE BAND",
+        "altitude_range": "26 - 35",
+        "start_speeds": ["1", "2", "3", "4", "5", "6", "7", "8", "10", "12", "14", "18+"],
+        "turn_rates": {
+          "EZ": [2, 3, 4, 6, 8, 10, 12, 14, 16, 18, 20, 24],
+          "TT": [1, 2, 3, 4, 5, 6, 8, 10, 12, 14, 16, 20],
+          "HT": ["NA", 1, 2, 3, 4, 5, 6, 8, 9, 10, 13, 16],
+          "BT": ["NA", "NA", 1, 2, 3, 3, 4, 6, 7, 8, 10, 12],
+          "ET": ["NA", "NA", "NA", 1, 2, 2, 3, 4, 5, 6, 8, 10]
+        },
+        "notes": [
+          "Add 1 prep-move to all maneuvers and to snap turns.",
+          "No more GLOC risk."
+        ]
+      },
+      {
+        "altitude_band": "VH ALTITUDE BAND",
+        "altitude_range": "36 - 45",
+        "start_speeds": ["1", "2", "3", "4", "5", "6", "7", "8", "10", "12", "14", "18+"],
+        "turn_rates": {
+          "EZ": [2, 4, 6, 8, 10, 12, 14, 16, 18, 20, 22, 24],
+          "TT": [1, 2, 4, 6, 8, 9, 10, 13, 15, 17, 20, 22],
+          "HT": ["NA", "NA", 3, 4, 6, 7, 8, 10, 12, 14, 17, 20],
+          "BT": ["NA", "NA", "NA", 3, 4, 5, 6, 7, 9, 11, 14, 16],
+          "ET": ["NA", "NA", "NA", "NA", 3, 4, 5, 6, 7, 8, 10, 12]
+        },
+        "notes": [
+          "Add 2 prep-moves to all maneuvers and snap turns.",
+          "Reduce A/C power to 2/3ds that listed."
+        ]
+      },
+      {
+        "altitude_band": "EH and UH ALTITUDE BANDS",
+        "altitude_range": "46 - 60 and 61 +",
+        "start_speeds": ["1", "2", "3", "4", "5", "6", "7", "8", "10", "12", "14", "18+"],
+        "turn_rates": {
+          "EZ": [3, 6, 8, 10, 12, 14, 16, 18, 20, 22, 24, 28],
+          "TT": ["NA", 4, 6, 8, 10, 12, 13, 14, 16, 18, 21, 24],
+          "HT": ["NA", "NA", 4, 6, 7, 8, 10, 11, 13, 15, 18, 21],
+          "BT": ["NA", "NA", "NA", 4, 5, 6, 7, 8, 10, 12, 14, 18],
+          "ET": ["NA", "NA", "NA", "NA", 4, 5, 6, 7, 9, 10, 12, 14]
+        },
+        "notes": [
+          "Add 3 prep-moves at EH & 4 Preps at UH to all maneuvers and snap Turns.",
+          "Reduce A/C Power to 1/3 that listed."
+        ]
+      }
+    ],
+    "general_notes": [
+      "1. Add 2 to all turn requirements if in UH band.",
+      "2. If A/C or missile speed falls between two columns refer to the one on the left.",
+      "3. NA = not allowed. 60 or 90 = degrees of facing change per FP expended."
+    ],
+    "accel_point_summary": [
+      "A/C Power = + Variable.",
+      "Steep or Unloaded dives = + 0.5 per level initially, then +1.0 per level.",
+      "Vert. dive = +1.0 per lvl."
+    ],
+    "decel_point_summary": [
+      "Turning = Variable.",
+      "Sust. climb = 0.5 per lvl.",
+      "Zooms = 1.0 per level initially, then 1.5 per lvl.",
+      "Vert. climb = 2.0 per lvl.",
+      "Speed brake usage = 1.0 per 0.5 speed lost.",
+      "1.0 if Idle or Normal Pwr. and above cruise speed.",
+      "Sustained turns and rolls 1.0 each, or 2.0 if HBR."
+    ],
+    "conversion_table_1_3_and_2_3": [
+      {"base": 1.0, "fraction_1_3": 0.5, "fraction_2_3": 0.5},
+      {"base": 1.5, "fraction_1_3": 0.5, "fraction_2_3": 1.0},
+      {"base": 2.0, "fraction_1_3": 1.0, "fraction_2_3": 1.0},
+      {"base": 2.5, "fraction_1_3": 1.0, "fraction_2_3": 1.5},
+      {"base": 3.0, "fraction_1_3": 1.0, "fraction_2_3": 2.0},
+      {"base": 3.5, "fraction_1_3": 1.0, "fraction_2_3": 2.5},
+      {"base": 4.0, "fraction_1_3": 1.0, "fraction_2_3": 3.0},
+      {"base": 4.5, "fraction_1_3": 1.5, "fraction_2_3": 3.0},
+      {"base": 5.0, "fraction_1_3": 2.0, "fraction_2_3": 3.0},
+      {"base": 5.5, "fraction_1_3": 2.0, "fraction_2_3": 3.5},
+      {"base": 6.0, "fraction_1_3": 2.0, "fraction_2_3": 4.0},
+      {"base": 6.5, "fraction_1_3": 2.0, "fraction_2_3": 4.5},
+      {"base": 7.0, "fraction_1_3": 2.0, "fraction_2_3": 5.0},
+      {"base": 7.5, "fraction_1_3": 2.5, "fraction_2_3": 5.0},
+      {"base": 8.0, "fraction_1_3": 3.0, "fraction_2_3": 5.0},
+      {"base": 8.5, "fraction_1_3": 3.0, "fraction_2_3": 5.5},
+      {"base": 9.0, "fraction_1_3": 3.0, "fraction_2_3": 6.0},
+      {"base": 9.5, "fraction_1_3": 3.0, "fraction_2_3": 6.5},
+      {"base": 10.0, "fraction_1_3": 3.0, "fraction_2_3": 7.0},
+      {"base": 10.5, "fraction_1_3": 3.5, "fraction_2_3": 7.0},
+      {"base": 11.0, "fraction_1_3": 4.0, "fraction_2_3": 7.0},
+      {"base": 11.5, "fraction_1_3": 4.0, "fraction_2_3": 7.5},
+      {"base": 12.0, "fraction_1_3": 4.0, "fraction_2_3": 8.0},
+      {"base": 12.5, "fraction_1_3": 4.0, "fraction_2_3": 8.5},
+      {"base": 13.0, "fraction_1_3": 4.0, "fraction_2_3": 9.0},
+      {"base": 13.5, "fraction_1_3": 4.5, "fraction_2_3": 9.0},
+      {"base": 14.0, "fraction_1_3": 5.0, "fraction_2_3": 9.0},
+      {"base": 14.5, "fraction_1_3": 5.0, "fraction_2_3": 9.5},
+      {"base": 15.0, "fraction_1_3": 5.0, "fraction_2_3": 10.0}
+    ],
+    "transonic_supersonic_speed_reference": [
+      {"alt_band": "LO, ML", "low_trans": 6.5, "high_trans": 7.0, "mach_one": 7.5},
+      {"alt_band": "MH, HI", "low_trans": 6.0, "high_trans": 6.5, "mach_one": 7.0},
+      {"alt_band": "VH+", "low_trans": 5.5, "high_trans": 6.0, "mach_one": 6.5}
+    ],
+    "transonic_drag_decel_penalty": [
+      {"aircraft_type": "LTD", "low_trans": 0.0, "high_trans": 0.5, "mach_one": 1.0},
+      {"aircraft_type": "NORMAL", "low_trans": 0.5, "high_trans": 1.0, "mach_one": 1.5},
+      {"aircraft_type": "HTD", "low_trans": 1.0, "high_trans": 1.5, "mach_one": 2.0}
+    ],
+    "supersonic_penalties": [
+      "Add 1 prep to all maneuvers and snap turns. Climb cap. = 2/3ds.",
+      "PSSM A/C = + 2.0 decel if any turns or rolls done, and reduce maximum turn rate by one but not to less than HT.",
+      "Normal A/C = + 1.0 decel if any turns or rolls done.",
+      "GSSM A/C = No additional decel for turns or rolls.",
+      "If in MIL pwr., + 1.0 decel per 0.5 speed over High Transonic.",
+      "If in Normal pwr., + 2.0 decel per 0.5 speed over High Transonic.",
+      "If in Idle pwr., lose 0.5 more speed than listed on ADC.",
+      "Takes 3.0 accel to gain 0.5 speed (2.0 if Rapid Accel A/C)."
+    ]
+  }
+}

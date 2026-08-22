@@ -161,8 +161,21 @@ SPOH_T1.neutrals = [{
   aircraftId: 'SPOH-P-80A-SHOOTING-STAR',
   hex: hexOfBoardHex('1203'),
   facing: 6,
+  speed: 3,
+  configuration: 'CL',
   label: 'T-33 랑데부',
 }];
+// 원문 T-1 참고 4의 H,H,H / H,H,HL 이동표. 9턴 시작 시 2405·NNW에서 합류한다.
+SPOH_T1.rendezvousFlight = [
+  { start: '1203', facing: 6, end: '1206', endFacing: 6 },
+  { start: '1206', facing: 6, end: '1209', endFacing: 5 },
+  { start: '1209', facing: 5, end: '1411', endFacing: 4 },
+  { start: '1411', facing: 4, end: '1712', endFacing: 3 },
+  { start: '1712', facing: 3, end: '2012', endFacing: 2 },
+  { start: '2012', facing: 2, end: '2310', endFacing: 1 },
+  { start: '2310', facing: 1, end: '2408', endFacing: 0 },
+  { start: '2408', facing: 0, end: '2405', endFacing: 11 },
+];
 const SPOH_T2 = spohTrainingScenario({
   id: 'spoh-t2-gunnery-pattern', title: 'T-2 사격 패턴', map: 'spoh-c1', aircraft: 'SPOH-F-84E-THUNDERJET',
   start: { hex: '5809', facing: 0, alt: 15, speed: 4 }, maxTurns: 10,

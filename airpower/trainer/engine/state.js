@@ -1,5 +1,6 @@
-import { bandOf } from '../data/aircraft.js';
+import { AIRCRAFT, bandOf } from '../data/aircraft.js';
 import { turnCost } from '../data/turnchart.js';
+import { spohTurnCost } from '../data/spoh-turnchart.js';
 import { neighbor, normalizeFacing, isHexFacing, forwardFromSide, sidePosition, centerPosition, enterSideForTurn } from './hex.js?v=hexside-pair-1';
 
 const CLIMBING = new Set(['SC', 'ZC', 'VC']);
@@ -8,9 +9,10 @@ const DIVING = new Set(['SD', 'UD', 'VD']);
 export function isClimbing(t) { return CLIMBING.has(t); }
 export function isDiving(t) { return DIVING.has(t); }
 
-export function createState({ aircraftId, hex, facing, alt, speed, advancedRules = false }) {
+export function createState({ aircraftId, hex, facing, alt, speed, configuration = 'CL', advancedRules = false }) {
   return {
     aircraftId,
+    configuration,
     advancedRules,
     hex: { ...hex },
     position: centerPosition(hex),
@@ -166,21 +168,23 @@ export function applyAction(state, action) {
 function advanceTurn(state) {
   if (!state.turnProgress) return state;
 
-  const cost = turnCost(bandOf(state.alt), state.speed, state.turnProgress.rate);
+  const costForAircraft = AIRCRAFT[state.aircraftId]?.spoh ? spohTurnCost : turnCost;
+  const cost = costForAircraft(bandOf(state.alt), state.speed, state.turnProgress.rate);
   if (!cost) return state;   // 사용 불가 선회율 — 규칙 검증이 별도로 잡는다
 
   const sign = state.turnProgress.dir === 'R' ? 1 : -1;
   const onSide = state.position.kind === 'side';
 
-  if (cost.degrees === 60) {
-    const facing = normalizeFacing(state.facing + sign * 2);
+  if (cost.degrees) {
+    const facingSteps = cost.degrees / 30;
+    const facing = normalizeFacing(state.facing + sign * facingSteps);
     const hex = onSide ? enterSideForTurn(state.position, state.turnProgress.dir) : state.hex;
     return {
       ...state,
       hex,
       facing,
       position: centerPosition(hex),
-      facingChanges: state.facingChanges + 2,
+      facingChanges: state.facingChanges + facingSteps,
       bank: state.turnProgress.dir,
       turnProgress: { ...state.turnProgress, fp: 0 },
     };
